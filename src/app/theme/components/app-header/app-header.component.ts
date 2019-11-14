@@ -8,5 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppHeaderComponent implements OnInit {
   constructor() {}
 
-  ngOnInit() {}
+  userTypeName: string;
+
+  ngOnInit() {
+    this.userTypeName = '保理商';
+  }
 }
