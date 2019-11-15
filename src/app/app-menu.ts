@@ -3,7 +3,7 @@ export const APP_MENUS = [
   {
     title: '首页',
     icon: 'dashboard',
-    link: '/'
+    link: '/dashboard'
   },
   {
     title: '用户管理',
@@ -39,6 +39,30 @@ export const APP_MENUS = [
       { title: '银行流水登记', link: '/navigation/affix' },
       { title: '汇款核销', link: '/navigation/affix' },
       { title: '客户台账', link: '/navigation/affix' }
+    ]
+  },
+  {
+    title: '票据管理',
+    icon: 'box-plot',
+    children: [
+      { title: '票据录入', link: '/navigation/affix' },
+      { title: '票据列表', link: '/navigation/breadcrumb' }
+    ]
+  },
+  {
+    title: '合同管理',
+    icon: 'box-plot',
+    children: [
+      { title: '票据录入', link: '/navigation/affix' },
+      { title: '票据列表', link: '/navigation/breadcrumb' }
+    ]
+  },
+  {
+    title: '报表统计',
+    icon: 'box-plot',
+    children: [
+      { title: '票据录入', link: '/navigation/affix' },
+      { title: '票据列表', link: '/navigation/breadcrumb' }
     ]
   },
   {
