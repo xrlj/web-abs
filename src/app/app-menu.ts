@@ -2,12 +2,12 @@
 export const APP_MENUS = [
   {
     title: '首页',
-    icon: 'dashboard',
+    icon: 'home',
     link: '/dashboard'
   },
   {
     title: '用户管理',
-    icon: 'appstore',
+    icon: 'user',
     children: [
       { title: '企业管理', link: '/navigation/affix' },
       { title: '会员管理', link: '/navigation/breadcrumb' }
@@ -15,7 +15,7 @@ export const APP_MENUS = [
   },
   {
     title: '贷前管理',
-    icon: 'appstore',
+    icon: 'eye',
     children: [
       { title: '授信协议管理', link: '/navigation/affix' },
       { title: '转让合同管理', link: '/navigation/breadcrumb' },
@@ -24,7 +24,7 @@ export const APP_MENUS = [
   },
   {
     title: '贷中管理',
-    icon: 'box-plot',
+    icon: 'bank',
     children: [
       { title: '可融资数据', link: '/navigation/affix' },
       { title: '转让管理', link: '/navigation/affix' }
@@ -32,7 +32,7 @@ export const APP_MENUS = [
   },
   {
     title: '贷后管理',
-    icon: 'box-plot',
+    icon: 'insurance',
     children: [
       { title: '资产管理', link: '/navigation/affix' },
       { title: '中登网登记', link: '/navigation/affix' },
@@ -43,7 +43,7 @@ export const APP_MENUS = [
   },
   {
     title: '票据管理',
-    icon: 'box-plot',
+    icon: 'database',
     children: [
       { title: '票据录入', link: '/navigation/affix' },
       { title: '票据列表', link: '/navigation/breadcrumb' }
@@ -51,7 +51,7 @@ export const APP_MENUS = [
   },
   {
     title: '合同管理',
-    icon: 'box-plot',
+    icon: 'book',
     children: [
       { title: '票据录入', link: '/navigation/affix' },
       { title: '票据列表', link: '/navigation/breadcrumb' }
@@ -59,7 +59,7 @@ export const APP_MENUS = [
   },
   {
     title: '报表统计',
-    icon: 'box-plot',
+    icon: 'bar-chart',
     children: [
       { title: '票据录入', link: '/navigation/affix' },
       { title: '票据列表', link: '/navigation/breadcrumb' }
@@ -67,7 +67,7 @@ export const APP_MENUS = [
   },
   {
     title: '系统管理',
-    icon: 'box-plot',
+    icon: 'setting',
     children: [
       { title: '系统用户管理', link: '/navigation/affix' },
       { title: '部门管理', link: '/navigation/dropdown' },
