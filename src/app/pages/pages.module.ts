@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxEchartsModule} from 'ngx-echarts';
 
 import {NgZorroAntdModule} from 'ng-zorro-antd';
@@ -14,6 +14,7 @@ import {LoginComponent} from './login/login.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NgZorroAntdModule,
     PagesRoutingModule,
     ThemeModule,
