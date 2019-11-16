@@ -8,18 +8,21 @@ import {PagesRoutingModule} from './pages-routing.module';
 import {ThemeModule} from '../theme/theme.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {LoginComponent} from './login/login.component';
-import { RegisteComponent } from './registe/registe.component';
+import { RegisterComponent } from './register/register.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
-  declarations: [DashboardComponent, LoginComponent, RegisteComponent],
+  declarations: [DashboardComponent, LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NzInputModule,
     NgZorroAntdModule,
     PagesRoutingModule,
     ThemeModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    NzInputModule
   ]
 })
 export class PagesModule {}

@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultComponent, BlankComponent } from '../theme/layouts';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import {RegisterComponent} from './register/register.component';
 
 const routes: Routes = [
   {
@@ -12,10 +13,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: '',
+    path: 'pages',
     component: DefaultComponent,
     children: [
-      { path: 'dashboard', component: DashboardComponent },
+      { path: '', component: DashboardComponent },
       {
         path: 'navigation',
         loadChildren: './navigation/navigation.module#NavigationModule'
@@ -23,9 +24,12 @@ const routes: Routes = [
     ]
   },
   {
-    path: '',
-    component: BlankComponent,
-    children: [{ path: 'login', component: LoginComponent }]
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   }
 ];
 

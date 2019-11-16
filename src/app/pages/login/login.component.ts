@@ -28,6 +28,6 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-    this.router.navigateByUrl('/dashboard');
+    this.router.navigateByUrl('/pages');
   }
 }

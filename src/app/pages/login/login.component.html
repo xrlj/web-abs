@@ -27,7 +27,7 @@
             </label>
             <a class="login-form-forgot" class="login-form-forgot">忘记密码</a>
             <button nz-button class="login-form-button" nzType="primary" [disabled]="!validateForm.valid" (click)="submitForm()">登陆</button>
-            <p class="login-fot"><span>没有账号？<a href="/register.html" style="color: #367cf3;">立即注册</a></span></p>
+            <p class="login-fot"><span>没有账号？<a routerLink="/register" style="color: #367cf3;">立即注册</a></span></p>
           </nz-form-control>
         </nz-form-item>
       </form>
