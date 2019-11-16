@@ -8,9 +8,10 @@ import {PagesRoutingModule} from './pages-routing.module';
 import {ThemeModule} from '../theme/theme.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {LoginComponent} from './login/login.component';
+import { RegisteComponent } from './registe/registe.component';
 
 @NgModule({
-  declarations: [DashboardComponent, LoginComponent],
+  declarations: [DashboardComponent, LoginComponent, RegisteComponent],
   imports: [
     CommonModule,
     FormsModule,

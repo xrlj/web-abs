@@ -20,16 +20,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  submit() {
-    console.log('submit');
-    this.router.navigateByUrl('/dashboard');
-  }
-
   submitForm(): void {
+    // tslint:disable-next-line:no-debugger
+    debugger;
     // tslint:disable-next-line:forin
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
+    this.router.navigateByUrl('/dashboard');
   }
 }
