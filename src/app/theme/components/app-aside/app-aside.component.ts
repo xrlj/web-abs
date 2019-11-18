@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
-import { APP_MENUS } from '../../../app-menu';
+import { APP_MENUS } from '../../../mock/app-menu';
 
 @Component({
   selector: 'app-aside',
