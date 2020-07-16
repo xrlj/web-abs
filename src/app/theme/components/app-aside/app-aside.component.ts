@@ -1,5 +1,7 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
-import { APP_MENUS } from '../../../mock/app-menu';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Constants} from '../../../helpers/constants';
+import {VMenuResp} from '../../../helpers/vo/resp/v-menu-resp';
+import { APP_MENUS } from 'src/app/mock/app-menu';
 
 @Component({
   selector: 'app-aside',
@@ -13,12 +15,14 @@ export class AppAsideComponent implements OnInit {
   @Output() toggleCollapsed = new EventEmitter();
 
   menus = APP_MENUS;
+  // menus: VMenuResp[];
 
   theme  = true;  // 主题
 
   openMap: { [name: string]: boolean } = {};  // 类似hashMap
 
   ngOnInit() {
+    // this.menus = JSON.parse(localStorage.getItem(Constants.localStorageKey.menus));
     this.initOpenMap();
   }
 
@@ -31,7 +35,6 @@ export class AppAsideComponent implements OnInit {
    */
   initOpenMap() {
     for (const i of this.menus) {
-      console.log(i.title);
       this.openMap[i.title] = false;
     }
     console.log(this.openMap);

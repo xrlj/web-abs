@@ -1,28 +1,27 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgxEchartsModule} from 'ngx-echarts';
 
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {PagesRoutingModule} from './pages-routing.module';
-import {ThemeModule} from '../theme/theme.module';
-import {DashboardComponent} from './dashboard/dashboard.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import {WelcomeComponent} from './welcome/welcome.component';
 import {LoginComponent} from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { NzInputModule } from 'ng-zorro-antd/input';
+import {ThemeModule} from '../theme/theme.module';
+import {InitComponent} from './init/init.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {NgxEchartsModule} from 'ngx-echarts';
 
 @NgModule({
-  declarations: [DashboardComponent, LoginComponent, RegisterComponent],
+  declarations: [DashboardComponent, NotFoundComponent, WelcomeComponent, LoginComponent, InitComponent],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    NzInputModule,
     NgZorroAntdModule,
+    ReactiveFormsModule,
     PagesRoutingModule,
-    ThemeModule,
     NgxEchartsModule,
-    NzInputModule
+    ThemeModule
   ]
 })
 export class PagesModule {}

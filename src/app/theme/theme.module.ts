@@ -22,9 +22,6 @@ const COMPONENTS = [
 
 @NgModule({
   declarations: [...COMPONENTS],
-  exports: [
-    AppFooterComponent
-  ],
   imports: [CommonModule, NgZorroAntdModule, ThemeRoutingModule]
 })
 export class ThemeModule {}

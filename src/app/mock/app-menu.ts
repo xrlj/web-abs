@@ -66,14 +66,22 @@ export const APP_MENUS = [
     ]
   },
   {
+    title: '基础管理',
+    icon: 'box-plot',
+    children: [
+      { title: '产品类型管理', link: '/dd/adsf' }
+    ]
+  },
+  {
     title: '系统管理',
     icon: 'setting',
     children: [
-      { title: '系统用户管理', link: '/dfsg/hds' },
-      { title: '部门管理', link: '/navffigation/dropdoffwn' },
-      { title: '角色管理', link: '/navigatsfdgion/sdfg' },
-      { title: '权限管理', link: '/dfg/gdf' },
-      { title: '菜单管理', link: '/fds/tr' }
+      { title: '用户管理', link: '/ddd/affix' },
+      { title: '部门管理', link: '/daa/dropdown' },
+      { title: '角色管理', link: '/daa/breadcrumb' },
+      { title: '权限管理', link: '/navadfigation/dropdown' },
+      { title: '菜单管理', link: '/pages/setting/menu' },
+      { title: '应用管理', link: '/nadfvigation/menu' }
     ]
   }
 ];

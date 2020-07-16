@@ -7,27 +7,22 @@
       <h3 style="">供应链金融服务平台</h3>
       <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your username!">
-            <nz-input-group nzPrefixIcon="user">
-              <input type="text" nz-input formControlName="userName" placeholder="用户名" />
+          <nz-form-control nzErrorTip="请输入用户账号!">
+            <nz-input-group nzPrefixIcon="user" [nzSuffix]="usernameSuffixTemplate">
+              <input type="text" nz-input formControlName="username" placeholder="用户名" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your Password!">
-            <nz-input-group nzPrefixIcon="lock">
+          <nz-form-control nzErrorTip="请输入密码!">
+            <nz-input-group nzPrefixIcon="lock" [nzSuffix]="pwdSuffixTemplate">
               <input type="password" nz-input formControlName="password" placeholder="密码" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-control>
-            <label nz-checkbox formControlName="remember">
-              <span>记住密码</span>
-            </label>
-            <a class="login-form-forgot" class="login-form-forgot">忘记密码</a>
-            <button nz-button class="login-form-button" nzType="primary" [disabled]="!validateForm.valid" (click)="submitForm()">登陆</button>
-            <p class="login-fot"><span>没有账号？<a routerLink="/register" style="color: #367cf3;">立即注册</a></span></p>
+            <button nz-button class="login-form-button" nzType="primary" [nzLoading]="isLoadingOne" [disabled]="!validateForm.valid">登录</button>
           </nz-form-control>
         </nz-form-item>
       </form>
@@ -36,3 +31,25 @@
     <div style="clear:both">&nbsp;</div>
   </div>
 </div>
+<ng-template #usernameSuffixTemplate>
+  <i
+  nz-icon
+  nz-tooltip
+  class="ant-input-clear-icon"
+  nzTheme="fill"
+  nzType="close-circle"
+  *ngIf="validateForm.value.username"
+  (click)="clearUsername()">
+  </i>
+</ng-template>
+<ng-template #pwdSuffixTemplate>
+  <i
+    nz-icon
+    nz-tooltip
+    class="ant-input-clear-icon"
+    nzTheme="fill"
+    nzType="close-circle"
+    *ngIf="validateForm.value.password"
+    (click)="clearPassword()">
+  </i>
+</ng-template>

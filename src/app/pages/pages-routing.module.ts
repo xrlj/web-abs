@@ -1,36 +1,35 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { DefaultComponent, BlankComponent } from '../theme/layouts';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
-import {RegisterComponent} from './register/register.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import { NotFoundComponent } from './not-found/not-found.component';
+import {WelcomeComponent} from './welcome/welcome.component';
+import {LoginComponent} from './login/login.component';
+import {BlankComponent, DefaultComponent} from '../theme/layouts';
+import {InitComponent} from './init/init.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: '',
+    component: BlankComponent,
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'init', component: InitComponent }
+    ]
   },
   {
     path: 'pages',
     component: DefaultComponent,
     children: [
       { path: '', component: DashboardComponent },
-      {
-        path: 'navigation',
-        loadChildren: './navigation/navigation.module#NavigationModule'
-      }
+      { path: 'welcome', component: WelcomeComponent }
     ]
   },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'register',
-    component: RegisterComponent
-  }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
