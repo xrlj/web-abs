@@ -6,6 +6,7 @@ import {LoginComponent} from './login/login.component';
 import {BlankComponent, DefaultComponent} from '../theme/layouts';
 import {InitComponent} from './init/init.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {RegisterComponent} from './register/register.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
     component: BlankComponent,
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'init', component: InitComponent }
+      { path: 'init', component: InitComponent },
+      { path: 'register', component: RegisterComponent }
     ]
   },
   {

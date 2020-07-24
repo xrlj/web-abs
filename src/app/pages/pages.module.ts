@@ -11,9 +11,10 @@ import {ThemeModule} from '../theme/theme.module';
 import {InitComponent} from './init/init.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NgxEchartsModule} from 'ngx-echarts';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [DashboardComponent, NotFoundComponent, WelcomeComponent, LoginComponent, InitComponent],
+  declarations: [DashboardComponent, NotFoundComponent, WelcomeComponent, LoginComponent, InitComponent, RegisterComponent],
   imports: [
     CommonModule,
     FormsModule,
