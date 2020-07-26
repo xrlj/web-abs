@@ -9,7 +9,6 @@ export const environment = {
   // apiUrl: 'http://api-dev.xrlj.com:5555'
   apiUrl: 'http://localhost:5555'
 };
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
