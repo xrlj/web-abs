@@ -20,6 +20,9 @@ export const ApiPath = {
       updateUserPassword: `/${usercentral}/user/updateUserPassword`,
       resetUserPassword: `/${usercentral}/user/resetUserPassword`
     },
+    enterprise: {
+      getEtpInfoByInvitationCode: `/${usercentral}/enterprise/getEtpInfoByInvitationCode`
+    },
     menuApi: {
       saveOrUpdate: `/${usercentral}/menu/saveOrUpdate`,
       getMenusByClientId: `/${usercentral}/menu/getMenusByClientId`,

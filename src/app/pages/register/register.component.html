@@ -1,51 +1,117 @@
-<!--<div class="register-layout">
-  <div class="header">
-    <P>ABS</P>
+<div class="register-layout">
+  <div class="register-layout-header">
+    <img src="./assets/images/logo02.png">
+    <nz-divider nzType="vertical"></nz-divider>
+    <span class="app-name">应收账款融资平台</span>
+    <div class="go-login">
+      <span>已有账号？<a nz-button nzType="link" routerLink="/login">请登录></a></span>
+    </div>
   </div>
-  <div class="content">
+  <div class="register-layout-content">
     <nz-steps [nzCurrent]="current">
-      <nz-step nzTitle="Finished"></nz-step>
-      <nz-step nzTitle="In Progress"></nz-step>
-      <nz-step nzTitle="Waiting"></nz-step>
+      <nz-step nzTitle="验证手机号"></nz-step>
+      <nz-step nzTitle="填写账号信息"></nz-step>
+      <nz-step nzTitle="注册成功" [nzStatus]="doneStatus"></nz-step>
     </nz-steps>
 
-    <div class="steps-content">{{ index }}</div>
+    <div class="steps-content">
+      <div class="steps-one" *ngIf="current === 0">
+        <form nz-form [formGroup]="stepOneForm">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>公司名称</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input id="'etpName'" [disabled]="true" nz-input />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>企业类型</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <input id="'etpType'" [disabled]="true" nz-input/>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="phoneNumber" nzRequired>手机号码</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="必填项">
+              <input formControlName="phoneNumber" id="'phoneNumber'" placeholder="11位手机号码" nz-input />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="captcha" nzRequired>验证码</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzErrorTip="必填项">
+              <div nz-row [nzGutter]="8">
+                <div nz-col [nzSpan]="12">
+                  <input nz-input formControlName="captcha" id="captcha" />
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <button nz-button (click)="getCaptcha($event)">发送验证码</button>
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+      <div class="steps-two" *ngIf="current === 1">
+        <form nz-form [formGroup]="stepTwoForm">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>用户名</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="用户名必填">
+              <input nz-input formControlName="userName" placeholder="登录系统用户名" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>电子邮箱</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+              <input nz-input formControlName="email" placeholder="电子邮箱" type="email" />
+              <ng-template #emailErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('email')">
+                  无效的电子邮箱
+                </ng-container>
+                <ng-container *ngIf="control.hasError('required')">
+                  电子邮箱必填
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>密码</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="密码必填">
+              <input nz-input type="password" formControlName="password" placeholder="新密码" (ngModelChange)="validateConfirmPassword()" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>确认密码</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
+              <input nz-input type="password" formControlName="confirm" placeholder="请再一次输入密码" />
+              <ng-template #passwordErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  请再次输入密码确认
+                </ng-container>
+                <ng-container *ngIf="control.hasError('confirm')">
+                  前后密码不一致
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+      <div class="steps-third" *ngIf="current === 2">
+        <nz-result
+          nzStatus="success"
+          nzTitle="恭喜，注册成功！"
+        >
+        </nz-result>
+      </div>
+    </div>
     <div class="steps-action">
-      <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
-        <span>Previous</span>
+      <button nz-button nzType="default" nzSize="large" (click)="next()" *ngIf="current === 0">
+        <span>下一步</span>
       </button>
-      <button nz-button nzType="default" (click)="next()" *ngIf="current < 2">
-        <span>Next</span>
+      <button nz-button nzType="default" nzSize="large" (click)="registerNow()" *ngIf="current === 1">
+        <span>立即注册</span>
       </button>
-      <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
-        <span>Done</span>
+      <button nz-button nzType="primary" nzSize="large" routerLink="/login" *ngIf="current === 2">
+        去登陆
       </button>
     </div>
   </div>
-</div>-->
-
-<nz-layout>
-  <nz-header>
-    aaa
-  </nz-header>
-  <nz-content>
-    <nz-steps [nzCurrent]="current">
-      <nz-step nzTitle="Finished"></nz-step>
-      <nz-step nzTitle="In Progress"></nz-step>
-      <nz-step nzTitle="Waiting"></nz-step>
-    </nz-steps>
-
-    <div class="steps-content">{{ index }}</div>
-    <div class="steps-action">
-      <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
-        <span>Previous</span>
-      </button>
-      <button nz-button nzType="default" (click)="next()" *ngIf="current < 2">
-        <span>Next</span>
-      </button>
-      <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
-        <span>Done</span>
-      </button>
-    </div>
-  </nz-content>
-</nz-layout>
+</div>

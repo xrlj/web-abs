@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {NgZorroAntdModule} from 'ng-zorro-antd';
+import {NgZorroAntdModule, NzFormModule} from 'ng-zorro-antd';
 import {PagesRoutingModule} from './pages-routing.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {WelcomeComponent} from './welcome/welcome.component';
@@ -22,7 +22,8 @@ import { RegisterComponent } from './register/register.component';
     ReactiveFormsModule,
     PagesRoutingModule,
     NgxEchartsModule,
-    ThemeModule
+    ThemeModule,
+    NzFormModule
   ]
 })
 export class PagesModule {}

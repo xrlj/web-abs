@@ -20,7 +20,7 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'init', component: InitComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: 'register/:code', component: RegisterComponent }
     ]
   },
   {
