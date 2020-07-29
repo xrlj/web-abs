@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
   // step
   current = 0;
   doneStatus = 'wait';
+  isDisabled = true;
 
   // 第一步手机验证表单
   stepOneForm!: FormGroup;
@@ -32,6 +33,8 @@ export class RegisterComponent implements OnInit {
   constructor(private uiHelper: UIHelper, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private registerService: RegisterService) {
     const { required, maxLength, minLength, email, mobile } = MyValidators;
     this.stepOneForm = this.fb.group({
+      etpName: [{value: '', disabled: true}, [required]], //  this.stepOneForm.controls.etpName.disable({onlySelf: true}); // 动态变不可用
+      enterpriseTypeName: [{value: '', disabled: true}, [required]],
       phoneNumber: ['', [required, mobile]],
       captcha: ['', [required]]
     });
@@ -46,11 +49,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerInvitationCode = this.route.snapshot.params['code'];
-    console.log(this.registerInvitationCode);
 
     this.registerService.getEtpInfoByInvitationCode(this.registerInvitationCode)
       .ok(data => {
         this.etpInfo = data;
+        this.stepOneForm.patchValue({etpName: data.etpName, enterpriseTypeName: data.enterpriseTypeName});
       }).fail(error => {
         this.uiHelper.msgTipError(error.msg);
     }).final(() => {});

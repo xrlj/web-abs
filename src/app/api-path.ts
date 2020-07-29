@@ -1,5 +1,8 @@
-const serviceauth = 'serviceauth'; // 服务名称
+/****************服务名称start********************/
+const serviceauth = 'serviceauth';
 const usercentral = 'usercentral';
+const sysfilesystem = 'sysfilesystem'; // 文件系统服务
+/****************服务名称 end********************/
 
 export const ApiPath = {
   login: `/${serviceauth}/auth/login`,
@@ -57,6 +60,11 @@ export const ApiPath = {
       getPermissionById: `/${usercentral}/rolePermissions/getPermissionById`,
       getPermissionListPage: `/${usercentral}/rolePermissions/getPermissionListPage`,
       delPermission: `/${usercentral}/rolePermissions/delPermission`
+    }
+  },
+  sysfilesystem: {
+    sysFiles: {
+      uploadFile: `/${sysfilesystem}/sysFiles/uploadFile`
     }
   }
 };
