@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {NzSafeAny} from 'ng-zorro-antd';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {switchMap, take} from 'rxjs/operators';
+import {interval, Observable} from 'rxjs';
 import {RegisterService} from './register.service';
 import {UIHelper} from '../../helpers/ui-helper';
 
@@ -23,6 +23,9 @@ export class RegisterComponent implements OnInit {
   current = 0;
   doneStatus = 'wait';
   isDisabled = true;
+  countDown = false;
+  countDownTime = 60; // 这里设置倒计时为60S
+  countDownBtnText = '发送短信验证码'; // 可以控制动态改变的按钮提示信息
 
   // 第一步手机验证表单
   stepOneForm!: FormGroup;
@@ -90,8 +93,38 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  /**
+   * 发送短信获取手机验证码。
+   */
   getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
+    this.stepOneForm.controls['phoneNumber'].markAsDirty();           // 点击获取验证码要以输入了手机号为前提
+    this.stepOneForm.controls['phoneNumber'].updateValueAndValidity();
+    /*this.userProvider.doSendSMS ({ phone: this.stepOneForm.controls.phoneNumber.value }).subscribe(res =>{   // 如果手机号验证通过
+      if (res) {
+        this.notice.success('短信验证码已发送！');
+        this.sendMessage();   // 调用下面的按钮倒计时的方法
+
+      }
+    });*/
+    this.sendMessage();
+  }
+
+  /**
+   * 发送了短信验证码后触发本方法，开始倒计时
+   */
+  sendMessage() {
+    const numbers = interval(1000);
+    const takeFourNumbers = numbers.pipe(take(this.countDownTime));
+    takeFourNumbers.subscribe(
+      x => {
+        this.countDownBtnText = '验证码已发送(' + (this.countDownTime-x) + 's)';
+        this.countDown = true;
+      },
+      error => {},
+      () => {
+        this.countDownBtnText = '重新发送';
+        this.countDown = false;
+      });
   }
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
