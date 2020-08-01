@@ -15,18 +15,19 @@
     </nz-steps>
 
     <div class="steps-content">
+      <!--第一步内容-->
       <div class="steps-one" *ngIf="current === 0">
         <form nz-form [formGroup]="stepOneForm">
           <nz-form-item>
-            <nz-form-label [nzSpan]="7" nzRequired>公司名称</nz-form-label>
+            <nz-form-label [nzSpan]="7" nzFor="etpName" nzRequired>公司名称</nz-form-label>
             <nz-form-control [nzSpan]="12">
-              <input id="'etpName'" [disabled]="true" nz-input />
+              <input formControlName="etpName" id="'etpName'" readonly="true" nz-input />
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSpan]="7" nzRequired>企业类型</nz-form-label>
+            <nz-form-label [nzSpan]="7" nzFor="enterpriseTypeName" nzRequired>企业类型</nz-form-label>
             <nz-form-control [nzSpan]="12">
-              <input id="'etpType'" [disabled]="true" nz-input/>
+              <input formControlName="enterpriseTypeName" id="'etpType'" nz-input/>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
@@ -43,13 +44,14 @@
                   <input nz-input formControlName="captcha" id="captcha" />
                 </div>
                 <div nz-col [nzSpan]="12">
-                  <button nz-button (click)="getCaptcha($event)">发送验证码</button>
+                  <button nz-button [disabled]="countDown" (click)="getCaptcha($event)">{{this.countDownBtnText}}</button>
                 </div>
               </div>
             </nz-form-control>
           </nz-form-item>
         </form>
       </div>
+      <!--第二步内容-->
       <div class="steps-two" *ngIf="current === 1">
         <form nz-form [formGroup]="stepTwoForm">
           <nz-form-item>
@@ -94,6 +96,7 @@
           </nz-form-item>
         </form>
       </div>
+      <!--第三步内容-->
       <div class="steps-third" *ngIf="current === 2">
         <nz-result
           nzStatus="success"

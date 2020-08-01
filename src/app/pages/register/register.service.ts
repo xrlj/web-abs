@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Api} from '../../helpers/http/api';
 import {ApiPath} from '../../api-path';
+import {HttpParams} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,6 @@ export class RegisterService {
    * @param code 注册邀请码
    */
   getEtpInfoByInvitationCode(code: string): any {
-    return this.api.get(`${ApiPath.usercentral.enterprise.getEtpInfoByInvitationCode}/${code}`);
+    return this.api.get(`${ApiPath.usercentral.enterprise.getEtpInfoByInvitationCode}`, new HttpParams().set('code', code));
   }
 }

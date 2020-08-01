@@ -6,9 +6,7 @@ import {Constants} from '../helpers/constants';
 import {Utils} from '../helpers/utils';
 import {AppPath} from '../app-path';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private router: Router, private utils: Utils) {
@@ -17,7 +15,8 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log('>>>>>AuthInterceptor');
     const url: string = req.url;
-    if (url.includes(ApiPath.login) || url.includes(ApiPath.logout)) { // 不需要登录携带token请求
+    const directUrl = url.includes(ApiPath.login) || url.includes(ApiPath.logout) || url.includes(ApiPath.usercentral.enterprise.getEtpInfoByInvitationCode);
+    if (directUrl) { // 不需要登录携带token请求
       return next.handle(req);
     } else { // 非登录请求，带上token
       const authToken = localStorage.getItem(Constants.localStorageKey.token);
@@ -30,8 +29,11 @@ export class AuthInterceptor implements HttpInterceptor {
         }*/
       } else { // 未登录
         this.router.navigateByUrl(AppPath.login);
+        return null;
       }
-      const authReq = req.clone({ setHeaders: { Authorization: authToken, 'Content-Type':  'application/json' } });
+
+      // 普通请求
+      const authReq = req.clone({ setHeaders: { Authorization: authToken} });
       return next.handle(authReq);
     }
   }
