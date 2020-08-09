@@ -12,6 +12,8 @@ import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {PagesModule} from './pages/pages.module';
 import {httpInterceptorProviders} from './interceptors';
+import {SimpleReuseStrategy} from './helpers/simple-reuse-strategy';
+import {RouteReuseStrategy} from '@angular/router';
 
 registerLocaleData(zh);
 
@@ -29,7 +31,11 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     PagesModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }, httpInterceptorProviders],
+  providers: [
+    { provide: NZ_I18N, useValue: zh_CN },
+    {provide: RouteReuseStrategy, useClass: SimpleReuseStrategy},
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
