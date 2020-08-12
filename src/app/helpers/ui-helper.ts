@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {VMenuResp} from './vo/resp/v-menu-resp';
 import {NzTreeNode} from 'ng-zorro-antd';
-import {UserStatusEnum} from './enum/user-status-enum';
+import {ThemeEnum} from './enum/theme-enum';
 
 @Injectable({
   providedIn: 'root'
@@ -204,9 +204,12 @@ export class UIHelper {
    */
   verifyLoginAndJumpToLogin() {
     const authToken = localStorage.getItem(Constants.localStorageKey.token);
-    if (!authToken || this.utils.jwtTokenIsExpired()) { // 未登录或者已失效
-      localStorage.clear();
-      this.router.navigateByUrl(AppPath.login);
+    /*if (!authToken || this.utils.jwtTokenIsExpired()) { // 未登录或者已失效
+      this.logoutLocalStorageClean();
+      this.router.navigate([AppPath.login]);
+    }*/
+    if (!authToken) { // 未登录或者已失效
+      this.router.navigate([AppPath.login]);
     }
   }
 
@@ -216,11 +219,13 @@ export class UIHelper {
   verifyLoginAndJumpToHome() {
     const authToken = localStorage.getItem(Constants.localStorageKey.token);
     if (authToken) { // 已登录
-      this.router.navigateByUrl(AppPath.pages);
+      this.router.navigate([AppPath.pages]);
     } else {
-      localStorage.clear();
+      this.logoutLocalStorageClean();
     }
   }
+
+  /*============================ 菜单 start ====================*/
 
   /**
    * 递归遍历菜单树。当节点没有子节点的时候，添加isLeaf=true。目的，去掉箭头展开按钮。
@@ -239,6 +244,8 @@ export class UIHelper {
       }
     });
   }
+
+  /*============================ 菜单 end ====================*/
 
   /**
    * 通用方法，所有选择树可以。递归遍历树节点。当节点没有子节点的时候，添加isLeaf=true。目的，去掉箭头展开按钮。
@@ -291,6 +298,8 @@ export class UIHelper {
     }
   }
 
+  /*========================= 系统主题 =========================*/
+
   /**
    * TreeSelect，选择树，选定后根据key，获取节点对象中包含的id。通用
    * @param dataList 整棵树数据列表。
@@ -313,31 +322,111 @@ export class UIHelper {
   }
 
   /**
-   * 设置不同状态下。不同颜色样式显示。
-   * @param status 状态。
+   * 更改系统主题风格。添加更多主题，记得修改这里代码
+   * @param theme 主题。default 默认主题；orange 橙色主题；turquoise蓝绿色主题
    */
-  setEtpStatusNameColor(status: number): string {
-    let color = '';
-    switch (status) {
-      case UserStatusEnum.BLACK:
-        color = 'red';
+  changeTheme(theme: string): void {
+    const style = document.createElement('link');
+    style.type = 'text/css';
+    style.rel = 'stylesheet';
+    style.id = `theme-${theme}-link`;
+    switch (theme) {
+      case ThemeEnum.Default:
+        style.href = './assets/themes/style.default.css';
         break;
-      case UserStatusEnum.DISABLE:
-        color = 'red';
+      case ThemeEnum.Orange:
+        style.href = './assets/themes/style.orange.css';
         break;
-      case UserStatusEnum.CHECK_FAILURE:
-        color = 'red';
+      case ThemeEnum.Turquoise:
+        style.href = './assets/themes/style.turquoise.css';
         break;
-      case UserStatusEnum.CHECK_PASS:
-        color = 'green';
-        break;
-      case UserStatusEnum.VERIFIED_PASS:
-        color = 'green';
-        break;
-      default:
-        color = 'gray';
+      case ThemeEnum.Dark:
+        style.href = './assets/themes/style.dark.css';
         break;
     }
-    return color;
+    document.head.append(style);
+
+    style.onload = () => {
+      // 移除旧的
+      for (const key in ThemeEnum) {
+        const themeName = ThemeEnum[key];
+        if (theme !== themeName) {
+          const dom = document.getElementById(`theme-${themeName}-link`);
+          if (dom) {
+            dom.remove();
+          }
+        }
+      }
+    };
+    this.storageCurrentTheme(theme);
+  }
+
+  /*changeTheme(theme: string) {
+    let themeUrl = './assets/themes/style.default.css';
+    switch (theme) {
+      case 'orange':
+        themeUrl = './assets/themes/style.orange.css';
+        break;
+      case 'turquoise':
+        themeUrl = './assets/themes/style.turquoise.css';
+        break;
+    }
+
+    // create new link element
+    const newThemeElement = document.createElement('link') as HTMLLinkElement;
+    // put the link into the document head
+    document.head.appendChild(newThemeElement);
+
+    // add the type to the link element
+    newThemeElement.type = 'text/css';
+    // add the rel to the link elmenent
+    newThemeElement.rel = 'stylesheet';
+    // listen the link load event
+    newThemeElement.onload = () => {
+      // get the theme link element
+      const themeElements = document.querySelectorAll('link[theme-link]');
+      // get all of the style elements and remove all of theme from the document
+      themeElements.forEach(themeElement => {
+        // remove the prevoius theme styles from the document when the new theme styles already downloaded
+        document.head.removeChild(themeElement);
+      });
+
+      // add attribute to the theme link element
+      newThemeElement.setAttribute('theme-link', '');
+      // remove the listener
+      newThemeElement.onload = null;
+
+    };
+
+    newThemeElement.href = themeUrl;
+
+    this.uiHelper.storageCurrentTheme(theme); // 保存当前主题
+  }*/
+
+  /**
+   * 保存当前主题字符串。
+   * @param currentTheme 选定的当前主题，默认为default
+   */
+  storageCurrentTheme(currentTheme: string): void {
+    localStorage.setItem(Constants.localStorageKey.currentTheme, currentTheme);
+  }
+
+  /**
+   * 获取当前设定的主题。
+   */
+  getCurrentTheme(): string {
+    const currentTheme = localStorage.getItem(Constants.localStorageKey.currentTheme);
+    return currentTheme;
+  }
+
+  isCurrentTheme(themeEnum: ThemeEnum): boolean {
+    const currentTheme = this.getCurrentTheme();
+    return currentTheme === themeEnum;
+  }
+
+  /*=========== 登出，需要清理本地缓存 =============*/
+  logoutLocalStorageClean(): void  {
+    localStorage.removeItem(Constants.localStorageKey.token);
+    localStorage.removeItem(Constants.localStorageKey.menus);
   }
 }

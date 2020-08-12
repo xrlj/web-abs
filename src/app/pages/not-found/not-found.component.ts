@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UIHelper} from '../../helpers/ui-helper';
 
 @Component({
   selector: 'app-not-found',
@@ -7,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor() { }
+  constructor(private uiHelper: UIHelper) { }
 
   ngOnInit() {
   }
 
   goBack() {
-    window.history.go(-1);
+    this.uiHelper.goBack();
   }
 
 }

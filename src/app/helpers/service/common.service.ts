@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ApiPath} from '../api-path';
-import {Api} from './http/api';
+import {ApiPath} from '../../api-path';
+import {Api} from '../http/api';
 
 @Injectable({
   providedIn: 'root'

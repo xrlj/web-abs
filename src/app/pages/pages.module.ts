@@ -1,29 +1,36 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-import {NgZorroAntdModule, NzFormModule} from 'ng-zorro-antd';
-import {PagesRoutingModule} from './pages-routing.module';
-import { NotFoundComponent } from './not-found/not-found.component';
-import {WelcomeComponent} from './welcome/welcome.component';
-import {LoginComponent} from './login/login.component';
-import {ThemeModule} from '../theme/theme.module';
-import {InitComponent} from './init/init.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
 import {NgxEchartsModule} from 'ngx-echarts';
-import { RegisterComponent } from './register/register.component';
+
+import {PagesRoutingModule} from './pages-routing.module';
+import {ThemeModule} from '../theme/theme.module';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {LoginComponent} from './login/login.component';
+import { InitComponent } from './init/init.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import {RegisterComponent} from './register/register.component';
+import {NzBackTopModule, NzButtonModule, NzCardModule, NzDividerModule, NzFormModule, NzInputModule, NzResultModule, NzSpinModule, NzStepsModule, NzTableModule} from 'ng-zorro-antd';
 
 @NgModule({
-  declarations: [DashboardComponent, NotFoundComponent, WelcomeComponent, LoginComponent, InitComponent, RegisterComponent],
+  declarations: [DashboardComponent, LoginComponent, InitComponent, NotFoundComponent, RegisterComponent],
   imports: [
     CommonModule,
     FormsModule,
-    NgZorroAntdModule,
     ReactiveFormsModule,
     PagesRoutingModule,
-    NgxEchartsModule,
     ThemeModule,
-    NzFormModule
+    NgxEchartsModule,
+    NzButtonModule,
+    NzStepsModule,
+    NzFormModule,
+    NzResultModule,
+    NzBackTopModule,
+    NzCardModule,
+    NzSpinModule,
+    NzInputModule,
+    NzTableModule,
+    NzDividerModule
   ]
 })
 export class PagesModule {}

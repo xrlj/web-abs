@@ -1,13 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Api} from '../../../helpers/http/api';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ApiPath} from '../../../api-path';
 import {UIHelper} from '../../../helpers/ui-helper';
 import {AppPath} from '../../../app-path';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 import {Utils} from '../../../helpers/utils';
 import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import {ThemeEnum} from '../../../helpers/enum/theme-enum';
+import {environment} from '../../../../environments/environment';
+import {VMenuResp} from '../../../helpers/vo/resp/v-menu-resp';
+import {Constants} from '../../../helpers/constants';
 
 @Component({
   selector: 'app-header',
@@ -15,16 +18,64 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
   styleUrls: ['./app-header.component.less']
 })
 export class AppHeaderComponent implements OnInit {
-  constructor(private router: Router, private api: Api, public utils: Utils, private uiHelper: UIHelper, private defaultBusService: DefaultBusService) { }
+  constructor(private router: Router,
+              private api: Api,
+              public utils: Utils,
+              public uiHelper: UIHelper, private defaultBusService: DefaultBusService) {
+  }
 
-  appName: string;
+  collapsed = false;
 
-  theme = '';
+  @Output() toggleCollapsed = new EventEmitter();
+  @Output() currentTheme = new EventEmitter();  // 更改主题色调，弹射主题到父组件
+  @Output() asideTheme = new EventEmitter();  // 更改菜单抽屉主题，弹射主题到父组件
+
+  appName = Constants.appInfo.appName;
 
   jwtKvEnum: typeof  JwtKvEnum = JwtKvEnum;
+  themeEnum: typeof  ThemeEnum = ThemeEnum;
+
+  // ====== 系统设置-抽屉
+  settingVisible: boolean;
+  sliderMenuThemeChecked = true;
+  themeRadioValue: string;
 
   ngOnInit() {
-    this.appName = '运营总后台';
+    this.themeRadioValue = this.uiHelper.getCurrentTheme();
+  }
+
+  toggle() {
+    this.collapsed = !this.collapsed;
+    this.toggleCollapsed.emit();
+  }
+
+  /**
+   * 变更菜单抽屉主题,并弹出到父组件。
+   * @param event 选定true，否者false
+   */
+  asideChangeTheme(event): void {
+    this.asideTheme.emit(event);
+  }
+
+  /**
+   * 更改系统主题色调。
+   * @param event 主题
+   */
+  changeTheme(event: any): void {
+    let theme = null;
+    switch (event) {
+      case ThemeEnum.Default:
+        theme = ThemeEnum.Default;
+        break;
+      case ThemeEnum.Orange:
+        theme = ThemeEnum.Orange;
+        break;
+      case ThemeEnum.Turquoise:
+        theme = ThemeEnum.Turquoise;
+        break;
+    }
+    this.uiHelper.changeTheme(theme);
+    this.currentTheme.emit(theme);
   }
 
   /**
@@ -34,10 +85,10 @@ export class AppHeaderComponent implements OnInit {
     this.uiHelper.modalConfirm('确定退出登录？')
       .ok(() => {
         this.defaultBusService.showLoading(true);
-        this.api.get(ApiPath.logout).ok(data => {
+        /*this.api.get(ApiPath.logout).ok(data => {
           if (data) {
-            localStorage.clear();
-            this.router.navigateByUrl(AppPath.login); // 退出成功
+            this.uiHelper.logoutLocalStorageClean();
+            this.router.navigate([AppPath.login]); // 退出成功
           } else {
             this.uiHelper.msgTipError('退出失败');
           }
@@ -45,51 +96,30 @@ export class AppHeaderComponent implements OnInit {
           this.uiHelper.msgTipError('退出失败');
         }).final(() => {
           this.defaultBusService.showLoading(false);
-        });
+        });*/
       });
   }
 
-  /*更改主题*/
-  changeTheme(theme: string) {
-    let themeUrl = './assets/themes/style.default.css';
-    switch (theme) {
-      case 'orange':
-        themeUrl = './assets/themes/style.orange.css';
-        break;
-      case 'turquoise':
-        themeUrl = './assets/themes/style.turquoise.css';
-        break;
-      case 'dark':
-        themeUrl = './assets/themes/style.dark.css';
-        break;
-    }
+  openSettingDrawer() {
+    this.settingVisible = true;
+  }
 
-    // create new link element
-    const newThemeElement = document.createElement('link') as HTMLLinkElement;
-    // put the link into the document head
-    document.head.appendChild(newThemeElement);
+  closeSettingDrawer() {
+    this.settingVisible = false;
+  }
 
-    // add the type to the link element
-    newThemeElement.type = 'text/css';
-    // add the rel to the link elmenent
-    newThemeElement.rel = 'stylesheet';
-    // listen the link load event
-    newThemeElement.onload = () => {
-      // get the theme link element
-      const themeElements = document.querySelectorAll('link[theme-link]');
-      // get all of the style elements and remove all of theme from the document
-      themeElements.forEach(themeElement => {
-        // remove the prevoius theme styles from the document when the new theme styles already downloaded
-        document.head.removeChild(themeElement);
-      });
+  /**
+   * 个人中心。
+   */
+  openUserCentre() {
+    this.router.navigate([AppPath.userCentre]);
+  }
 
-      // add attribute to the theme link element
-      newThemeElement.setAttribute('theme-link', '');
-      // remove the listener
-      newThemeElement.onload = null;
-
-    };
-
-    newThemeElement.href = themeUrl;
+  /**
+   * 刷新路由，重新加载页面。
+   * // TODO 路由会重新加载，但是页面无法重新加载。需要再具体组件中订阅路由事件，是否有更好办法？
+   */
+  routerRefresh() {
+    this.router.navigate([this.router.url]);
   }
 }

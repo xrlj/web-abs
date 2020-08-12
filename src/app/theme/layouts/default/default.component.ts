@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {UIHelper} from '../../../helpers/ui-helper';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
-import {Constants} from '../../../helpers/constants';
+import {AppAsideComponent, AppBodyComponent} from '../../components';
 
 @Component({
   selector: 'app-default',
@@ -15,6 +15,11 @@ export class DefaultComponent implements OnInit {
   collapsed = false;
 
   isSpinning = false;
+
+  @ViewChild(AppBodyComponent)
+  private appBodyComponent: AppBodyComponent;
+  @ViewChild(AppAsideComponent)
+  private appAsideComponent: AppAsideComponent;
 
   constructor(private router: Router, private uiHelper: UIHelper, private defaultBusService: DefaultBusService) {
     // 订阅是否显示加载对话框事件
@@ -33,7 +38,17 @@ export class DefaultComponent implements OnInit {
     this.collapsed = !this.collapsed;
   }
 
-  /*showSpinning(isSpinning: boolean) {
-    this.isSpinning = isSpinning;
-  }*/
+  /**
+   * 变更主题色调。
+   */
+  setCurrentTheme(evt): void {
+    this.appBodyComponent.setCurrentTabClasses(evt); // 调用子组件方法
+  }
+
+  /**
+   * 变更菜单抽屉主题。
+   */
+  setAsideTheme(evt): void {
+    this.appAsideComponent.changeAsideMenuTheme(evt);
+  }
 }

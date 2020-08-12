@@ -4,12 +4,14 @@ export const Constants = {
     timeOut: 5000
   },
   appInfo: {
-    clientId: '0a9cbbbb4f130988',
+    appName: '供应链融资平台',
+    clientId: '0d6d1b41086e960e',
     clientDeviceType: 'web'
   },
   localStorageKey: {
     token: 'm-jwt-token',
-    menus: 'user-menus' // 菜单
+    menus: 'user-menus', // 菜单
+    currentTheme: 'current-theme' // 当前主题色调风格
   },
   nzFormItem: {
     nzFormLabel: {

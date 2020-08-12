@@ -3,9 +3,12 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Api} from '../../helpers/http/api';
 import {VLoginRespData} from '../../helpers/vo/resp/v-login-resp';
+import {ApiPath} from '../../api-path';
+import {Constants} from '../../helpers/constants';
 import {Utils} from '../../helpers/utils';
 import {UIHelper} from '../../helpers/ui-helper';
 import {AppPath} from '../../app-path';
+import {HttpHeaders} from '@angular/common/http';
 
 
 @Component({
@@ -16,17 +19,19 @@ import {AppPath} from '../../app-path';
 export class LoginComponent implements OnInit {
 
   validateForm: FormGroup;
+
   data: VLoginRespData;
+
   isLoadingOne = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private api: Api, private utils: Utils, private uiHelper: UIHelper) {}
-
-  ngOnInit() {
+  constructor(private router: Router, private fb: FormBuilder, private api: Api, private utils: Utils, private uiHelper: UIHelper) {
     this.validateForm = this.fb.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]]
     });
+  }
 
+  ngOnInit() {
     this.uiHelper.verifyLoginAndJumpToHome();
   }
 
@@ -37,15 +42,12 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    this.router.navigateByUrl(AppPath.pages);
+    this.router.navigate([AppPath.pages]);
 
-    /*const body: VLoginReq = {
-      username: this.validateForm.value.username,
-      password: this.validateForm.value.password,
-      clientid: environment.clientId,
-      clientDeviceType: Constants.appInfo.clientDeviceType
-    };
-    this.api.post(ApiPath.login, body).ok(data => {
+    /*const headers = new HttpHeaders({
+      Authorization: 'Basic '.concat(this.utils.base64encoder(this.validateForm.value.username + ':' + this.validateForm.value.password))
+    });
+    this.api.post(ApiPath.login, null, null, null, null, headers).ok(data => {
       localStorage.setItem(Constants.localStorageKey.token, data.access_token);
       this.router.navigateByUrl(AppPath.init);
     }).fail(error => {

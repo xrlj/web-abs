@@ -1,4 +1,4 @@
-<div class="app-aside">
+<div class="app-aside" [style.background]="theme ? '#263238' : '#fff'">
   <div class="app-aside-list">
     <ul nz-menu [nzInlineCollapsed]="collapsed" [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline">
       <ng-container *ngFor="let menu of menus">
@@ -27,6 +27,7 @@
                 <ng-template #withoutSubChild>
                   <li nz-menu-item>
                     <a [routerLink]="child.link">
+                      <i nz-icon [nzType]="child.icon"></i>
                       <span title>{{ child.title }}</span>
                     </a>
                   </li>
@@ -36,6 +37,7 @@
           </li>
         </ng-container>
 
+        <!--没有子级菜单的处理-->
         <ng-template #withoutChild>
           <li nz-menu-item>
             <a [routerLink]="menu.link">
@@ -48,15 +50,5 @@
         </ng-template>
       </ng-container>
     </ul>
-  </div>
-
-  <div class="app-aside-collapsed">
-    <div class="collapsed-icon" (click)="toggle()">
-      <i
-        nz-icon
-        [nzType]="collapsed ? 'arrow-right' : 'arrow-left'"
-        nzTheme="outline"
-      ></i>
-    </div>
   </div>
 </div>

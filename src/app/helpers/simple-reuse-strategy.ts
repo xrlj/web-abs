@@ -1,5 +1,4 @@
-import {RouteReuseStrategy, DefaultUrlSerializer, ActivatedRouteSnapshot, DetachedRouteHandle} from '@angular/router';
-import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy} from '@angular/router';
 
 /**
  * 路由复用策略。Angular实现多标签页效果(路由重用)
@@ -14,7 +13,6 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
   public static deleteRouteSnapshotAll(): void {
     this.handlers = {};
-    console.log(this.handlers);
   }
 
   public static deleteRouteSnapshot(url: string): void {

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class TrimNameInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('>>>>>TrimNameInterceptor');
+    console.log('>>>>>HeaderInterceptor');
     console.log(req.body);
     const body = req.body;
     if (!body || !body.name ) {

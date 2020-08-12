@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import { NotFoundComponent } from './not-found/not-found.component';
-import {WelcomeComponent} from './welcome/welcome.component';
-import {LoginComponent} from './login/login.component';
+
 import {BlankComponent, DefaultComponent} from '../theme/layouts';
-import {InitComponent} from './init/init.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {LoginComponent} from './login/login.component';
+import {NotFoundComponent} from './not-found/not-found.component';
+import {InitComponent} from './init/init.component';
 import {RegisterComponent} from './register/register.component';
 
 const routes: Routes = [
@@ -27,8 +27,14 @@ const routes: Routes = [
     path: 'pages',
     component: DefaultComponent,
     children: [
-      { path: '', component: DashboardComponent },
-      { path: 'welcome', component: WelcomeComponent }
+      {
+        path: '',
+        loadChildren: () =>import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+      },
+      {
+        path: 'user-centre',
+        loadChildren: () =>import('./user-centre/user-centre.module').then(m => m.UserCentreModule)
+      }
     ]
   },
   { path: '**', component: NotFoundComponent }

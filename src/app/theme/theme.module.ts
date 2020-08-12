@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { ThemeRoutingModule } from './theme-routing.module';
-import {
-  AppHeaderComponent,
-  AppBodyComponent,
-  AppAsideComponent,
-  AppFooterComponent
-} from './components';
-import { DefaultComponent, BlankComponent } from './layouts';
+import {NzAvatarModule, NzBadgeModule, NzButtonModule, NzDividerModule, NzDrawerModule, NzDropDownModule, NzIconModule, NzMenuModule, NzRadioModule, NzSpinModule, NzTabsModule} from 'ng-zorro-antd';
+import {ThemeRoutingModule} from './theme-routing.module';
+import {AppAsideComponent, AppBodyComponent, AppFooterComponent, AppHeaderComponent} from './components';
+import {BlankComponent, DefaultComponent} from './layouts';
+import {FormsModule} from '@angular/forms';
+import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 
 const COMPONENTS = [
   DefaultComponent,
@@ -22,6 +19,22 @@ const COMPONENTS = [
 
 @NgModule({
   declarations: [...COMPONENTS],
-  imports: [CommonModule, NgZorroAntdModule, ThemeRoutingModule]
+  imports: [
+    CommonModule,
+    ThemeRoutingModule,
+    NzDrawerModule,
+    FormsModule,
+    NzButtonModule,
+    NzSpinModule,
+    NzMenuModule,
+    NzIconModule,
+    NzTabsModule,
+    NzDropDownModule,
+    NzBadgeModule,
+    NzAvatarModule,
+    NzDividerModule,
+    NzRadioModule,
+    NzCheckboxModule
+  ]
 })
 export class ThemeModule {}

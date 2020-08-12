@@ -1,14 +1,26 @@
 import {Buffer} from 'buffer';
 import {Injectable} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
+// https://github.com/auth0/angular2-jwt
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {JwtKvEnum} from './enum/jwt-kv-enum';
 import {Constants} from './constants';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Utils {
+
+  /**
+   * 开发，测试环境下才打印文本到控制台
+   * @param data 打印内容
+   */
+  print(data: any): void {
+    if (environment.tag === 'dev' || environment.tag === 'test') {
+      console.log(data)
+    }
+  }
 
   /**
    * 字符串转码base64。
@@ -79,12 +91,6 @@ export class Utils {
       case JwtKvEnum.AppType:
         return decodeToken.appType;
         break;
-      case JwtKvEnum.ClientDeviceType:
-        return decodeToken.clientDeviceType;
-        break;
-      case JwtKvEnum.ClientId:
-        return decodeToken.clientid;
-        break;
       case JwtKvEnum.UserId:
         return decodeToken.userId;
         break;
@@ -131,5 +137,16 @@ export class Utils {
       }
     });
     return arrayPar;
+  }
+
+  generateUUID(): string {
+    // tslint:disable-next-line:only-arrow-functions
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      // tslint:disable-next-line:no-bitwise
+      const r = (Math.random() * 16) | 0;
+      // tslint:disable-next-line:no-bitwise
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 }

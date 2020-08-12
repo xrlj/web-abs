@@ -1,17 +1,51 @@
 <div class="app-body">
-  <div class="breadcrumb">
-    <span>
-      <i nz-icon nzType="environment" nzTheme="outline"></i>
-      <span>当前位置：</span>
-    </span>
-    <nz-breadcrumb>
-      <nz-breadcrumb-item *ngFor="let bread of currentBreads">
-        <a [routerLink]="bread.link">{{ bread.title }}</a>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
+  <div [ngClass]="currentTabClasses" [style.left]="collapsed ? '50px' : '230px'">
+    <nz-tabset [nzAnimated]="true"
+               [nzType]="'card'"
+               [nzTabBarGutter]="0"
+               [nzShowPagination]="true"
+               [(nzSelectedIndex)]="currentMenuTab"
+               (nzSelectChange)="nzSelectChange($event)">
+<!--               [nzTabBarExtraContent]="extraTemplate">-->
+      <nz-tab *ngFor="let menu of menuList" [nzTitle]="titleTemplate">
+        <ng-template #titleTemplate>
+          <div *ngIf="menu.isRemove" (contextmenu)="contextMenu($event, contextTabManageMenu)">
+            {{ menu.title }}
+            <i nz-icon nzType="close" (click)="closeUrl(menu.url)" class="ant-tabs-close-x"></i>
+          </div>
+          <div *ngIf="!menu.isRemove">
+            <i style="padding-left: 0; width: 0;" nz-icon nzType="home"></i>
+          </div>
+        </ng-template>
+      </nz-tab>
+    </nz-tabset>
+    <!--tab-bar右边下拉菜单-->
+    <ng-template #extraTemplate>
+      <div class="tab-manage">
+        <a nz-dropdown [nzDropdownMenu]="rightTabMangeMenu">
+          <i style="color: #5F6266;" nz-icon nzType="down"></i>
+        </a>
+      </div>
+      <nz-dropdown-menu #rightTabMangeMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="closeTabByContextMenu(1)">关闭当前标签页</li>
+          <li nz-menu-item (click)="closeTabByContextMenu(2)">关闭其它标签页</li>
+          <li nz-menu-item (click)="closeTabByContextMenu(3)">关闭全部标签页</li>
+        </ul>
+      </nz-dropdown-menu>
+    </ng-template>
   </div>
-
-  <div class="main">
-    <router-outlet></router-outlet>
+  <div class="tab-content">
+    <!--路由的内容会被显示在这里-->
+    <ng-content></ng-content>
   </div>
 </div>
+
+<!--tab 删除按钮右击下拉菜单-->
+<nz-dropdown-menu #contextTabManageMenu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item (click)="closeTabByContextMenu(1)">关闭当前标签页</li>
+    <li nz-menu-item (click)="closeTabByContextMenu(2)">关闭其它标签页</li>
+    <li nz-menu-item (click)="closeTabByContextMenu(3)">关闭全部标签页</li>
+  </ul>
+</nz-dropdown-menu>

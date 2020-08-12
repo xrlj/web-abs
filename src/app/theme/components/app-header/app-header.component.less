@@ -6,32 +6,88 @@
   width: 100%;
   height: 50px;
   flex: 0 0 50px;
-  //background: #fff;
-  //background: #409EFF;
-  //border-bottom: 0px solid #c8ced3;
   display: flex;
   flex-direction: row;
-  color: #ffffff;
+  color: #fff;
 
-  .brand {
+  >.brand-unfold {
     display: inline-block;
     display: flex;
     align-items: center;
-    width: 200px;
+    width: 230px;
     height: 100%;
-    font-size: 16px;
-    padding: 0 24px;
-    font-weight: bold;
+    padding: 0 20px;
     text-decoration: none;
-    color: #ffffff;
 
-    img {
+    &>img {
       margin-right: 10px;
       height: 30px;
     }
+
+    &>span {
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+    }
   }
 
-  .nav {
+  /*菜单抽屉折叠后样式*/
+  >.brand-fold {
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    width: 50px;
+    height: 100%;
+    padding: 0 10px;
+    text-decoration: none;
+
+    &>img {
+      margin-right: 10px;
+      height: 30px;
+    }
+
+    &>span {
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      visibility: hidden;
+    }
+  }
+
+  >.menu-collapsed {
+    position: relative;
+    width: 48px;
+    height: 100%;
+    text-align: center;
+    &:hover {
+      cursor:pointer; // 出现小手
+      //background: #14AA9B;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    &>i {
+      height: auto;
+      margin-top: 18px;
+    }
+  }
+
+  >.router-refresh {
+    position: relative;
+    width: 48px;
+    height: 100%;
+    text-align: center;
+    &:hover {
+      cursor:pointer; // 出现小手
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    &>i {
+      height: auto;
+      margin-top: 18px;
+    }
+  }
+
+  >.nav {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -39,7 +95,7 @@
     padding: 0;
     margin: 0;
 
-    .nav-item {
+    >.nav-item {
       position: relative;
       min-width: 50px;
       margin: 0;
@@ -55,12 +111,18 @@
       }
     }
 
-    .nav-icon {
+    >.nav-icon {
       padding: 0 10px;
+
+      // 鼠标悬停效果
+      &:hover {
+        color: #CCCCCC;
+        cursor:pointer; // 出现小手
+      }
 
       i {
         font-size: 16px;
-        padding: 0 10px;
+        padding: 0 8px;
       }
     }
   }
@@ -82,6 +144,33 @@
 
       span {
         margin-left: 10px;
+      }
+    }
+  }
+}
+
+.setting-drawer {
+  &-slider {
+    &>h4 {
+      font-weight: bold;
+    }
+
+    &>label {
+      margin-top: 10px;
+    }
+  }
+  &-theme {
+    &>h4 {
+      font-weight: bold;
+    }
+
+    &>nz-radio-group {
+      margin-top: 8px;
+
+      &>label{
+        display: block;
+        height: 32px;
+        line-height: 32px;
       }
     }
   }
