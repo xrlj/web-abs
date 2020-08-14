@@ -1,10 +1,10 @@
 <div class="app-header">
   <a [ngClass]="collapsed ? 'brand-fold' : 'brand-unfold'" routerLink="/pages">
-    <img height="30" src="assets/images/logo.svg" alt="" />
+    <img src="assets/images/logo.svg" alt="" />
     <span style="color: #fff">{{appName}}</span>
   </a>
 
-  <div class="menu-collapsed" (click)="toggle()">
+  <div [style.margin-left]="sliderMenuThemeChecked ? '0px' : '-1px'" class="menu-collapsed" (click)="toggle()">
     <i nz-icon [nzType]="collapsed ? 'menu-unfold' : 'menu-fold'" nzTheme="outline"></i>
   </div>
   <div class="router-refresh" (click)="routerRefresh()">
