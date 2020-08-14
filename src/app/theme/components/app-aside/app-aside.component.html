@@ -1,6 +1,6 @@
 <div class="app-aside" [style.background]="theme ? '#263238' : '#fff'">
   <div class="app-aside-list">
-    <ul nz-menu [nzInlineCollapsed]="collapsed" [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline">
+    <ul [style]="theme ? {} : {'border-right-width': '1px', height: '100%'}" nz-menu [nzInlineCollapsed]="collapsed" [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline">
       <ng-container *ngFor="let menu of menus">
         <ng-container *ngIf="menu.children && menu.children.length > 0; else withoutChild">
           <li nz-submenu [(nzOpen)]="openMap[menu.title]" (nzOpenChange)="openHandler(menu.title)">

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {APP_MENUS} from '../../../mock/app-menu';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-aside',
@@ -15,7 +16,7 @@ export class AppAsideComponent implements OnInit {
   menus = APP_MENUS;
   // menus: VMenuResp[];
 
-  theme  = true;  // 主题
+  theme  = environment.asideTheme === 'dark' ? true : false;  // 主题
 
   openMap: { [name: string]: boolean } = {};  // 类似hashMap
 

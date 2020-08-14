@@ -1,16 +1,16 @@
 // 目前仅支持三级目录
 export const APP_MENUS = [
-  {
+  /*{
     title: '首页',
     icon: 'home',
     link: '/pages'
-  },
+  },*/
   {
     title: '用户管理',
     icon: 'user',
     children: [
-      { title: '企业管理', link: '/pages/navigation/affix' },
-      { title: '会员管理', link: '/pages/navigation/breadcrumb' }
+      { title: '企业管理', link: '/pages/user-centre' },
+      { title: '会员管理', link: '/pages/user-centre' }
     ]
   },
   {

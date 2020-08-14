@@ -15,10 +15,9 @@ import {UEditorModule} from 'ngx-ueditor';
 import {IconsProviderModule} from './icons-provider.module';
 import {RouteReuseStrategy} from '@angular/router';
 import {SimpleReuseStrategy} from './helpers/simple-reuse-strategy';
-import {UIHelper} from './helpers/ui-helper';
-import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import {NzMessageModule} from 'ng-zorro-antd/message';
+import {NzModalModule} from 'ng-zorro-antd/modal';
+import {NzNotificationModule} from 'ng-zorro-antd/notification';
 
 registerLocaleData(zh);
 
