@@ -25,9 +25,9 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSpan]="7" nzFor="enterpriseTypeName" nzRequired>企业类型</nz-form-label>
+            <nz-form-label [nzSpan]="7" nzFor="userTypeName" nzRequired>企业类型</nz-form-label>
             <nz-form-control [nzSpan]="12">
-              <input formControlName="enterpriseTypeName" id="'etpType'" nz-input/>
+              <input formControlName="userTypeName" id="'userTypeName'" nz-input/>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
@@ -57,7 +57,7 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="7" nzRequired>用户名</nz-form-label>
             <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="用户名必填">
-              <input nz-input formControlName="userName" placeholder="登录系统用户名" />
+              <input nz-input formControlName="userName" placeholder="登录用户名" />
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
@@ -106,13 +106,13 @@
       </div>
     </div>
     <div class="steps-action">
-      <button nz-button nzType="default" nzSize="large" (click)="next()" *ngIf="current === 0">
+      <button nz-button nzType="default" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()" *ngIf="current === 0">
         <span>下一步</span>
       </button>
-      <button nz-button nzType="default" nzSize="large" (click)="registerNow()" *ngIf="current === 1">
+      <button nz-button nzType="default" [nzLoading]="registerBtnLoading" nzSize="default" (click)="registerNow()" *ngIf="current === 1">
         <span>立即注册</span>
       </button>
-      <button nz-button nzType="primary" nzSize="large" routerLink="/login" *ngIf="current === 2">
+      <button nz-button nzType="primary" nzSize="default" routerLink="/login" *ngIf="current === 2">
         去登陆
       </button>
     </div>

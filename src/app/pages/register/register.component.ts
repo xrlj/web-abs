@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {NzSafeAny} from 'ng-zorro-antd';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {switchMap, take} from 'rxjs/operators';
-import {interval, Observable} from 'rxjs';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {take} from 'rxjs/operators';
+import {interval} from 'rxjs';
 import {RegisterService} from './register.service';
 import {UIHelper} from '../../helpers/ui-helper';
+import {MyValidators} from '../../helpers/MyValidators';
 
 @Component({
   selector: 'app-register',
@@ -29,15 +29,19 @@ export class RegisterComponent implements OnInit {
 
   // 第一步手机验证表单
   stepOneForm!: FormGroup;
+  nexBtnLoading = false;
 
   // 第二步手机验证表单
   stepTwoForm!: FormGroup;
+  registerBtnLoading = false;
 
-  constructor(private uiHelper: UIHelper, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private registerService: RegisterService) {
-    const { required, maxLength, minLength, email, mobile } = MyValidators;
+  constructor(private uiHelper: UIHelper, private fb: FormBuilder,
+              private route: ActivatedRoute, private router: Router,
+              private registerService: RegisterService) {
+    const {required, maxLength, minLength, email, mobile} = MyValidators;
     this.stepOneForm = this.fb.group({
       etpName: [{value: '', disabled: true}, [required]], //  this.stepOneForm.controls.etpName.disable({onlySelf: true}); // 动态变不可用
-      enterpriseTypeName: [{value: '', disabled: true}, [required]],
+      userTypeName: [{value: '', disabled: true}, [required]],
       phoneNumber: ['', [required, mobile]],
       captcha: ['', [required]]
     });
@@ -56,15 +60,33 @@ export class RegisterComponent implements OnInit {
     this.registerService.getEtpInfoByInvitationCode(this.registerInvitationCode)
       .ok(data => {
         this.etpInfo = data;
-        this.stepOneForm.patchValue({etpName: data.etpName, enterpriseTypeName: data.enterpriseTypeName});
+        this.stepOneForm.patchValue({etpName: data.etpName, userTypeName: data.userTypeName});
       }).fail(error => {
-        this.uiHelper.msgTipError(error.msg);
-    }).final(() => {});
+      this.uiHelper.msgTipError(error.msg);
+    }).final(() => {
+    });
   }
 
   next(): void {
-    this.current += 1;
-    this.changeContent();
+    if (this.stepOneForm.valid) {
+      this.nexBtnLoading = true;
+      const values = this.stepOneForm.value;
+      this.registerService.verifyAuthCode(values.phoneNumber, values.captcha)
+        .ok(data => {
+          if (data) {
+            this.current += 1;
+          }
+        }).fail(error => {
+          this.uiHelper.msgTipError(error.msg);
+      }).final(() => {
+        this.nexBtnLoading = false;
+      });
+    } else {
+      for (const key in this.stepOneForm.controls) {
+        this.stepOneForm.controls[key].markAsDirty();
+        this.stepOneForm.controls[key].updateValueAndValidity();
+      }
+    }
   }
 
   registerNow(): void {
@@ -97,16 +119,22 @@ export class RegisterComponent implements OnInit {
    * 发送短信获取手机验证码。
    */
   getCaptcha(e: MouseEvent): void {
-    this.stepOneForm.controls['phoneNumber'].markAsDirty();           // 点击获取验证码要以输入了手机号为前提
-    this.stepOneForm.controls['phoneNumber'].updateValueAndValidity();
-    /*this.userProvider.doSendSMS ({ phone: this.stepOneForm.controls.phoneNumber.value }).subscribe(res =>{   // 如果手机号验证通过
-      if (res) {
-        this.notice.success('短信验证码已发送！');
-        this.sendMessage();   // 调用下面的按钮倒计时的方法
-
-      }
-    });*/
-    this.sendMessage();
+    if (this.stepOneForm.controls.phoneNumber.value && this.stepOneForm.controls.etpName.value) {
+      this.registerService.getAuthCode(this.stepOneForm.controls.phoneNumber.value)
+        .ok(data => {
+          if (data) {
+            this.sendMessage();   // 调用下面的按钮倒计时的方法
+          } else {
+            this.uiHelper.msgTipError('获取短信验证码失败');
+          }
+        }).fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      }).final(() => {
+      });
+    } else {
+      this.stepOneForm.controls['phoneNumber'].markAsDirty();           // 点击获取验证码要以输入了手机号为前提
+      this.stepOneForm.controls['phoneNumber'].updateValueAndValidity();
+    }
   }
 
   /**
@@ -117,10 +145,11 @@ export class RegisterComponent implements OnInit {
     const takeFourNumbers = numbers.pipe(take(this.countDownTime));
     takeFourNumbers.subscribe(
       x => {
-        this.countDownBtnText = '验证码已发送(' + (this.countDownTime-x) + 's)';
+        this.countDownBtnText = '验证码已发送(' + (this.countDownTime - x) + 's)';
         this.countDown = true;
       },
-      error => {},
+      error => {
+      },
       () => {
         this.countDownBtnText = '重新发送';
         this.countDown = false;
@@ -129,9 +158,9 @@ export class RegisterComponent implements OnInit {
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
-      return { error: true, required: true };
+      return {error: true, required: true};
     } else if (control.value !== this.stepTwoForm.controls.password.value) {
-      return { confirm: true, error: true };
+      return {confirm: true, error: true};
     }
     return {};
   };
@@ -140,47 +169,4 @@ export class RegisterComponent implements OnInit {
     setTimeout(() => this.stepTwoForm.controls.confirm.updateValueAndValidity());
   }
 
-}
-
-// current locale is key of the MyErrorsOptions
-export type MyErrorsOptions = { 'zh-cn': string; en: string } & Record<string, NzSafeAny>;
-export type MyValidationErrors = Record<string, MyErrorsOptions>;
-
-export class MyValidators extends Validators {
-
-  static minLength(minLength: number): ValidatorFn {
-    return (control: AbstractControl): MyValidationErrors | null => {
-      if (Validators.minLength(minLength)(control) === null) {
-        return null;
-      }
-      return { minlength: { 'zh-cn': `最小长度为 ${minLength}`, en: `MinLength is ${minLength}` } };
-    };
-  }
-
-  static maxLength(maxLength: number): ValidatorFn {
-    return (control: AbstractControl): MyValidationErrors | null => {
-      if (Validators.maxLength(maxLength)(control) === null) {
-        return null;
-      }
-      return { maxlength: { 'zh-cn': `最大长度为 ${maxLength}`, en: `MaxLength is ${maxLength}` } };
-    };
-  }
-
-  static mobile(control: AbstractControl): MyValidationErrors | null {
-    const value = control.value;
-
-    if (isEmptyInputValue(value)) {
-      return null;
-    }
-
-    return isMobile(value) ? null : { mobile: { 'zh-cn': `手机号码格式不正确`, en: `Mobile phone number is not valid` } };
-  }
-}
-
-function isEmptyInputValue(value: NzSafeAny): boolean {
-  return value == null || value.length === 0;
-}
-
-function isMobile(value: string): boolean {
-  return typeof value === 'string' && /(^1\d{10}$)/.test(value);
 }

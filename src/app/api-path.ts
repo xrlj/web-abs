@@ -2,6 +2,7 @@
 const serviceauth = 'serviceauth';
 const usercentral = 'usercentral';
 const sysfilesystem = 'sysfilesystem'; // 文件系统服务
+const sysnotify = 'sysnotify'; // 通知服务
 /****************服务名称 end********************/
 
 export const ApiPath = {
@@ -65,6 +66,12 @@ export const ApiPath = {
   sysfilesystem: {
     sysFiles: {
       uploadFile: `/${sysfilesystem}/sysFiles/uploadFile`
+    }
+  },
+  sysnotify: {
+    smsApi: {
+      register: `/${sysnotify}/sms/register`,
+      verifyAuthCode: `/${sysnotify}/sms/verifyAuthCode`
     }
   }
 };

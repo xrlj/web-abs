@@ -17,4 +17,21 @@ export class RegisterService {
   getEtpInfoByInvitationCode(code: string): any {
     return this.api.get(`${ApiPath.usercentral.enterprise.getEtpInfoByInvitationCode}`, new HttpParams().set('code', code));
   }
+
+  /**
+   * 获取短信验证码。
+   * @param mobileNum 手机号码。
+   */
+  getAuthCode(mobileNum: string): any {
+    return this.api.post(ApiPath.sysnotify.smsApi.register, {mobile: mobileNum});
+  }
+
+  /**
+   * 校验注册验证码。
+   * @param mobileNum 手机号码
+   * @param code 输入的验证码
+   */
+  verifyAuthCode(mobileNum: string, code: string): any {
+    return this.api.post(ApiPath.sysnotify.smsApi.verifyAuthCode, {mobile: mobileNum, authCode: code});
+  }
 }
