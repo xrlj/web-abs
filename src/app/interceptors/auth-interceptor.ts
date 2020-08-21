@@ -18,7 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
     const directUrl = url.includes(ApiPath.login) || url.includes(ApiPath.logout)
       || url.includes(ApiPath.usercentral.enterprise.getEtpInfoByInvitationCode)
     || url.includes(ApiPath.sysnotify.smsApi.register)
-    || url.includes(ApiPath.sysnotify.smsApi.verifyAuthCode);
+    || url.includes(ApiPath.sysnotify.smsApi.verifyAuthCode)
+    || url.includes(ApiPath.usercentral.userApi.registerByInvitationCode);
     if (directUrl) { // 不需要登录携带token请求
       return next.handle(req);
     } else { // 非登录请求，带上token

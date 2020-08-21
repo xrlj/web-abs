@@ -24,6 +24,8 @@ export class AppHeaderComponent implements OnInit {
               public uiHelper: UIHelper, private defaultBusService: DefaultBusService) {
   }
 
+  isFullScreen = false;
+
   collapsed = false;
 
   @Output() toggleCollapsed = new EventEmitter();
@@ -32,8 +34,8 @@ export class AppHeaderComponent implements OnInit {
 
   appName = Constants.appInfo.appName;
 
-  jwtKvEnum: typeof  JwtKvEnum = JwtKvEnum;
-  themeEnum: typeof  ThemeEnum = ThemeEnum;
+  jwtKvEnum: typeof JwtKvEnum = JwtKvEnum;
+  themeEnum: typeof ThemeEnum = ThemeEnum;
 
   // ====== 系统设置-抽屉
   settingVisible: boolean;
@@ -42,6 +44,11 @@ export class AppHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.themeRadioValue = this.uiHelper.getCurrentTheme();
+
+    window.addEventListener('resize', () => {
+      this.checkFull();
+    });
+
   }
 
   toggle() {
@@ -122,4 +129,52 @@ export class AppHeaderComponent implements OnInit {
   routerRefresh() {
     this.router.navigate([this.router.url]);
   }
+
+  fullScreen() {
+    if (!this.isFullScreen) {
+      const docElmWithBrowsersFullScreenFunctions = document.documentElement as HTMLElement & {
+        mozRequestFullScreen(): Promise<void>;
+        webkitRequestFullscreen(): Promise<void>;
+        msRequestFullscreen(): Promise<void>;
+      };
+
+      if (docElmWithBrowsersFullScreenFunctions.requestFullscreen) {
+        docElmWithBrowsersFullScreenFunctions.requestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen) { /* Firefox */
+        docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.msRequestFullscreen) { /* IE/Edge */
+        docElmWithBrowsersFullScreenFunctions.msRequestFullscreen();
+      }
+      this.isFullScreen = true;
+    } else {
+      const docWithBrowsersExitFunctions = document as Document & {
+        mozCancelFullScreen(): Promise<void>;
+        webkitExitFullscreen(): Promise<void>;
+        msExitFullscreen(): Promise<void>;
+      };
+      if (docWithBrowsersExitFunctions.exitFullscreen) {
+        docWithBrowsersExitFunctions.exitFullscreen();
+      } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) { /* Firefox */
+        docWithBrowsersExitFunctions.mozCancelFullScreen();
+      } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        docWithBrowsersExitFunctions.webkitExitFullscreen();
+      } else if (docWithBrowsersExitFunctions.msExitFullscreen) { /* IE/Edge */
+        docWithBrowsersExitFunctions.msExitFullscreen();
+      }
+      this.isFullScreen = false;
+    }
+  }
+
+  checkFull() {
+    const fullStatus = document['fullscreen'] || document['webkitIsFullScreen'] || document['mozFullScreen'] || false;
+    if (!fullStatus) {
+      this.isFullScreen = false;
+    } else {
+      this.isFullScreen = true;
+    }
+  }
+
+
 }

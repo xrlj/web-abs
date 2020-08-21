@@ -109,10 +109,15 @@
       <button nz-button nzType="default" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()" *ngIf="current === 0">
         <span>下一步</span>
       </button>
-      <button nz-button nzType="default" [nzLoading]="registerBtnLoading" nzSize="default" (click)="registerNow()" *ngIf="current === 1">
-        <span>立即注册</span>
-      </button>
-      <button nz-button nzType="primary" nzSize="default" routerLink="/login" *ngIf="current === 2">
+      <div>
+        <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="current = current -1" *ngIf="current === 1">
+          <span>上一步</span>
+        </button>
+        <button style="margin-left: 8px" nz-button nzType="primary" [nzLoading]="registerBtnLoading" nzSize="default" (click)="registerNow()" *ngIf="current === 1">
+          <span>立即注册</span>
+        </button>
+      </div>
+      <button nz-button nzType="primary" nzSize="default" (click)="goLogin()" *ngIf="current === 2">
         去登陆
       </button>
     </div>

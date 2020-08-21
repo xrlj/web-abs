@@ -34,4 +34,12 @@ export class RegisterService {
   verifyAuthCode(mobileNum: string, code: string): any {
     return this.api.post(ApiPath.sysnotify.smsApi.verifyAuthCode, {mobile: mobileNum, authCode: code});
   }
+
+  /**
+   * 注册企业用户。
+   * @param body 请求参数
+   */
+  registerByInvitationCode(body: any): any {
+    return this.api.post(ApiPath.usercentral.userApi.registerByInvitationCode, body);
+  }
 }

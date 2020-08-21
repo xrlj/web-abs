@@ -10,6 +10,7 @@ import {UIHelper} from '../ui-helper';
 import { Router } from '@angular/router';
 import {AppPath} from '../../app-path';
 import {HttpUtils} from './HttpUtils';
+import {ContentTypeEnum} from './content-type-enum';
 
 const httpOptionsCommon = {
   headers: new HttpHeaders({
@@ -135,6 +136,7 @@ export class Api {
   }
 
   get(path: string, params?: HttpParams | {}, version?: number): any {
+    debugger;
     if (!path) {
       throw new Error('url缺少path');
     }

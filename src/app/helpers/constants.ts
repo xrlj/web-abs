@@ -5,7 +5,7 @@ export const Constants = {
   },
   appInfo: {
     appName: '供应链融资平台',
-    clientId: '0d6d1b41086e960e',
+    clientId: '2e5a0de806a58450',
     clientDeviceType: 'web'
   },
   localStorageKey: {

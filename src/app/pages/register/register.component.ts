@@ -6,6 +6,8 @@ import {interval} from 'rxjs';
 import {RegisterService} from './register.service';
 import {UIHelper} from '../../helpers/ui-helper';
 import {MyValidators} from '../../helpers/MyValidators';
+import {AppPath} from '../../app-path';
+import {Constants} from '../../helpers/constants';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +42,7 @@ export class RegisterComponent implements OnInit {
               private registerService: RegisterService) {
     const {required, maxLength, minLength, email, mobile} = MyValidators;
     this.stepOneForm = this.fb.group({
-      etpName: [{value: '', disabled: true}, [required]], //  this.stepOneForm.controls.etpName.disable({onlySelf: true}); // 动态变不可用
+      etpName: [{value: null, disabled: true}, [required]], //  this.stepOneForm.controls.etpName.disable({onlySelf: true}); // 动态变不可用
       userTypeName: [{value: '', disabled: true}, [required]],
       phoneNumber: ['', [required, mobile]],
       captcha: ['', [required]]
@@ -62,13 +64,17 @@ export class RegisterComponent implements OnInit {
         this.etpInfo = data;
         this.stepOneForm.patchValue({etpName: data.etpName, userTypeName: data.userTypeName});
       }).fail(error => {
-      this.uiHelper.msgTipError(error.msg);
+        this.uiHelper.msgTipError(error.msg);
+        const errorCode = error.code;
+        if (errorCode === 1003) { // 邀请码已经注册使用
+          this.router.navigate([AppPath.login]);
+        }
     }).final(() => {
     });
   }
 
   next(): void {
-    if (this.stepOneForm.valid) {
+    if (this.stepOneForm.valid && this.etpInfo.etpName) {
       this.nexBtnLoading = true;
       const values = this.stepOneForm.value;
       this.registerService.verifyAuthCode(values.phoneNumber, values.captcha)
@@ -90,29 +96,41 @@ export class RegisterComponent implements OnInit {
   }
 
   registerNow(): void {
-    this.current += 1;
-    this.changeContent();
-    this.doneStatus = 'finish';
+    if (this.stepTwoForm.valid) {
+      this.registerBtnLoading = true;
+      const valueOne = this.stepOneForm.value;
+      const valueTwo = this.stepTwoForm.value;
+      const body = {
+        invitationCode: this.registerInvitationCode,
+        username: valueTwo.userName,
+        password: valueTwo.password,
+        mobile: valueOne.phoneNumber,
+        email: valueTwo.email,
+        clientid: Constants.appInfo.clientId,
+        clientDeviceType: 'BROWSER'
+      };
+      this.registerService.registerByInvitationCode(body)
+        .ok(data => {
+          console.log(data);
+          this.current += 1;
+          this.doneStatus = 'finish';
+        })
+        .fail(error => {
+          this.uiHelper.msgTipError(error.msg);
+        })
+        .final(() => {
+          this.registerBtnLoading = false;
+        });
+    } else {
+      for (const key in this.stepTwoForm.controls) {
+        this.stepTwoForm.controls[key].markAsDirty();
+        this.stepTwoForm.controls[key].updateValueAndValidity();
+      }
+    }
   }
 
   goLogin(): void {
-    console.log('done');
-  }
-
-  changeContent(): void {
-    switch (this.current) {
-      case 0: {
-        break;
-      }
-      case 1: {
-        break;
-      }
-      case 2: {
-        break;
-      }
-      default: {
-      }
-    }
+    this.router.navigate([AppPath.login]);
   }
 
   /**

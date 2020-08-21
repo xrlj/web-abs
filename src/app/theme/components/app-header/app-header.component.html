@@ -17,7 +17,7 @@
         <i nz-icon nzType="bell" nzTheme="outline"></i>
       </nz-badge>
     </li>
-    <li class="nav-icon">
+    <li class="nav-icon" (click)="fullScreen()">
       <i nz-icon nzType="message" nzTheme="outline"></i>
     </li>
     <li class="nav-icon" (click)="openSettingDrawer()">
@@ -29,7 +29,7 @@
     <div nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomRight'" class="user-name">
       <nz-avatar nzIcon="user"></nz-avatar>
 <!--      <span>{{utils.getJwtTokenClaim(jwtKvEnum.Username)}}，欢迎您！</span>-->
-      <span>admin，欢迎您！</span>
+      <span>xinxiamu，欢迎您！</span>
       <i nz-icon nzType="down" style="margin-left: 3px"></i>
     </div>
   </div>
