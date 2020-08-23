@@ -18,7 +18,7 @@
       </nz-badge>
     </li>
     <li class="nav-icon" (click)="fullScreen()">
-      <i nz-icon nzType="message" nzTheme="outline"></i>
+      <i nz-icon [nzType]="isFullScreen ? 'fullscreen-exit' : 'fullscreen'" nzTheme="outline"></i>
     </li>
     <li class="nav-icon" (click)="openSettingDrawer()">
       <i nz-icon nzType="setting" nzTheme="outline"></i>
