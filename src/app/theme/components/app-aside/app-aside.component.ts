@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {APP_MENUS} from '../../../mock/app-menu';
 import {environment} from '../../../../environments/environment';
+import {VMenuResp} from '../../../helpers/vo/resp/v-menu-resp';
+import {Constants} from '../../../helpers/constants';
 
 @Component({
   selector: 'app-aside',
@@ -13,15 +15,15 @@ export class AppAsideComponent implements OnInit {
 
   @Input() collapsed: boolean;
 
-  menus = APP_MENUS;
-  // menus: VMenuResp[];
+  // menus = APP_MENUS;
+  menus: VMenuResp[];
 
   theme  = environment.asideTheme === 'dark' ? true : false;  // 主题
 
   openMap: { [name: string]: boolean } = {};  // 类似hashMap
 
   ngOnInit() {
-    // this.menus = JSON.parse(localStorage.getItem(Constants.localStorageKey.menus));
+    this.menus = JSON.parse(localStorage.getItem(Constants.localStorageKey.menus));
     this.initOpenMap();
   }
 
@@ -29,8 +31,10 @@ export class AppAsideComponent implements OnInit {
    * 用key-value对象，记录每个菜单展开状态，收缩是false（默认），展开是true。
    */
   initOpenMap() {
-    for (const i of this.menus) {
-      this.openMap[i.title] = false;
+    if (this.menus && this.menus.length > 0) {
+      for (const i of this.menus) {
+        this.openMap[i.title] = false;
+      }
     }
   }
 

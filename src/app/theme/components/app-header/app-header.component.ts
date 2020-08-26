@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Api} from '../../../helpers/http/api';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ApiPath} from '../../../api-path';
+import {Router} from '@angular/router';
 import {UIHelper} from '../../../helpers/ui-helper';
 import {AppPath} from '../../../app-path';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
@@ -9,8 +8,8 @@ import {Utils} from '../../../helpers/utils';
 import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
 import {ThemeEnum} from '../../../helpers/enum/theme-enum';
 import {environment} from '../../../../environments/environment';
-import {VMenuResp} from '../../../helpers/vo/resp/v-menu-resp';
 import {Constants} from '../../../helpers/constants';
+import {ApiPath} from '../../../api-path';
 
 @Component({
   selector: 'app-header',
@@ -92,7 +91,7 @@ export class AppHeaderComponent implements OnInit {
     this.uiHelper.modalConfirm('确定退出登录？')
       .ok(() => {
         this.defaultBusService.showLoading(true);
-        /*this.api.get(ApiPath.logout).ok(data => {
+        this.api.get(ApiPath.logout).ok(data => {
           if (data) {
             this.uiHelper.logoutLocalStorageClean();
             this.router.navigate([AppPath.login]); // 退出成功
@@ -100,10 +99,10 @@ export class AppHeaderComponent implements OnInit {
             this.uiHelper.msgTipError('退出失败');
           }
         }).fail(error => {
-          this.uiHelper.msgTipError('退出失败');
+          this.uiHelper.msgTipError(error.msg);
         }).final(() => {
           this.defaultBusService.showLoading(false);
-        });*/
+        });
       });
   }
 

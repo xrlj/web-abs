@@ -41,20 +41,18 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-
-    this.router.navigate([AppPath.pages]);
-
-    /*const headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       Authorization: 'Basic '.concat(this.utils.base64encoder(this.validateForm.value.username + ':' + this.validateForm.value.password))
     });
-    this.api.post(ApiPath.login, null, null, null, null, headers).ok(data => {
-      localStorage.setItem(Constants.localStorageKey.token, data.access_token);
-      this.router.navigateByUrl(AppPath.init);
-    }).fail(error => {
+    this.api.post(ApiPath.login, null, null, null, null, headers)
+      .ok(data => {
+        localStorage.setItem(Constants.localStorageKey.token, data.access_token);
+        this.router.navigateByUrl(AppPath.init);
+      }).fail(error => {
       this.uiHelper.msgTipError(error.msg);
     }).final(() => {
       this.isLoadingOne = false;
-    });*/
+    });
   }
 
   clearUsername() {

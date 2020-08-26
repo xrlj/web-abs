@@ -28,10 +28,8 @@ export class InitComponent implements OnInit {
         SimpleReuseStrategy.deleteRouteSnapshotAll(); // 重新初始化路由复用，清空旧的复用路由
         localStorage.setItem(Constants.localStorageKey.menus, JSON.stringify(data));
         this.router.navigateByUrl(AppPath.pages);
-      })
-      .fail(error => {
+      }).fail(error => {
         this.status = true;
       });
   }
-
 }
