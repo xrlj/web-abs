@@ -7,6 +7,7 @@ import {LoginComponent} from './login/login.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {InitComponent} from './init/init.component';
 import {RegisterComponent} from './register/register.component';
+import {VerifyComponent} from './verify/verify.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'init', component: InitComponent },
+      { path: 'verify', component: VerifyComponent },
       { path: 'register/:code', component: RegisterComponent }
     ]
   },

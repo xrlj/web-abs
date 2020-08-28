@@ -11,6 +11,7 @@ export const ApiPath = {
   usercentral: {
     userApi: {
       getUserMenus: `/${usercentral}/user/getUserMenus`,
+      getAuthenticateStatus: `/${usercentral}/user/getAuthenticateStatus`,
       registerByInvitationCode: `/${usercentral}/user/registerByInvitationCode`
     },
     enterprise: {

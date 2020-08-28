@@ -13,7 +13,8 @@ import {SimpleReuseStrategy} from '../../helpers/simple-reuse-strategy';
 })
 export class InitComponent implements OnInit {
 
-  constructor(private router: Router, private api: Api) { }
+  constructor(private router: Router, private api: Api) {
+  }
 
   status = false;
 
@@ -23,13 +24,27 @@ export class InitComponent implements OnInit {
 
   init(): void {
     this.status = false;
-    this.api.get(ApiPath.usercentral.userApi.getUserMenus)
+    // 获取菜单信息
+    /*this.api.get(ApiPath.usercentral.userApi.getUserMenus)
       .ok(data => {
         SimpleReuseStrategy.deleteRouteSnapshotAll(); // 重新初始化路由复用，清空旧的复用路由
         localStorage.setItem(Constants.localStorageKey.menus, JSON.stringify(data));
-        this.router.navigateByUrl(AppPath.pages);
+        // this.router.navigate([AppPath.pages], {queryParams: {userStatus: 'abc'}});
+        this.router.navigate([AppPath.pages], {replaceUrl: true});
       }).fail(error => {
-        this.status = true;
+      this.status = true;
+    });*/
+
+    // 获取用户企业实名认证、个人实名认证状态信息
+    this.api.get(ApiPath.usercentral.userApi.getAuthenticateStatus)
+      .ok(data => {
+        const uStatus = data.userStatus;
+        const eStatus = data.etpStatus;
+        this.router.navigate([AppPath.verify], {queryParams: {userStatus: uStatus, etpStatus: eStatus}});
+      }).fail(error => {
+      this.status = true;
+    }).final(b => {
+      this.status = true;
       });
   }
 }
