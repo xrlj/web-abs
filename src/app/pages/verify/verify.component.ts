@@ -8,10 +8,18 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class VerifyComponent implements OnInit {
 
+  etpStatus = 0;
+  userStatus = 0;
+
+  showStatus = 1;
+
   constructor(private router: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.router.paramMap.subscribe()
   }
 
+  goToVerify(status: number) {
+    this.showStatus = status;
+  }
 }

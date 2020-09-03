@@ -1,0 +1,134 @@
+<div class="verify-etp-layout">
+  <div class="verify-etp-layout-header">
+    <img src="assets/images/logo02.png">
+    <nz-divider nzType="vertical"></nz-divider>
+    <span>企业实名认证</span>
+    <a nz-button nzType="link" href="">返回</a>
+  </div>
+  <div class="verify-etp-layout-content">
+    <nz-steps [nzCurrent]="current">
+      <nz-step nzTitle="填写企业基础信息"></nz-step>
+      <nz-step nzTitle="上传相关证件扫描件"></nz-step>
+      <nz-step nzTitle="填写企业银行账号信息"></nz-step>
+      <nz-step nzTitle="提交成功" [nzStatus]="doneStatus"></nz-step>
+    </nz-steps>
+
+    <div class="verify-etp-layout-content-steps">
+      <!--第一步内容-->
+      <div class="steps-one" *ngIf="current === 0">
+        <form nz-form [formGroup]="stepOneForm">
+          <!--企业信息-->
+          <div class="info-line-title">
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>企业信息</span>
+          </div>
+          <div class="steps-one-form">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="etpName" nzRequired>公司名称</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="etpName" id="etpName" placeholder="请输入公司完整名称" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="unifyCode" nzRequired>统一社会信用代码</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="unifyCode" id="unifyCode" placeholder="请输入企业信用代码" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="legalPerson" nzRequired>法定代表人</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="legalPerson" id="legalPerson" placeholder="请输入法人真实姓名" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="legalPersonIdNo" nzRequired>法定代表人身份证号码</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="legalPersonIdNo" id="legalPersonIdNo" placeholder="请输入法人身份证号码" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!--企业联系方式-->
+          <div class="info-line-title">
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>联系方式</span>
+          </div>
+          <div class="steps-one-form">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="contactName" nzRequired>联系人</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="contactName" id="contactName" placeholder="请输入联系人姓名" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="contactMobile" nzRequired>联系人手机号码</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="contactMobile" id="contactMobile" placeholder="请输入联系人手机号码" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="email" nzRequired>公司电子邮箱</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="email" id="email" placeholder="请输入企业电子邮箱" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="fax">传真</nz-form-label>
+              <nz-form-control [nzSpan]="0">
+                <input formControlName="fax" id="fax" placeholder="请输入企业传真" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="telephone" nzRequired>公司座机号码</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="telephone" id="telephone" placeholder="请输入公司座机号码" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="address" nzRequired>通讯地址</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="address" id="address" placeholder="请输入公司目前所在地址" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="registeredAddress" nzRequired>注册地址</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <input formControlName="registeredAddress" id="registeredAddress" placeholder="请输入公司注册地址" nz-input/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </form>
+      </div>
+      <!--第二步内容-->
+      <div class="steps-two" *ngIf="current === 1">
+
+      </div>
+      <!--第三步内容-->
+      <div class="steps-third" *ngIf="current === 2">
+
+      </div>
+
+      <!--第四步内容-->
+      <div class="steps-four" *ngIf="current === 3">
+
+      </div>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()"
+              *ngIf="current === 0">
+        <span>下一步</span>
+      </button>
+      <div>
+        <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()"
+                *ngIf="current === 1 || current ===2">
+          <span>上一步</span>
+        </button>
+        <button style="margin-left: 8px" nz-button nzType="primary" (click)="current = current + 1"
+                [nzLoading]="registerBtnLoading" nzSize="default" *ngIf="current === 1 || current === 2">
+          <span>下一步</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

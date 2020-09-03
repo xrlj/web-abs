@@ -12,9 +12,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import {RegisterComponent} from './register/register.component';
 import {NzBackTopModule, NzButtonModule, NzCardModule, NzDividerModule, NzFormModule, NzInputModule, NzResultModule, NzSpinModule, NzStepsModule, NzTableModule} from 'ng-zorro-antd';
 import { VerifyComponent } from './verify/verify.component';
+import { VerifyEtpComponent } from './verify/verify-etp/verify-etp.component';
+import { VerifyPersonalComponent } from './verify/verify-personal/verify-personal.component';
 
 @NgModule({
-  declarations: [DashboardComponent, LoginComponent, InitComponent, NotFoundComponent, RegisterComponent, VerifyComponent],
+  declarations: [DashboardComponent, LoginComponent, InitComponent, NotFoundComponent, RegisterComponent, VerifyComponent, VerifyEtpComponent, VerifyPersonalComponent],
   imports: [
     CommonModule,
     FormsModule,
