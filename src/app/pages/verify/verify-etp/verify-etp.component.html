@@ -69,8 +69,16 @@
             </nz-form-item>
             <nz-form-item>
               <nz-form-label [nzSpan]="10" nzFor="email" nzRequired>公司电子邮箱</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-control [nzSpan]="0" [nzErrorTip]="emailErrorTpl">
                 <input formControlName="email" id="email" placeholder="请输入企业电子邮箱" nz-input/>
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('email')">
+                    无效的电子邮箱
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    必填项
+                  </ng-container>
+                </ng-template>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -102,7 +110,57 @@
       </div>
       <!--第二步内容-->
       <div class="steps-two" *ngIf="current === 1">
+        <!--上传营业执照-->
+        <div class="info-line-title">
+          <nz-divider nzType="vertical"></nz-divider>
+          <span>营业执照 <a style="text-decoration: underline" href="assets/images/business-license-sample.png" target="_blank">示例</a></span>
+          <p>请上传JPG、PNG格式，文件不大于10M</p>
+        </div>
+        <div class="business-license">
+          <nz-upload
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            nzListType="picture-card"
+            [(nzFileList)]="fileList"
+            [nzShowButton]="fileList.length < 1"
+            [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+            [nzSize]="fileSize"
+            [nzPreview]="handlePreview"
+          >
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            <div class="ant-upload-text">上传</div>
+          </nz-upload>
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+            <ng-template #modalContent>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+            </ng-template>
+          </nz-modal>
+        </div>
 
+        <!--身份证-->
+        <div class="info-line-title">
+          <nz-divider nzType="vertical"></nz-divider>
+          <span>法定代表人证件照(身份证正反面照) <a style="text-decoration: underline" href="assets/images/idcard-sample.png" target="_blank">示例</a></span>
+          <p>请上传JPG、PNG格式，文件不大于10M，身份证正反面需在同一页上</p>
+        </div>
+        <div class="idcard">
+          <nz-upload
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            nzListType="picture-card"
+            [(nzFileList)]="fileList"
+            [nzShowButton]="fileList.length < 1"
+            [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+            [nzSize]="fileSize"
+            [nzPreview]="handlePreview"
+          >
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            <div class="ant-upload-text">上传</div>
+          </nz-upload>
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+            <ng-template #modalContent>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+            </ng-template>
+          </nz-modal>
+        </div>
       </div>
       <!--第三步内容-->
       <div class="steps-third" *ngIf="current === 2">
@@ -115,7 +173,7 @@
       </div>
     </div>
     <div class="steps-action">
-      <button nz-button nzType="default" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()"
+      <button nz-button nzType="primary" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()"
               *ngIf="current === 0">
         <span>下一步</span>
       </button>

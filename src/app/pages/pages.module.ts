@@ -10,7 +10,7 @@ import {LoginComponent} from './login/login.component';
 import { InitComponent } from './init/init.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {RegisterComponent} from './register/register.component';
-import {NzBackTopModule, NzButtonModule, NzCardModule, NzDividerModule, NzFormModule, NzInputModule, NzResultModule, NzSpinModule, NzStepsModule, NzTableModule} from 'ng-zorro-antd';
+import {NzBackTopModule, NzButtonModule, NzCardModule, NzDividerModule, NzFormModule, NzIconModule, NzInputModule, NzModalModule, NzResultModule, NzSpinModule, NzStepsModule, NzTableModule, NzUploadModule} from 'ng-zorro-antd';
 import { VerifyComponent } from './verify/verify.component';
 import { VerifyEtpComponent } from './verify/verify-etp/verify-etp.component';
 import { VerifyPersonalComponent } from './verify/verify-personal/verify-personal.component';
@@ -25,6 +25,7 @@ import { VerifyPersonalComponent } from './verify/verify-personal/verify-persona
     ThemeModule,
     NgxEchartsModule,
     NzButtonModule,
+    NzUploadModule,
     NzStepsModule,
     NzFormModule,
     NzResultModule,
@@ -33,7 +34,9 @@ import { VerifyPersonalComponent } from './verify/verify-personal/verify-persona
     NzSpinModule,
     NzInputModule,
     NzTableModule,
-    NzDividerModule
+    NzDividerModule,
+    NzModalModule,
+    NzIconModule
   ]
 })
 export class PagesModule {}

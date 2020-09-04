@@ -2,6 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Utils} from '../../../helpers/utils';
 import {MyValidators} from '../../../helpers/MyValidators';
+import {NzUploadFile} from 'ng-zorro-antd';
+
+function getBase64(file: File): Promise<string | ArrayBuffer | null> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
 @Component({
   selector: 'app-verify-etp',
@@ -10,8 +20,10 @@ import {MyValidators} from '../../../helpers/MyValidators';
 })
 export class VerifyEtpComponent implements OnInit {
 
+  fileSize = 10240; // 限制文件大小
+
   // step
-  current = 0;
+  current = 1;
   doneStatus = 'wait';
 
   // 第一步填写企业信息
@@ -22,20 +34,32 @@ export class VerifyEtpComponent implements OnInit {
   stepTwoForm!: FormGroup;
   registerBtnLoading = false;
 
+  previewImage: string | undefined = '';
+  previewVisible = false;
+  // 文件列表
+  fileList: NzUploadFile[] = [
+    {
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    }
+  ];
+
   constructor(private utils: Utils, private fb: FormBuilder,) {
-    const {required, maxLength, minLength, email, mobile} = MyValidators;
+    const {required, chinese, notChinese, positiveInteger, maxLength, minLength, email, mobile} = MyValidators;
     this.stepOneForm = this.fb.group({
-      etpName: [null, [required]],
-      unifyCode: [null, [required]],
-      legalPerson: [null, [required]],
-      legalPersonIdNo: [null, [required]],
-      contactName: [null, [required]],
-      contactMobile: [null, [required, mobile]],
+      etpName: [null, [required, maxLength(120)]],
+      unifyCode: [null, [required, maxLength(20), notChinese]],
+      legalPerson: [null, [required, chinese]],
+      legalPersonIdNo: [null, [required, maxLength(18), notChinese]],
+      contactName: [null, [required, chinese]],
+      contactMobile: [null, [required, mobile, maxLength(11), minLength(11)]],
       email: [null, [required, email]],
-      fax: [null, null],
-      telephone: [null, [required]],
-      address: [null, [required]],
-      registeredAddress: [null, [required]]
+      fax: [null, [notChinese]],
+      telephone: [null, [required, positiveInteger, maxLength(11)]],
+      address: [null, [required, maxLength(200)]],
+      registeredAddress: [null, [required, maxLength(200)]]
     });
   }
 
@@ -49,4 +73,15 @@ export class VerifyEtpComponent implements OnInit {
   previous() {
     this.current -= 1;
   }
+
+  /**
+   * 图片预览
+   */
+  handlePreview = async (file: NzUploadFile) => {
+    if (file && !file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    this.previewImage = file.url || file.preview;
+    this.previewVisible = true;
+  };
 }
