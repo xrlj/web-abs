@@ -23,15 +23,15 @@ export class VerifyEtpComponent implements OnInit {
   fileSize = 10240; // 限制文件大小
 
   // step
-  current = 1;
+  current = 2;
   doneStatus = 'wait';
 
   // 第一步填写企业信息
   stepOneForm!: FormGroup;
   nexBtnLoading = false;
 
-  // 第二步手机验证表单
-  stepTwoForm!: FormGroup;
+  // 第三步
+  stepThirdForm!: FormGroup;
   registerBtnLoading = false;
 
   previewImage: string | undefined = '';
@@ -61,6 +61,11 @@ export class VerifyEtpComponent implements OnInit {
       address: [null, [required, maxLength(200)]],
       registeredAddress: [null, [required, maxLength(200)]]
     });
+
+    this.stepThirdForm = this.fb.group({
+      etpBankName: [null, [required, maxLength(80)]],
+      bankProvince: [null, [required, maxLength(80)]]
+    });
   }
 
   ngOnInit(): void {
@@ -84,4 +89,12 @@ export class VerifyEtpComponent implements OnInit {
     this.previewImage = file.url || file.preview;
     this.previewVisible = true;
   };
+
+  etpBankNameSelectChange($event: any) {
+
+  }
+
+  bankProvinceSelectChange($event: any) {
+
+  }
 }

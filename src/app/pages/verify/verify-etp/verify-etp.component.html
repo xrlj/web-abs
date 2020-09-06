@@ -22,7 +22,7 @@
             <nz-divider nzType="vertical"></nz-divider>
             <span>企业信息</span>
           </div>
-          <div class="steps-one-form">
+          <div class="steps-form">
             <nz-form-item>
               <nz-form-label [nzSpan]="10" nzFor="etpName" nzRequired>公司名称</nz-form-label>
               <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
@@ -54,7 +54,7 @@
             <nz-divider nzType="vertical"></nz-divider>
             <span>联系方式</span>
           </div>
-          <div class="steps-one-form">
+          <div class="steps-form">
             <nz-form-item>
               <nz-form-label [nzSpan]="10" nzFor="contactName" nzRequired>联系人</nz-form-label>
               <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
@@ -164,7 +164,72 @@
       </div>
       <!--第三步内容-->
       <div class="steps-third" *ngIf="current === 2">
+        <!--企业银行账户信息-->
+        <div class="info-line-title">
+          <nz-divider nzType="vertical"></nz-divider>
+          <span>企业银行账户信息</span>
+          <p>此银行账户用于接收企业实名认证的小额鉴权验证款。</p>
+        </div>
+        <form nz-form [formGroup]="stepThirdForm">
+          <div class="steps-form">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="etpBankName" nzRequired>开户银行</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <nz-select
+                  id="etpBankName"
+                  formControlName="etpBankName"
+                  nzPlaceHolder="请选择"
+                  (ngModelChange)="etpBankNameSelectChange($event)"
+                >
+                  <nz-option nzValue="male" nzLabel="male"></nz-option>
+                  <nz-option nzValue="female" nzLabel="female"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
 
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="bankProvince" nzRequired>开户银行所属省份</nz-form-label>
+              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+                <nz-select
+                  id="bankProvince"
+                  formControlName="bankProvince"
+                  nzPlaceHolder="请选择"
+                  (ngModelChange)="bankProvinceSelectChange($event)"
+                >
+                  <nz-option nzValue="gd" nzLabel="广东省"></nz-option>
+                  <nz-option nzValue="female" nzLabel="female"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+          </div>
+        </form>
+
+        <!--开户许可证-->
+        <div class="info-line-title">
+          <nz-divider nzType="vertical"></nz-divider>
+          <span>开户许可证 <a style="text-decoration: underline" href="assets/images/bank-license-sample.png" target="_blank">示例</a></span>
+          <p>开户许可证或基本存款账户信息。</p>
+        </div>
+        <div class="bank-license">
+          <nz-upload
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            nzListType="picture-card"
+            [(nzFileList)]="fileList"
+            [nzShowButton]="fileList.length < 1"
+            [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+            [nzSize]="fileSize"
+            [nzPreview]="handlePreview"
+          >
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            <div class="ant-upload-text">上传</div>
+          </nz-upload>
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+            <ng-template #modalContent>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+            </ng-template>
+          </nz-modal>
+        </div>
       </div>
 
       <!--第四步内容-->
