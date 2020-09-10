@@ -1,52 +1,118 @@
+@header-height: 70px;
+@content-margin-header: @header-height + 40px;
+
 .verify-etp-layout {
-  background: #f3f3f3;
+  background-image: url("src/assets/images/invite-pc-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100%;
   overflow: auto;
 
   &-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
     background: #FFFFFF;
-    height: 100px;
+    height: @header-height;
     width: 100%;
     text-align: left;
-    padding-top: 20px;
     border-bottom: 1px solid #e6e6e6;
 
-    &>img {
-      width: 60px;
-      height: 60px;
+    &-left {
+      float: left;
       margin-left: 20px;
+      text-align: center;
+      height: 40px;
+      margin-top: 13px;
+
+      &>img {
+        float: left;
+        width: 40px;
+        height: 100%;
+      }
+
+      &>nz-divider {
+        float: left;
+        height: 30px;
+        margin-left: 20px;
+        margin-top: 5px;
+      }
+
+      &>span {
+        float: left;
+        font-size: 22px;
+        margin-left: 20px;
+        margin-top: 2px;
+      }
     }
 
-    &>nz-divider {
-      height: 30px;
-      margin-left: 20px;
-      width: 1px;
-      background: gray;
-    }
-
-    &>span {
-      font-size: 22px;
-      margin-left: 20px;
-    }
-
-    &>a {
+    &>i {
       float: right;
-      font-size: 16px;
-      margin-top: 10px;
-      margin-right: 20px;
+      font-size: 18px;
+      margin-top: 25px;
+      margin-right: 40px;
+    }
+  }
+
+  &-ready {
+    margin: @content-margin-header 18%;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+    background: #fff;
+    padding: 40px 30px 24px;
+
+    &>h3 {
+      font-weight: bold;
+    }
+
+    &>p {
+      margin-top: 20px;
+    }
+
+    >.ready-content {
+      &>p>span {
+        color: #DC6D6B;
+        margin-right: 5px;
+      }
+    }
+
+    >.ready-agreement {
+      &>span {
+        //color: #DC6D6B;
+        margin-left: 20px;
+        font-size: 10px;
+        :hover {
+
+        }
+      }
+    }
+
+    &>button {
+      margin-top: 20px;
+      margin-left: 40px;
     }
   }
 
   &-content {
-    margin: 40px 18%;
-    background: #FFFFFF;
+    margin: @content-margin-header 18%;
+    background: #fff;
     padding: 50px 30px 24px;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
 
     &-steps {
       margin-top: 40px;
       min-height: 250px;
 
       >.steps-one {
+
+        &>form {
+          >.steps-form {
+            padding-top: 30px;
+            margin-left: 10%;
+            margin-right: 30%;
+          }
+        }
+
       }
 
       >.steps-two {
@@ -86,6 +152,12 @@
           margin-top: 30px;
           margin-bottom: 20px;
         }
+
+        &>form {
+          padding-top: 30px;
+          margin-left: 10%;
+          margin-right: 30%;
+        }
       }
     }
 
@@ -94,15 +166,60 @@
       margin-top: 40px;
     }
   }
+
+  &-error {
+    margin: @content-margin-header 18%;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+    background: #fff;
+  }
+
+  &-processing {
+    margin: @content-margin-header 18%;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+    background: #fff;
+  }
+
+  &-pay {
+    margin: @content-margin-header 20%;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+    background: #fff;
+    min-height: 200px;
+    padding: 50px 30px 30px;
+
+    >.info-line-title {
+      &>p {
+        color: #bfbfbf;
+        font-size: 14px;
+        margin-top: 10px;
+        margin-bottom: -5px;
+      }
+    }
+
+    &>div>p {
+      margin-top: 20px;
+    }
+
+    &>div>div {
+      margin-top: 30px;
+      //margin-left: 20px;
+
+      &>nz-input-number {
+        width: 200px;
+      }
+
+      &>a {
+        margin-left: 40px;
+      }
+    }
+
+    &>div>button {
+      margin-top: 40px;
+      margin-left: 120px;
+    }
+  }
 }
 
-.steps-form {
-  padding-top: 30px;
-  margin-left: 10%;
-  margin-right: 30%;
-}
-
-i[nz-icon] {
+.ant-upload-icon {
   font-size: 32px;
   color: #999;
 }

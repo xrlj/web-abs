@@ -10,7 +10,23 @@ import {LoginComponent} from './login/login.component';
 import { InitComponent } from './init/init.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {RegisterComponent} from './register/register.component';
-import {NzBackTopModule, NzButtonModule, NzCardModule, NzDividerModule, NzFormModule, NzIconModule, NzInputModule, NzModalModule, NzResultModule, NzSelectModule, NzSpinModule, NzStepsModule, NzTableModule, NzUploadModule} from 'ng-zorro-antd';
+import {
+  NzAutocompleteModule,
+  NzBackTopModule,
+  NzButtonModule,
+  NzCardModule, NzCheckboxModule,
+  NzDividerModule,
+  NzFormModule,
+  NzIconModule,
+  NzInputModule, NzInputNumberModule,
+  NzModalModule,
+  NzResultModule,
+  NzSelectModule,
+  NzSpinModule,
+  NzStepsModule,
+  NzTableModule,
+  NzUploadModule
+} from 'ng-zorro-antd';
 import { VerifyComponent } from './verify/verify.component';
 import { VerifyEtpComponent } from './verify/verify-etp/verify-etp.component';
 import { VerifyPersonalComponent } from './verify/verify-personal/verify-personal.component';
@@ -37,7 +53,10 @@ import { VerifyPersonalComponent } from './verify/verify-personal/verify-persona
         NzDividerModule,
         NzModalModule,
         NzIconModule,
-        NzSelectModule
+        NzSelectModule,
+        NzAutocompleteModule,
+        NzInputNumberModule,
+        NzCheckboxModule
     ]
 })
 export class PagesModule {}

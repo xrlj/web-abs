@@ -298,7 +298,7 @@ export class UIHelper {
     }
   }
 
-  /*========================= 系统主题 =========================*/
+  /*========================= 系统主题 start =========================*/
 
   /**
    * TreeSelect，选择树，选定后根据key，获取节点对象中包含的id。通用
@@ -423,6 +423,8 @@ export class UIHelper {
     const currentTheme = this.getCurrentTheme();
     return currentTheme === themeEnum;
   }
+
+  /*========================= 系统主题 end =========================*/
 
   /*=========== 登出，需要清理本地缓存 =============*/
   logoutLocalStorageClean(): void  {

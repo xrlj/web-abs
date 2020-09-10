@@ -11,8 +11,6 @@ export class VerifyComponent implements OnInit {
   etpStatus = 0;
   userStatus = 0;
 
-  showStatus = 1;
-
   constructor(private router: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -20,6 +18,5 @@ export class VerifyComponent implements OnInit {
   }
 
   goToVerify(status: number) {
-    this.showStatus = status;
   }
 }

@@ -1,18 +1,39 @@
 <div class="verify-etp-layout">
   <div class="verify-etp-layout-header">
-    <img src="assets/images/logo02.png">
-    <nz-divider nzType="vertical"></nz-divider>
-    <span>企业实名认证</span>
-    <a nz-button nzType="link" href="">返回</a>
+    <div class="verify-etp-layout-header-left">
+      <img src="assets/images/logo02.png">
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>企业实名认证</span>
+    </div>
+    <i nz-icon nzType="question-circle" nzTheme="outline"></i>
   </div>
-  <div class="verify-etp-layout-content">
-    <nz-steps [nzCurrent]="current">
+  <div *ngIf="etpStatus === 0 && current === -1" class="verify-etp-layout-ready">
+    <h3>企业实名认证前，请准备以下资料</h3>
+    <p>要求：原件扫描件，或复印件加盖公章的扫描件</p>
+    <nz-divider></nz-divider>
+    <div class="ready-content">
+      <p>1. <span>营业执照</span>（正/副本均可）</p>
+      <p>2. <span>法定代表人身份证</span>（正反面同一页）</p>
+      <p>3. <span>开户许可证</span>（或基本存款账户信息）</p>
+    </div>
+    <nz-divider></nz-divider>
+    <div class="ready-agreement">
+      <label nz-checkbox [(ngModel)]="protocolCheck" (ngModelChange)="protocolChange($event)">
+        <span>已阅读并同意</span>
+      </label>
+      <a style="text-decoration: underline" target="_blank" href="assets/file/protocol-digital-certificate.html">数字证书服务协议</a>
+      <span appTextColorTheme *ngIf="protocolCheckErrorTip">请先仔细阅读服务协议，并同意！</span>
+    </div>
+    <button (click)="next()" nz-button nzType="primary" nzSize="default">开始认证</button>
+  </div>
+  <!--提交认证信息-->
+  <div *ngIf="etpStatus === 0 && current !== -1" class="verify-etp-layout-content">
+    <nz-steps nzLabelPlacement="vertical" [nzCurrent]="current">
       <nz-step nzTitle="填写企业基础信息"></nz-step>
       <nz-step nzTitle="上传相关证件扫描件"></nz-step>
       <nz-step nzTitle="填写企业银行账号信息"></nz-step>
       <nz-step nzTitle="提交成功" [nzStatus]="doneStatus"></nz-step>
     </nz-steps>
-
     <div class="verify-etp-layout-content-steps">
       <!--第一步内容-->
       <div class="steps-one" *ngIf="current === 0">
@@ -126,7 +147,7 @@
             [nzSize]="fileSize"
             [nzPreview]="handlePreview"
           >
-            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
           <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
@@ -152,7 +173,7 @@
             [nzSize]="fileSize"
             [nzPreview]="handlePreview"
           >
-            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
           <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
@@ -171,38 +192,68 @@
           <p>此银行账户用于接收企业实名认证的小额鉴权验证款。</p>
         </div>
         <form nz-form [formGroup]="stepThirdForm">
-          <div class="steps-form">
-            <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="etpBankName" nzRequired>开户银行</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
-                <nz-select
-                  id="etpBankName"
-                  formControlName="etpBankName"
-                  nzPlaceHolder="请选择"
-                  (ngModelChange)="etpBankNameSelectChange($event)"
-                >
-                  <nz-option nzValue="male" nzLabel="male"></nz-option>
-                  <nz-option nzValue="female" nzLabel="female"></nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="etpBankName" nzRequired>开户银行</nz-form-label>
+            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-select
+                id="etpBankName"
+                formControlName="etpBankName"
+                nzPlaceHolder="请选择"
+                (ngModelChange)="etpBankNameSelectChange($event)"
+              >
+                <nz-option nzValue="male" nzLabel="male"></nz-option>
+                <nz-option nzValue="female" nzLabel="female"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
 
-            <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="bankProvince" nzRequired>开户银行所属省份</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
-                <nz-select
-                  id="bankProvince"
-                  formControlName="bankProvince"
-                  nzPlaceHolder="请选择"
-                  (ngModelChange)="bankProvinceSelectChange($event)"
-                >
-                  <nz-option nzValue="gd" nzLabel="广东省"></nz-option>
-                  <nz-option nzValue="female" nzLabel="female"></nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-
-          </div>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="bankProvince" nzRequired>开户银行所属省份</nz-form-label>
+            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-select
+                id="bankProvince"
+                formControlName="bankProvince"
+                nzPlaceHolder="请选择"
+                (ngModelChange)="bankProvinceSelectChange($event)"
+              >
+                <nz-option nzValue="gd" nzLabel="广东省"></nz-option>
+                <nz-option nzValue="female" nzLabel="female"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="bankCity" nzRequired>开户银行所属城市</nz-form-label>
+            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-select
+                id="bankCity"
+                formControlName="bankCity"
+                nzPlaceHolder="请选择"
+                (ngModelChange)="bankCitySelectChange($event)"
+              >
+                <nz-option nzValue="gd" nzLabel="广州市"></nz-option>
+                <nz-option nzValue="female" nzLabel="female"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="bankFullName" nzRequired>开户行全称</nz-form-label>
+            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <input formControlName="bankFullName" id="bankFullName" placeholder="输入搜索选择" nz-input (input)="onInputBankFullName($event)" [nzAutocomplete]="auto"/>
+              <nz-autocomplete [nzDataSource]="bankFullNameSearchList" nzBackfill #auto></nz-autocomplete>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="bankAccountName" nzRequired>户名</nz-form-label>
+            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <input formControlName="bankAccountName" id="bankAccountName" placeholder="请输入银行卡账户名" nz-input/>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="bankAccountNum" nzRequired>账号</nz-form-label>
+            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <input formControlName="bankAccountNum" id="bankAccountNum" placeholder="请输入银行卡卡号" nz-input/>
+            </nz-form-control>
+          </nz-form-item>
         </form>
 
         <!--开户许可证-->
@@ -221,7 +272,7 @@
             [nzSize]="fileSize"
             [nzPreview]="handlePreview"
           >
-            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
           <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
@@ -231,27 +282,92 @@
           </nz-modal>
         </div>
       </div>
-
       <!--第四步内容-->
       <div class="steps-four" *ngIf="current === 3">
-
       </div>
     </div>
     <div class="steps-action">
-      <button nz-button nzType="primary" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()"
+      <!--<button nz-button nzType="primary" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()"
               *ngIf="current === 0">
         <span>下一步</span>
-      </button>
+      </button>-->
       <div>
-        <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()"
-                *ngIf="current === 1 || current ===2">
+        <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()">
           <span>上一步</span>
         </button>
-        <button style="margin-left: 8px" nz-button nzType="primary" (click)="current = current + 1"
-                [nzLoading]="registerBtnLoading" nzSize="default" *ngIf="current === 1 || current === 2">
+        <button style="margin-left: 8px" nz-button nzType="primary" (click)="next()"
+                [nzLoading]="registerBtnLoading" nzSize="default">
           <span>下一步</span>
         </button>
       </div>
     </div>
+  </div>
+  <!--审核中提示界面-->
+  <div *ngIf="etpStatus === 1 || etpStatus === 2" class="verify-etp-layout-processing">
+    <nz-result
+      nzTitle="审核中……"
+      nzStatus="info"
+      nzSubTitle="您的企业实名认证正在审核中，请您留意短信和邮件通知。"
+    >
+      <div nz-result-content>
+        <div>
+          <h3 nz-title style="margin-top: 10px;">咨询热线:</h3>
+          <p nz-paragraph>
+            <i nz-icon nzType="phone" nzTheme="outline"></i>
+            <a>&nbsp;&nbsp;{{askPhone}}</a>
+          </p>
+        </div>
+      </div>
+    </nz-result>
+  </div>
+  <!--小额鉴权,对公打款-->
+  <div *ngIf="etpStatus === 3" class="verify-etp-layout-pay">
+    <div class="info-line-title">
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>营业执照</span>
+      <p>您的企业实名认证资料已通过审核，请进行小额鉴权操作，以完成企业实名认证。</p>
+    </div>
+    <div>
+      <p>系统会向您提供的企业对公银行账户汇入小额鉴权验证款，请您登陆网银查询后输入小额鉴权验证款。</p>
+      <div>
+        <span>验证款：</span>
+        <nz-input-number [(ngModel)]="validPayNum" [nzMin]="0.1" [nzMax]="1" [nzStep]="0.1" [nzAutoFocus]="true"></nz-input-number>
+        <span style="margin-left: 5px;">元</span>
+        <a>（您有3次机会输入正确金额！）</a>
+      </div>
+      <button nz-button nzSize="default" nzType="primary">提交</button>
+    </div>
+  </div>
+  <!--实名认证错误界面-->
+  <div *ngIf="etpStatus === 5" class="verify-etp-layout-error">
+    <nz-result
+      nzTitle="企业实名认证失败"
+      nzStatus="error"
+      nzSubTitle="请查看下面错误信息描述，可重新发起实名认证。"
+    >
+      <div nz-result-content>
+        <div class="desc">
+          <h4 nz-title style="margin-bottom: 10px;">企业实名认证错误信息提示:</h4>
+          <p nz-paragraph>
+            <i nz-icon nzType="close-circle"></i>
+            开户许可证未上传。
+          </p>
+          <p nz-paragraph>
+            <i nz-icon nzType="close-circle"></i>
+            法人身份证和姓名不一致。
+          </p>
+        </div>
+        <div>
+          <h4 nz-title style="margin-top: 20px;">咨询热线:</h4>
+          <p nz-paragraph>
+            <i nz-icon nzType="phone" nzTheme="outline"></i>
+            <a>&nbsp;&nbsp;{{askPhone}}</a>
+          </p>
+        </div>
+      </div>
+      <div nz-result-extra>
+        <button nz-button nzType="primary">重新认证</button>
+      </div>
+    </nz-result>
   </div>
 </div>

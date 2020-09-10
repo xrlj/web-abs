@@ -18,11 +18,12 @@ import {SimpleReuseStrategy} from './helpers/simple-reuse-strategy';
 import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
+import { TextColorThemeDirective } from './helpers/directives/text-color-theme.directive';
 
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [AppComponent, CustomBtnComponent],
+  declarations: [AppComponent, CustomBtnComponent, TextColorThemeDirective],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -51,7 +52,8 @@ registerLocaleData(zh);
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   exports: [
-    CustomBtnComponent
+    CustomBtnComponent,
+    TextColorThemeDirective
   ],
   bootstrap: [AppComponent]
 })

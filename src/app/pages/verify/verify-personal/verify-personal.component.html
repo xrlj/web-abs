@@ -1,1 +1,175 @@
-<p>verify-personal works!</p>
+<div class="verify-user-layout">
+  <div class="verify-user-layout-header">
+    <div class="verify-user-layout-header-left">
+      <img src="assets/images/logo02.png">
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>经办人实名认证</span>
+    </div>
+    <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+  </div>
+  <!--提交认证信息-->
+  <div *ngIf="userStatus === 0 && !readyStatus" class="verify-user-layout-content">
+    <div class="info-line-title">
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>签章经办人信息</span>
+    </div>
+    <form nz-form [formGroup]="userForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzFor="realName" nzRequired>真实姓名</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzErrorTip="必填项">
+          <input formControlName="realName" id="realName" placeholder="请输入真实姓名" nz-input/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzFor="idNo" nzRequired>身份证号码</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzErrorTip="必填项">
+          <input formControlName="idNo" id="idNo" placeholder="请输入身份证号码" nz-input/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzFor="mobile" nzRequired>手机号码</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzErrorTip="必填项">
+          <input formControlName="mobile" id="mobile" placeholder="请输入您的手机号码" nz-input/>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+    <!--身份证-->
+    <div class="info-line-title">
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>法定代表人证件照(身份证正反面照) <a style="text-decoration: underline" href="assets/images/idcard-sample.png"
+                                 target="_blank">示例</a></span>
+      <p>请上传JPG、PNG格式，文件不大于10M，身份证正反面需在同一页上</p>
+    </div>
+    <div class="upload-img">
+      <nz-upload
+        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        nzListType="picture-card"
+        [(nzFileList)]="idCardFileList"
+        [nzShowButton]="idCardFileList.length < 1"
+        [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+        [nzSize]="fileSize"
+        [nzPreview]="handleIdCardPreview"
+      >
+        <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
+        <div class="ant-upload-text">上传</div>
+      </nz-upload>
+      <nz-modal [nzVisible]="idCardPreviewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                (nzOnCancel)="idCardPreviewVisible = false">
+        <ng-template #modalContent>
+          <img [src]="idCardPreviewImage" [ngStyle]="{ width: '100%' }"/>
+        </ng-template>
+      </nz-modal>
+    </div>
+
+    <!--授权委托书-->
+    <div class="info-line-title">
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>经办人授权委托书 <a style="text-decoration: underline" href="assets/images/idcard-sample.png"
+                                 target="_blank">下载《经办人授权委托书》模版</a></span>
+      <p>请上传PDF、JPG、PNG格式，文件不大于10M，必须加盖企业公章和法人章</p>
+    </div>
+    <div class="upload-img">
+      <nz-upload
+        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        nzListType="picture-card"
+        [(nzFileList)]="entrustFileList"
+        [nzShowButton]="entrustFileList.length < 1"
+        [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+        [nzSize]="fileSize"
+        [nzPreview]="handleEntrustPreview"
+      >
+        <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
+        <div class="ant-upload-text">上传</div>
+      </nz-upload>
+      <nz-modal [nzVisible]="entrustPreviewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                (nzOnCancel)="entrustPreviewVisible = false">
+        <ng-template #modalContent>
+          <img [src]="entrustPreviewImage" [ngStyle]="{ width: '100%' }"/>
+        </ng-template>
+      </nz-modal>
+    </div>
+
+    <div class="action">
+      <div>
+        <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()">
+          <span>返回</span>
+        </button>
+        <button style="margin-left: 8px" nz-button nzType="primary" nzSize="default">
+          <span>提交</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--准备资料提醒界面-->
+  <div *ngIf="userStatus === 0 && readyStatus" class="verify-user-layout-ready">
+    <h3>经办人申请，请准备以下资料</h3>
+    <p>要求：原件扫描件，或复印件加盖公章的扫描件</p>
+    <nz-divider></nz-divider>
+    <div class="ready-content">
+      <p>1. <span>经办人身份证</span>（正反面同一页）</p>
+      <p>2. <span>经办人授权委托书</span>（加盖企业公章和法人章）<span><a style="text-decoration: underline" target="_blank" href="assets/file/qianzhangdailirenshouquanweitoushu.docx">下载委托书模版</a></span></p>
+      <p>签章授权申请完成后，签章经办人将有权代表贵单位在本系统电子签章，请谨慎确认经办人</p>
+    </div>
+    <nz-divider></nz-divider>
+    <div class="ready-agreement">
+      <label nz-checkbox [(ngModel)]="protocolCheck">
+        <span>已阅读并同意</span>
+      </label>
+      <a style="text-decoration: underline" target="_blank" href="assets/file/protocol-digital-certificate.html">数字证书服务协议</a>
+      <p *ngIf="!protocolCheck"><span>请先仔细阅读服务协议，并同意！</span></p>
+    </div>
+    <button (click)="next()" nz-button nzType="primary" nzSize="default">开始认证</button>
+  </div>
+  <!--审核中提示界面-->
+  <div *ngIf="userStatus === 1 || userStatus === 2" class="verify-user-layout-processing">
+    <nz-result
+      nzTitle="审核中……"
+      nzStatus="info"
+      nzSubTitle="您的企业实名认证正在审核中，请您留意短信和邮件通知。"
+    >
+      <div nz-result-content>
+        <div>
+          <h3 nz-title style="margin-top: 10px;">咨询热线:</h3>
+          <p nz-paragraph>
+            <i nz-icon nzType="phone" nzTheme="outline"></i>
+            <a>&nbsp;&nbsp;{{askPhone}}</a>
+          </p>
+        </div>
+      </div>
+    </nz-result>
+  </div>
+  <!--实名认证错误界面-->
+  <div *ngIf="userStatus === 5" class="verify-user-layout-error">
+    <nz-result
+      nzTitle="企业实名认证失败"
+      nzStatus="error"
+      nzSubTitle="请查看下面错误信息描述，可重新发起实名认证。"
+    >
+      <div nz-result-content>
+        <div class="desc">
+          <h4 nz-title style="margin-bottom: 10px;">企业实名认证错误信息提示:</h4>
+          <p nz-paragraph>
+            <i nz-icon nzType="close-circle"></i>
+            开户许可证未上传。
+          </p>
+          <p nz-paragraph>
+            <i nz-icon nzType="close-circle"></i>
+            法人身份证和姓名不一致。
+          </p>
+        </div>
+        <div>
+          <h4 nz-title style="margin-top: 20px;">咨询热线:</h4>
+          <p nz-paragraph>
+            <i nz-icon nzType="phone" nzTheme="outline"></i>
+            <a>&nbsp;&nbsp;{{askPhone}}</a>
+          </p>
+        </div>
+      </div>
+      <div nz-result-extra>
+        <button nz-button nzType="primary">重新认证</button>
+      </div>
+    </nz-result>
+  </div>
+</div>
+

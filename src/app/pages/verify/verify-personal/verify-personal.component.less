@@ -1,0 +1,146 @@
+@header-height: 70px;
+@content-margin-header: @header-height + 40px;
+
+.verify-user-layout {
+  height: 100%;
+  overflow: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("src/assets/images/invite-pc-bg.png");
+
+  &-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    background: #fff;
+    height: @header-height;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #e6e6e6;
+
+    &-left {
+      float: left;
+      margin-left: 20px;
+      text-align: center;
+      height: 40px;
+      margin-top: 13px;
+
+      &>img {
+        float: left;
+        width: 40px;
+        height: 100%;
+      }
+
+      &>nz-divider {
+        float: left;
+        height: 30px;
+        margin-left: 20px;
+        margin-top: 5px;
+      }
+
+      &>span {
+        float: left;
+        font-size: 22px;
+        margin-left: 20px;
+        margin-top: 2px;
+      }
+    }
+
+    &>i {
+      float: right;
+      font-size: 18px;
+      margin-top: 25px;
+      margin-right: 40px;
+    }
+  }
+
+  &-content {
+    margin: @content-margin-header 18%;
+    background: #fff;
+    padding: 10px 30px 24px;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+
+    &>form {
+      margin-top: 40px;
+      margin-left: -20px;
+    }
+
+    >.info-line-title {
+      margin-top: 40px;
+      &>p {
+        color: #bfbfbf;
+        font-size: 14px;
+        margin-top: 10px;
+        margin-bottom: -5px;
+      }
+    }
+
+    >.upload-img {
+      margin-top: 20px;
+    }
+
+    >.action {
+      text-align: center;
+      margin-top: 40px;
+    }
+  }
+
+  &-ready {
+    margin: @content-margin-header 18%;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+    background: #fff;
+    padding: 40px 30px 24px;
+
+    &>h3 {
+      font-weight: bold;
+    }
+
+    &>p {
+      margin-top: 20px;
+    }
+
+    >.ready-content {
+      &>p>span {
+        color: #DC6D6B;
+        margin-right: 5px;
+      }
+    }
+
+    >.ready-agreement {
+      &>p {
+        color: #DC6D6B;
+        margin-top: 10px;
+        margin-left: 20px;
+        font-size: 10px;
+      }
+    }
+
+    &>button {
+      margin-top: 20px;
+      margin-left: 40px;
+    }
+  }
+
+  &-error {
+    margin: @content-margin-header 18%;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+    background: #fff;
+  }
+
+  &-processing {
+    margin: @content-margin-header 18%;
+    box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
+    background: #fff;
+  }
+}
+
+.ant-upload-icon {
+  font-size: 32px;
+  color: #999;
+}
+.ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+
