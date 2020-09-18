@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Utils} from '../../../helpers/utils';
 import {MyValidators} from '../../../helpers/MyValidators';
 import {NzUploadFile} from 'ng-zorro-antd';
+import {CommonService} from '../../../helpers/service/common.service';
+import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 
 @Component({
   selector: 'app-verify-etp',
@@ -11,6 +13,10 @@ import {NzUploadFile} from 'ng-zorro-antd';
 })
 export class VerifyEtpComponent implements OnInit {
 
+  formLabelSpanSize = 9;
+  formControlSpanSize = 7;
+
+  @Input()
   etpStatus = 0; // 企业认证状态
   validPayNum: number;  // 企业实名认证对公打款验证款
   askPhone = '0755-32805728'; // 保理商咨询热线
@@ -18,12 +24,13 @@ export class VerifyEtpComponent implements OnInit {
   // 准备资料相关
   protocolCheck = false;
   protocolCheckErrorTip = false;
+  protocolCheckErrorTipClass = ''
 
   fileSize = 10240; // 限制文件大小
 
   // step
   current = -1;
-  doneStatus = 'wait';
+  doneStatus = 'wait'; // 'wait' | 'process' | 'finish' | 'error'
 
   // 第一步填写企业信息
   stepOneForm!: FormGroup;
@@ -46,7 +53,8 @@ export class VerifyEtpComponent implements OnInit {
     }
   ];
 
-  constructor(private utils: Utils, private fb: FormBuilder) {
+  constructor(private utils: Utils, private fb: FormBuilder,
+              private commonService: CommonService, private defaultBusService: DefaultBusService) {
     const {required, chinese, notChinese, positiveInteger, maxLength, minLength, email, mobile} = MyValidators;
     this.stepOneForm = this.fb.group({
       etpName: [null, [required, maxLength(120)]],
@@ -73,10 +81,12 @@ export class VerifyEtpComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   protocolChange(event): void {
     this.protocolCheckErrorTip = !event;
+    this.shakeErrorTipLittleTime();
   }
 
   next(): void {
@@ -84,6 +94,7 @@ export class VerifyEtpComponent implements OnInit {
       case -1:
         if (!this.protocolCheck) {
           this.protocolCheckErrorTip = true;
+          this.shakeErrorTipLittleTime();
           return;
         }
         break;
@@ -132,5 +143,16 @@ export class VerifyEtpComponent implements OnInit {
   onInputBankFullName($event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.bankFullNameSearchList = value ? [value, value + value, value + value + value] : [];
+  }
+
+  private shakeErrorTipLittleTime(): void {
+    this.protocolCheckErrorTipClass = 'shake shake-horizontal shake-constant'
+    setTimeout(() => {
+      this.protocolCheckErrorTipClass = ''
+    }, 400);
+  }
+
+  logout() {
+    this.commonService.logout(this.defaultBusService);
   }
 }

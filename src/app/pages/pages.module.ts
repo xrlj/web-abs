@@ -24,39 +24,44 @@ import {
   NzSelectModule,
   NzSpinModule,
   NzStepsModule,
-  NzTableModule,
+  NzTableModule, NzToolTipModule,
   NzUploadModule
 } from 'ng-zorro-antd';
 import { VerifyComponent } from './verify/verify.component';
 import { VerifyEtpComponent } from './verify/verify-etp/verify-etp.component';
 import { VerifyPersonalComponent } from './verify/verify-personal/verify-personal.component';
+import {DirectivesModule} from '../directives/directives.module';
 
 @NgModule({
-  declarations: [DashboardComponent, LoginComponent, InitComponent, NotFoundComponent, RegisterComponent, VerifyComponent, VerifyEtpComponent, VerifyPersonalComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PagesRoutingModule,
-        ThemeModule,
-        NgxEchartsModule,
-        NzButtonModule,
-        NzUploadModule,
-        NzStepsModule,
-        NzFormModule,
-        NzResultModule,
-        NzBackTopModule,
-        NzCardModule,
-        NzSpinModule,
-        NzInputModule,
-        NzTableModule,
-        NzDividerModule,
-        NzModalModule,
-        NzIconModule,
-        NzSelectModule,
-        NzAutocompleteModule,
-        NzInputNumberModule,
-        NzCheckboxModule
-    ]
+  declarations: [DashboardComponent, LoginComponent, InitComponent,
+    NotFoundComponent, RegisterComponent, VerifyComponent,
+    VerifyEtpComponent, VerifyPersonalComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PagesRoutingModule,
+    ThemeModule,
+    NgxEchartsModule,
+    NzButtonModule,
+    NzUploadModule,
+    NzStepsModule,
+    NzFormModule,
+    NzResultModule,
+    NzBackTopModule,
+    NzCardModule,
+    NzSpinModule,
+    NzInputModule,
+    NzTableModule,
+    NzDividerModule,
+    NzModalModule,
+    NzIconModule,
+    NzSelectModule,
+    NzAutocompleteModule,
+    NzInputNumberModule,
+    NzCheckboxModule,
+    NzToolTipModule,
+    DirectivesModule
+  ]
 })
 export class PagesModule {}

@@ -430,5 +430,6 @@ export class UIHelper {
   logoutLocalStorageClean(): void  {
     localStorage.removeItem(Constants.localStorageKey.token);
     localStorage.removeItem(Constants.localStorageKey.menus);
+    localStorage.removeItem(Constants.localStorageKey.verifyStatus);
   }
 }

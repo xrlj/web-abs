@@ -1,24 +1,38 @@
 import {Injectable} from '@angular/core';
 import {ApiPath} from '../../api-path';
 import {Api} from '../http/api';
+import {AppPath} from '../../app-path';
+import {UIHelper} from '../ui-helper';
+import {Router} from '@angular/router';
+import {DefaultBusService} from '../event-bus/default-bus.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor(private api: Api) { }
+  constructor(private api: Api, private uiHelper: UIHelper,
+              private router: Router) { }
 
   /**
-   * 获取所有应用。
-   * @param appType1 应用类型。
+   * 退出登录。
    */
-  getAllAppList(appType1?: number): any {
-    if (appType1 === null || appType1 === undefined) {
-      return  this.api.get(ApiPath.usercentral.appInfoApi.getAll);
-    } else {
-      const par = {appType: appType1};
-      return this.api.get(ApiPath.usercentral.appInfoApi.getAll, par);
-    }
+  logout(defaultBusService: DefaultBusService): void {
+    this.uiHelper.modalConfirm('确定退出登录？')
+      .ok(() => {
+        defaultBusService.showLoading(true);
+        this.api.get(ApiPath.logout).ok(data => {
+          if (data) {
+            this.uiHelper.logoutLocalStorageClean();
+            this.router.navigate([AppPath.login]); // 退出成功
+          } else {
+            this.uiHelper.msgTipError('退出失败');
+          }
+        }).fail(error => {
+          this.uiHelper.msgTipError(error.msg);
+        }).final(() => {
+          defaultBusService.showLoading(false);
+        });
+      });
   }
 }

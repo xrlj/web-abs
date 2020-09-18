@@ -5,7 +5,7 @@
       <nz-divider nzType="vertical"></nz-divider>
       <span>企业实名认证</span>
     </div>
-    <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+    <a nz-button nzType="link" (click)="logout()">退出登录</a>
   </div>
   <div *ngIf="etpStatus === 0 && current === -1" class="verify-etp-layout-ready">
     <h3>企业实名认证前，请准备以下资料</h3>
@@ -22,18 +22,23 @@
         <span>已阅读并同意</span>
       </label>
       <a style="text-decoration: underline" target="_blank" href="assets/file/protocol-digital-certificate.html">数字证书服务协议</a>
-      <span appTextColorTheme *ngIf="protocolCheckErrorTip">请先仔细阅读服务协议，并同意！</span>
+      <span [ngClass]="protocolCheckErrorTipClass" *ngIf="protocolCheckErrorTip"> 请先仔细阅读服务协议，并同意！</span>
     </div>
-    <button (click)="next()" nz-button nzType="primary" nzSize="default">开始认证</button>
+    <p>&nbsp;</p>
+    <div class="ready-btn">
+      <button (click)="next()" nz-button nzType="primary" nzSize="default">开始认证</button>
+    </div>
   </div>
   <!--提交认证信息-->
   <div *ngIf="etpStatus === 0 && current !== -1" class="verify-etp-layout-content">
-    <nz-steps nzLabelPlacement="vertical" [nzCurrent]="current">
-      <nz-step nzTitle="填写企业基础信息"></nz-step>
-      <nz-step nzTitle="上传相关证件扫描件"></nz-step>
-      <nz-step nzTitle="填写企业银行账号信息"></nz-step>
-      <nz-step nzTitle="提交成功" [nzStatus]="doneStatus"></nz-step>
-    </nz-steps>
+    <div class="verify-etp-layout-content-title">
+      <nz-steps nzLabelPlacement="vertical" [nzCurrent]="current">
+        <nz-step nzTitle="填写企业基础信息"></nz-step>
+        <nz-step nzTitle="上传相关证件扫描件"></nz-step>
+        <nz-step nzTitle="填写企业银行账号信息"></nz-step>
+        <nz-step nzTitle="提交成功" [nzStatus]="doneStatus"></nz-step>
+      </nz-steps>
+    </div>
     <div class="verify-etp-layout-content-steps">
       <!--第一步内容-->
       <div class="steps-one" *ngIf="current === 0">
@@ -45,26 +50,26 @@
           </div>
           <div class="steps-form">
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="etpName" nzRequired>公司名称</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="etpName" nzRequired>公司名称</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="etpName" id="etpName" placeholder="请输入公司完整名称" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="unifyCode" nzRequired>统一社会信用代码</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="unifyCode" nzRequired>统一社会信用代码</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="unifyCode" id="unifyCode" placeholder="请输入企业信用代码" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="legalPerson" nzRequired>法定代表人</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="legalPerson" nzRequired>法定代表人</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="legalPerson" id="legalPerson" placeholder="请输入法人真实姓名" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="legalPersonIdNo" nzRequired>法定代表人身份证号码</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="legalPersonIdNo" nzRequired>法人身份证号码</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="legalPersonIdNo" id="legalPersonIdNo" placeholder="请输入法人身份证号码" nz-input/>
               </nz-form-control>
             </nz-form-item>
@@ -77,20 +82,20 @@
           </div>
           <div class="steps-form">
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="contactName" nzRequired>联系人</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="contactName" nzRequired>联系人</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="contactName" id="contactName" placeholder="请输入联系人姓名" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="contactMobile" nzRequired>联系人手机号码</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="contactMobile" nzRequired>联系人手机号码</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="contactMobile" id="contactMobile" placeholder="请输入联系人手机号码" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="email" nzRequired>公司电子邮箱</nz-form-label>
-              <nz-form-control [nzSpan]="0" [nzErrorTip]="emailErrorTpl">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="email" nzRequired>公司电子邮箱</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" [nzErrorTip]="emailErrorTpl">
                 <input formControlName="email" id="email" placeholder="请输入企业电子邮箱" nz-input/>
                 <ng-template #emailErrorTpl let-control>
                   <ng-container *ngIf="control.hasError('email')">
@@ -103,26 +108,26 @@
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="fax">传真</nz-form-label>
-              <nz-form-control [nzSpan]="0">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="fax">传真</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize">
                 <input formControlName="fax" id="fax" placeholder="请输入企业传真" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="telephone" nzRequired>公司座机号码</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="telephone" nzRequired>公司座机号码</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="telephone" id="telephone" placeholder="请输入公司座机号码" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="address" nzRequired>通讯地址</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="address" nzRequired>通讯地址</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="address" id="address" placeholder="请输入公司目前所在地址" nz-input/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="10" nzFor="registeredAddress" nzRequired>注册地址</nz-form-label>
-              <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="registeredAddress" nzRequired>注册地址</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
                 <input formControlName="registeredAddress" id="registeredAddress" placeholder="请输入公司注册地址" nz-input/>
               </nz-form-control>
             </nz-form-item>
@@ -134,7 +139,8 @@
         <!--上传营业执照-->
         <div class="info-line-title">
           <nz-divider nzType="vertical"></nz-divider>
-          <span>营业执照 <a style="text-decoration: underline" href="assets/images/business-license-sample.png" target="_blank">示例</a></span>
+          <span>营业执照 <a style="text-decoration: underline" href="assets/images/business-license-sample.png"
+                        target="_blank">示例</a></span>
           <p>请上传JPG、PNG格式，文件不大于10M</p>
         </div>
         <div class="business-license">
@@ -150,9 +156,10 @@
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
-          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                    (nzOnCancel)="previewVisible = false">
             <ng-template #modalContent>
-              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
             </ng-template>
           </nz-modal>
         </div>
@@ -160,7 +167,8 @@
         <!--身份证-->
         <div class="info-line-title">
           <nz-divider nzType="vertical"></nz-divider>
-          <span>法定代表人证件照(身份证正反面照) <a style="text-decoration: underline" href="assets/images/idcard-sample.png" target="_blank">示例</a></span>
+          <span>法定代表人证件照(身份证正反面照) <a style="text-decoration: underline" href="assets/images/idcard-sample.png"
+                                     target="_blank">示例</a></span>
           <p>请上传JPG、PNG格式，文件不大于10M，身份证正反面需在同一页上</p>
         </div>
         <div class="idcard">
@@ -176,9 +184,10 @@
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
-          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                    (nzOnCancel)="previewVisible = false">
             <ng-template #modalContent>
-              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
             </ng-template>
           </nz-modal>
         </div>
@@ -193,8 +202,8 @@
         </div>
         <form nz-form [formGroup]="stepThirdForm">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="etpBankName" nzRequired>开户银行</nz-form-label>
-            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="etpBankName" nzRequired>开户银行</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <nz-select
                 id="etpBankName"
                 formControlName="etpBankName"
@@ -208,8 +217,8 @@
           </nz-form-item>
 
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="bankProvince" nzRequired>开户银行所属省份</nz-form-label>
-            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="bankProvince" nzRequired>开户银行所属省份</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <nz-select
                 id="bankProvince"
                 formControlName="bankProvince"
@@ -222,8 +231,8 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="bankCity" nzRequired>开户银行所属城市</nz-form-label>
-            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="bankCity" nzRequired>开户银行所属城市</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <nz-select
                 id="bankCity"
                 formControlName="bankCity"
@@ -236,21 +245,22 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="bankFullName" nzRequired>开户行全称</nz-form-label>
-            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
-              <input formControlName="bankFullName" id="bankFullName" placeholder="输入搜索选择" nz-input (input)="onInputBankFullName($event)" [nzAutocomplete]="auto"/>
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="bankFullName" nzRequired>开户行全称</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
+              <input formControlName="bankFullName" id="bankFullName" placeholder="输入搜索选择" nz-input
+                     (input)="onInputBankFullName($event)" [nzAutocomplete]="auto"/>
               <nz-autocomplete [nzDataSource]="bankFullNameSearchList" nzBackfill #auto></nz-autocomplete>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="bankAccountName" nzRequired>户名</nz-form-label>
-            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="bankAccountName" nzRequired>户名</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <input formControlName="bankAccountName" id="bankAccountName" placeholder="请输入银行卡账户名" nz-input/>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="bankAccountNum" nzRequired>账号</nz-form-label>
-            <nz-form-control [nzSpan]="0" nzErrorTip="必填项">
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="bankAccountNum" nzRequired>账号</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <input formControlName="bankAccountNum" id="bankAccountNum" placeholder="请输入银行卡卡号" nz-input/>
             </nz-form-control>
           </nz-form-item>
@@ -259,7 +269,8 @@
         <!--开户许可证-->
         <div class="info-line-title">
           <nz-divider nzType="vertical"></nz-divider>
-          <span>开户许可证 <a style="text-decoration: underline" href="assets/images/bank-license-sample.png" target="_blank">示例</a></span>
+          <span>开户许可证 <a style="text-decoration: underline" href="assets/images/bank-license-sample.png"
+                         target="_blank">示例</a></span>
           <p>开户许可证或基本存款账户信息。</p>
         </div>
         <div class="bank-license">
@@ -275,31 +286,45 @@
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
-          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
+          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                    (nzOnCancel)="previewVisible = false">
             <ng-template #modalContent>
-              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
             </ng-template>
           </nz-modal>
         </div>
       </div>
       <!--第四步内容-->
       <div class="steps-four" *ngIf="current === 3">
+        <nz-result
+          nzStatus="success"
+          nzTitle="提交成功"
+          nzSubTitle="我们将在1-2个工作日内完成审核，请您留意短信和邮件通知。"
+        >
+          <div nz-result-content>
+            <div>
+              <h3 nz-title style="margin-top: 0px; font-weight: bold">如需咨询请拨打客服热线：</h3>
+              <p nz-paragraph>
+                <i nz-icon nzType="phone" nzTheme="outline"></i>
+                <a>&nbsp;&nbsp;{{askPhone}}</a>
+              </p>
+            </div>
+          </div>
+
+          <div nz-result-extra>
+            <button nz-button nzType="primary">返回</button>
+          </div>
+        </nz-result>
       </div>
     </div>
-    <div class="steps-action">
-      <!--<button nz-button nzType="primary" [nzLoading]="nexBtnLoading" nzSize="default" (click)="next()"
-              *ngIf="current === 0">
+    <div class="steps-action" *ngIf="current !== 3">
+      <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()">
+        <span>上一步</span>
+      </button>
+      <button style="margin-left: 8px" nz-button nzType="primary" (click)="next()"
+              [nzLoading]="registerBtnLoading" nzSize="default">
         <span>下一步</span>
-      </button>-->
-      <div>
-        <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()">
-          <span>上一步</span>
-        </button>
-        <button style="margin-left: 8px" nz-button nzType="primary" (click)="next()"
-                [nzLoading]="registerBtnLoading" nzSize="default">
-          <span>下一步</span>
-        </button>
-      </div>
+      </button>
     </div>
   </div>
   <!--审核中提示界面-->
@@ -311,7 +336,7 @@
     >
       <div nz-result-content>
         <div>
-          <h3 nz-title style="margin-top: 10px;">咨询热线:</h3>
+          <h4 nz-title style="margin-top: 10px;font-weight: bold;padding-bottom: 5px;">如需咨询请拨打客服热线:</h4>
           <p nz-paragraph>
             <i nz-icon nzType="phone" nzTheme="outline"></i>
             <a>&nbsp;&nbsp;{{askPhone}}</a>
@@ -331,9 +356,10 @@
       <p>系统会向您提供的企业对公银行账户汇入小额鉴权验证款，请您登陆网银查询后输入小额鉴权验证款。</p>
       <div>
         <span>验证款：</span>
-        <nz-input-number [(ngModel)]="validPayNum" [nzMin]="0.1" [nzMax]="1" [nzStep]="0.1" [nzAutoFocus]="true"></nz-input-number>
+        <nz-input-number [(ngModel)]="validPayNum" [nzMin]="0.1" [nzMax]="1" [nzStep]="0.1"
+                         [nzAutoFocus]="true"></nz-input-number>
         <span style="margin-left: 5px;">元</span>
-        <a>（您有3次机会输入正确金额！）</a>
+        <span appTextColorTheme>（您有3次机会输入正确金额！）</span>
       </div>
       <button nz-button nzSize="default" nzType="primary">提交</button>
     </div>
@@ -358,7 +384,7 @@
           </p>
         </div>
         <div>
-          <h4 nz-title style="margin-top: 20px;">咨询热线:</h4>
+          <h4 nz-title style="margin-top: 20px;font-weight: bold;">如需咨询请拨打客服热线：</h4>
           <p nz-paragraph>
             <i nz-icon nzType="phone" nzTheme="outline"></i>
             <a>&nbsp;&nbsp;{{askPhone}}</a>

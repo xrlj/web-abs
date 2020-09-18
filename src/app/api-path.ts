@@ -1,6 +1,7 @@
 /****************服务名称start********************/
 const serviceauth = 'serviceauth';
 const usercentral = 'usercentral';
+const syscommon = 'syscommon';
 const sysfilesystem = 'sysfilesystem'; // 文件系统服务
 const sysnotify = 'sysnotify'; // 通知服务
 /****************服务名称 end********************/
@@ -16,16 +17,13 @@ export const ApiPath = {
     },
     enterprise: {
       getEtpInfoByInvitationCode: `/${usercentral}/enterprise/getEtpInfoByInvitationCode`
-    },
-    menuApi: {
-    },
-    appInfoApi: {
-    },
-    roleApi: {
-    },
-    dept: {
-    },
-    rolePermissions: {
+    }
+  },
+  syscommon: {
+    bankBranchDic: {
+      getBankNameList: `/${syscommon}/bankBranchDic/getBankNameList`,
+      getProvinceList: `/${syscommon}/bankBranchDic/getProvinceList`,
+      getCityByProvinceList: `/${syscommon}/bankBranchDic/getCityByProvinceList`
     }
   },
   sysfilesystem: {

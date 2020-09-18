@@ -10,6 +10,7 @@ import {ThemeEnum} from '../../../helpers/enum/theme-enum';
 import {environment} from '../../../../environments/environment';
 import {Constants} from '../../../helpers/constants';
 import {ApiPath} from '../../../api-path';
+import {CommonService} from '../../../helpers/service/common.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,8 @@ export class AppHeaderComponent implements OnInit {
   constructor(private router: Router,
               private api: Api,
               public utils: Utils,
-              public uiHelper: UIHelper, private defaultBusService: DefaultBusService) {
+              public uiHelper: UIHelper, private defaultBusService: DefaultBusService,
+              private commonService: CommonService) {
   }
 
   isFullScreen = false;
@@ -88,22 +90,7 @@ export class AppHeaderComponent implements OnInit {
    * 退出登录。
    */
   logout(): void {
-    this.uiHelper.modalConfirm('确定退出登录？')
-      .ok(() => {
-        this.defaultBusService.showLoading(true);
-        this.api.get(ApiPath.logout).ok(data => {
-          if (data) {
-            this.uiHelper.logoutLocalStorageClean();
-            this.router.navigate([AppPath.login]); // 退出成功
-          } else {
-            this.uiHelper.msgTipError('退出失败');
-          }
-        }).fail(error => {
-          this.uiHelper.msgTipError(error.msg);
-        }).final(() => {
-          this.defaultBusService.showLoading(false);
-        });
-      });
+    this.commonService.logout(this.defaultBusService);
   }
 
   openSettingDrawer() {

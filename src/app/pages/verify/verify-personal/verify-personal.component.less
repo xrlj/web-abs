@@ -47,42 +47,69 @@
       }
     }
 
-    &>i {
+    &>a {
       float: right;
-      font-size: 18px;
-      margin-top: 25px;
-      margin-right: 40px;
+      font-size: 16px;
+      margin-top: 18px;
+      margin-right: 60px;
+      text-align: center;
     }
   }
 
   &-content {
     margin: @content-margin-header 18%;
     background: #fff;
-    padding: 10px 30px 24px;
+    padding: 50px 30px 24px;
     box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
 
-    &>form {
-      margin-top: 40px;
-      margin-left: -20px;
+    &-title {
+      margin-left: 100px;
+      margin-right: 100px;
     }
 
-    >.info-line-title {
+    &-steps {
       margin-top: 40px;
-      &>p {
-        color: #bfbfbf;
-        font-size: 14px;
-        margin-top: 10px;
-        margin-bottom: -5px;
+      min-height: 250px;
+
+      &-one {
+        &>form {
+          margin-top: 40px;
+        }
       }
-    }
 
-    >.upload-img {
-      margin-top: 20px;
+      &-two {
+        >.info-line-title {
+          &>p {
+            color: #bfbfbf;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: -5px;
+          }
+        }
+
+        >.upload-img {
+          margin-top: 20px;
+          margin-bottom: 40px;
+        }
+
+      }
+
+      &-three {
+        &>nz-result>div {
+          margin-left: 150px;
+          margin-right: 150px;
+        }
+
+        &>nz-result>nz-result-extra {
+          margin-top: 100px;
+        }
+      }
     }
 
     >.action {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 50px;
+      margin-bottom: 20px;
     }
   }
 
@@ -108,16 +135,22 @@
     }
 
     >.ready-agreement {
-      &>p {
+      &>label {
+        float: left;
+      }
+      &>a {
+        float: left;
+      }
+      &>span {
+        float: left;
         color: #DC6D6B;
-        margin-top: 10px;
         margin-left: 20px;
         font-size: 10px;
       }
     }
 
     &>button {
-      margin-top: 20px;
+      margin-top: 10px;
       margin-left: 40px;
     }
   }
@@ -142,5 +175,9 @@
 .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+
+.auth-code-btn {
+  padding-left: 10px;
 }
 

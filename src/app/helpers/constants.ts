@@ -10,6 +10,7 @@ export const Constants = {
   },
   localStorageKey: {
     token: 'm-jwt-token',
+    verifyStatus: 'verify-status', // 企业、个人实名认证状态信息
     menus: 'user-menus', // 菜单
     currentTheme: 'current-theme' // 当前主题色调风格
   },

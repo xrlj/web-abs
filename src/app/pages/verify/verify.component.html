@@ -1,2 +1,2 @@
-<app-verify-etp *ngIf="etpStatus != 4"></app-verify-etp>
-<app-verify-personal *ngIf="etpStatus === 4 && userStatus !== 4"></app-verify-personal>
+<app-verify-etp *ngIf="etpStatus != 4" [etpStatus]="etpStatus"></app-verify-etp>
+<app-verify-personal *ngIf="etpStatus === 4 && userStatus !== 4" [userStatus]="userStatus"></app-verify-personal>
