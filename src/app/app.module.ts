@@ -11,7 +11,6 @@ import {HashLocationStrategy, LocationStrategy, registerLocaleData} from '@angul
 import zh from '@angular/common/locales/zh';
 import {CustomBtnComponent} from './components/custom-btn/custom-btn.component';
 import {httpInterceptorProviders} from './interceptors';
-import {UEditorModule} from 'ngx-ueditor';
 import {IconsProviderModule} from './icons-provider.module';
 import {RouteReuseStrategy} from '@angular/router';
 import {SimpleReuseStrategy} from './helpers/simple-reuse-strategy';
@@ -32,17 +31,7 @@ registerLocaleData(zh);
     NzModalModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
-    UEditorModule.forRoot({
-      js: [
-        `./assets/ueditor/ueditor.config.js`,
-        `./assets/ueditor/ueditor.all.min.js`,
-      ],
-      // 默认前端配置项
-      options: {
-        UEDITOR_HOME_URL: './assets/ueditor/'
-      }
-    })
+    BrowserAnimationsModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: zh_CN},

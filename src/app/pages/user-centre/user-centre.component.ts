@@ -9,6 +9,8 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 })
 export class UserCentreComponent implements OnInit, OnDestroy {
 
+  dataModel: string;
+
   constructor(private router: Router) {
   }
 
