@@ -1,35 +1,16 @@
-@card-width: 400px;
-@card-height: 300px;
-
-.verify {
-  background: #ECECEC;
-  width: 100%;
+.verify-layout {
+  background-image: url("src/assets/images/invite-pc-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100%;
+  overflow: auto;
+}
 
-  &>div>nz-card {
-    width: @card-width;
-    height: @card-height;
-  }
-
-  &-etp {
-    position: absolute;
-    top: 25%;
-    left: 38%;
-
-    &-content {
-      text-align: center;
-      margin-top: 50px;
-    }
-  }
-
-  &-personal {
-    position: absolute;
-    top: 25%;
-    left: 38%;
-
-    &-content {
-      text-align: center;
-      margin-top: 50px;
-    }
-  }
+.verify-loading {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 1005;
 }

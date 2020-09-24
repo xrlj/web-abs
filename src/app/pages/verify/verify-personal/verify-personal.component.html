@@ -1,12 +1,4 @@
 <div class="verify-user-layout">
-  <div class="verify-user-layout-header">
-    <div class="verify-user-layout-header-left">
-      <img src="assets/images/logo02.png">
-      <nz-divider nzType="vertical"></nz-divider>
-      <span>经办人实名认证</span>
-    </div>
-    <a nz-button nzType="link" (click)="logout()">退出登录</a>
-  </div>
   <!--准备资料提醒界面-->
   <div *ngIf="userStatus === 0 && current === -1" class="verify-user-layout-ready">
     <h3>经办人申请，请准备以下资料</h3>

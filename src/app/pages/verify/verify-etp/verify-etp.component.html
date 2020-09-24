@@ -1,12 +1,4 @@
 <div class="verify-etp-layout">
-  <div class="verify-etp-layout-header">
-    <div class="verify-etp-layout-header-left">
-      <img src="assets/images/logo02.png">
-      <nz-divider nzType="vertical"></nz-divider>
-      <span>企业实名认证</span>
-    </div>
-    <a nz-button nzType="link" (click)="logout()">退出登录</a>
-  </div>
   <div *ngIf="etpStatus === 0 && current === -1" class="verify-etp-layout-ready">
     <h3>企业实名认证前，请准备以下资料</h3>
     <p>要求：原件扫描件，或复印件加盖公章的扫描件</p>
@@ -141,27 +133,22 @@
           <nz-divider nzType="vertical"></nz-divider>
           <span>营业执照 <a style="text-decoration: underline" href="assets/images/business-license-sample.png"
                         target="_blank">示例</a></span>
-          <p>请上传JPG、PNG格式，文件不大于10M</p>
+          <p>请上传JPG、PNG格式，文件不大于10M。</p>
         </div>
         <div class="business-license">
           <nz-upload
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            [nzAction]="uploadFileUrl"
             nzListType="picture-card"
-            [(nzFileList)]="fileList"
-            [nzShowButton]="fileList.length < 1"
+            [(nzFileList)]="licenseFileList"
+            [nzShowButton]="licenseFileList.length < 1"
             [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
             [nzSize]="fileSize"
             [nzPreview]="handlePreview"
+            (nzChange)="fileUploadChange($event, 1)"
           >
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
-          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
-                    (nzOnCancel)="previewVisible = false">
-            <ng-template #modalContent>
-              <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
-            </ng-template>
-          </nz-modal>
         </div>
 
         <!--身份证-->
@@ -169,28 +156,24 @@
           <nz-divider nzType="vertical"></nz-divider>
           <span>法定代表人证件照(身份证正反面照) <a style="text-decoration: underline" href="assets/images/idcard-sample.png"
                                      target="_blank">示例</a></span>
-          <p>请上传JPG、PNG格式，文件不大于10M，身份证正反面需在同一页上</p>
+          <p>请上传JPG、PNG格式，文件不大于10M，身份证正反面需在同一页上。</p>
         </div>
         <div class="idcard">
           <nz-upload
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            [nzAction]="uploadFileUrl"
             nzListType="picture-card"
-            [(nzFileList)]="fileList"
-            [nzShowButton]="fileList.length < 1"
+            [(nzFileList)]="idCardFileList"
+            [nzShowButton]="idCardFileList.length < 1"
             [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
             [nzSize]="fileSize"
             [nzPreview]="handlePreview"
+            (nzChange)="fileUploadChange($event, 2)"
           >
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
-          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
-                    (nzOnCancel)="previewVisible = false">
-            <ng-template #modalContent>
-              <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
-            </ng-template>
-          </nz-modal>
         </div>
+
       </div>
       <!--第三步内容-->
       <div class="steps-third" *ngIf="current === 2">
@@ -202,16 +185,15 @@
         </div>
         <form nz-form [formGroup]="stepThirdForm">
           <nz-form-item>
-            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="etpBankName" nzRequired>开户银行</nz-form-label>
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="bankName" nzRequired>开户银行</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <nz-select
-                id="etpBankName"
-                formControlName="etpBankName"
+                id="bankName"
+                formControlName="bankName"
                 nzPlaceHolder="请选择"
-                (ngModelChange)="etpBankNameSelectChange($event)"
+                (ngModelChange)="bankNameSelectChange($event)"
               >
-                <nz-option nzValue="male" nzLabel="male"></nz-option>
-                <nz-option nzValue="female" nzLabel="female"></nz-option>
+                <nz-option *ngFor="let bankName of bankNameSelectList" [nzValue]="bankName" [nzLabel]="bankName"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -225,8 +207,7 @@
                 nzPlaceHolder="请选择"
                 (ngModelChange)="bankProvinceSelectChange($event)"
               >
-                <nz-option nzValue="gd" nzLabel="广东省"></nz-option>
-                <nz-option nzValue="female" nzLabel="female"></nz-option>
+                <nz-option *ngFor="let province of provinceSelectList" [nzValue]="province" [nzLabel]="province"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -239,17 +220,16 @@
                 nzPlaceHolder="请选择"
                 (ngModelChange)="bankCitySelectChange($event)"
               >
-                <nz-option nzValue="gd" nzLabel="广州市"></nz-option>
-                <nz-option nzValue="female" nzLabel="female"></nz-option>
+                <nz-option *ngFor="let city of citySelectList" [nzValue]="city" [nzLabel]="city"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
             <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="bankFullName" nzRequired>开户行全称</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
-              <input formControlName="bankFullName" id="bankFullName" placeholder="输入搜索选择" nz-input
-                     (input)="onInputBankFullName($event)" [nzAutocomplete]="auto"/>
-              <nz-autocomplete [nzDataSource]="bankFullNameSearchList" nzBackfill #auto></nz-autocomplete>
+              <input formControlName="branchName" id="branchName" placeholder="输入搜索选择" nz-input
+                     (keyup)="onInputBankFullName($event)" [nzAutocomplete]="auto"/>
+              <nz-autocomplete [nzDataSource]="branchNameSelectList" nzBackfill #auto></nz-autocomplete>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
@@ -271,17 +251,18 @@
           <nz-divider nzType="vertical"></nz-divider>
           <span>开户许可证 <a style="text-decoration: underline" href="assets/images/bank-license-sample.png"
                          target="_blank">示例</a></span>
-          <p>开户许可证或基本存款账户信息。</p>
+          <p>请上传JPG、PNG格式，文件不大于10M，开户许可证或基本存款账户信息。</p>
         </div>
         <div class="bank-license">
           <nz-upload
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            [nzAction]="uploadFileUrl"
             nzListType="picture-card"
-            [(nzFileList)]="fileList"
-            [nzShowButton]="fileList.length < 1"
+            [(nzFileList)]="bankLicenseFileList"
+            [nzShowButton]="bankLicenseFileList.length < 1"
             [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
             [nzSize]="fileSize"
             [nzPreview]="handlePreview"
+            (nzChange)="fileUploadChange($event, 3)"
           >
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
@@ -397,3 +378,11 @@
     </nz-result>
   </div>
 </div>
+
+<!--图片预览对话框，共用-->
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+          (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
+  </ng-template>
+</nz-modal>

@@ -123,11 +123,4 @@ export class VerifyPersonalComponent implements OnInit {
   next() {
     this.current++;
   }
-
-  /**
-   * 退出登录。
-   */
-  logout() {
-    this.commonService.logout(this.defaultBusService);
-  }
 }

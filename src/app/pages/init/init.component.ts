@@ -20,8 +20,7 @@ export class InitComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.checkVerify();
-    this.setMenus();
+    this.checkVerify();
   }
 
   checkVerify(): void {

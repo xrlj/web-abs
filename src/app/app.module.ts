@@ -3,13 +3,12 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {NZ_I18N, zh_CN} from 'ng-zorro-antd';
+import {NZ_I18N, NzSpinModule, zh_CN} from 'ng-zorro-antd';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy, registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import {CustomBtnComponent} from './components/custom-btn/custom-btn.component';
 import {httpInterceptorProviders} from './interceptors';
 import {IconsProviderModule} from './icons-provider.module';
 import {RouteReuseStrategy} from '@angular/router';
@@ -21,7 +20,7 @@ import {NzNotificationModule} from 'ng-zorro-antd/notification';
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [AppComponent, CustomBtnComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,7 +30,8 @@ registerLocaleData(zh);
     NzModalModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NzSpinModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: zh_CN},
@@ -40,7 +40,6 @@ registerLocaleData(zh);
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   exports: [
-    CustomBtnComponent
   ],
   bootstrap: [AppComponent]
 })

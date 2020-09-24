@@ -1,63 +1,11 @@
 @header-height: 70px;
 @content-margin-header: @header-height + 40px;
+@content-margin-bottom: 40px;
 
 .verify-etp-layout {
-  background-image: url("src/assets/images/invite-pc-bg.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
-  overflow: auto;
-
-  &-header {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 1000;
-    background: #FFFFFF;
-    height: @header-height;
-    width: 100%;
-    text-align: left;
-    border-bottom: 1px solid #e6e6e6;
-
-    &-left {
-      float: left;
-      margin-left: 20px;
-      text-align: center;
-      height: 40px;
-      margin-top: 13px;
-
-      &>img {
-        float: left;
-        width: 40px;
-        height: 100%;
-      }
-
-      &>nz-divider {
-        float: left;
-        height: 30px;
-        margin-left: 20px;
-        margin-top: 5px;
-      }
-
-      &>span {
-        float: left;
-        font-size: 22px;
-        margin-left: 20px;
-        margin-top: 2px;
-      }
-    }
-
-    &>a {
-      float: right;
-      font-size: 16px;
-      margin-top: 18px;
-      margin-right: 60px;
-      text-align: center;
-    }
-  }
 
   &-ready {
-    margin: @content-margin-header 18%;
+    margin: @content-margin-header 18% @content-margin-bottom;
     box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
     background: #fff;
     padding: 40px 30px 24px;
@@ -99,7 +47,7 @@
   }
 
   &-content {
-    margin: @content-margin-header 18%;
+    margin: @content-margin-header 18% @content-margin-bottom;
     background: #fff;
     padding: 50px 30px 24px;
     box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
@@ -189,19 +137,19 @@
   }
 
   &-error {
-    margin: @content-margin-header 18%;
+    margin: @content-margin-header 18% @content-margin-bottom;
     box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
     background: #fff;
   }
 
   &-processing {
-    margin: @content-margin-header 18%;
+    margin: @content-margin-header 18% @content-margin-bottom;
     box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
     background: #fff;
   }
 
   &-pay {
-    margin: @content-margin-header 20%;
+    margin: @content-margin-header 20% @content-margin-bottom;
     box-shadow: 0 0 60px 0 hsla(0,0%,72.2%,.13);
     background: #fff;
     min-height: 200px;

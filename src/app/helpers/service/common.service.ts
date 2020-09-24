@@ -35,4 +35,11 @@ export class CommonService {
         });
       });
   }
+
+  /**
+   * 获取登录用户所属企业的详情。
+   */
+  getEtpInfoByUser(): any {
+    return this.api.get(ApiPath.usercentral.enterprise.getEtpInfoByUser);
+  }
 }

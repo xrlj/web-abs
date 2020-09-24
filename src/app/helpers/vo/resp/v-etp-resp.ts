@@ -1,4 +1,4 @@
-export interface VCustomerEtpResp {
+export interface VEtpResp {
   /**
    * 企业id。
    */
@@ -20,6 +20,18 @@ export interface VCustomerEtpResp {
    */
   contactMobile: string;
   /**
+   * 社会统一信用代码
+   */
+  unifyCode: string;
+  /**
+   * 法人姓名
+   */
+  legalPerson: string;
+  /**
+   * 法人身份证号码。
+   */
+  legalPersonIdNo: string;
+  /**
    * 企业状态
    */
   status: number;
@@ -31,10 +43,6 @@ export interface VCustomerEtpResp {
    * 创建时间。
    */
   dateCreated: string;
-  /**
-   * 注册邀请。
-   */
-  registerInvitationUrl: string;
   /**
    * 注册状态
    */

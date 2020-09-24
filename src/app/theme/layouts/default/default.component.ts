@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {UIHelper} from '../../../helpers/ui-helper';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 import {AppAsideComponent, AppBodyComponent} from '../../components';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-default',
@@ -10,22 +11,17 @@ import {AppAsideComponent, AppBodyComponent} from '../../components';
   styleUrls: ['./default.component.less'],
   providers: [DefaultBusService]
 })
-export class DefaultComponent implements OnInit {
+export class DefaultComponent implements OnInit, OnDestroy {
+
   // 控制目录的展开/折叠
   collapsed = false;
-
-  isSpinning = false;
 
   @ViewChild(AppBodyComponent)
   private appBodyComponent: AppBodyComponent;
   @ViewChild(AppAsideComponent)
   private appAsideComponent: AppAsideComponent;
 
-  constructor(private router: Router, private uiHelper: UIHelper, private defaultBusService: DefaultBusService) {
-    // 订阅是否显示加载对话框事件
-    this.defaultBusService.loadingSpin$.subscribe(isLoadingSpin => {
-      this.isSpinning = isLoadingSpin;
-    });
+  constructor(private router: Router, private uiHelper: UIHelper) {
   }
 
   ngOnInit() {
@@ -50,5 +46,8 @@ export class DefaultComponent implements OnInit {
    */
   setAsideTheme(evt): void {
     this.appAsideComponent.changeAsideMenuTheme(evt);
+  }
+
+  ngOnDestroy(): void {
   }
 }

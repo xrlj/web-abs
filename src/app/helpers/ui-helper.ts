@@ -14,7 +14,10 @@ import {ThemeEnum} from './enum/theme-enum';
   providedIn: 'root'
 })
 export class UIHelper {
-  constructor(private utils: Utils, private router: Router, private message: NzMessageService, private notification: NzNotificationService, private modalService: NzModalService) {}
+  constructor(private utils: Utils, private router: Router,
+              private message: NzMessageService,
+              private notification: NzNotificationService,
+              private modalService: NzModalService) {}
 
   /**
    * 返回。相当按下浏览器返回按钮。
