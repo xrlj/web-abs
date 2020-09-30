@@ -17,7 +17,8 @@ export const ApiPath = {
     },
     enterprise: {
       getEtpInfoByInvitationCode: `/${usercentral}/enterprise/getEtpInfoByInvitationCode`, // 根据邀请码获取邀请企业信息
-      getEtpInfoByUser: `/${usercentral}/enterprise/getEtpInfoByUser` // 获取用户所属企业的详情
+      getEtpInfoByUser: `/${usercentral}/enterprise/getEtpInfoByUser`, // 获取用户所属企业的详情
+      saveOrUpdate: `/${usercentral}/enterprise/saveOrUpdate` // 保存或者更新企业信息。
     }
   },
   syscommon: {

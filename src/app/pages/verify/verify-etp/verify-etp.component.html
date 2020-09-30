@@ -106,8 +106,8 @@
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="telephone" nzRequired>公司座机号码</nz-form-label>
-              <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
+              <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="telephone">公司座机号码</nz-form-label>
+              <nz-form-control [nzSpan]="formControlSpanSize">
                 <input formControlName="telephone" id="telephone" placeholder="请输入公司座机号码" nz-input/>
               </nz-form-control>
             </nz-form-item>
@@ -267,12 +267,6 @@
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
-          <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
-                    (nzOnCancel)="previewVisible = false">
-            <ng-template #modalContent>
-              <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
-            </ng-template>
-          </nz-modal>
         </div>
       </div>
       <!--第四步内容-->
@@ -293,18 +287,23 @@
           </div>
 
           <div nz-result-extra>
-            <button nz-button nzType="primary">返回</button>
+            <button nz-button nzType="primary">刷新</button>
           </div>
         </nz-result>
       </div>
     </div>
     <div class="steps-action" *ngIf="current !== 3">
       <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()">
-        <span>上一步</span>
+        <span *ngIf="current === 0; else pre">返回</span>
+        <ng-template #pre>
+          <span>上一步</span>
+        </ng-template>
       </button>
-      <button style="margin-left: 8px" nz-button nzType="primary" (click)="next()"
-              [nzLoading]="registerBtnLoading" nzSize="default">
-        <span>下一步</span>
+      <button style="margin-left: 8px" nz-button nzType="primary" (click)="next()" nzSize="default">
+        <span *ngIf="current === 2; else submit">提交</span>
+        <ng-template #submit>
+          <span>下一步</span>
+        </ng-template>
       </button>
     </div>
   </div>

@@ -11,6 +11,7 @@ import {VBankBranchReq} from '../../../helpers/vo/req/v-bank-branch-req';
 import {environment} from '../../../../environments/environment';
 import {ApiPath} from '../../../api-path';
 import {FileUploadHelper} from '../../../helpers/file-upload-helper';
+import {VEtpReq} from '../../../helpers/vo/req/v-etp-req';
 
 @Component({
   selector: 'app-verify-etp',
@@ -21,6 +22,9 @@ export class VerifyEtpComponent implements OnInit {
 
   formLabelSpanSize = 9;
   formControlSpanSize = 7;
+
+  // 初始化网络数据
+  etpInfo: any;
 
   @Input()
   etpStatus; // 企业认证状态
@@ -48,7 +52,6 @@ export class VerifyEtpComponent implements OnInit {
 
   // 第三步
   stepThirdForm!: FormGroup;
-  registerBtnLoading = false;
   bankNameSelectList: string[] = [];  // 全部银行选择列表
   provinceSelectList: string[] = [];  // 省份选择列表
   citySelectList: string[] = [];  // 城市选择列表
@@ -76,7 +79,7 @@ export class VerifyEtpComponent implements OnInit {
       contactMobile: [null, [required, mobile, maxLength(11), minLength(11)]],
       email: [null, [required, email]],
       fax: [null, [notChinese]],
-      telephone: [null, [required, positiveInteger, maxLength(11)]],
+      telephone: [null, [positiveInteger, maxLength(11)]],
       address: [null, [required, maxLength(200)]],
       registeredAddress: [null, [required, maxLength(200)]]
     });
@@ -93,53 +96,23 @@ export class VerifyEtpComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEtpInfo();
-    this.getBankNameList();
-    this.getProvinceList();
   }
 
   getEtpInfo(): void {
     this.commonService.getEtpInfoByUser()
       .ok(data => {
-        console.log(data);
-      });
-  }
-
-  protocolChange(event): void {
-    this.protocolCheckErrorTip = !event;
-    this.shakeErrorTipLittleTime();
-  }
-
-  next(): void {
-    switch (this.current) {
-      case -1:
-        if (!this.protocolCheck) {
-          this.protocolCheckErrorTip = true;
-          this.shakeErrorTipLittleTime();
-          return;
+        this.etpInfo = data;
+        this.patchStepOne();
+      }).final(b => {
+      if (b) {
+        this.getBankNameList();
+        this.getProvinceList();
+        const province = this.etpInfo.extra.bankCard.province;
+        if (province) {
+          this.getCityByProvinceList(province);
         }
-        this.current += 1;
-        break;
-      case 0: // 第一步
-        this.current += 1;
-        break;
-      case 1: // 第二步
-        /*if (this.bankNameSelectList.length === 0 && this.provinceSelectList.length === 0) {
-          this.defaultBusService.showLoading(true);
-          this.getBankNameList();
-        } else {
-          this.current++;
-        }*/
-        this.current++;
-        break;
-      case 2: // 第三步
-        this.doneStatus = 'finish';
-        this.current += 1;
-        break;
-    }
-  }
-
-  previous() {
-    this.current -= 1;
+      }
+    });
   }
 
   getBankNameList(): void {
@@ -192,8 +165,173 @@ export class VerifyEtpComponent implements OnInit {
       .ok(data => {
         this.branchNameSelectList = data;
       }).final(b => {
-        this.branchNameListLoadFlag = false;
+      this.branchNameListLoadFlag = false;
     });
+  }
+
+  /**
+   * 填充第一步内容。
+   */
+  patchStepOne(): void {
+    if (!this.etpInfo) {
+      return;
+    }
+    this.stepOneForm.patchValue(
+      {
+        etpName: this.etpInfo.etpName,
+        unifyCode: this.etpInfo.unifyCode,
+        legalPerson: this.etpInfo.legalPerson,
+        legalPersonIdNo: this.etpInfo.legalPersonIdNo,
+        contactName: this.etpInfo.contactName,
+        contactMobile: this.etpInfo.contactMobile,
+        email: this.etpInfo.email,
+        fax: this.etpInfo.fax,
+        telephone: this.etpInfo.telephone,
+        address: this.etpInfo.address,
+        registeredAddress: this.etpInfo.registeredAddress
+      }
+    );
+  }
+
+  /**
+   * 填充第二步内容。
+   */
+  patchStepTwo(): void {
+    if (!this.etpInfo) {
+      return;
+    }
+    const licenseFile: NzUploadFile = {
+      name: this.etpInfo.extra.businessLicensePicFile.oriName, uid: this.etpInfo.extra.businessLicensePicFile.id,
+      status: 'done', url: this.etpInfo.extra.businessLicensePicFile.url
+    };
+    if (licenseFile.url !== '') {
+      this.licenseFileList[0] = licenseFile;
+    }
+    const idCardFile: NzUploadFile = {
+      name: this.etpInfo.extra.legalPersonIdNoPicFile.oriName, uid: this.etpInfo.extra.legalPersonIdNoPicFile.id,
+      status: 'done', url: this.etpInfo.extra.legalPersonIdNoPicFile.url
+    };
+    if (idCardFile.url !== '') {
+      this.idCardFileList[0] = idCardFile;
+    }
+  }
+
+  /**
+   * 填充第三步内容。
+   */
+  patchStepThird(): void {
+    if (!this.etpInfo) {
+      return;
+    }
+    const bankCard = this.etpInfo.extra.bankCard;
+    this.stepThirdForm.patchValue({
+      bankName: bankCard.etpBankName, bankProvince: bankCard.province,
+      bankCity: bankCard.city, branchName: bankCard.etpBranchName, bankAccountName: bankCard.etpBankCardName,
+      bankAccountNum: bankCard.etpBankCardNum
+    });
+    const permitPicFile: NzUploadFile = {
+      name: this.etpInfo.extra.permitPicFile.oriName, uid: this.etpInfo.extra.permitPicFile.id,
+      status: 'done', url: this.etpInfo.extra.permitPicFile.url
+    };
+    if (permitPicFile.url !== '') {
+      this.bankLicenseFileList[0] = permitPicFile;
+    }
+  }
+
+  protocolChange(event): void {
+    this.protocolCheckErrorTip = !event;
+    this.shakeErrorTipLittleTime();
+  }
+
+  next(): void {
+    switch (this.current) {
+      case -1:
+        if (!this.protocolCheck) {
+          this.protocolCheckErrorTip = true;
+          this.shakeErrorTipLittleTime();
+          return;
+        }
+        this.current += 1;
+        break;
+      case 0: // 第一步
+        if (this.stepOneForm.valid) {
+          this.current += 1;
+          this.patchStepTwo();
+        } else {
+          for (const key in this.stepOneForm.controls) {
+            this.stepOneForm.controls[key].markAsDirty();
+            this.stepOneForm.controls[key].updateValueAndValidity();
+          }
+        }
+        break;
+      case 1: // 第二步
+        if (this.licenseFileList.length === 0) {
+          this.uiHelper.msgTipWarning('请上传营业执照图片');
+          break;
+        }
+        if (this.idCardFileList.length === 0) {
+          this.uiHelper.msgTipWarning('请上传法人身份证正反面图片');
+          break;
+        }
+        this.current++;
+        this.patchStepThird();
+        break;
+      case 2: // 第三步
+        this.submit();
+        break;
+    }
+  }
+
+  submit(): void {
+    const stepOneFormValues = this.stepOneForm.value;
+    const stepThirdFormValues = this.stepThirdForm.value;
+    const body: VEtpReq = {};
+    body.etpName = stepOneFormValues.etpName;
+    body.unifyCode = stepOneFormValues.unifyCode;
+    body.legalPerson = stepOneFormValues.legalPerson;
+    body.legalPersonIdNo = stepOneFormValues.legalPersonIdNo;
+    body.contactName = stepOneFormValues.contactName;
+    body.contactMobile = stepOneFormValues.contactMobile;
+    body.email = stepOneFormValues.email;
+    body.fax = stepOneFormValues.fax;
+    body.telephone = stepOneFormValues.telephone;
+    body.address = stepOneFormValues.address;
+    body.registeredAddress = stepOneFormValues.registeredAddress;
+
+    if (this.licenseFileList.length > 0) {
+      body.businessLicensePicFileId = this.licenseFileList[0].uid;
+    }
+    if (this.idCardFileList.length > 0) {
+      body.legalPersonIdNoPicFileId = this.idCardFileList[0].uid;
+    }
+
+    body.bankCardInfo.etpBankName = stepThirdFormValues.bankName;
+    body.bankCardInfo.province = stepThirdFormValues.bankProvince;
+    body.bankCardInfo.city = stepThirdFormValues.bankCity;
+    body.bankCardInfo.etpBranchName = stepThirdFormValues.branchName;
+    body.bankCardInfo.etpBankCardName = stepThirdFormValues.bankAccountName;
+    body.bankCardInfo.etpBankCardNum = stepOneFormValues.bankAccountNum;
+
+    if (this.bankLicenseFileList.length > 0) {
+      body.bankCardInfo.permitPicFileId = this.bankLicenseFileList[0].uid;
+    }
+    console.log(body);
+
+    this.defaultBusService.showLoading(true);
+    this.verifyEtpService.saveOrUpdate(body)
+      .ok(data => {
+        console.log(data);
+        this.doneStatus = 'finish';
+        this.current += 1;
+      }).error(error => {
+        this.uiHelper.msgTipError(error.msg);
+      }).final(b => {
+        this.defaultBusService.showLoading(false);
+      });
+  }
+
+  previous() {
+    this.current -= 1;
   }
 
   /**

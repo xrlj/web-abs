@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Api} from '../../../helpers/http/api';
 import {ApiPath} from '../../../api-path';
 import {VBankBranchReq} from '../../../helpers/vo/req/v-bank-branch-req';
+import {VEtpReq} from '../../../helpers/vo/req/v-etp-req';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class VerifyEtpService {
 
   getBranchNameTopNumList(vo: VBankBranchReq): any {
     return this.api.post(ApiPath.syscommon.bankBranchDic.getBranchNameTopNumList, vo);
+  }
+
+  saveOrUpdate(vo: VEtpReq): any {
+    return this.api.post(ApiPath.usercentral.enterprise.saveOrUpdate, vo);
   }
 }
