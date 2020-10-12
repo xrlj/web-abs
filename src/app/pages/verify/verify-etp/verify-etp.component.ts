@@ -12,6 +12,10 @@ import {environment} from '../../../../environments/environment';
 import {ApiPath} from '../../../api-path';
 import {FileUploadHelper} from '../../../helpers/file-upload-helper';
 import {VEtpReq} from '../../../helpers/vo/req/v-etp-req';
+import {VBankCardReq} from '../../../helpers/vo/req/v-bank-card-req';
+import {Api} from '../../../helpers/http/api';
+import {Router} from '@angular/router';
+import {AppPath} from '../../../app-path';
 
 @Component({
   selector: 'app-verify-etp',
@@ -67,7 +71,7 @@ export class VerifyEtpComponent implements OnInit {
               private commonService: CommonService,
               private defaultBusService: DefaultBusService,
               private verifyEtpService: VerifyEtpService,
-              private uiHelper: UIHelper,
+              private uiHelper: UIHelper, private router: Router,
               private fileUploadHelper: FileUploadHelper) {
     const {required, chinese, notChinese, positiveInteger, maxLength, minLength, email, mobile} = MyValidators;
     this.stepOneForm = this.fb.group({
@@ -223,15 +227,21 @@ export class VerifyEtpComponent implements OnInit {
     if (!this.etpInfo) {
       return;
     }
+    if (!this.etpInfo.extra.bankCard) {
+      return;
+    }
     const bankCard = this.etpInfo.extra.bankCard;
     this.stepThirdForm.patchValue({
-      bankName: bankCard.etpBankName, bankProvince: bankCard.province,
-      bankCity: bankCard.city, branchName: bankCard.etpBranchName, bankAccountName: bankCard.etpBankCardName,
+      bankName: bankCard.etpBankName,
+      bankProvince: bankCard.province,
+      bankCity: bankCard.city,
+      branchName: bankCard.etpBranchName,
+      bankAccountName: bankCard.etpBankCardName,
       bankAccountNum: bankCard.etpBankCardNum
     });
     const permitPicFile: NzUploadFile = {
-      name: this.etpInfo.extra.permitPicFile.oriName, uid: this.etpInfo.extra.permitPicFile.id,
-      status: 'done', url: this.etpInfo.extra.permitPicFile.url
+      name: bankCard.extra.permitPicFile.oriName, uid: bankCard.extra.permitPicFile.id,
+      status: 'done', url: bankCard.extra.permitPicFile.url
     };
     if (permitPicFile.url !== '') {
       this.bankLicenseFileList[0] = permitPicFile;
@@ -277,7 +287,18 @@ export class VerifyEtpComponent implements OnInit {
         this.patchStepThird();
         break;
       case 2: // 第三步
-        this.submit();
+        if (this.stepThirdForm.valid) {
+          if (this.bankLicenseFileList.length === 0) {
+            this.uiHelper.msgTipWarning('请上传开户许可证图片');
+            break;
+          }
+          this.submit();
+        } else {
+          for (const key in this.stepThirdForm.controls) {
+            this.stepThirdForm.controls[key].markAsDirty();
+            this.stepThirdForm.controls[key].updateValueAndValidity();
+          }
+        }
         break;
     }
   }
@@ -285,45 +306,50 @@ export class VerifyEtpComponent implements OnInit {
   submit(): void {
     const stepOneFormValues = this.stepOneForm.value;
     const stepThirdFormValues = this.stepThirdForm.value;
-    const body: VEtpReq = {};
-    body.etpName = stepOneFormValues.etpName;
-    body.unifyCode = stepOneFormValues.unifyCode;
-    body.legalPerson = stepOneFormValues.legalPerson;
-    body.legalPersonIdNo = stepOneFormValues.legalPersonIdNo;
-    body.contactName = stepOneFormValues.contactName;
-    body.contactMobile = stepOneFormValues.contactMobile;
-    body.email = stepOneFormValues.email;
-    body.fax = stepOneFormValues.fax;
-    body.telephone = stepOneFormValues.telephone;
-    body.address = stepOneFormValues.address;
-    body.registeredAddress = stepOneFormValues.registeredAddress;
+    const etpReq: VEtpReq = {};
+    const vBankCardReq: VBankCardReq = {};
+    etpReq.id = this.etpInfo.id;
+    etpReq.etpName = stepOneFormValues.etpName;
+    etpReq.unifyCode = stepOneFormValues.unifyCode;
+    etpReq.legalPerson = stepOneFormValues.legalPerson;
+    etpReq.legalPersonIdNo = stepOneFormValues.legalPersonIdNo;
+    etpReq.contactName = stepOneFormValues.contactName;
+    etpReq.contactMobile = stepOneFormValues.contactMobile;
+    etpReq.email = stepOneFormValues.email;
+    etpReq.fax = stepOneFormValues.fax;
+    etpReq.telephone = stepOneFormValues.telephone;
+    etpReq.address = stepOneFormValues.address;
+    etpReq.registeredAddress = stepOneFormValues.registeredAddress;
 
     if (this.licenseFileList.length > 0) {
-      body.businessLicensePicFileId = this.licenseFileList[0].uid;
+      etpReq.businessLicensePicFileId = this.licenseFileList[0].uid;
     }
     if (this.idCardFileList.length > 0) {
-      body.legalPersonIdNoPicFileId = this.idCardFileList[0].uid;
+      etpReq.legalPersonIdNoPicFileId = this.idCardFileList[0].uid;
     }
 
-    body.bankCardInfo.etpBankName = stepThirdFormValues.bankName;
-    body.bankCardInfo.province = stepThirdFormValues.bankProvince;
-    body.bankCardInfo.city = stepThirdFormValues.bankCity;
-    body.bankCardInfo.etpBranchName = stepThirdFormValues.branchName;
-    body.bankCardInfo.etpBankCardName = stepThirdFormValues.bankAccountName;
-    body.bankCardInfo.etpBankCardNum = stepOneFormValues.bankAccountNum;
+    // 银行卡信息
+    vBankCardReq.id = this.etpInfo.extra.bankCard.id;
+    vBankCardReq.etpBankName = stepThirdFormValues.bankName;
+    vBankCardReq.province = stepThirdFormValues.bankProvince;
+    vBankCardReq.city = stepThirdFormValues.bankCity;
+    vBankCardReq.etpBranchName = stepThirdFormValues.branchName;
+    vBankCardReq.etpBankCardName = stepThirdFormValues.bankAccountName;
+    vBankCardReq.etpBankCardNum = stepThirdFormValues.bankAccountNum;
 
     if (this.bankLicenseFileList.length > 0) {
-      body.bankCardInfo.permitPicFileId = this.bankLicenseFileList[0].uid;
+      vBankCardReq.permitPicFileId = this.bankLicenseFileList[0].uid;
     }
-    console.log(body);
+    etpReq.bankCardInfo = vBankCardReq;
+    console.log(etpReq);
 
     this.defaultBusService.showLoading(true);
-    this.verifyEtpService.saveOrUpdate(body)
+    this.verifyEtpService.saveOrUpdate(etpReq)
       .ok(data => {
         console.log(data);
         this.doneStatus = 'finish';
         this.current += 1;
-      }).error(error => {
+      }).fail(error => {
         this.uiHelper.msgTipError(error.msg);
       }).final(b => {
         this.defaultBusService.showLoading(false);
@@ -349,13 +375,14 @@ export class VerifyEtpComponent implements OnInit {
    * 选择开户行回调。
    */
   bankNameSelectChange($event: any) {
+    this.stepThirdForm.patchValue({bankProvince: undefined, bankCity: undefined, branchName: undefined});
   }
 
   /**
    * 选择省份回调。
    */
   bankProvinceSelectChange($event: any) {
-    this.stepThirdForm.patchValue({bankCity: undefined});
+    this.stepThirdForm.patchValue({bankCity: undefined, branchName: undefined});
     if (!$event) {
       return;
     }
@@ -367,6 +394,7 @@ export class VerifyEtpComponent implements OnInit {
    * 选择城市回调。
    */
   bankCitySelectChange($event: any) {
+    this.stepThirdForm.patchValue({branchName: undefined});
   }
 
   /**
@@ -401,5 +429,12 @@ export class VerifyEtpComponent implements OnInit {
         this.bankLicenseFileList[0] = file;
       }
     }
+  }
+
+  /**
+   * 刷新认证状态。
+   */
+  refreshStatus(): void {
+    this.router.navigateByUrl(AppPath.init);
   }
 }

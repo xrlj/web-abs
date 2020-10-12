@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 import {CommonService} from '../../../helpers/service/common.service';
 
@@ -8,6 +8,9 @@ import {CommonService} from '../../../helpers/service/common.service';
   styleUrls: ['./verify-header.component.less']
 })
 export class VerifyHeaderComponent implements OnInit {
+
+  @Input()
+  verifyTitle: string;
 
   constructor(private defaultBusService: DefaultBusService, private commonService: CommonService) { }
 

@@ -10,15 +10,13 @@ import {DefaultBusService} from '../../helpers/event-bus/default-bus.service';
   templateUrl: './verify.component.html',
   styleUrls: ['./verify.component.less']
 })
-export class VerifyComponent implements OnInit, OnDestroy {
-
-  isSpinning = false;
+export class VerifyComponent implements OnInit {
 
   etpStatus = 0;
   userStatus = 0;
+  verifyTitle = '企业实名认证';
 
-  constructor(private router: ActivatedRoute, private uiHelper: UIHelper,
-              private defaultBusService: DefaultBusService) {
+  constructor(private router: ActivatedRoute, private uiHelper: UIHelper) {
   }
 
   ngOnInit(): void {
@@ -28,11 +26,8 @@ export class VerifyComponent implements OnInit, OnDestroy {
     const statusInfo = JSON.parse(localStorage.getItem(Constants.localStorageKey.verifyStatus));
     this.etpStatus = statusInfo.etpStatus;
     this.userStatus = statusInfo.userStatus;
-  }
-
-  ngOnDestroy(): void {
-    /*if (this.defaultBusServiceSubscribe) {
-      this.defaultBusServiceSubscribe.unsubscribe();
-    }*/
+    if (this.etpStatus === 4 && this.userStatus !== 4) {
+      this.verifyTitle = '个人账号实名认证';
+    }
   }
 }

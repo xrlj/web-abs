@@ -1,6 +1,9 @@
 import {VBankCardReq} from './v-bank-card-req';
 
 export interface VEtpReq {
+  /**
+   * 企业信息id。
+   */
   id?: string;
   /**
    * 企业名称。

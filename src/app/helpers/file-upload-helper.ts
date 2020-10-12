@@ -18,7 +18,7 @@ import {UIHelper} from './ui-helper';
 export class FileUploadHelper {
   constructor(private uiHelper: UIHelper, private httpUtils: HttpUtils) {}
 
-  uploadFileHandleChange({ file, fileList }: UploadChangeParam): any {
+  uploadFileHandleChange({ file, fileList }: UploadChangeParam, isTip?: boolean | false): any {
     const status = file.status;
     if (status !== 'uploading') {
       console.log(file, fileList);
@@ -26,7 +26,9 @@ export class FileUploadHelper {
     if (status === 'done') {
       const response = file.response;
       if (!response) {
-        this.uiHelper.msgTipError(`${file.name} 文件上传失败`);
+        if (isTip) {
+          this.uiHelper.msgTipError(`${file.name} 文件上传失败`);
+        }
         return;
       }
 
@@ -34,7 +36,9 @@ export class FileUploadHelper {
       const code = response.code;
       const msg = response.msg;
       if (success) {
-        this.uiHelper.msgTipSuccess(`${file.name} 文件上传成功。`);
+        if (isTip) {
+          this.uiHelper.msgTipSuccess(`${file.name} 文件上传成功。`);
+        }
         return response.data;
       } else {
         const b = this.httpUtils.dealError(code, msg);
@@ -43,7 +47,9 @@ export class FileUploadHelper {
         }
       }
     } else if (status === 'error') {
-      this.uiHelper.msgTipError(`${file.name} 文件上传失败`);
+      if (isTip) {
+        this.uiHelper.msgTipError(`${file.name} 文件上传失败`);
+      }
     }
 
     return undefined;

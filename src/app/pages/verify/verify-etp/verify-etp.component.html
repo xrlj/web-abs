@@ -287,7 +287,7 @@
           </div>
 
           <div nz-result-extra>
-            <button nz-button nzType="primary">刷新</button>
+            <button nz-button nzType="primary" (click)="refreshStatus()">确定</button>
           </div>
         </nz-result>
       </div>
@@ -322,6 +322,9 @@
             <a>&nbsp;&nbsp;{{askPhone}}</a>
           </p>
         </div>
+      </div>
+      <div nz-result-extra>
+        <button nz-button nzType="primary" (click)="refreshStatus()">刷新</button>
       </div>
     </nz-result>
   </div>
@@ -372,7 +375,7 @@
         </div>
       </div>
       <div nz-result-extra>
-        <button nz-button nzType="primary">重新认证</button>
+        <button nz-button nzType="primary" (click)="etpStatus = 0">重新认证</button>
       </div>
     </nz-result>
   </div>

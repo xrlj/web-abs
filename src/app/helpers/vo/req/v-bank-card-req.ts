@@ -1,5 +1,8 @@
 export interface VBankCardReq {
-
+  /**
+   * 银行卡信息id。
+   */
+  id?: string;
   /**
    * 开户行名称。
    */
