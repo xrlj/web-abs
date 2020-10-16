@@ -4,13 +4,11 @@ import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/c
 import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {Constants} from '../constants';
-import {HandleError, HttpErrorHandler} from './http-error-handler';
+import {HttpErrorHandler} from './http-error-handler';
 import {environment} from '../../../environments/environment';
 import {UIHelper} from '../ui-helper';
-import { Router } from '@angular/router';
-import {AppPath} from '../../app-path';
+import {Router} from '@angular/router';
 import {HttpUtils} from './HttpUtils';
-import {ContentTypeEnum} from './content-type-enum';
 
 function createHttpOptions(refresh = false) {
   const params = new HttpParams();

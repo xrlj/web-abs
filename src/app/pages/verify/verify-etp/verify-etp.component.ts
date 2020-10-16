@@ -99,7 +99,9 @@ export class VerifyEtpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEtpInfo();
+    if (this.etpStatus === 0) {
+      this.getEtpInfo();
+    }
   }
 
   getEtpInfo(): void {
