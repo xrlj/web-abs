@@ -30,4 +30,8 @@ export class VerifyEtpService {
   saveOrUpdate(vo: VEtpReq): any {
     return this.api.post(ApiPath.usercentral.enterprise.saveOrUpdate, vo);
   }
+
+  verifyEnterprise(vo: any): any {
+    return  this.api.post(ApiPath.esign.eSignApi.verifyEnterprise, vo);
+  }
 }

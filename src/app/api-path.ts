@@ -4,6 +4,7 @@ const usercentral = 'usercentral';
 const syscommon = 'syscommon';
 const sysfilesystem = 'sysfilesystem'; // 文件系统服务
 const sysnotify = 'sysnotify'; // 通知服务
+const esign = 'esign'; // e签宝服务
 /****************服务名称 end********************/
 
 export const ApiPath = {
@@ -38,6 +39,11 @@ export const ApiPath = {
     smsApi: {
       register: `/${sysnotify}/sms/register`, // 注册短信通知
       verifyAuthCode: `/${sysnotify}/sms/verifyAuthCode`  // 注册验证码短信
+    }
+  },
+  esign: {
+    eSignApi: {
+      verifyEnterprise: `/${esign}/esign/verifyEnterprise`, // e签宝-企业信息校验。
     }
   }
 };

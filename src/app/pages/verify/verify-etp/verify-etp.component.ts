@@ -13,7 +13,6 @@ import {ApiPath} from '../../../api-path';
 import {FileUploadHelper} from '../../../helpers/file-upload-helper';
 import {VEtpReq} from '../../../helpers/vo/req/v-etp-req';
 import {VBankCardReq} from '../../../helpers/vo/req/v-bank-card-req';
-import {Api} from '../../../helpers/http/api';
 import {Router} from '@angular/router';
 import {AppPath} from '../../../app-path';
 
@@ -267,8 +266,25 @@ export class VerifyEtpComponent implements OnInit {
         break;
       case 0: // 第一步
         if (this.stepOneForm.valid) {
-          this.current += 1;
-          this.patchStepTwo();
+          const stepOneValues = this.stepOneForm.value;
+          this.defaultBusService.showLoading(true);
+          this.verifyEtpService.verifyEnterprise({
+            name: stepOneValues.etpName,
+            codeUSC: stepOneValues.unifyCode,
+            legalName: stepOneValues.legalPerson,
+            legalIdno: stepOneValues.legalPersonIdNo
+          }).ok(data => {
+            if (data && data.serviceId) {
+              this.current += 1;
+              this.patchStepTwo();
+            } else {
+              this.uiHelper.msgTipError('企业信息有误');
+            }
+          }).fail(error => {
+            this.uiHelper.msgTipError(error.msg);
+          }).final(b => {
+            this.defaultBusService.showLoading(false);
+          });
         } else {
           for (const key in this.stepOneForm.controls) {
             this.stepOneForm.controls[key].markAsDirty();
@@ -352,10 +368,10 @@ export class VerifyEtpComponent implements OnInit {
         this.doneStatus = 'finish';
         this.current += 1;
       }).fail(error => {
-        this.uiHelper.msgTipError(error.msg);
-      }).final(b => {
-        this.defaultBusService.showLoading(false);
-      });
+      this.uiHelper.msgTipError(error.msg);
+    }).final(b => {
+      this.defaultBusService.showLoading(false);
+    });
   }
 
   previous() {
