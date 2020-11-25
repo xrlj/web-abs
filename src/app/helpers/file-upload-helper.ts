@@ -7,7 +7,7 @@ import {Utils} from './utils';
 import {Router} from '@angular/router';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {VMenuResp} from './vo/resp/v-menu-resp';
-import {NzTreeNode, UploadChangeParam} from 'ng-zorro-antd';
+import {NzTreeNode, NzUploadChangeParam, UploadChangeParam} from 'ng-zorro-antd';
 import {ThemeEnum} from './enum/theme-enum';
 import {HttpUtils} from './http/HttpUtils';
 import {UIHelper} from './ui-helper';
@@ -18,7 +18,7 @@ import {UIHelper} from './ui-helper';
 export class FileUploadHelper {
   constructor(private uiHelper: UIHelper, private httpUtils: HttpUtils) {}
 
-  uploadFileHandleChange({ file, fileList }: UploadChangeParam, isTip?: boolean | false): any {
+  uploadFileHandleChange({ file, fileList }: NzUploadChangeParam, isTip?: boolean | false): any {
     const status = file.status;
     if (status !== 'uploading') {
       console.log(file, fileList);
