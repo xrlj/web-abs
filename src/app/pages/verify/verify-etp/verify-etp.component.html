@@ -339,12 +339,12 @@
       <p>系统会向您提供的企业对公银行账户汇入小额鉴权验证款，请您登陆网银查询后输入小额鉴权验证款。</p>
       <div>
         <span>验证款：</span>
-        <nz-input-number [(ngModel)]="validPayNum" [nzMin]="0.1" [nzMax]="1" [nzStep]="0.1"
+        <nz-input-number [(ngModel)]="validPayNum" [nzMin]="0.01" [nzMax]="1" [nzStep]="0.01"
                          [nzAutoFocus]="true"></nz-input-number>
         <span style="margin-left: 5px;">元</span>
         <span appTextColorTheme>（您有3次机会输入正确金额！）</span>
       </div>
-      <button nz-button nzSize="default" nzType="primary">提交</button>
+      <button nz-button nzSize="default" nzType="primary" (click)="payAuth()">提交</button>
     </div>
   </div>
   <!--实名认证错误界面-->

@@ -15,6 +15,7 @@ import {VEtpReq} from '../../../helpers/vo/req/v-etp-req';
 import {VBankCardReq} from '../../../helpers/vo/req/v-bank-card-req';
 import {Router} from '@angular/router';
 import {AppPath} from '../../../app-path';
+import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
 
 @Component({
   selector: 'app-verify-etp',
@@ -98,7 +99,7 @@ export class VerifyEtpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.etpStatus === 0) {
+    if (this.etpStatus === 0 || this.etpStatus === 5) {
       this.getEtpInfo();
     }
   }
@@ -454,5 +455,28 @@ export class VerifyEtpComponent implements OnInit {
    */
   refreshStatus(): void {
     this.router.navigateByUrl(AppPath.init);
+  }
+
+  /**
+   * 验证对公打款金额。
+   */
+  payAuth(): void {
+    if (!this.validPayNum) {
+      this.uiHelper.msgTipWarning('请输入验证金额');
+      return;
+    }
+    this.defaultBusService.showLoading(true);
+    this.verifyEtpService.checkPayMoney(this.validPayNum, this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId))
+      .ok(data => {
+        if (data) {
+          this.uiHelper.msgTipSuccess('恭喜企业实名认证完成');
+        }
+      })
+      .fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      })
+      .final(b => {
+        this.defaultBusService.showLoading(false);
+      });
   }
 }

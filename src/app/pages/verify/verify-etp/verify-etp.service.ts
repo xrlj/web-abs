@@ -34,4 +34,8 @@ export class VerifyEtpService {
   verifyEnterprise(vo: any): any {
     return  this.api.post(ApiPath.esign.eSignApi.verifyEnterprise, vo);
   }
+
+  checkPayMoney(money: number, etpId: string): any {
+    return this.api.post(`${ApiPath.usercentral.enterprise.checkPayMoney}/${money}/${etpId}`);
+  }
 }

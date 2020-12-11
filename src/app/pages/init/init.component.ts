@@ -23,10 +23,14 @@ export class InitComponent implements OnInit {
     this.checkVerify();
   }
 
+  /**
+   * 检查企业，登录账户审核认证状态。
+   */
   checkVerify(): void {
     // 获取用户企业实名认证、个人实名认证状态信息
     this.api.get(ApiPath.usercentral.userApi.getAuthenticateStatus)
       .ok(data => {
+        console.log(`认证信息》》》》》》：${JSON.stringify(data)}`)
         const uStatus = data.userStatus;
         const eStatus = data.etpStatus;
         if (uStatus === 4 && eStatus === 4) { // 企业、个人都已经实名认证
