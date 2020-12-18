@@ -14,7 +14,9 @@ export const ApiPath = {
     userApi: {
       getUserMenus: `/${usercentral}/user/getUserMenus`,  // 登录后获取用户拥有的菜单列表
       getAuthenticateStatus: `/${usercentral}/user/getAuthenticateStatus`,  // 获取各认证状态信息
-      registerByInvitationCode: `/${usercentral}/user/registerByInvitationCode` // 邀请码注册，提交保存注册信息
+      registerByInvitationCode: `/${usercentral}/user/registerByInvitationCode`, // 邀请码注册，提交保存注册信息
+      getUserInfoById: `/${usercentral}/user/getUserInfoById`, // 根据用户id获取用户详情信息。
+      saveVerifyCheckInfo: `/${usercentral}/user/saveVerifyCheckInfo` // 提交个人实名认证信息到后台待审核。
     },
     enterprise: {
       getEtpInfoByInvitationCode: `/${usercentral}/enterprise/getEtpInfoByInvitationCode`, // 根据邀请码获取邀请企业信息
@@ -39,12 +41,14 @@ export const ApiPath = {
   sysnotify: {
     smsApi: {
       register: `/${sysnotify}/sms/register`, // 注册短信通知
+      authentication: `/${sysnotify}/sms/authentication`, // 身份验证验证码
       verifyAuthCode: `/${sysnotify}/sms/verifyAuthCode`  // 注册验证码短信
     }
   },
   esign: {
     eSignApi: {
       verifyEnterprise: `/${esign}/esign/verifyEnterprise`, // e签宝-企业信息校验。
+      verifyPersonal: `/${esign}/esign/verifyPersonal` // 个人实名认证（运营商三要素）。
     }
   }
 };

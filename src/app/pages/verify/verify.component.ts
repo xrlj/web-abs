@@ -4,6 +4,8 @@ import {UIHelper} from '../../helpers/ui-helper';
 import {Constants} from '../../helpers/constants';
 import {Subscription} from 'rxjs';
 import {DefaultBusService} from '../../helpers/event-bus/default-bus.service';
+import {EnterpriseStatusEnum} from '../../helpers/enum/enterprise-status-enum';
+import {UserStatusEnum} from '../../helpers/enum/user-status-enum';
 
 @Component({
   selector: 'app-verify',
@@ -11,6 +13,9 @@ import {DefaultBusService} from '../../helpers/event-bus/default-bus.service';
   styleUrls: ['./verify.component.less']
 })
 export class VerifyComponent implements OnInit {
+
+  userStatusEnum: typeof  UserStatusEnum = UserStatusEnum; // 用户状态枚举
+  enterpriseStatusEnum: typeof  EnterpriseStatusEnum = EnterpriseStatusEnum; // 企业状态枚举
 
   etpStatus = 0;
   userStatus = 0;
@@ -26,7 +31,7 @@ export class VerifyComponent implements OnInit {
     const statusInfo = JSON.parse(localStorage.getItem(Constants.localStorageKey.verifyStatus));
     this.etpStatus = statusInfo.etpStatus;
     this.userStatus = statusInfo.userStatus;
-    if (this.etpStatus === 4 && this.userStatus !== 4) {
+    if (this.etpStatus === EnterpriseStatusEnum.VERIFIED_PASS && this.userStatus !== UserStatusEnum.CHECK_PASS) {
       this.verifyTitle = '个人账号实名认证';
     }
   }

@@ -39,7 +39,41 @@ export class CommonService {
   /**
    * 获取登录用户所属企业的详情。
    */
-  getEtpInfoByUser(): any {
-    return this.api.get(ApiPath.usercentral.enterprise.getEtpInfoByUser);
+  getEtpInfoByUser(userId: string): any {
+    return this.api.get(`${ApiPath.usercentral.enterprise.getEtpInfoByUser}/${userId}`);
   }
+
+  /*************************** 短信发送相关 start  ****************************/
+
+  /**
+   * 校验注册验证码。
+   * @param mobileNum 手机号码
+   * @param code 输入的验证码
+   */
+  verifyAuthCode(mobileNum: string, code: string): any {
+    return this.api.post(ApiPath.sysnotify.smsApi.verifyAuthCode, {mobile: mobileNum, authCode: code});
+  }
+
+  /**
+   * 身份验证验证码短信发送
+   * @param mobileNum 手机号码
+   * @param effectiveTime 短信验证码有效时间,单位（秒）
+   */
+  authenticationSmsCode(mobileNum: string, _effectiveTime: number): any {
+    return this.api.post(ApiPath.sysnotify.smsApi.authentication, {mobile: mobileNum, effectiveTime: _effectiveTime});
+  }
+
+  /*************************** 短信发送相关 end  ****************************/
+
+  /**************************** 用户信息相关 start ********************************/
+
+  /**
+   * 获取用户详情。
+   * @param userId 用户id
+   */
+  getUserInfoById(userId: string): any {
+    return this.api.get(`${ApiPath.usercentral.userApi.getUserInfoById}/${userId}`)
+  }
+
+  /**************************** 用户信息相关 end ********************************/
 }

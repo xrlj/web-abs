@@ -1,5 +1,5 @@
 <div class="verify-etp-layout">
-  <div *ngIf="etpStatus === 0 && current === -1" class="verify-etp-layout-ready">
+  <div *ngIf="etpStatus === enterpriseStatusEnum.CHECK_WAIT && current === -1" class="verify-etp-layout-ready">
     <h3>企业实名认证前，请准备以下资料</h3>
     <p>要求：原件扫描件，或复印件加盖公章的扫描件</p>
     <nz-divider></nz-divider>
@@ -22,7 +22,7 @@
     </div>
   </div>
   <!--提交认证信息-->
-  <div *ngIf="etpStatus === 0 && current !== -1" class="verify-etp-layout-content">
+  <div *ngIf="etpStatus === enterpriseStatusEnum.CHECK_WAIT && current !== -1" class="verify-etp-layout-content">
     <div class="verify-etp-layout-content-title">
       <nz-steps nzLabelPlacement="vertical" [nzCurrent]="current">
         <nz-step nzTitle="填写企业基础信息"></nz-step>
@@ -308,7 +308,7 @@
     </div>
   </div>
   <!--审核中提示界面-->
-  <div *ngIf="etpStatus === 1 || etpStatus === 2" class="verify-etp-layout-processing">
+  <div *ngIf="etpStatus === enterpriseStatusEnum.CHECK_PASS|| etpStatus === enterpriseStatusEnum.VERIFIED_WAITING" class="verify-etp-layout-processing">
     <nz-result
       nzTitle="审核中……"
       nzStatus="info"
@@ -329,7 +329,7 @@
     </nz-result>
   </div>
   <!--小额鉴权,对公打款-->
-  <div *ngIf="etpStatus === 3" class="verify-etp-layout-pay">
+  <div *ngIf="etpStatus === enterpriseStatusEnum.VERIFIED_PAYED" class="verify-etp-layout-pay">
     <div class="info-line-title">
       <nz-divider nzType="vertical"></nz-divider>
       <span>营业执照</span>
@@ -340,7 +340,7 @@
       <div>
         <span>验证款：</span>
         <nz-input-number [(ngModel)]="validPayNum" [nzMin]="0.01" [nzMax]="1" [nzStep]="0.01"
-                         [nzAutoFocus]="true"></nz-input-number>
+                         [nzAutoFocus]="false" (keydown.enter)="payAuth()"></nz-input-number>
         <span style="margin-left: 5px;">元</span>
         <span appTextColorTheme>（您有3次机会输入正确金额！）</span>
       </div>
@@ -348,7 +348,7 @@
     </div>
   </div>
   <!--实名认证错误界面-->
-  <div *ngIf="etpStatus === 5" class="verify-etp-layout-error">
+  <div *ngIf="etpStatus === enterpriseStatusEnum.CHECK_FAILURE" class="verify-etp-layout-error">
     <nz-result
       nzTitle="企业实名认证失败"
       nzStatus="error"

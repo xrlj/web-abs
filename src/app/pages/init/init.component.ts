@@ -5,7 +5,8 @@ import {ApiPath} from '../../api-path';
 import {Constants} from '../../helpers/constants';
 import {AppPath} from '../../app-path';
 import {SimpleReuseStrategy} from '../../helpers/simple-reuse-strategy';
-import {UIHelper} from '../../helpers/ui-helper';
+import {UserStatusEnum} from '../../helpers/enum/user-status-enum';
+import {EnterpriseStatusEnum} from '../../helpers/enum/enterprise-status-enum';
 
 @Component({
   selector: 'app-init',
@@ -16,7 +17,7 @@ export class InitComponent implements OnInit {
 
   status = false;
 
-  constructor(private router: Router, private api: Api, private uiHelper: UIHelper) {
+  constructor(private router: Router, private api: Api) {
   }
 
   ngOnInit() {
@@ -33,7 +34,7 @@ export class InitComponent implements OnInit {
         console.log(`认证信息》》》》》》：${JSON.stringify(data)}`)
         const uStatus = data.userStatus;
         const eStatus = data.etpStatus;
-        if (uStatus === 4 && eStatus === 4) { // 企业、个人都已经实名认证
+        if (uStatus === UserStatusEnum.CHECK_PASS && eStatus === EnterpriseStatusEnum.VERIFIED_PASS) { // 企业、个人都已经实名认证
           this.setMenus();
         } else {
           localStorage.setItem(Constants.localStorageKey.verifyStatus, JSON.stringify(data));

@@ -16,6 +16,7 @@ import {VBankCardReq} from '../../../helpers/vo/req/v-bank-card-req';
 import {Router} from '@angular/router';
 import {AppPath} from '../../../app-path';
 import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
+import {EnterpriseStatusEnum} from '../../../helpers/enum/enterprise-status-enum';
 
 @Component({
   selector: 'app-verify-etp',
@@ -26,6 +27,7 @@ export class VerifyEtpComponent implements OnInit {
 
   formLabelSpanSize = 9;
   formControlSpanSize = 7;
+  enterpriseStatusEnum: typeof  EnterpriseStatusEnum = EnterpriseStatusEnum; // 企业状态枚举
 
   // 初始化网络数据
   etpInfo: any;
@@ -99,13 +101,15 @@ export class VerifyEtpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.etpStatus === 0 || this.etpStatus === 5) {
+    if (this.etpStatus === EnterpriseStatusEnum.CHECK_WAIT
+      || this.etpStatus === EnterpriseStatusEnum.CHECK_FAILURE) {
       this.getEtpInfo();
     }
   }
 
   getEtpInfo(): void {
-    this.commonService.getEtpInfoByUser()
+    const userId = this.utils.getJwtTokenClaim(JwtKvEnum.UserId);
+    this.commonService.getEtpInfoByUser(userId)
       .ok(data => {
         this.etpInfo = data;
         this.patchStepOne();
@@ -468,9 +472,12 @@ export class VerifyEtpComponent implements OnInit {
     this.defaultBusService.showLoading(true);
     this.verifyEtpService.checkPayMoney(this.validPayNum, this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId))
       .ok(data => {
-        if (data) {
-          this.uiHelper.msgTipSuccess('恭喜企业实名认证完成');
+        if (data.errCode === 0) {
+          this.uiHelper.msgTipSuccess(data.msg);
+        } else {
+          this.uiHelper.msgTipSuccess(data.msg);
         }
+        this.router.navigateByUrl(AppPath.init);
       })
       .fail(error => {
         this.uiHelper.msgTipError(error.msg);

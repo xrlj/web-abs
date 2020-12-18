@@ -24,7 +24,6 @@ export class RegisterComponent implements OnInit {
   // step
   current = 0;
   doneStatus = 'wait';
-  isDisabled = true;
   countDown = false;
   countDownTime = 60; // 这里设置倒计时为60S
   countDownBtnText = '发送短信验证码'; // 可以控制动态改变的按钮提示信息

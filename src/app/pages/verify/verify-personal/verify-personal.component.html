@@ -1,6 +1,6 @@
 <div class="verify-user-layout">
   <!--准备资料提醒界面-->
-  <div *ngIf="userStatus === 0 && current === -1" class="verify-user-layout-ready">
+  <div *ngIf="userStatus === userStatusEnum.CHECK_INIT && current === -1" class="verify-user-layout-ready">
     <h3>经办人申请，请准备以下资料</h3>
     <p>要求：原件扫描件，或复印件加盖公章的扫描件</p>
     <nz-divider></nz-divider>
@@ -23,12 +23,11 @@
     <button (click)="startVerify()" nz-button nzType="primary" nzSize="default">开始认证</button>
   </div>
   <!--提交认证信息-->
-  <div *ngIf="userStatus === 0 && current !== -1" class="verify-user-layout-content">
+  <div *ngIf="userStatus === userStatusEnum.CHECK_INIT && current !== -1" class="verify-user-layout-content">
     <div class="verify-user-layout-content-title">
-      <nz-steps nzLabelPlacement="vertical" [nzCurrent]="current">
-        <nz-step nzTitle="基础信息"></nz-step>
-        <nz-step nzTitle="上传相关证件扫"></nz-step>
-        <nz-step nzTitle="提交成功" [nzStatus]="doneStatus"></nz-step>
+      <nz-steps [nzCurrent]="current">
+        <nz-step nzTitle="填写经纪人信息"></nz-step>
+        <nz-step nzTitle="提交完成" [nzStatus]="doneStatus"></nz-step>
       </nz-steps>
     </div>
     <div class="verify-user-layout-content-steps">
@@ -39,7 +38,7 @@
         </div>
         <form nz-form [formGroup]="userForm">
           <nz-form-item>
-            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="realName" nzRequired>真实姓名</nz-form-label>
+            <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="realName" nzRequired>姓名</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <input formControlName="realName" id="realName" placeholder="请输入真实姓名" nz-input/>
             </nz-form-control>
@@ -53,24 +52,24 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="mobile" nzRequired>手机号码</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
-              <input formControlName="mobile" id="mobile" placeholder="请输入您的手机号码" nz-input/>
+              <input nzSize="default" formControlName="mobile" id="mobile" placeholder="请输入您的手机号码" nz-input/>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
             <nz-form-label [nzSpan]="formLabelSpanSize" nzFor="authCode" nzRequired>手机验证码</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpanSize" nzErrorTip="必填项">
               <nz-input-group [nzSuffix]="authCodeTemplate">
-                <input formControlName="authCode" id="authCode" placeholder="请输入手机验证码" nz-input/>
+                <input formControlName="authCode" id="authCode" placeholder="请输入验证码" nz-input/>
               </nz-input-group>
               <ng-template #authCodeTemplate>
                 <nz-divider nzType="vertical"></nz-divider>
-                <a class="auth-code-btn" (click)="getVerifyAuthCode()">获取验证码</a>
+                <a class="auth-code-btn" nz-button nzType="link" nzSize="small" [disabled]="countDown" (click)="getVerifyAuthCode()">{{this.countDownBtnText}}</a>
               </ng-template>
             </nz-form-control>
           </nz-form-item>
         </form>
       </div>
-      <div class="verify-user-layout-content-steps-two" *ngIf="current === 1">
+      <div class="verify-user-layout-content-steps-two" *ngIf="current === 0">
         <!--身份证-->
         <div class="info-line-title">
           <nz-divider nzType="vertical"></nz-divider>
@@ -80,13 +79,14 @@
         </div>
         <div class="upload-img">
           <nz-upload
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            [nzAction]="uploadFileUrl"
             nzListType="picture-card"
             [(nzFileList)]="idCardFileList"
             [nzShowButton]="idCardFileList.length < 1"
             [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
             [nzSize]="fileSize"
             [nzPreview]="handleIdCardPreview"
+            (nzChange)="fileUploadChange($event, 1)"
           >
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
@@ -105,30 +105,31 @@
           <span>经办人授权委托书 <a style="text-decoration: underline"
                             href="assets/file/qianzhangdailirenshouquanweitoushu.docx"
                             target="_blank">下载《经办人授权委托书》模版</a></span>
-          <p>请上传PDF、JPG、PNG格式，文件不大于10M，必须加盖企业公章和法人章</p>
+          <p>请上传JPG、PNG格式，文件不大于10M，必须加盖企业公章和法人章</p>
         </div>
         <div class="upload-img">
           <nz-upload
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            [nzAction]="uploadFileUrl"
             nzListType="picture-card"
             [(nzFileList)]="entrustFileList"
             [nzShowButton]="entrustFileList.length < 1"
             [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
             [nzSize]="fileSize"
             [nzPreview]="handleEntrustPreview"
+            (nzChange)="fileUploadChange($event, 2)"
           >
             <i class="ant-upload-icon" nz-icon nzType="plus" nzTheme="outline"></i>
             <div class="ant-upload-text">上传</div>
           </nz-upload>
-          <nz-modal [nzVisible]="entrustPreviewVisible" [nzContent]="modalContent" [nzFooter]="null"
+          <nz-modal [nzVisible]="entrustPreviewVisible" [nzContent]="entrustModalContent" [nzFooter]="null"
                     (nzOnCancel)="entrustPreviewVisible = false">
-            <ng-template #modalContent>
+            <ng-template #entrustModalContent>
               <img [src]="entrustPreviewImage" [ngStyle]="{ width: '100%' }"/>
             </ng-template>
           </nz-modal>
         </div>
       </div>
-      <div class="verify-user-layout-content-steps-three" *ngIf="current === 2">
+      <div class="verify-user-layout-content-steps-three" *ngIf="current === 1">
         <nz-result
           nzStatus="success"
           nzTitle="提交成功"
@@ -145,12 +146,12 @@
           </div>
 
           <div nz-result-extra>
-            <button nz-button nzType="primary">返回</button>
+            <button nz-button nzType="primary" routerLink="/init">确定</button>
           </div>
         </nz-result>
       </div>
     </div>
-    <div class="action" *ngIf="current !== 2">
+    <div class="action" *ngIf="current !== 1">
       <div>
         <button style="margin-right: 8px" nz-button nzType="default" nzSize="default" (click)="previous()">
           <span *ngIf="current === 0; else previousBtn">返回</span>
@@ -163,11 +164,11 @@
     </div>
   </div>
   <!--审核中提示界面-->
-  <div *ngIf="userStatus === 1 || userStatus === 2 || userStatus === 3" class="verify-user-layout-processing">
+  <div *ngIf="userStatus === userStatusEnum.CHECK_WAIT || userStatus === userStatusEnum.CHECK_PROCESSING" class="verify-user-layout-processing">
     <nz-result
       nzTitle="审核中……"
       nzStatus="info"
-      nzSubTitle="您的企业实名认证正在审核中，请您留意短信和邮件通知。"
+      nzSubTitle="账号实名认证正在审核中，请您留意短信和邮件通知。"
     >
       <div nz-result-content>
         <div>
@@ -181,22 +182,22 @@
     </nz-result>
   </div>
   <!--实名认证错误界面-->
-  <div *ngIf="userStatus === 5" class="verify-user-layout-error">
+  <div *ngIf="userStatus === userStatusEnum.CHECK_FAILURE" class="verify-user-layout-error">
     <nz-result
-      nzTitle="企业实名认证失败"
+      nzTitle="账号实名认证失败"
       nzStatus="error"
       nzSubTitle="请查看下面错误信息描述，可重新发起实名认证。"
     >
       <div nz-result-content>
         <div class="desc">
-          <h4 nz-title style="margin-bottom: 10px;">企业实名认证错误信息提示:</h4>
+          <h4 nz-title style="margin-bottom: 10px;">账号实名认证错误信息提示:</h4>
           <p nz-paragraph>
             <i nz-icon nzType="close-circle"></i>
             开户许可证未上传。
           </p>
           <p nz-paragraph>
             <i nz-icon nzType="close-circle"></i>
-            法人身份证和姓名不一致。
+            身份证和姓名不一致。
           </p>
         </div>
         <div>

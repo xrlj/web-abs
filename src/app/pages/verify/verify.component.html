@@ -1,7 +1,7 @@
 <div class="verify-layout">
   <app-verify-header [verifyTitle]="verifyTitle" class="header"></app-verify-header>
-  <app-verify-etp class="etp" *ngIf="etpStatus != 4" [etpStatus]="etpStatus"></app-verify-etp>
-  <app-verify-personal class="personal" *ngIf="etpStatus === 4 && userStatus !== 4"
+  <app-verify-etp class="etp" *ngIf="etpStatus != enterpriseStatusEnum.VERIFIED_PASS" [etpStatus]="etpStatus"></app-verify-etp>
+  <app-verify-personal class="personal" *ngIf="etpStatus === enterpriseStatusEnum.VERIFIED_PASS && userStatus !== userStatusEnum.CHECK_PASS"
                        [userStatus]="userStatus"></app-verify-personal>
 </div>
 <app-custom-loading></app-custom-loading>
