@@ -14,6 +14,7 @@ import {environment} from '../../../../environments/environment';
 import {ApiPath} from '../../../api-path';
 import {FileUploadHelper} from '../../../helpers/file-upload-helper';
 import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
+import {Constants} from '../../../helpers/constants';
 
 @Component({
   selector: 'app-verify-personal',
@@ -25,7 +26,7 @@ export class VerifyPersonalComponent implements OnInit {
   userStatusEnum: typeof UserStatusEnum = UserStatusEnum; // 用户状态枚举
   @Input()
   userStatus = 0; // 会员认证状态
-  askPhone = '0755-32805728'; // 保理商咨询热线
+  askPhone = '0000-00000000'; // 保理商咨询热线
   protocolCheck = false;
   protocolCheckErrorTip = false;
   protocolCheckErrorTipClass = ''
@@ -55,6 +56,8 @@ export class VerifyPersonalComponent implements OnInit {
   entrustPreviewVisible = false;
   entrustFileList: NzUploadFile[] = [];
 
+  userCheckResultList = [];
+
   constructor(private utils: Utils, private fb: FormBuilder,
               private uiHelper: UIHelper,
               private fileUploadHelper: FileUploadHelper,
@@ -70,13 +73,38 @@ export class VerifyPersonalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserInfo();
+    this.getUserVerifyInfo();
+    if (this.userStatus === UserStatusEnum.CHECK_FAILURE) {
+      this.getUserCheckFailInfo();
+
+      this.commonService.getEtpInfoByUser(Constants.appInfo.superUserId)
+        .ok(data => {
+          this.askPhone = data.telephone;
+        });
+    }
   }
 
-  getUserInfo(): void {
+  /**
+   * 获取用户审核失败原因列表。
+   */
+  getUserCheckFailInfo(): void {
+    this.verifyPersonalService.getUserCheckResultList(this.utils.getJwtTokenClaim(JwtKvEnum.UserId), 0)
+      .ok(data => {
+         this.userCheckResultList = data;
+      });
+  }
+
+  /**
+   * 获取用户认证信息。
+   */
+  getUserVerifyInfo(): void {
     this.commonService.getUserInfoById(this.utils.getJwtTokenClaim(JwtKvEnum.UserId))
       .ok(data => {
-        console.log(data);
+        this.userForm.patchValue({realName: data.realName, idNo: data.idNo, mobile: data.mobile});
+        const idNoFile: NzUploadFile = {name: data.extra.idNoFileInfo?.oriName, uid: data.extra.idNoFileInfo?.id, status: 'done', url: data.extra.idNoFileInfo?.url};
+        this.idCardFileList[0] = idNoFile;
+        const entrustFile: NzUploadFile = {name: data.extra.powerOfAttorneyFileInfo?.oriName, uid: data.extra.powerOfAttorneyFileInfo?.id, status: 'done', url: data.extra.powerOfAttorneyFileInfo?.url};
+        this.entrustFileList[0] = entrustFile;
       });
   }
 
@@ -290,5 +318,10 @@ export class VerifyPersonalComponent implements OnInit {
       .final(b => {
         this.defaultBusService.showLoading(false);
       });
+  }
+
+  reVerify() {
+    this.current = 0;
+    this.userStatus = UserStatusEnum.CHECK_INIT;
   }
 }

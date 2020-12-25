@@ -191,13 +191,9 @@
       <div nz-result-content>
         <div class="desc">
           <h4 nz-title style="margin-bottom: 10px;">账号实名认证错误信息提示:</h4>
-          <p nz-paragraph>
+          <p style="font-size: 14px; font-weight: lighter" nz-paragraph *ngFor="let result of userCheckResultList">
             <i nz-icon nzType="close-circle"></i>
-            开户许可证未上传。
-          </p>
-          <p nz-paragraph>
-            <i nz-icon nzType="close-circle"></i>
-            身份证和姓名不一致。
+            {{result.checkResult}}
           </p>
         </div>
         <div>
@@ -209,7 +205,7 @@
         </div>
       </div>
       <div nz-result-extra>
-        <button nz-button nzType="primary">重新认证</button>
+        <button nz-button nzType="primary" (click)="reVerify()">重新认证</button>
       </div>
     </nz-result>
   </div>

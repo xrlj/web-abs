@@ -16,13 +16,20 @@ export const ApiPath = {
       getAuthenticateStatus: `/${usercentral}/user/getAuthenticateStatus`,  // 获取各认证状态信息
       registerByInvitationCode: `/${usercentral}/user/registerByInvitationCode`, // 邀请码注册，提交保存注册信息
       getUserInfoById: `/${usercentral}/user/getUserInfoById`, // 根据用户id获取用户详情信息。
-      saveVerifyCheckInfo: `/${usercentral}/user/saveVerifyCheckInfo` // 提交个人实名认证信息到后台待审核。
+      saveVerifyCheckInfo: `/${usercentral}/user/saveVerifyCheckInfo`, // 提交个人实名认证信息到后台待审核。
+      getUserCheckResultList: `/${usercentral}/user/getUserCheckResultList`, // 获取用户审核记录列表。
+      getEtpUserList: `/${usercentral}/user/getEtpUserList`,
+      saveCheckUserSeal: `/${usercentral}/user/saveCheckUserSeal`
     },
     enterprise: {
       getEtpInfoByInvitationCode: `/${usercentral}/enterprise/getEtpInfoByInvitationCode`, // 根据邀请码获取邀请企业信息
       getEtpInfoByUser: `/${usercentral}/enterprise/getEtpInfoByUser`, // 获取用户所属企业的详情
       saveOrUpdate: `/${usercentral}/enterprise/saveOrUpdate`, // 保存或者更新企业信息。
-      checkPayMoney: `/${usercentral}/enterprise/checkPayMoney` // 对公打款金额校验。
+      checkPayMoney: `/${usercentral}/enterprise/checkPayMoney`, // 对公打款金额校验。
+      addByAdminSystemInvitation: `/${usercentral}/enterprise/addByAdminSystemInvitation`,
+      getAllByAdmin: `/${usercentral}/enterprise/getAllByAdmin`,
+      getEtpInfo: `/${usercentral}/enterprise/getEtpInfo`,
+      checkEtpInfo: `/${usercentral}/enterprise/checkEtpInfo`
     }
   },
   syscommon: {

@@ -1,0 +1,80 @@
+<!--企业信息-->
+<div class="etp-info">
+  <div class="info-line-title">
+    <nz-divider nzType="vertical"></nz-divider>
+    <span>企业信息</span>
+  </div>
+  <div class="etp-info-details">
+    <ul>
+      <li><p><label class="label-name">企业名称：</label><span class="val">{{etpInfo?.etpName}}</span></p></li>
+      <li><p><label class="label-name">企业类型：</label><span class="val">{{etpInfo?.userTypeName}}</span></p></li>
+      <li>
+        <div style="clear: both;"></div>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--用户基础信息-->
+<div class="user-info">
+  <div class="info-line-title">
+    <nz-divider nzType="vertical"></nz-divider>
+    <span>经纪人信息</span>
+  </div>
+  <div class="user-info-details">
+    <ul>
+      <li><p><label class="label-name">姓名：</label><span class="val">{{userInfo?.realName}}</span></p></li>
+      <li><p><label class="label-name">身份证号码：</label><span class="val">{{userInfo?.idNo}}</span></p></li>
+      <li><p><label class="label-name">手机号码：</label><span class="val">{{userInfo?.mobile}}</span></p></li>
+      <li>
+        <div style="clear: both;"></div>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--用户图片信息-->
+<div class="user-pic">
+  <div class="info-line-title">
+    <nz-divider nzType="vertical"></nz-divider>
+    <span>证件照片</span>
+  </div>
+
+  <div class="user-pic-content">
+    <div class="idcard">
+      <p><label>法人身份证正反面</label></p>
+      <a
+        href="{{userInfo?.extra.idNoFileInfo?.url}}"
+        target=_blank>
+        <img class="p-img"
+             src="{{userInfo?.extra.idNoFileInfo?.url}}"/>
+      </a>
+    </div>
+    <div class="power-of-attorney">
+      <p><label>授权委托书</label></p>
+      <a
+        href="{{userInfo?.extra.powerOfAttorneyFileInfo?.url}}"
+        target=_blank>
+        <img class="p-img"
+             src="{{userInfo?.extra.powerOfAttorneyFileInfo?.url}}"/>
+      </a>
+    </div>
+  </div>
+</div>
+<!--审核操作界面-->
+<div class="check-action">
+  <div class="info-line-title"></div>
+
+  <div class="check-action-select">
+    <nz-radio-group [(ngModel)]="checkStatus">
+      <label nz-radio [nzValue]="userStatusEnum.CHECK_PASS">认证通过</label>
+      <label style="margin-left: 40px;" nz-radio [nzValue]="userStatusEnum.CHECK_FAILURE">认证不通过</label>
+    </nz-radio-group>
+
+    <nz-input-group *ngIf="checkStatus === userStatusEnum.CHECK_FAILURE" style="width: 240px;" [nzSize]="'small'" [nzSuffix]="inputClearTpl">
+      <input type="text" nz-input [(ngModel)]="failReason" placeholder="不通过原因"/>
+    </nz-input-group>
+    <ng-template #inputClearTpl
+    ><i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="failReason"
+        (click)="failReason = null"></i
+    ></ng-template>
+  </div>
+</div>

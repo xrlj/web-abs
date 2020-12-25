@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ThemeHelperService } from './theme-helper.service';
+import { EtpAccountService } from './etp-account.service';
 
-describe('ThemeHelperService', () => {
-  let service: ThemeHelperService;
+describe('EtpAccountService', () => {
+  let service: EtpAccountService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ThemeHelperService);
+    service = TestBed.inject(EtpAccountService);
   });
 
   it('should be created', () => {
