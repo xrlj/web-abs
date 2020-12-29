@@ -16,23 +16,27 @@ import {SimpleReuseStrategy} from './helpers/simple-reuse-strategy';
 import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
+import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
+import {ComponentsModule} from './components/components.module';
 
 registerLocaleData(zh);
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    IconsProviderModule,
-    NzMessageModule,
-    NzNotificationModule,
-    NzModalModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    NzSpinModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        PdfJsViewerModule, // pdf浏览器模块
+        IconsProviderModule,
+        NzMessageModule,
+        NzNotificationModule,
+        NzModalModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        NzSpinModule,
+        ComponentsModule
+    ],
   providers: [
     {provide: NZ_I18N, useValue: zh_CN},
     httpInterceptorProviders,

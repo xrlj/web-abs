@@ -31,7 +31,8 @@
     "ngx-amap": "^2.2.0",
     "ngx-echarts": "^4.1.0",
     "@tinymce/tinymce-angular": "^4.1.0",
-    "ts-md5": "^1.2.7"
+    "ts-md5": "^1.2.7",
+    "ng2-pdfjs-viewer": "file:ng2-pdfjs-viewer-5.0.7.tgz"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1000.2",
