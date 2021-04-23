@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {DefaultComponent} from '../../theme/layouts';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {PaymentBillComponent} from './common/payment-bill/payment-bill.component';
 import {FinancingBillComponent} from './common/financing-bill/financing-bill.component';
 

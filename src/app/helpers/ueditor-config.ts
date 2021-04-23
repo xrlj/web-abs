@@ -1,6 +1,4 @@
 // 富文本框编辑器配置信息
-import {environment} from '../../environments/environment';
-import {ApiPath} from '../api-path';
 
 export class UEditorConfig {
   wordCount = true; // 文字计数

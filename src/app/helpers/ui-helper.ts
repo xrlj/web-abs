@@ -7,8 +7,8 @@ import {Utils} from './utils';
 import {Router} from '@angular/router';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {VMenuResp} from './vo/resp/v-menu-resp';
-import {NzTreeNode} from 'ng-zorro-antd';
 import {ThemeEnum} from './enum/theme-enum';
+import {NzTreeNode} from 'ng-zorro-antd/tree';
 
 @Injectable({
   providedIn: 'root'

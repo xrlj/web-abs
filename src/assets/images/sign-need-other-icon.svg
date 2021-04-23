@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="50px" viewBox="0 0 46 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+  <title>待他人签署</title>
+  <desc>Created with Sketch.</desc>
+  <g id="新增功能" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="画板" transform="translate(-58.000000, -239.000000)" fill-rule="nonzero">
+      <g id="待他人签署" transform="translate(58.000000, 239.000000)">
+        <g id="分组-3">
+          <rect id="矩形" fill="#EBEFF4" x="5.75" y="7.69230769" width="40.25" height="42.3076923"></rect>
+          <rect id="矩形" fill="#353535" x="9.58333333" y="14.4230769" width="23" height="1.92307692"></rect>
+          <rect id="矩形-copy-6" fill="#353535" x="9.58333333" y="22.1153846" width="23" height="1.92307692"></rect>
+          <rect id="矩形-copy-7" fill="#353535" x="9.58333333" y="29.8076923" width="9.58333333" height="1.92307692"></rect>
+          <rect id="矩形-copy-5" fill="#EBEFF4" x="16.2916667" y="4.80769231" width="19.1666667" height="6.73076923"></rect>
+          <path d="M31.6470463,36.5384615 C29.4022522,35.4292186 27.7916667,32.4041077 27.7916667,28.8461538 C31.9576435,28.8461538 36.9952098,28.8461538 39.2916667,28.8461538 C39.2916667,32.4041077 37.6810811,35.4292186 35.4362871,36.5384615 C37.6810811,37.6477045 39.2916667,40.6728153 39.2916667,44.2307692 C36.0059524,44.2307692 32.928285,44.2307692 27.7916667,44.2307692 C27.7916667,40.6728153 29.4022522,37.6477045 31.6470463,36.5384615 Z" id="合并形状" stroke="#FF5858" stroke-width="2" fill="#FFE5E5" stroke-linecap="round" stroke-linejoin="round"></path>
+          <rect id="矩形" fill="#FF5858" x="24.9166667" y="27.8846154" width="17.25" height="1.92307692"></rect>
+          <rect id="矩形-copy-2" fill="#FF5858" x="24.9166667" y="43.2692308" width="17.25" height="1.92307692"></rect>
+          <path d="M18.8415095,44.1923077 L41.1666667,23.6004006 L41.1666667,3.88461538 L1,3.88461538 L1,44.1923077 L18.8415095,44.1923077 Z" id="路径" stroke="#353535" stroke-width="2"></path>
+          <rect id="矩形" stroke="#353535" stroke-width="2" fill="#FFFFFF" x="12.5" y="1" width="18.125" height="5.69230769"></rect>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -2,13 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {EtpAccountService} from './etp-account.service';
 import {EtpAccountDetailsComponent} from './etp-account-details/etp-account-details.component';
-import {EtpAccountDetailsService} from './etp-account-details/etp-account-details.service';
 import {UserStatusEnum} from '../../../../../helpers/enum/user-status-enum';
 import {VCustomerAccountReq} from '../../../../../helpers/vo/req/v-customer-account-req';
 import {VCustomerAccountResp} from '../../../../../helpers/vo/resp/v-customer-account-resp';
 import {UIHelper} from '../../../../../helpers/ui-helper';
 import {ThemeHelper} from '../../../../../helpers/theme-helper';
-import {DefaultBusService} from '../../../../../helpers/event-bus/default-bus.service';
 import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
 
 @Component({
@@ -49,9 +47,7 @@ export class EtpAccountComponent implements OnInit {
   checkModalOkLoading = false;
 
   constructor(private fb: FormBuilder, public uiHelper: UIHelper,
-              private etpAccountService: EtpAccountService, public themeHelper: ThemeHelper,
-              private defaultBusService: DefaultBusService,
-              private etpAccountDetailsService: EtpAccountDetailsService) {
+              private etpAccountService: EtpAccountService, public themeHelper: ThemeHelper) {
   }
 
   ngOnInit() {

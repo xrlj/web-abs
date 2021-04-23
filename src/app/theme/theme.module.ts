@@ -1,13 +1,22 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
-import {NzAvatarModule, NzBadgeModule, NzButtonModule, NzDividerModule, NzDrawerModule, NzDropDownModule, NzIconModule, NzMenuModule, NzRadioModule, NzSpinModule, NzTabsModule} from 'ng-zorro-antd';
 import {ThemeRoutingModule} from './theme-routing.module';
 import {AppAsideComponent, AppBodyComponent, AppFooterComponent, AppHeaderComponent} from './components';
 import {BlankComponent, DefaultComponent} from './layouts';
 import {FormsModule} from '@angular/forms';
 import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 import {ComponentsModule} from '../components/components.module';
+import {NzDrawerModule} from 'ng-zorro-antd/drawer';
+import {NzButtonModule} from 'ng-zorro-antd/button';
+import {NzSpinModule} from 'ng-zorro-antd/spin';
+import {NzDividerModule} from 'ng-zorro-antd/divider';
+import {NzTabsModule} from 'ng-zorro-antd/tabs';
+import {NzIconModule} from 'ng-zorro-antd/icon';
+import {NzMenuModule} from 'ng-zorro-antd/menu';
+import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
+import {NzAvatarModule} from 'ng-zorro-antd/avatar';
+import {NzBadgeModule} from 'ng-zorro-antd/badge';
+import {NzRadioModule} from 'ng-zorro-antd/radio';
 
 const COMPONENTS = [
   DefaultComponent,

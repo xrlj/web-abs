@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
 
 /**
  * 协议模板管理。
@@ -10,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AgreementTemplateComponent implements OnInit {
 
+  // pdfSrc = 'https://seal.hlt-factoring.com/pdf/seal/c81739fae7c24f79a33ab4509668e338.pdf';
+  pdfSrc = 'assets/abc.pdf';
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  open() {
+    window.open('#/pdf-show', '_blank', 'noopener');
+  }
 }

@@ -1,0 +1,14 @@
+{
+  "/data/hlt/*":{
+    "target":"https://file2.hlt-factoring.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/pdf/seal/*":{
+    "target":"https://seal.hlt-factoring.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

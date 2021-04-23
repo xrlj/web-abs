@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DefaultBusService} from '../../helpers/event-bus/default-bus.service';
 import {Subscription} from 'rxjs';
 

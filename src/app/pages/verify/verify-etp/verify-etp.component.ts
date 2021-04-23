@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Utils} from '../../../helpers/utils';
 import {MyValidators} from '../../../helpers/MyValidators';
-import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd';
 import {CommonService} from '../../../helpers/service/common.service';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 import {VerifyEtpService} from './verify-etp.service';
@@ -17,6 +16,7 @@ import {Router} from '@angular/router';
 import {AppPath} from '../../../app-path';
 import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
 import {EnterpriseStatusEnum} from '../../../helpers/enum/enterprise-status-enum';
+import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-verify-etp',

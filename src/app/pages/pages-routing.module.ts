@@ -7,6 +7,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
 import {InitComponent} from './init/init.component';
 import {RegisterComponent} from './register/register.component';
 import {VerifyComponent} from './verify/verify.component';
+import {PdfShowComponent} from '../components/pdf-show/pdf-show.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,11 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'init', component: InitComponent },
       { path: 'verify', component: VerifyComponent },
-      { path: 'register/:code', component: RegisterComponent }
+      { path: 'register/:code', component: RegisterComponent },
+      {
+        path: 'pdf-show',
+        component: PdfShowComponent
+      }
     ]
   },
   {

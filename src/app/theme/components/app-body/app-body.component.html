@@ -1,23 +1,25 @@
 <div class="app-body">
   <div [ngClass]="currentTabClasses" [style.left]="collapsed ? '50px' : '230px'">
     <nz-tabset [nzAnimated]="true"
-               [nzType]="'card'"
                [nzTabBarGutter]="0"
-               [nzShowPagination]="true"
                [(nzSelectedIndex)]="currentMenuTab"
+               nzType="editable-card"
+               [nzHideAdd]="true"
+               (nzClose)="closeTab($event)"
                (nzSelectChange)="nzSelectChange($event)">
 <!--               [nzTabBarExtraContent]="extraTemplate">-->
-      <nz-tab *ngFor="let menu of menuList" [nzTitle]="titleTemplate">
+      <!--<nz-tab *ngFor="let menu of menuList" [nzTitle]="titleTemplate">
         <ng-template #titleTemplate>
           <div *ngIf="menu.isRemove" (contextmenu)="contextMenu($event, contextTabManageMenu)">
             {{ menu.title }}
-            <i nz-icon nzType="close" (click)="closeUrl(menu.url)" class="ant-tabs-close-x"></i>
+            <i nz-icon nzType="close" (click)="closeUrl(menu.url)" class="ant-tabs-close-x" style="padding-left: 5px"></i>
           </div>
           <div *ngIf="!menu.isRemove">
             <i style="padding-left: 0; width: 0;" nz-icon nzType="home"></i>
           </div>
         </ng-template>
-      </nz-tab>
+      </nz-tab>-->
+      <nz-tab *ngFor="let menu of menuList" [nzClosable]="menu.isRemove" [nzTitle]="menu.title" (nzContextmenu)="contextMenu($event, contextTabManageMenu)"></nz-tab>
     </nz-tabset>
     <!--tab-bar右边下拉菜单-->
     <ng-template #extraTemplate>

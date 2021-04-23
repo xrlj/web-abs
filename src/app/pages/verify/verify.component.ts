@@ -1,9 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {UIHelper} from '../../helpers/ui-helper';
 import {Constants} from '../../helpers/constants';
-import {Subscription} from 'rxjs';
-import {DefaultBusService} from '../../helpers/event-bus/default-bus.service';
 import {EnterpriseStatusEnum} from '../../helpers/enum/enterprise-status-enum';
 import {UserStatusEnum} from '../../helpers/enum/user-status-enum';
 

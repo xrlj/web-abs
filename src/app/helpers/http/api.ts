@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 
 import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {catchError, retry, tap} from 'rxjs/operators';
 import {Constants} from '../constants';
 import {HttpErrorHandler} from './http-error-handler';
 import {environment} from '../../../environments/environment';
@@ -304,5 +304,41 @@ export class Api {
     }
 
     return throwError(errorInfo);
+  }
+
+  private downloadFile(data, fileName) {
+    const blob = new Blob([data]);
+    const url = window.URL.createObjectURL(blob);
+    // 打开新窗口方式进行下载
+    // window.open(url);
+
+    // 以动态创建a标签进行下载
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  /**
+   * 到处文件。
+   * 参考：https://blog.csdn.net/sunxiaoju/article/details/88664369
+   * @param url 文件路径
+   * @param fileName 文件名称，带后缀
+   */
+  exportFile(url: string, fileName: string) {
+    this.http.get(url, {responseType: 'blob'})
+      .pipe(tap(
+        data => {
+          console.log(data);
+        },
+        e => {
+          console.log(e)
+        }
+      ))
+      .subscribe(resp => {
+        // resp: 文件流
+        this.downloadFile(resp, fileName);
+      })
   }
 }

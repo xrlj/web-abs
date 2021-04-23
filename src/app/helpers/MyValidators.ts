@@ -1,5 +1,5 @@
 import {AbstractControl, ValidatorFn, Validators} from '@angular/forms';
-import {NzSafeAny} from 'ng-zorro-antd';
+import {NzSafeAny} from 'ng-zorro-antd/core/types';
 
 
 // current locale is key of the MyErrorsOptions

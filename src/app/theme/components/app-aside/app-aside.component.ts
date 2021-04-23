@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {APP_MENUS} from '../../../mock/app-menu';
 import {environment} from '../../../../environments/environment';
 import {VMenuResp} from '../../../helpers/vo/resp/v-menu-resp';
 import {Constants} from '../../../helpers/constants';

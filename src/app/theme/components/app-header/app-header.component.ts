@@ -9,7 +9,6 @@ import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
 import {ThemeEnum} from '../../../helpers/enum/theme-enum';
 import {environment} from '../../../../environments/environment';
 import {Constants} from '../../../helpers/constants';
-import {ApiPath} from '../../../api-path';
 import {CommonService} from '../../../helpers/service/common.service';
 
 @Component({

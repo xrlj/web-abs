@@ -1,8 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
-import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
-import {Api} from '../../../../helpers/http/api';
 
 /**
  * 付款单管理。

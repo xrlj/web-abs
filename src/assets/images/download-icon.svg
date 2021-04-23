@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="16px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>下载</title>
+    <desc>Created with Sketch.</desc>
+    <g id="新增功能" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-217.000000, -134.000000)" fill-rule="nonzero" stroke="#979797">
+            <g id="下载" transform="translate(217.000000, 135.000000)">
+                <path d="M0.5,13.9411765 L12.5,13.9411765" id="直线" stroke-linecap="square"></path>
+                <polygon id="路径" points="4.1044418 6.02531646 4.1044418 0 8.85867909 0 8.85867909 6.02531646 12 6.02531646 6.5 12 1 6.02531646"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

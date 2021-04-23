@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Utils} from '../../../helpers/utils';
 import {MyValidators} from '../../../helpers/MyValidators';
-import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 import {CommonService} from '../../../helpers/service/common.service';
 import {UserStatusEnum} from '../../../helpers/enum/user-status-enum';
@@ -15,6 +14,7 @@ import {ApiPath} from '../../../api-path';
 import {FileUploadHelper} from '../../../helpers/file-upload-helper';
 import {JwtKvEnum} from '../../../helpers/enum/jwt-kv-enum';
 import {Constants} from '../../../helpers/constants';
+import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-verify-personal',

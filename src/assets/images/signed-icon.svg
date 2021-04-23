@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="51px" viewBox="0 0 50 51" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>已完成</title>
+    <desc>Created with Sketch.</desc>
+    <g id="新增功能-缩略图" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-265.000000, -238.000000)" fill-rule="nonzero">
+            <g id="已完成" transform="translate(266.000000, 239.000000)">
+                <g>
+                    <circle id="椭圆形-copy-2" fill="#EBEFF4" cx="27" cy="28" r="22"></circle>
+                    <circle id="椭圆形" stroke="#353535" stroke-width="2" cx="23" cy="23" r="23"></circle>
+                    <path d="M23.2464677,12.1889125 L23.5033987,32.7515054 L28.2718486,32.8110875 L28.0149177,12.2484946 L23.2464677,12.1889125 Z" id="矩形" stroke="#FF5858" stroke-width="2" fill="#FFE5E5" transform="translate(25.759158, 22.500000) rotate(-315.000000) translate(-25.759158, -22.500000) "></path>
+                    <path d="M15.1686384,19.022178 L15.0603365,23.7814612 L15.0136091,31.6876591 L19.7887888,31.627993 L19.9470453,18.9624715 L15.1686384,19.022178 Z" id="矩形-copy-8" stroke="#FF5858" stroke-width="2" fill="#FFE5E5" transform="translate(17.483692, 25.325023) rotate(-225.000000) translate(-17.483692, -25.325023) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

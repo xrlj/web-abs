@@ -3,11 +3,11 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {filter, map, mergeMap} from 'rxjs/operators';
 import {SimpleReuseStrategy} from '../../../helpers/simple-reuse-strategy';
-import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd';
 import {AppPath} from '../../../app-path';
 import {environment} from '../../../../environments/environment';
 import {ThemeEnum} from '../../../helpers/enum/theme-enum';
 import {Subscription} from 'rxjs';
+import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 
 @Component({
   selector: 'app-body',
@@ -88,6 +88,10 @@ export class AppBodyComponent implements OnInit, OnDestroy {
    */
   contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
     this.nzContextMenuService.create($event, menu);
+  }
+
+  closeTab({ index }: { index: number }): void {
+    this.closeUrl(this.menuList[index].url);
   }
 
   // 关闭选项标签

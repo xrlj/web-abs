@@ -15,7 +15,7 @@ export class CustomPdfShowComponent implements OnInit, OnDestroy {
   defaultBusServiceSubscribe: Subscription;
 
   constructor(private defaultBusService: DefaultBusService) {
-    // 订阅是否显示加载对话框事件
+    // 订阅
     this.defaultBusServiceSubscribe = this.defaultBusService.pdfShow$.subscribe(vo => {
       this.openPdfNewTab(vo);
     });

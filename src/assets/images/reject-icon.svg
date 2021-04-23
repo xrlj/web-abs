@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>已拒签</title>
+    <desc>Created with Sketch.</desc>
+    <g id="新增功能" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-472.000000, -239.000000)" fill-rule="nonzero">
+            <g id="已拒签" transform="translate(472.000000, 239.000000)">
+                <g id="分组-2-copy">
+                    <g id="分组-3">
+                        <rect id="矩形" fill="#EBEFF4" x="6" y="6" width="33" height="44"></rect>
+                        <circle id="椭圆形" fill="#EBEFF4" cx="38" cy="30" r="12"></circle>
+                        <rect id="矩形" fill="#353535" x="10" y="12" width="15" height="2"></rect>
+                        <rect id="矩形-copy-6" fill="#353535" x="10" y="21" width="10" height="2"></rect>
+                        <rect id="矩形-copy-7" fill="#353535" x="10" y="29" width="10" height="2"></rect>
+                        <path d="M32.3117579,44 L34,9.07068071 L34,1 L1,1 L1,44 L7.74278154,44 L32.3117579,44 Z" id="路径" stroke="#353535" stroke-width="2"></path>
+                    </g>
+                </g>
+                <circle id="椭圆形" stroke="#FF5858" stroke-width="2" fill="#FFE5E5" cx="35" cy="26" r="11"></circle>
+                <path d="M28,18.5 L42.9047143,33.4047143" id="直线-2" stroke="#FF5858" stroke-width="2" stroke-linecap="square"></path>
+            </g>
+        </g>
+    </g>
+</svg>

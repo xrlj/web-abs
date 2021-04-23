@@ -5,9 +5,10 @@
   color: #fff;
   overflow-x: hidden;
   overflow-y: auto;
-  ::-webkit-scrollbar {
+  ::-webkit-scrollbar { // 隐藏滚动条， chrome、Edge浏览器
     display: none;
   }
+  scrollbar-color: transparent transparent; // 隐藏滚动条,适配火狐浏览器
 
   &.collapsed {
     width: 50px;

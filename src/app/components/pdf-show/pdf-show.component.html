@@ -1,0 +1,194 @@
+<div class="sign">
+  <div class="sign-header" style="background-color: rgb(53, 53, 53);">
+    <div class="sign-header-logo"
+         style="background-image: url(assets/images/logo_sandbox_sign.png);"></div>
+    <div class="sub-btn-list">
+      <button *ngIf="pdfFileSelected.signStatus === 5" nz-button nzType="primary" (click)="api.exportFile(pdfFileSelected.path, pdfFileSelected.name)" class="download-btn"><i nz-icon nzType="download"></i>下载文件</button>
+
+      <button *ngIf="pdfFileSelected.signStatus === 5" nz-button nzType="primary" (click)="browserPrint()" class="download-btn"><i nz-icon nzType="printer" nzTheme="outline"></i>打印</button>
+    </div>
+    <div *ngIf="pdfFileSelected.signStatus === 2" class="main-btn-list">
+      <div class="refuse-btn">
+        <button nz-button nzType="default"><span>拒绝签署</span></button>
+      </div>
+      <div class="sign-btn">
+        <button nz-button nzType="primary" nzDanger style="margin-left: 12px"><span>提交签署</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="sign-container">
+    <div class="es-sign-page">
+      <!--pdf功能处理头条-->
+      <div class="es-pdf-header">
+        <div role="slider" aria-valuemin="0.5" aria-valuemax="3" aria-orientation="horizontal" class="el-slider"
+             aria-valuetext="1" aria-label="slider between 0.5 and 3">
+          <div class="el-slider-bar">
+            <nz-slider [nzMin]="0.5" [nzMax]="3" [nzStep]="0.25" [(ngModel)]="pdfSizeRate"
+                       [nzDisabled]="sliderStatus"></nz-slider>
+          </div>
+        </div>
+        <span class="es-pdf-header_slider"> {{pdfSizeRate * 100}}%</span>
+        <span class="es-pdf-header--jump">
+          <div class="es-pdf-header--jump__page">
+            <div class="el-input">
+              <input type="text" [(ngModel)]="pageNum > pdf?.numPages ? pdf?.numPages : pageNum"
+                     (keyup)="getPageNumData(pageNum)"
+                     autocomplete="off" max="5" min="1" class="el-input__inner" role="spinbutton"
+                     aria-valuemax="1" aria-valuemin="1" aria-valuenow="2" aria-disabled="false">
+            </div>
+          </div>
+          <span *ngIf="pdf">/ {{pdf.numPages}}</span>
+          <button type="button" class="el-button" (click)="page = pageNum"
+                  style="border-right: 1px solid #e1e1e1;"><span>跳转</span></button>
+          <div class="rotation">
+            <button type="button" class="el-button" (click)="rotate(-90)" style="margin-right: 2px; margin-left: 8px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   transform="scale(-1,1)">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+            </button>
+            <div class="rotation-number">
+              <input nz-input placeholder="" [(ngModel)]="rotation" nzBorderless disabled/>
+            </div>
+            <button type="button" class="el-button" (click)="rotate(90)" style="margin-left: 2px; margin-right: 8px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   style="margin-top: 5px">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+            </button>
+          </div>
+        </span>
+      </div>
+      <!--pdf显示框-->
+      <div class="es-sign-page_box" [ngStyle]="collapsedStyle()">
+        <pdf-viewer id="report" class="pdf-viewer" [src]="pdfSrc" [(page)]="page" [zoom]="pdfSizeRate" [zoom-scale]="zoomScale"
+                    [original-size]="true" [render-text]="renderText" [external-link-target]="'blank'"
+                    (page-rendered)="pageRendered($event)" (on-progress)="onProgress($event)" (error)="onError($event)"
+                    (after-load-complete)="afterLoadComplete($event)" [rotation]="rotation"></pdf-viewer>
+      </div>
+      <!--左边内容-->
+      <div class="sign-doc-list-tab" [style]="leftCollapsed ? 'width: 40px;' : 'width: 280px;'">
+        <div class="doc-list-tab">
+          <div (click)="leftTabsToggle(0)"
+               [ngClass]="leftTabs[0] ? 'tab-item sign-doc sign-doc-active' : 'tab-item sign-doc'">
+            <div [ngClass]="leftTabs[0] ? 'tab-choose-tag tag-show' : 'tab-choose-tag'"></div>
+          </div>
+          <div (click)="leftTabsToggle(1)"
+               [ngClass]="leftTabs[1] ? 'tab-item attachment-doc attachment-doc-active' : 'tab-item attachment-doc'">
+            <div [ngClass]="leftTabs[1] ? 'tab-choose-tag tag-show' : 'tab-choose-tag'"
+                 [style]="leftCollapsed ? 'background-color: rgb(238, 238, 238);' : 'background-color: rgb(255, 255, 255);'"></div>
+          </div>
+        </div>
+        <!--文件-->
+        <div *ngIf="leftTabs[0]" class="doc-list-context">
+          <div class="doc-list-title">
+            文件
+            <span>（{{pdfFiles?.length}}份）</span>
+          </div>
+          <div class="doc-list">
+            <div *ngFor="let item of pdfFiles" class="doc-item">
+              <div (click)="switchPdf(item)" [ngClass]="item.active ? 'doc-img doc-img-active' : 'doc-img'">
+                <img
+                  src="{{item.thumbnailUrl}}"
+                  alt="">
+                <div class="doc-page-num">{{item.pages}}</div>
+                <p></p>
+                <div *ngIf="item.signStatus === 3" class="readonly-icon">只读</div>
+              </div>
+              <div class="doc-name">{{item.name}}</div>
+            </div>
+          </div>
+        </div>
+        <!--附件-->
+        <div class="doc-list-context attachment-context">
+          <div class="doc-list-title">
+            附件
+            <span>（{{pdfFileSelected.attachmentInfo?.length}}份）</span>
+          </div>
+          <div class="doc-list">
+            <div
+              *ngFor="let attachment of (pdfFileSelected.attachmentInfo?.length > 0 ? pdfFileSelected.attachmentInfo : [])"
+              class="doc-item">
+              <div (click)="switchAttachmentPdf(attachment)"
+                   [ngClass]="attachment.active ? 'doc-img doc-img-active' : 'doc-img'">
+                <img
+                  src="{{attachment.thumbnailUrl}}"
+                  alt="">
+                <div class="doc-page-num">{{attachment.pages}}</div>
+                <p></p>
+                <div class="readonly-icon">只读</div>
+              </div>
+              <div class="doc-name">{{attachment.name}}</div>
+            </div>
+            <div *ngIf="pdfFileSelected.attachmentInfo?.length === 0" class="empty-list-context">暂无附件</div>
+          </div>
+        </div>
+        <!--左边收缩展开按钮-->
+        <div (click)="leftToggle()" class="open-close-trigger"
+             [style]="leftCollapsed ? 'left: 0px;' : 'left: 242px;'"></div>
+        <div (click)="leftToggle()" class="open-close-trigger-icon"
+             [style]="leftCollapsed ? 'left: 36px; transform: rotate(180deg);' : 'left: 278px; transform: rotate(0deg);'"></div>
+      </div>
+      <!--右边内容-->
+      <div class="sign-seal-flow-tab" [style]="rightCollapsed ? 'width: 0px;' : 'width: 280px;'">
+        <div (click)="rightToggle()" class="open-close-tab-trigger"
+             [style]="rightCollapsed ? 'right: -36px;' : 'right: 242px;'"></div>
+        <div (click)="rightToggle()" class="open-close-tab-trigger-icon"
+             [style]="rightCollapsed ? 'right: 0px; transform: rotate(0deg);' : 'right: 277px; transform: rotate(180deg);'"></div>
+        <div class="tab-bar" *ngIf="!rightCollapsed">
+          <div *ngFor="let tab of rightTabs"
+               [ngClass]="tab.active ? 'tab-bar-item tab-bar-item-active' : 'tab-bar-item'"
+               (click)="switchRightTab(tab)">
+            {{tab.title}}
+            <span style="background-color: rgb(230, 23, 23);"></span>
+          </div>
+        </div>
+        <div class="tab-content" *ngIf="!rightCollapsed">
+          <div *ngIf="rightTabSelected && rightTabSelected.title === '我的印章'">ef</div>
+          <div *ngIf="rightTabSelected && rightTabSelected.title === '任务状态'" class="sign-doc-status">
+            <div class="is-sign-wrapper">
+              <div *ngIf="pdfFileSelected.signStatus === 1 || pdfFileSelected.signStatus === 3" class="is-sign">
+                <img src="assets/images/sign-need-other-icon.svg" alt="">
+              </div>
+              <div *ngIf="pdfFileSelected.signStatus === 4" class="is-sign">
+                <img src="assets/images/reject-icon.svg" alt="">
+              </div>
+              <div *ngIf="pdfFileSelected.signStatus === 5" class="is-sign">
+                <img src="assets/images/signed-icon.svg" alt="">
+              </div>
+              <span *ngIf="pdfFileSelected.signStatus === 1" class="doc-status-tips">
+                本文件您已签署
+              </span>
+              <span *ngIf="pdfFileSelected.signStatus === 3" class="doc-status-tips">
+                本文件无需您签署, <br>待他人签署
+              </span>
+              <span *ngIf="pdfFileSelected.signStatus === 4" class="doc-status-tips">
+                已被拒签
+              </span>
+              <span *ngIf="pdfFileSelected.signStatus === 5" class="doc-status-tips">
+                已完成
+              </span>
+            </div>
+          </div>
+          <div *ngIf="rightTabSelected && rightTabSelected.title === '任务信息'">ab</div>
+        </div>
+      </div>
+      <!--顶部和底部快速定位-->
+      <div *ngIf="pdf?.numPages > 1" class="es-sign-page_stick"
+           [style]="rightCollapsed ? 'right: 17px;' : 'right: 300px;'">
+        <span>
+          <img *ngIf="toTopBtn" (click)="toTop()"
+               src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzhweCIgaGVpZ2h0PSIzOHB4IiB2aWV3Qm94PSIwIDAgMzggMzgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUyLjIgKDY3MTQ1KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT7liIbnu4QgNSBjb3B5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlN5bWJvbHMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSLkuIrkuIvpobbnva4iIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxnIGlkPSLliIbnu4QtNS1jb3B5Ij4KICAgICAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIGZpbGwtb3BhY2l0eT0iMC42MDA5NjgwNzEiIGZpbGw9IiMwMDAwMDAiIHg9IjAiIHk9IjAiIHdpZHRoPSIzOCIgaGVpZ2h0PSIzOCI+PC9yZWN0PgogICAgICAgICAgICAgICAgPGcgaWQ9IuWIhue7hC02IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMy4wMDAwMDAsIDE0LjAwMDAwMCkiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSIyIj4KICAgICAgICAgICAgICAgICAgICA8cG9seWxpbmUgaWQ9Iui3r+W+hC03IiBzdHJva2Utb3BhY2l0eT0iMC43OTgwMDcyNDYiIHBvaW50cz0iMCAxMCA2IDQgMTIgMTAiPjwvcG9seWxpbmU+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTAsMC41IEwxMiwwLjUiIGlkPSLnm7Tnur8tMiIgc3Ryb2tlLW9wYWNpdHk9IjAuOCIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSI+PC9wYXRoPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
+               class="toTop">
+          <img *ngIf="toBottomBtn" (click)="toBottom()"
+               src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzhweCIgaGVpZ2h0PSIzOHB4IiB2aWV3Qm94PSIwIDAgMzggMzgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUyLjIgKDY3MTQ1KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT7liIbnu4QgNTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJTeW1ib2xzIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0i5LiK5LiL6aG2572uIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwgLTQ0LjAwMDAwMCkiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxnIGlkPSLliIbnu4QtNSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsIDQ0LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHJlY3QgaWQ9IuefqeW9oiIgZmlsbC1vcGFjaXR5PSIwLjYwMDk2ODA3MSIgZmlsbD0iIzAwMDAwMCIgeD0iMCIgeT0iMCIgd2lkdGg9IjM4IiBoZWlnaHQ9IjM4Ij48L3JlY3Q+CiAgICAgICAgICAgICAgICA8ZyBpZD0i5YiG57uEIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOS4wMDAwMDAsIDE5LjAwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtMTkuMDAwMDAwLCAtMTkuMDAwMDAwKSB0cmFuc2xhdGUoMTMuMDAwMDAwLCAxNC4wMDAwMDApIiBzdHJva2U9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMiI+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTAsMC41IEwxMiwwLjUiIGlkPSLnm7Tnur8tMi1jb3B5IiBzdHJva2Utb3BhY2l0eT0iMC44IiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIj48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgPHBvbHlsaW5lIGlkPSLot6/lvoQtNyIgc3Ryb2tlLW9wYWNpdHk9IjAuNzk4MDA3MjQ2IiBwb2ludHM9IjAgMTAgNiA0IDEyIDEwIj48L3BvbHlsaW5lPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
+               class="toBottom">
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

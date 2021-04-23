@@ -59,7 +59,7 @@
 /*======================== default样式下 ==============*/
 
 /*tab-bar样式*/
-.@{tab-navigation-default} ::ng-deep .ant-tabs-card .ant-tabs-bar {
+.@{tab-navigation-default} ::ng-deep .ant-tabs-card .ant-tabs-nav {
   height: @tab-height;
   border-color: #E5E5E5;
   border-bottom-width: 1px;
@@ -67,7 +67,7 @@
 }
 
 /*tab未激活时候的样式*/
-.@{tab-navigation-default} ::ng-deep .ant-tabs-card .ant-tabs-bar .ant-tabs-tab {
+.@{tab-navigation-default} ::ng-deep .ant-tabs-card .ant-tabs-nav .ant-tabs-tab {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-color: transparent;
@@ -83,18 +83,22 @@
 }
 
 /*tab激活的样式*/
-.@{tab-navigation-default} ::ng-deep .ant-tabs-card .ant-tabs-bar .ant-tabs-tab-active {
+.@{tab-navigation-default} ::ng-deep .ant-tabs-card .ant-tabs-nav .ant-tabs-tab-active {
   border-color: transparent;
   border-bottom-color: #409DFD;
   border-bottom-width: 1.5px;
   background: #F5F7FA;
-  color: #303133;
+
+  /*tab里面btn样式*/
+  >.ant-tabs-tab-btn {
+    color: #303133;
+  }
 }
 
 /*======================== orange样式下 ==============*/
 
 /*tab-bar样式*/
-.@{tab-navigation-orange} ::ng-deep .ant-tabs-card .ant-tabs-bar {
+.@{tab-navigation-orange} ::ng-deep .ant-tabs-card .ant-tabs-nav {
   height: @tab-height;
   border-color: #E5E5E5;
   border-bottom-width: 1px;
@@ -102,7 +106,7 @@
 }
 
 /*tab未激活时候的样式*/
-.@{tab-navigation-orange} ::ng-deep .ant-tabs-card .ant-tabs-bar .ant-tabs-tab {
+.@{tab-navigation-orange} ::ng-deep .ant-tabs-card .ant-tabs-nav .ant-tabs-tab {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-color: transparent;
@@ -118,18 +122,22 @@
 }
 
 /*tab激活的样式*/
-.@{tab-navigation-orange} ::ng-deep .ant-tabs-card .ant-tabs-bar .ant-tabs-tab-active {
+.@{tab-navigation-orange} ::ng-deep .ant-tabs-card .ant-tabs-nav .ant-tabs-tab-active {
   border-color: transparent;
   border-bottom-color: #EB6609;
   border-bottom-width: 1.5px;
   background: #F5F7FA;
-  color: #303133;
+
+  /*tab里面btn样式*/
+  >.ant-tabs-tab-btn {
+    color: #303133;
+  }
 }
 
 /*======================== turquoise样式下 ==============*/
 
 /*tab-bar样式*/
-.@{tab-navigation-turquoise} ::ng-deep .ant-tabs-card .ant-tabs-bar {
+.@{tab-navigation-turquoise} ::ng-deep .ant-tabs-card .ant-tabs-nav {
   height: @tab-height;
   border-color: #E5E5E5;
   border-bottom-width: 1px;
@@ -137,7 +145,7 @@
 }
 
 /*tab未激活时候的样式*/
-.@{tab-navigation-turquoise} ::ng-deep .ant-tabs-card .ant-tabs-bar .ant-tabs-tab {
+.@{tab-navigation-turquoise} ::ng-deep .ant-tabs-card .ant-tabs-nav .ant-tabs-tab {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-color: transparent;
@@ -153,12 +161,16 @@
 }
 
 /*tab激活的样式*/
-.@{tab-navigation-turquoise} ::ng-deep .ant-tabs-card .ant-tabs-bar .ant-tabs-tab-active {
+.@{tab-navigation-turquoise} ::ng-deep .ant-tabs-card .ant-tabs-nav .ant-tabs-tab-active {
   border-color: transparent;
   border-bottom-color: #15B3A3;
   border-bottom-width: 1.5px;
   background: #F5F7FA;
-  color: #303133;
+
+  /*tab里面btn样式*/
+  >.ant-tabs-tab-btn {
+    color: #303133;
+  }
 }
 
 

@@ -2,7 +2,6 @@ import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EtpManageService} from './etp-manage.service';
 import {EtpDetailsComponent} from './etp-details/etp-details.component';
-import {NzModalService} from 'ng-zorro-antd';
 import {VCustomerEtpReq} from '../../../../../helpers/vo/req/v-customer-etp-req';
 import {VCustomerEtpResp} from '../../../../../helpers/vo/resp/v-customer-etp-resp';
 import {UIHelper} from '../../../../../helpers/ui-helper';
@@ -10,6 +9,7 @@ import {DefaultBusService} from '../../../../../helpers/event-bus/default-bus.se
 import {Utils} from '../../../../../helpers/utils';
 import {ThemeHelper} from '../../../../../helpers/theme-helper';
 import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-etp-manage',
@@ -17,6 +17,8 @@ import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
   styleUrls: ['./etp-manage.component.less']
 })
 export class EtpManageComponent implements OnInit {
+
+  tabs = [1, 2, 3];
 
   // tab
   tabIndex = 0;

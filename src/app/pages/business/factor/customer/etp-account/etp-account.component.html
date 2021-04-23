@@ -1,9 +1,8 @@
 <nz-card class="card-list" nzTitle="企业账号列表">
   <div class="card-container">
-    <nz-tabset [nzTabBarGutter]="0"
+    <nz-tabset [nzTabBarGutter]="2"
                [(nzSelectedIndex)]="tabIndex"
-               [nzTabPosition]="'button'"
-               [nzType]="'card'"
+               nzType="card"
                (nzSelectedIndexChange)="search(true)">
       <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
         <div class="tab-card-list">
@@ -77,7 +76,8 @@
                   <div *ngSwitchCase="userStatusEnum.CHECK_PASS">
                     <a (click)="details(data.userId)">查看</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a (click)="setEtpMenus(data.userId, data.clientId)">设置菜单权限</a>
+<!--                    <a (click)="setEtpMenus(data.userId, data.clientId)">设置菜单权限</a>-->
+                    <a>设置菜单权限</a>
                   </div>
                   <div *ngSwitchDefault>
                     <a>查看</a>
@@ -115,6 +115,7 @@
   </div>
 </nz-card>
 
+<!--对话框-->
 <nz-modal [(nzVisible)]="checkModalVisible"
           nzWidth="800"
           nzMaskClosable = "false"

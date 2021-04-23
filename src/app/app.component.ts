@@ -13,8 +13,16 @@ import {Title} from '@angular/platform-browser';
 export class AppComponent {
 
   constructor(private eventBusService: EventBusService, private uiHelper: UIHelper, private titleService: Title) {
+    this.setGlobal();
     // titleService.setTitle(Constants.appInfo.appName);
     const themeStyle = environment.themeStyle;
     uiHelper.changeTheme(themeStyle);
+  }
+
+  /**
+   * 声明全局变量
+   */
+  setGlobal() {
+    (window as any).pdfWorkerSrc = 'assets/pdfjs/pdf.worker.js';
   }
 }

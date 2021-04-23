@@ -1,0 +1,657 @@
+.sign {
+  height: 100%;
+
+  &-header {
+    display: flex;
+    width: 100%;
+    height: 60px;
+
+    &-logo {
+      height: 100%;
+      width: 140px;
+      background-size: 107px 30px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+    }
+
+    > .sub-btn-list {
+      display: flex;
+      flex: auto;
+      flex-direction: row-reverse;
+
+      > .download-btn {
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-top: 15px;
+        margin-right: 30px;
+        border: none;
+        background-color: transparent;
+        color: #999;
+
+        :focus, :hover {
+          background: transparent;
+          border-color: transparent;
+        }
+      }
+
+      ::ng-deep .ant-btn-primary {
+        --antd-wave-shadow-color: none;
+      }
+    }
+
+    > .main-btn-list {
+      padding: 15px 24px;
+      margin: 0;
+      display: flex;
+
+      > .refuse-btn {
+        :active, :focus {
+          outline: 0;
+        }
+
+        :focus, :hover {
+          color: #333333;
+          border-color: #fff;
+        }
+
+        & > button {
+          padding: 0px 10px;
+          border-radius: 3px;
+          font-size: 12px;
+          color: #333333;
+        }
+      }
+
+      > .sign-btn {
+
+        :focus, :hover {
+          background-color: rgb(230, 23, 23);
+          border-color: rgb(230, 23, 23);
+        }
+
+        & > button {
+          padding: 0px 10px;
+          border-radius: 3px;
+          font-size: 12px;
+          color: #fff;
+          background-color: rgb(230, 23, 23);
+        }
+      }
+    }
+  }
+
+  &-container {
+    height: calc(100% - 60px);
+    position: relative;
+
+    > .es-sign-page {
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+
+      /*pdf文档操作头布局*/
+
+      > .es-pdf-header {
+        position: absolute;
+        top: 0;
+        left: 280px;
+        right: 280px;
+        height: 40px;
+        border-bottom: 1px solid #eee;
+        background-color: #fff;
+        z-index: 100;
+        text-align: center;
+
+        > .el-slider {
+          display: inline-block;
+          width: 150px;
+          height: 38px;
+          padding-left: 15px;
+          border-left: 1px solid #e1e1e1;
+
+          > .el-slider-bar {
+            width: 100%;
+            height: 6px;
+            margin: 16px 0;
+            background-color: transparent;
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+            vertical-align: middle;
+          }
+        }
+
+        > .es-pdf-header_slider {
+          margin-left: 10px;
+          line-height: 40px;
+          font-size: 12px;
+          vertical-align: top;
+        }
+
+        > .es-pdf-header--jump {
+          display: inline-block;
+          padding-left: 15px;
+          margin-left: 15px;
+          line-height: 40px;
+          font-size: 14px;
+          vertical-align: top;
+          border: 1px solid #e1e1e1;
+          border-top: 0;
+          border-bottom: 0;
+
+          > .es-pdf-header--jump__page {
+            width: 30px;
+            line-height: 26px;
+            position: relative;
+            display: inline-block;
+
+            > .el-input {
+              font-size: 14px;
+              height: 24px;
+              border-bottom: 1px solid #cecece;
+              display: block;
+              position: relative;
+              width: 100%;
+
+              > .el-input__inner {
+                padding: 0;
+                border: none;
+                height: 20px;
+                line-height: 28px;
+                -webkit-appearance: none;
+                text-align: center;
+                background-color: #fff;
+                background-image: none;
+                border-radius: 3px;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                color: #4d4d4d;
+                display: inline-block;
+                font-size: inherit;
+                outline: 0;
+                -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+                transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+                width: 100%;
+              }
+            }
+          }
+
+          > .rotation {
+            width: auto;
+            line-height: 26px;
+            position: relative;
+            display: inline-block;
+
+            > .rotation-number {
+              width: 50px;
+              line-height: 26px;
+              position: relative;
+              display: inline-block;
+
+              &>input {
+                border-bottom: 1px dotted #cecece;
+                text-align: center;
+                height: 18px;
+              }
+            }
+
+            &>button>svg {
+              height: 14px;
+            }
+          }
+        }
+      }
+
+      /*pdf文档显示区域*/
+
+      > .es-sign-page_box {
+        margin-left: 280px;
+        width: calc(100% - 560px);
+        float: left;
+        margin-top: 40px;
+        height: calc(100% - 40px);
+        text-align: center;
+        background-color: #eee;
+        border-left: 1px solid #eee;
+        border-right: 1px solid #eee;
+        box-sizing: border-box;
+        overflow: auto;
+      }
+
+      /*> .es-sign-page_box-collapsed-left:extend(.es-sign-page_box) {
+        //margin-left: 40px;
+      }*/
+
+      /*左边文档信息*/
+
+      > .sign-doc-list-tab {
+        height: 100%;
+        width: 280px;
+        background-color: #fff;
+        position: absolute;
+        left: 0;
+        overflow: hidden;
+
+        > .doc-list-tab {
+          width: 40px;
+          height: 100%;
+          display: inline-block;
+          border-right: 1px solid #e1e1e1;
+          float: left;
+
+          > .tab-item {
+            margin: 26px 11px 0 11px;
+            width: 18px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+
+            > .tab-choose-tag {
+              width: 12px;
+              height: 12px;
+              border: 1px solid #e1e1e1;
+              border-right: transparent;
+              border-bottom: transparent;
+              transform: rotate(
+                -45deg
+              );
+              background-color: #fdfdfd;
+              position: absolute;
+              top: 0;
+              right: -16px;
+              display: none;
+            }
+
+            > .tag-show:extend(.tab-choose-tag) {
+              display: block;
+
+              &:before {
+                border: none;
+                content: "";
+                display: block;
+                width: 10px;
+                height: 10px;
+                -ms-transform: rotate(-45deg);
+                transform: rotate(
+                  -45deg
+                );
+                background-color: #fdfdfd;
+                position: relative;
+                left: 4px;
+                top: 3px;
+              }
+            }
+          }
+
+          > .sign-doc:extend(.tab-item) {
+            background-image: url(../../../assets/images/doc-list-icon.svg);
+          }
+
+          > .sign-doc-active:extend(.tab-item) {
+            background-image: url(../../../assets/images/doc-list-icon-active.svg);
+          }
+
+          > .attachment-doc {
+            background-image: url(../../../assets/images/attachment-list-icon.svg);
+          }
+
+          > .attachment-doc-active {
+            background-image: url(../../../assets/images/attachment-list-icon-active.svg);
+          }
+        }
+
+        > .doc-list-context {
+          height: 100%;
+          width: 240px;
+          display: inline-block;
+          border-right: 1px solid #e1e1e1;
+          padding: 0 15px;
+          background-color: #fdfdfd;
+          float: right;
+
+          > .doc-list-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #333;
+            line-height: 40px;
+            height: 40px;
+            width: 100%;
+            border-bottom: 1px solid #eaeaea;
+
+            &>span {
+              color: #777;
+              font-size: 12px;
+              line-height: 40px;
+              font-weight: 400;
+            }
+          }
+
+          > .doc-list {
+            width: 100%;
+            height: calc(100% - 41px);
+            padding-top: 20px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            &::-webkit-scrollbar { // 隐藏滚动条， chrome、Edge浏览器
+              display: none;
+            }
+            scrollbar-color: transparent transparent; // 隐藏滚动条,适配火狐浏览器
+
+            > .doc-item {
+              margin: 0;
+              cursor: pointer;
+              padding: 20px 45px 0 45px;
+
+              > .doc-img {
+                position: relative;
+                width: 118px;
+                height: 158px;
+                margin-bottom: 5px;
+                border: 1px solid #ebebeb;
+
+                &>img {
+                  display: inline-block;
+                  width: 100%;
+                  height: auto;
+                  position: absolute;
+                  top: 50%;
+                  transform: translateY(-50%);
+                }
+
+                > .doc-page-num {
+                  background-color: #333;
+                  z-index: 100;
+                  position: absolute;
+                  bottom: 0;
+                  right: 0;
+                  width: 20px;
+                  height: 20px;
+                  line-height: 20px;
+                  font-size: 12px;
+                  text-align: center;
+                  color: #fff;
+                }
+
+                > .readonly-icon {
+                  width: 70px;
+                  height: 28px;
+                  background-size: 70px 38px;
+                  position: absolute;
+                  left: -17px;
+                  top: 0;
+                  font-size: 16px;
+                  color: #fff;
+                  line-height: 28px;
+                  transform: scale(.5);
+                  text-align: center;
+                  background-image: url(../../../assets/images/ready-only.svg);
+                }
+              }
+
+              > .doc-img-active {
+                border: 1px solid #333;
+                overflow: hidden;
+              }
+
+              > .doc-name {
+                color: #333;
+                font-size: 12px;
+                line-height: 20px;
+                word-break: break-all;
+              }
+            }
+
+            > .empty-list-context {
+              color: #999;
+              text-align: center;
+              font-size: 14px;
+              //background-image: url("/assets/images/attachment-empty.svg");
+              background-image: url("../../../../src/assets/images/attachment-empty.svg");
+              background-repeat: no-repeat;
+              background-position: 50%;
+              height: 160px;
+              padding-top: 126px;
+            }
+          }
+        }
+
+        > .attachment-context {
+          position: relative;
+        }
+
+        > .open-close-trigger {
+          top: 51%;
+          left: 242px;
+          padding: 12px 43px 0;
+          position: fixed;
+          color: #f1f1f1;
+          transform: rotate(90deg);
+          cursor: pointer;
+          z-index: 3;
+        }
+
+        > .open-close-trigger::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 1000;
+          background: #fdfdfd;
+          box-shadow: 0 -2px 2px 0 hsl(0deg 0% 47% / 10%);
+          transform: perspective(12px) rotateX(12deg);
+        }
+
+        > .open-close-trigger-icon {
+          left: 278px;
+          transform: rotate(0deg);
+          cursor: pointer;
+          position: fixed;
+          top: 51%;
+          width: 8px;
+          height: 12px;
+          background-image: url(../../../assets/images/back-icon.svg);
+          z-index: 101;
+        }
+      }
+
+      /*右边tab*/
+
+      > .sign-seal-flow-tab {
+        width: 280px;
+        height: 100%;
+        border-left: 1px solid #e1e1e1;
+        background: #fff;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        > .open-close-tab-trigger {
+          top: 51%;
+          right: 242px;
+          padding: 12px 43px 0;
+          position: fixed;
+          color: #fff;
+          transform: rotate(-90deg);
+          cursor: pointer;
+          z-index: 3;
+        }
+
+        > .open-close-tab-trigger::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 100;
+          background: #fff;
+          box-shadow: 0 -2px 2px 0 hsl(0deg 0% 47% / 10%);
+          transform: perspective(12px) rotateX(12deg);
+        }
+
+        > .open-close-tab-trigger-icon {
+          right: 277px;
+          transform: rotate(180deg);
+          cursor: pointer;
+          position: fixed;
+          top: 51%;
+          width: 8px;
+          height: 12px;
+          background-image: url(../../../assets/images/back-icon.svg);
+          z-index: 101;
+        }
+
+        > .tab-bar {
+          width: 100%;
+          padding: 0 15px;
+          height: 40px;
+          font-size: 14px;
+          line-height: 38px;
+          display: flex;
+          border-bottom: 1px solid #eaeaea;
+          color: #999;
+          overflow: hidden;
+          justify-content: space-around;
+
+          > .tab-bar-item {
+            position: relative;
+            cursor: pointer;
+            width: 50%;
+            text-align: center;
+          }
+
+          > .tab-bar-item-active {
+            color: #333;
+
+            &>span {
+              background-color: #e63000;
+              position: absolute;
+              bottom: 0;
+              left: 39px;
+              width: 38px;
+              height: 2px;
+            }
+          }
+        }
+
+        > .tab-content {
+          padding: 0 15px;
+          height: calc(100% - 41px);
+          overflow-y: auto;
+          overflow-x: hidden;
+
+          > .sign-doc-status {
+            font-size: 14px;
+            color: #333;
+            line-height: 22px;
+            height: calc(100% - 45px);
+
+            > .is-sign-wrapper {
+              width: 100%;
+              height: 100%;
+              text-align: center;
+
+              > .is-sign {
+                margin: 40px auto 16px;
+                width: 50px;
+                height: 50px;
+              }
+            }
+          }
+        }
+      }
+
+      > .es-sign-page_stick {
+        right: 300px;
+        z-index: 100;
+        position: absolute;
+        width: 38px;
+        bottom: 20px;
+        height: 90px;
+
+        & > span {
+          > .toTop {
+            top: 0;
+            position: absolute;
+
+            /*悬停样式*/
+            &:hover {
+              cursor: pointer;
+              background: rgba(0, 0, 0, 0.5);
+            }
+          }
+
+          > .toBottom {
+            bottom: 0;
+            position: absolute;
+
+            &:hover {
+              cursor: pointer;
+              background: rgba(0, 0, 0, 0.5);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.el-button {
+  width: auto;
+  height: 38px;
+  padding: 0 11px;
+  line-height: 39px;
+  border-radius: 0;
+  margin-left: 15px;
+  font-size: 14px;
+  border: none;
+  -webkit-appearance: button;
+  display: inline-block;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #fff;
+  color: #4d4d4d;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0;
+  -webkit-transition: .1s;
+  transition: .1s;
+  font-weight: 400;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+*, :after, :before {
+  box-sizing: border-box;
+}
+
+/*重写 nz-slider控件的样式*/
+.el-slider-bar ::ng-deep .ant-slider {
+  padding: 2px 0;
+}
+/*未滑动的*/
+.el-slider-bar ::ng-deep .ant-slider .ant-slider-rail {
+  background-color: #e4e4e4;
+}
+/*已经滑动*/
+.el-slider-bar ::ng-deep .ant-slider .ant-slider-track {
+  background-color: #e4e4e8;
+}
+/*小圆点*/
+.el-slider-bar ::ng-deep .ant-slider .ant-slider-handle {
+  background-color: #fff;
+  border: 1px solid #5e5d5b;
+
+  &:focus {
+    //box-shadow: 0 0 0 5px rgb(235 103 9 / 12%); //获取焦点后阴影
+    box-shadow: 0 0 0 0px transparent; //去掉阴影
+  }
+}
