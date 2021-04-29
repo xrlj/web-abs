@@ -13,7 +13,7 @@
 
   <ul class="nav tools">
     <li class="nav-icon">
-      <nz-badge [nzCount]="22">
+      <nz-badge [nzCount]="22" style="color: #fff">
         <i nz-icon nzType="bell" nzTheme="outline"></i>
       </nz-badge>
     </li>
@@ -27,7 +27,8 @@
 
   <div class="user">
     <div nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomRight'" class="user-name">
-      <nz-avatar nzIcon="user"></nz-avatar>
+<!--      <nz-avatar nzIcon="user"></nz-avatar>-->
+      <img src="assets/images/head-small.png" style="height: 32px;width: 32px;"/>
       <span>{{utils.getJwtTokenClaim(jwtKvEnum.Username)}}，欢迎您！</span>
       <i nz-icon nzType="down" style="margin-left: 3px"></i>
     </div>

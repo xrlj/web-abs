@@ -5,6 +5,9 @@ import {UserCentreRoutingModule} from './user-centre-routing.module';
 import {EditorModule} from '@tinymce/tinymce-angular';
 import {FormsModule} from '@angular/forms';
 
+/**
+ * 个人账号中心
+ */
 @NgModule({
   declarations: [UserCentreComponent],
   imports: [

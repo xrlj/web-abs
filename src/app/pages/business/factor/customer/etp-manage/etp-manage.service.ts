@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Api} from '../../../../../helpers/http/api';
-import {Utils} from '../../../../../helpers/utils';
 import {ApiPath} from '../../../../../api-path';
 import {VCustomerEtpReq} from '../../../../../helpers/vo/req/v-customer-etp-req';
 
@@ -9,7 +8,7 @@ import {VCustomerEtpReq} from '../../../../../helpers/vo/req/v-customer-etp-req'
 })
 export class EtpManageService {
 
-  constructor(private api: Api, private utils: Utils) { }
+  constructor(private api: Api) { }
 
   /**
    * 新增企业。

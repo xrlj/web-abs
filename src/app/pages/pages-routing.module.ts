@@ -44,6 +44,14 @@ const routes: Routes = [
       {
         path: 'business',
         loadChildren: () => import('./business/business.module').then(m => m.BusinessModule)
+      },
+      {
+        path: 'etp-centre',
+        loadChildren: () => import('./etp-centre/etp-centre.module').then(m => m.EtpCentreModule)
+      },
+      {
+        path: 'setting',
+        loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule)
       }
     ]
   },

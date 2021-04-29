@@ -11,7 +11,7 @@
 
 <div class="default-layout" [class.aside-collapsed]="collapsed">
   <app-header (toggleCollapsed)="onToggleCollapsed($event)" (currentTheme)="setCurrentTheme($event)" (asideTheme)="setAsideTheme($event)"></app-header>
-  <app-body [collapsed]="collapsed">
+  <app-body [collapsed]="collapsed" (tabMenu)="clickTab($event)">
     <router-outlet></router-outlet>
   </app-body>
   <app-aside [collapsed]="collapsed"></app-aside>

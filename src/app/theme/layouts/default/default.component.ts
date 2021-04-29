@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {UIHelper} from '../../../helpers/ui-helper';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
-import {AppAsideComponent, AppBodyComponent} from '../../components';
+import {AppAsideComponent, AppBodyComponent, AppHeaderComponent} from '../../components';
 
 @Component({
   selector: 'app-default',
@@ -15,6 +15,8 @@ export class DefaultComponent implements OnInit, OnDestroy {
   // 控制目录的展开/折叠
   collapsed = false;
 
+  @ViewChild(AppHeaderComponent)
+  private appHeaderComponent: AppHeaderComponent;
   @ViewChild(AppBodyComponent)
   private appBodyComponent: AppBodyComponent;
   @ViewChild(AppAsideComponent)
@@ -48,5 +50,15 @@ export class DefaultComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+
+  /**
+   * 点击快捷tab
+   */
+  clickTab($event: any) {
+    if (this.collapsed) {
+      return;
+    }
+    this.appAsideComponent.selectedMenuOnClickTabMenu($event);
   }
 }

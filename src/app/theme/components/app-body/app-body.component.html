@@ -19,7 +19,13 @@
           </div>
         </ng-template>
       </nz-tab>-->
-      <nz-tab *ngFor="let menu of menuList" [nzClosable]="menu.isRemove" [nzTitle]="menu.title" (nzContextmenu)="contextMenu($event, contextTabManageMenu)"></nz-tab>
+      <nz-tab *ngFor="let menu of menuList" (nzSelect)="clickTab(menu)"
+              [nzClosable]="menu.isRemove"
+              [nzTitle]="menu.title"
+              (nzContextmenu)="contextMenu($event, contextTabManageMenu)">
+              <!--只有右击当前选中tab才创建快捷关闭菜单-->
+              <!--(nzContextmenu)="currentMenuTabTile === menu.title ? contextMenu($event, contextTabManageMenu): contextMenu($event, contextTabMenuEmpty)">-->
+      </nz-tab>
     </nz-tabset>
     <!--tab-bar右边下拉菜单-->
     <ng-template #extraTemplate>
@@ -51,3 +57,5 @@
     <li nz-menu-item (click)="closeTabByContextMenu(3)">关闭全部标签页</li>
   </ul>
 </nz-dropdown-menu>
+
+<nz-dropdown-menu #contextTabMenuEmpty="nzDropdownMenu"></nz-dropdown-menu>

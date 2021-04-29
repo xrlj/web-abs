@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {filter, map, mergeMap} from 'rxjs/operators';
@@ -20,8 +20,11 @@ export class AppBodyComponent implements OnInit, OnDestroy {
 
   @Input() collapsed: boolean;
 
+  @Output() tabMenu = new EventEmitter();
+
   menuList = [];
   currentMenuTab = -1;
+  currentMenuTabTile = '';
 
   currentTabClasses: {};  // tab 样式类
 
@@ -29,11 +32,14 @@ export class AppBodyComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
               private nzContextMenuService: NzContextMenuService) {
+    // 注册监听路由变动
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => this.activatedRoute),
       map(route => {
-        while (route.firstChild) { route = route.firstChild; }
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
         return route;
       }),
       filter(route => route.outlet === 'primary'),
@@ -76,10 +82,10 @@ export class AppBodyComponent implements OnInit, OnDestroy {
    */
   setCurrentTabClasses(theme: ThemeEnum) {
     // CSS classes: added/removed per current state of component properties
-    this.currentTabClasses =  {
+    this.currentTabClasses = {
       'tab-navigation-default': theme === ThemeEnum.Default,
       'tab-navigation-orange': theme === ThemeEnum.Orange,
-      'tab-navigation-turquoise':  theme === ThemeEnum.Turquoise
+      'tab-navigation-turquoise': theme === ThemeEnum.Turquoise
     };
   }
 
@@ -90,7 +96,7 @@ export class AppBodyComponent implements OnInit, OnDestroy {
     this.nzContextMenuService.create($event, menu);
   }
 
-  closeTab({ index }: { index: number }): void {
+  closeTab({index}: { index: number }): void {
     this.closeUrl(this.menuList[index].url);
   }
 
@@ -98,8 +104,8 @@ export class AppBodyComponent implements OnInit, OnDestroy {
   closeUrl(url: string) {
     // 当前关闭的是第几个路由
     const index = this.menuList.findIndex(p => p.url === url);
-    // 如果只有一个不可以关闭
-    if (this.menuList.length === 1) {
+    // 如果只有一个不可以关闭, 当前选定的是首页不可以关闭
+    if (this.menuList.length === 1 || index ===0) {
       return;
     }
     this.menuList.splice(index, 1);
@@ -113,13 +119,15 @@ export class AppBodyComponent implements OnInit, OnDestroy {
         menu = this.menuList[index];
       }
       // 跳转路由
-      this.router.navigate([menu.url]);    }
+      this.router.navigate([menu.url]);
+    }
   }
 
   /**
    * tab发生改变
    */
   nzSelectChange($event) {
+    this.currentMenuTabTile = $event.tab.nzTitle;
     this.currentMenuTab = $event.index;
     const menu = this.menuList[this.currentMenuTab];
     // 跳转路由
@@ -162,6 +170,13 @@ export class AppBodyComponent implements OnInit, OnDestroy {
         this.router.navigate([this.menuList[0].url]);
         break;
     }
+  }
+
+  /**
+   * 点击tab回调。
+   */
+  clickTab(menu: any) {
+    this.tabMenu.emit(menu);
   }
 }
 

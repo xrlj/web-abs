@@ -143,7 +143,7 @@ export class PdfShowComponent implements OnInit, AfterViewInit {
     }
 
     const atBottom = elt.scrollHeight - elt.scrollTop === elt.clientHeight
-    console.log('==============滚动条到底了：', atBottom);
+    // console.log('==============滚动条到底了：', atBottom);
     if (atBottom || this.page === this.pdf.numPages) { // 在底部
       this.toBottomBtn = false;
     } else {
