@@ -20,7 +20,7 @@ export class EtpAccountComponent implements OnInit {
 
   // tab
   tabIndex = 0;
-  tabTitle = ['保理商', '核心企业', '成员公司', '供应商', '资金方'];
+  tabTitle = ['核心企业', '成员公司', '供应商', '资金方'];
 
   // 表格
   isAllDisplayDataChecked = false;
@@ -78,19 +78,16 @@ export class EtpAccountComponent implements OnInit {
    */
   private setUserType(): void {
     switch (this.tabIndex) {
-      case 0: // 保理商
-        this.userType = UserTypeEnum.FACTOR;
-        break;
-      case 1: // 核心企业
+     case 0: // 核心企业
         this.userType = UserTypeEnum.CORE;
         break;
-      case 2:
+      case 1:
         this.userType = UserTypeEnum.MEMBER;
         break;
-      case 3:
+      case 2:
         this.userType = UserTypeEnum.SUPPLIER;
         break;
-      case 4:
+      case 3:
         this.userType = UserTypeEnum.SPV;
         break;
       default:

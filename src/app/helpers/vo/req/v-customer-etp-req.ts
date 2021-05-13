@@ -2,6 +2,10 @@ import {VPageReq} from './v-page-req';
 
 export interface VCustomerEtpReq extends VPageReq {
   /**
+   * 企业id。
+   */
+  holderEtpId?: string;
+  /**
    * 企业全称。
    */
   etpName?: string;

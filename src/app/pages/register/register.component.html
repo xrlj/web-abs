@@ -44,7 +44,7 @@
                   <input nz-input formControlName="captcha" id="captcha" />
                 </div>
                 <div nz-col [nzSpan]="12">
-                  <button nz-button [disabled]="countDown" (click)="getCaptcha($event)">{{this.countDownBtnText}}</button>
+                  <button nz-button [disabled]="countDown" [nzLoading]="captchaBtnLoading" (click)="getCaptcha($event)">{{captchaBtnLoading ? '' : this.countDownBtnText}}</button>
                 </div>
               </div>
             </nz-form-control>

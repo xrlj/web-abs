@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: 'sign-all-list',
     component: SignAllListComponent,
-    data: {title: '签章任务列表'}
+    data: {title: '签章任务列表', isRemove: true}
   },
   {
     path: 'factor',

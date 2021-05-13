@@ -18,9 +18,6 @@ export class DefaultBusService {
   private pdfShow = new Subject<VPdfShow>();
   pdfShow$ = this.pdfShow.asObservable();
 
-  // private pdfShowSign = new Subject<VPdfShow>();
-  // pdfShowSign$ = this.pdfShowSign.asObservable();
-
   // 是否显示加载等待对话框
   showLoading(isLoading: boolean) {
     this.loadingSpin.next(isLoading);
@@ -30,8 +27,4 @@ export class DefaultBusService {
   showPdf(vPdfShow: VPdfShow): void {
     this.pdfShow.next(vPdfShow);
   }
-
-  // showPdfSign(vPdfShow: VPdfShow): void {
-  //   this.pdfShowSign.next(vPdfShow);
-  // }
 }

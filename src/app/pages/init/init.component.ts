@@ -21,13 +21,16 @@ export class InitComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkVerify();
+    // this.checkVerify();
+    this.setMenus();
   }
 
   /**
    * 检查企业，登录账户审核认证状态。
+   * 1.如果企业，代理人都已经实名认证，则获取菜单进入主页面；
+   * 2.否则，跳转到实名认证页面。
    */
-  checkVerify(): void {
+  /*checkVerify(): void {
     // 获取用户企业实名认证、个人实名认证状态信息
     this.api.get(ApiPath.usercentral.userApi.getAuthenticateStatus)
       .ok(data => {
@@ -42,7 +45,7 @@ export class InitComponent implements OnInit {
           this.router.navigate([AppPath.verify]);
         }
       });
-  }
+  }*/
 
   /**
    * 获取应用菜单列表。
@@ -50,13 +53,13 @@ export class InitComponent implements OnInit {
   setMenus(): void {
     this.api.get(ApiPath.usercentral.userApi.getUserMenus)
       .ok(data => {
-        SimpleReuseStrategy.deleteRouteSnapshotAll(); // 重新初始化路由复用，清空旧的复用路由
         localStorage.setItem(Constants.localStorageKey.menus, JSON.stringify(data));
         this.router.navigate([AppPath.pages], {replaceUrl: true});
       }).fail(error => {
-      this.status = true;
-    }).final(b => {
-      this.status = true;
-    });
+        console.log(error.msg);
+        this.status = true;
+      }).final(b => {
+        SimpleReuseStrategy.deleteRouteSnapshotAll(); // 重新初始化路由复用，清空旧的复用路由
+      });
   }
 }

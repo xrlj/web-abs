@@ -19,6 +19,7 @@ import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 import {ComponentsModule} from './components/components.module';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NZ_I18N, zh_CN} from 'ng-zorro-antd/i18n';
+import {QuillModule} from 'ngx-quill';
 
 registerLocaleData(zh);
 
@@ -37,7 +38,11 @@ registerLocaleData(zh);
         BrowserAnimationsModule,
         NzSpinModule,
         ComponentsModule,
-        RouterModule
+        RouterModule,
+        QuillModule.forRoot({
+          suppressGlobalRegisterWarning: true,
+          theme: 'snow'
+        }),
     ],
   providers: [
     {provide: NZ_I18N, useValue: zh_CN},

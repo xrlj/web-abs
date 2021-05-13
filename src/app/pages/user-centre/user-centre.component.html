@@ -1,11 +1,3 @@
-<!--富文本框-->
-<editor
-  apiKey="b9j1jgu15630mrdhs7wymg3u787j1a4ayctb9ry1vgu07n2e"
-  [(ngModel)]="dataModel"
-  [init]="{
-    plugins: [
-     'lists link image paste help wordcount code'
-    ],
-    toolbar: 'undo redo | formatselect | bold italic  underline code | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | help'
-  }"
-></editor>
+<div style="width: 800px">
+  <quill-editor [(ngModel)]="htmlText" (onEditorCreated)="quillEditorCreated($event)" [styles]="{height: '250px'}"></quill-editor>
+</div>

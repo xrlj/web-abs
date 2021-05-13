@@ -10,6 +10,7 @@ import {Utils} from '../../../../../helpers/utils';
 import {ThemeHelper} from '../../../../../helpers/theme-helper';
 import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
 import {NzModalService} from 'ng-zorro-antd/modal';
+import {JwtKvEnum} from '../../../../../helpers/enum/jwt-kv-enum';
 
 @Component({
   selector: 'app-etp-manage',
@@ -17,12 +18,10 @@ import {NzModalService} from 'ng-zorro-antd/modal';
   styleUrls: ['./etp-manage.component.less']
 })
 export class EtpManageComponent implements OnInit {
-
-  tabs = [1, 2, 3];
-
   // tab
   tabIndex = 0;
-  tabTitle = ['保理商', '核心企业', '成员公司', '供应商', '资金方'];
+  // tabTitle = ['保理商', '核心企业', '成员公司', '供应商', '资金方'];
+  tabTitle = ['核心企业', '成员公司', '供应商', '资金方'];
 
   // 表格
   isAllDisplayDataChecked = false;
@@ -44,6 +43,8 @@ export class EtpManageComponent implements OnInit {
   modalType = 1; // 1-新增；2-编辑
   isModalOkLoading = false;
   vCustomerEtpResp: VCustomerEtpResp; // 详情
+  spanLabel = 4;
+  spanFormControl = 18;
 
   userType: number; // 企业类型。
 
@@ -74,9 +75,10 @@ export class EtpManageComponent implements OnInit {
     this.etpSearchVo.pageSize = this.pageSize;
     this.setEtpType();
     this.etpSearchVo.userType = this.userType;
+    this.etpSearchVo.holderEtpId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId);
     this.utils.print(this.etpSearchVo);
     this.listLoading = true;
-    this.etpManageService.getAllByAdmin(this.etpSearchVo)
+    this.etpManageService.getAllByEtp(this.etpSearchVo)
       .ok(data => {
         this.pageIndex = data.pageIndex;
         this.pageSize = data.pageSize;
@@ -134,19 +136,16 @@ export class EtpManageComponent implements OnInit {
    */
   private setEtpType(): void {
     switch (this.tabIndex) {
-      case 0: // 保理商
-        this.userType = UserTypeEnum.FACTOR;
-        break;
-      case 1: // 核心企业
+      case 0: // 核心企业
         this.userType = UserTypeEnum.CORE;
         break;
-      case 2:
+      case 1:
         this.userType = UserTypeEnum.MEMBER;
         break;
-      case 3:
+      case 2:
         this.userType = UserTypeEnum.SUPPLIER;
         break;
-      case 4:
+      case 3:
         this.userType = UserTypeEnum.SPV;
         break;
       default:
@@ -175,6 +174,7 @@ export class EtpManageComponent implements OnInit {
     if (this.addOrEditForm.valid) { // 前端通过所有输入校验
       const value = this.addOrEditForm.value;
       value.userType = this.userType;
+      value.holderEtpId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId);
       this.utils.print(`请求参数：${value}`);
       this.isModalOkLoading = true;
       if (modalType === 1) { // 新增

@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
   countDownBtnText = '发送短信验证码'; // 可以控制动态改变的按钮提示信息
 
   // 第一步手机验证表单
+  captchaBtnLoading = false;
   stepOneForm!: FormGroup;
   nexBtnLoading = false;
 
@@ -137,17 +138,20 @@ export class RegisterComponent implements OnInit {
    */
   getCaptcha(e: MouseEvent): void {
     if (this.stepOneForm.controls.phoneNumber.value && this.stepOneForm.controls.etpName.value) {
+      this.captchaBtnLoading = true;
       this.registerService.getAuthCode(this.stepOneForm.controls.phoneNumber.value)
         .ok(data => {
           if (data) {
             this.sendMessage();   // 调用下面的按钮倒计时的方法
           } else {
             this.uiHelper.msgTipError('获取短信验证码失败');
+            this.captchaBtnLoading = false;
           }
         }).fail(error => {
-        this.uiHelper.msgTipError(error.msg);
-      }).final(() => {
-      });
+          this.uiHelper.msgTipError(error.msg);
+          this.captchaBtnLoading = false;
+        }).final(() => {
+        });
     } else {
       this.stepOneForm.controls['phoneNumber'].markAsDirty();           // 点击获取验证码要以输入了手机号为前提
       this.stepOneForm.controls['phoneNumber'].updateValueAndValidity();
@@ -164,12 +168,14 @@ export class RegisterComponent implements OnInit {
       x => {
         this.countDownBtnText = '验证码已发送(' + (this.countDownTime - x) + 's)';
         this.countDown = true;
+        this.captchaBtnLoading = false;
       },
       error => {
       },
       () => {
         this.countDownBtnText = '重新发送';
         this.countDown = false;
+        this.captchaBtnLoading = false;
       });
   }
 

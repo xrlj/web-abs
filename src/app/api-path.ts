@@ -26,8 +26,8 @@ export const ApiPath = {
       getEtpInfoByUser: `/${usercentral}/enterprise/getEtpInfoByUser`, // 获取用户所属企业的详情
       saveOrUpdate: `/${usercentral}/enterprise/saveOrUpdate`, // 保存或者更新企业信息。
       checkPayMoney: `/${usercentral}/enterprise/checkPayMoney`, // 对公打款金额校验。
-      addByAdminSystemInvitation: `/${usercentral}/enterprise/addByAdminSystemInvitation`,
-      getAllByAdmin: `/${usercentral}/enterprise/getAllByAdmin`,
+      addEtp: `/${usercentral}/enterprise/addEtp`,
+      getAllByEtp: `/${usercentral}/enterprise/getAllByEtp`,
       getEtpInfo: `/${usercentral}/enterprise/getEtpInfo`,
       checkEtpInfo: `/${usercentral}/enterprise/checkEtpInfo`
     }

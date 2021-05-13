@@ -5,6 +5,9 @@ import {AppPath} from '../../app-path';
 import {UIHelper} from '../ui-helper';
 import {Router} from '@angular/router';
 import {DefaultBusService} from '../event-bus/default-bus.service';
+import {UserStatusEnum} from '../enum/user-status-enum';
+import {EnterpriseStatusEnum} from '../enum/enterprise-status-enum';
+import {Constants} from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +76,30 @@ export class CommonService {
    */
   getUserInfoById(userId: string): any {
     return this.api.get(`${ApiPath.usercentral.userApi.getUserInfoById}/${userId}`)
+  }
+
+  /**
+   * 检查企业，登录账户审核认证状态。
+   * 1.如果企业，代理人都已经实名认证，则返回认证信息。
+   * 2.否则，跳转到实名认证页面。
+   */
+  async checkVerify() {
+    // 获取用户企业实名认证、个人实名认证状态信息
+    await this.api.get(ApiPath.usercentral.userApi.getAuthenticateStatus)
+      .ok(data => {
+        console.log(`认证信息》》》》》》：${JSON.stringify(data)}`);
+        const uStatus = data.userStatus;
+        const eStatus = data.etpStatus;
+        if (uStatus === UserStatusEnum.CHECK_PASS && eStatus === EnterpriseStatusEnum.VERIFIED_PASS) { // 企业、个人都已经实名认证
+          return data;
+        } else {
+          localStorage.setItem(Constants.localStorageKey.verifyStatus, JSON.stringify(data));
+          // this.router.navigate([AppPath.verify], {queryParams: {userStatus: uStatus, etpStatus: eStatus}});
+          this.router.navigate([AppPath.verify]);
+        }
+      }).final(b => {
+        return null;
+    });
   }
 
   /**************************** 用户信息相关 end ********************************/

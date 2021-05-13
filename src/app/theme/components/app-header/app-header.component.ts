@@ -112,7 +112,7 @@ export class AppHeaderComponent implements OnInit {
    * // TODO 路由会重新加载，但是页面无法重新加载。需要再具体组件中订阅路由事件，是否有更好办法？
    */
   routerRefresh() {
-    this.router.navigate([this.router.url]);
+    // this.router.navigate([this.router.url]);
   }
 
   fullScreen() {

@@ -15,15 +15,15 @@ export class EtpManageService {
    * @param body 请求json对象。
    */
   addEtp(body: any): any {
-    return this.api.post(ApiPath.usercentral.enterprise.addByAdminSystemInvitation, body);
+    return this.api.post(ApiPath.usercentral.enterprise.addEtp, body);
   }
 
   /**
    * 分页查询列表。
    * @param vCustomerEtpReq 查询条件。
    */
-  getAllByAdmin(vCustomerEtpReq: VCustomerEtpReq): any {
-    return this.api.post(ApiPath.usercentral.enterprise.getAllByAdmin, vCustomerEtpReq);
+  getAllByEtp(vCustomerEtpReq: VCustomerEtpReq): any {
+    return this.api.post(ApiPath.usercentral.enterprise.getAllByEtp, vCustomerEtpReq);
   }
 
   /**

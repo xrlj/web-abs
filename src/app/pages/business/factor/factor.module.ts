@@ -17,7 +17,18 @@ import { CreditorInventoryComponent } from './creditor-inventory/creditor-invent
 
 
 @NgModule({
-  declarations: [ProductManageComponent, AgreementTemplateComponent, FinancingPackageComponent, FirstContractMakeComponent, SecondContractMakeComponent, FirstZdwRegisterComponent, SecondZdwRegisterComponent, PaymentWriteOffComponent, BasicLedgerComponent, CreditorInventoryComponent],
+  declarations: [
+    ProductManageComponent,
+    AgreementTemplateComponent,
+    FinancingPackageComponent,
+    FirstContractMakeComponent,
+    SecondContractMakeComponent,
+    FirstZdwRegisterComponent,
+    SecondZdwRegisterComponent,
+    PaymentWriteOffComponent,
+    BasicLedgerComponent,
+    CreditorInventoryComponent
+  ],
     imports: [
         CommonModule,
         FactorRoutingModule,
