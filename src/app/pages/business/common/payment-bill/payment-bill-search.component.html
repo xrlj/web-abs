@@ -1,0 +1,98 @@
+<form nz-form [formGroup]="searchFormGroup" class="search-form">
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="rowItem">
+      <nz-form-item>
+        <nz-form-label nzFor="paymentBillNo">付款单号</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <input id="paymentBillNo" formControlName="paymentBillNo" nz-input placeholder="请输入付款单号" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="rowItem">
+      <nz-form-item>
+        <nz-form-label nzFor="subCompanyName">项目公司</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <input id="subCompanyName" formControlName="subCompanyName" nz-input placeholder="请输入项目公司名称" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="rowItem">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="0" nzFor="supplierName">供应商</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <input id="supplierName" formControlName="supplierName" nz-input placeholder="请输入供应商名称" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="rowItem">
+      <nz-form-item>
+        <nz-form-label nzFor="pytStatus">付款单状态</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <nz-select id="pytStatus" formControlName="pytStatus">
+            <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
+            <nz-option nzValue="'0'" nzLabel="待审核"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="rowItem">
+      <nz-form-item>
+        <nz-form-label nzFor="stagingName">分期名称</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <nz-select id="stagingName" formControlName="stagingName">
+            <nz-option nzValue="'0'" nzLabel="请选择"></nz-option>
+            <nz-option nzValue="'0'" nzLabel="招商融创-2"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <!--以下搜索条件初始隐藏-->
+    <div nz-col [nzSpan]="rowItem" [hidden]="isCollapse">
+      <nz-form-item>
+        <nz-form-label nzFor="pytBillArea">区域</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <input id="pytBillArea" formControlName="pytBillArea" nz-input placeholder="" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="rowItem" [hidden]="isCollapse">
+      <nz-form-item>
+        <nz-form-label nzFor="supplierApplyStatus">供应商申请状态</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <nz-select id="supplierApplyStatus" formControlName="supplierApplyStatus">
+            <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
+            <nz-option nzValue="'1'" nzLabel="待提交审核"></nz-option>
+            <nz-option nzValue="'2'" nzLabel="待审核"></nz-option>
+            <nz-option nzValue="'2'" nzLabel="已审核"></nz-option>
+            <nz-option nzValue="'3'" nzLabel="待复核"></nz-option>
+            <nz-option nzValue="'4'" nzLabel="已复核"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="rowItem" [hidden]="isCollapse">
+      <nz-form-item>
+        <nz-form-label nzFor="subCompanyApplyStatus">供应商申请状态</nz-form-label>
+        <nz-form-control [nzSpan]="0">
+          <nz-select id="subCompanyApplyStatus" formControlName="subCompanyApplyStatus">
+            <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
+            <nz-option nzValue="'1'" nzLabel="待提交审核"></nz-option>
+            <nz-option nzValue="'2'" nzLabel="待审核"></nz-option>
+            <nz-option nzValue="'2'" nzLabel="已审核"></nz-option>
+            <nz-option nzValue="'3'" nzLabel="待复核"></nz-option>
+            <nz-option nzValue="'4'" nzLabel="已复核"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="rowItem" class="search-area">
+      <button nz-button [nzType]="'primary'">搜索</button>
+      <button nz-button (click)="resetForm()" style="margin-left: 8px">重置</button>
+      <a class="collapse" (click)="toggleCollapse()">
+        {{isCollapse ? '展开' : '收起'}}
+        <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+      </a>
+    </div>
+  </div>
+</form>

@@ -8,6 +8,7 @@ import {UIHelper} from '../../helpers/ui-helper';
 import {MyValidators} from '../../helpers/MyValidators';
 import {AppPath} from '../../app-path';
 import {Constants} from '../../helpers/constants';
+import {DefaultBusService} from '../../helpers/event-bus/default-bus.service';
 
 @Component({
   selector: 'app-register',
@@ -39,7 +40,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private uiHelper: UIHelper, private fb: FormBuilder,
               private route: ActivatedRoute, private router: Router,
-              private registerService: RegisterService) {
+              private registerService: RegisterService, private defaultBusService: DefaultBusService) {
     const {required, maxLength, minLength, email, mobile} = MyValidators;
     this.stepOneForm = this.fb.group({
       etpName: [{value: null, disabled: true}, [required]], //  this.stepOneForm.controls.etpName.disable({onlySelf: true}); // 动态变不可用
@@ -59,6 +60,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerInvitationCode = this.route.snapshot.params['code'];
 
+    this.defaultBusService.showLoading(true);
     this.registerService.getEtpInfoByInvitationCode(this.registerInvitationCode)
       .ok(data => {
         this.etpInfo = data;
@@ -70,6 +72,7 @@ export class RegisterComponent implements OnInit {
           this.router.navigate([AppPath.login]);
         }
     }).final(() => {
+      this.defaultBusService.showLoading(false);
     });
   }
 
@@ -151,6 +154,7 @@ export class RegisterComponent implements OnInit {
           this.uiHelper.msgTipError(error.msg);
           this.captchaBtnLoading = false;
         }).final(() => {
+          // this.captchaBtnLoading = false;
         });
     } else {
       this.stepOneForm.controls['phoneNumber'].markAsDirty();           // 点击获取验证码要以输入了手机号为前提

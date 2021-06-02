@@ -3,20 +3,60 @@ import {CommonModule} from '@angular/common';
 import {PaymentBillComponent} from './common/payment-bill/payment-bill.component';
 import {FinancingBillComponent} from './common/financing-bill/financing-bill.component';
 import {BusinessRoutingModule} from './business-routing.module';
-import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
-import { SignWaitListComponent } from './common/sign-wait-list/sign-wait-list.component';
-import { SignCompleteListComponent } from './common/sign-complete-list/sign-complete-list.component';
-import { SignAllListComponent } from './common/sign-all-list/sign-all-list.component';
+import {SignWaitListComponent} from './common/sign-manage/sign-wait-list.component';
+import {SignCompleteListComponent} from './common/sign-manage/sign-complete-list.component';
+import {SignAllListComponent} from './common/sign-manage/sign-all-list.component';
+import {NzCardModule} from 'ng-zorro-antd/card';
+import {NzTabsModule} from 'ng-zorro-antd/tabs';
+import {NzButtonModule} from 'ng-zorro-antd/button';
+import {NzIconModule} from 'ng-zorro-antd/icon';
+import {ReactiveFormsModule} from '@angular/forms';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzInputModule} from 'ng-zorro-antd/input';
+import {NzSelectModule} from 'ng-zorro-antd/select';
+import {PaymentBillSearchComponent} from './common/payment-bill/payment-bill-search.component';
+import {PaymentBillListComponent} from './common/payment-bill/payment-bill-list.component';
+import {NzTableModule} from 'ng-zorro-antd/table';
+import {NzDividerModule} from 'ng-zorro-antd/divider';
+import {FinancingBillListSingleComponent} from './common/financing-bill/financing-bill-single/financing-bill-list-single.component';
+import {FinancingBillListMultipleComponent} from './common/financing-bill/financing-bill-multiple/financing-bill-list-multiple.component';
+import {FinancingBillListSearchMultipleComponent} from './common/financing-bill/financing-bill-multiple/financing-bill-list-search-multiple.component';
+import {FinancingBillListSearchSingleComponent} from './common/financing-bill/financing-bill-single/financing-bill-list-search-single.component';
 
 /**
  * 主业务模块
  */
 @NgModule({
-  declarations: [PaymentBillComponent, FinancingBillComponent, SignWaitListComponent, SignCompleteListComponent, SignAllListComponent],
-  imports: [
-    CommonModule,
-    BusinessRoutingModule,
-    PdfJsViewerModule
-  ]
+    declarations: [
+      PaymentBillComponent,
+      FinancingBillComponent,
+      SignWaitListComponent,
+      SignCompleteListComponent,
+      SignAllListComponent,
+      PaymentBillSearchComponent,
+      PaymentBillListComponent,
+      FinancingBillListSingleComponent,
+      FinancingBillListMultipleComponent,
+      FinancingBillListSearchMultipleComponent,
+      FinancingBillListSearchSingleComponent
+    ],
+  exports: [
+    PaymentBillSearchComponent,
+    PaymentBillListComponent
+  ],
+    imports: [
+        CommonModule,
+        BusinessRoutingModule,
+        NzCardModule,
+        NzTabsModule,
+        ReactiveFormsModule,
+        NzFormModule,
+        NzInputModule,
+        NzButtonModule,
+        NzIconModule,
+        NzSelectModule,
+        NzTableModule,
+        NzDividerModule
+    ]
 })
 export class BusinessModule { }

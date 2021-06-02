@@ -2,7 +2,7 @@
 @import "~quill/dist/quill.snow.css";
 
 // 自定义滚动条样式
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
@@ -15,8 +15,91 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 1em;
   background-color: rgba(50,50,50,.3);
-}
+}*/
 
 //nz-form-control {
 //  min-width: 550px;
 //}
+
+// 表格头部字体加粗
+.ant-table-thead .ant-table-row .ant-table-cell {
+  font-weight: bold;
+}
+
+// 表格右上角操作按钮
+.list-btn-action {
+  float: right;
+  margin-bottom: 10px;
+
+  &-left {
+    margin-right: 14px;
+  }
+
+  &>button {
+    font-size: 12px;
+  }
+}
+// 表格左上角统计展示数据
+.list-info-left {
+  float: left;
+  margin-bottom: 4px;
+  font-size: 14px;
+
+  &>a {
+    padding-left: 2px;
+    padding-right: 5px;
+  }
+}
+
+/*=========== 卡片列表以及其按钮样式 start ===========*/
+.card-list {
+  background: #fff;
+  min-height: 280px;
+  padding: 24px 24px 40px;
+
+  &-action {
+    margin-bottom: 25px;
+    margin-top: -10px;
+
+    &>nz-input-group {
+      width: 180px;
+      margin-right: 10px;
+    }
+
+    // 设置所有button属性
+    button {
+      margin-left: 15px;
+      margin-top: 20px;
+    }
+
+  }
+}
+
+/*=========== 卡片列表以及其按钮样式 end ===========*/
+
+/*=============start=========*/
+.tab-card-list {
+  background: #fff;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 15px;
+  min-height: 400px;
+
+  &-action {
+    position: relative;
+    margin-bottom: 20px;
+
+    &>nz-input-group {
+      width: 180px;
+      margin-right: 10px;
+    }
+
+    // 设置所有button属性
+    &>button {
+      margin-left: 15px;
+    }
+
+  }
+}
+/*===========end===========*/
+

@@ -15,6 +15,7 @@ import {NzTableModule} from 'ng-zorro-antd/table';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzButtonModule} from 'ng-zorro-antd/button';
+import {NzIconModule} from 'ng-zorro-antd/icon';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {NzButtonModule} from 'ng-zorro-antd/button';
     NzTableModule,
     NzModalModule,
     NzFormModule,
-    NzButtonModule
+    NzButtonModule,
+    NzIconModule
   ]
 })
 export class CustomerModule { }

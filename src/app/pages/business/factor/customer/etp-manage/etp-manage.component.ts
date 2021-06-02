@@ -28,7 +28,7 @@ export class EtpManageComponent implements OnInit {
   isIndeterminate = false;
   listOfDisplayData: VCustomerEtpResp[] = [];
   listOfAllData: VCustomerEtpResp[] = []; // 列表数据
-  mapOfCheckedId: { [key: string]: boolean } = {}; // 记录选择角色
+  mapOfCheckedId: { [key: string]: boolean } = {}; // 记录选择
   numberOfChecked = 0;
   listLoading = false; // 列表加载等待指示器状态
   pageIndex = 1; // 页码

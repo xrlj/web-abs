@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
 
 /**
  * 付款单管理。
@@ -11,16 +10,16 @@ import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.servi
 })
 export class PaymentBillComponent implements OnInit {
 
-  // pdfUri = 'https://seal.hlt-factoring.com/pdf/seal/1629c97a641145b1a748d81288635d34.pdf';
-  pdfUri = 'https://seal.hlt-factoring.com/pdf/seal/24251f0beb504cb78b4f56a78a0614a9.pdf';
+  // tab
+  tabIndex = 0;
+  tabTitle = ['待审核', '待复核', '已复核', '全部'];
 
-  constructor(private defaultBusService: DefaultBusService) {
+  constructor() {
   }
 
   ngOnInit(): void {
   }
 
-  openPdf() {
-    this.defaultBusService.showPdf({url: this.pdfUri, oriName: '保理合同'});
+  search(reset: boolean = false): void {
   }
 }

@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PaymentBillComponent} from './common/payment-bill/payment-bill.component';
 import {FinancingBillComponent} from './common/financing-bill/financing-bill.component';
-import {SignWaitListComponent} from './common/sign-wait-list/sign-wait-list.component';
-import {SignCompleteListComponent} from './common/sign-complete-list/sign-complete-list.component';
-import {SignAllListComponent} from './common/sign-all-list/sign-all-list.component';
+import {SignWaitListComponent} from './common/sign-manage/sign-wait-list.component';
+import {SignCompleteListComponent} from './common/sign-manage/sign-complete-list.component';
+import {SignAllListComponent} from './common/sign-manage/sign-all-list.component';
 
 
 const routes: Routes = [

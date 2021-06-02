@@ -1,0 +1,82 @@
+<nz-card class="card-list" nzTitle="产品详情" [nzExtra]="extraTemplate">
+  <div class="card-container">
+    <nz-tabset [nzTabBarGutter]="2"
+               [(nzSelectedIndex)]="tabIndex"
+               nzType="card"
+               (nzSelectedIndexChange)="getContent(tabIndex)">
+      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
+        <div *ngIf="title === tabTitle[0]">
+          <!--产品信息-->
+          <div class="info-line-title">
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>产品信息</span>
+          </div>
+          <nz-descriptions nzBordered  [nzSize]="'small'">
+            <nz-descriptions-item nzTitle="产品编号">ZR-001</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品名称">招商创融—慧链通2019保理资产支持专项计划</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品状态">
+              <nz-badge nzStatus="processing" nzText="已上线/在线"></nz-badge>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品类别">地产ABS融资</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="原始编号"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品期数"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品说明">测试<br>测试</nz-descriptions-item>
+          </nz-descriptions>
+          <!--相关企业-->
+          <div class="info-line-title" style="margin-top: 30px;">
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>相关企业信息</span>
+          </div>
+          <nz-descriptions nzBordered [nzSize]="'small'">
+            <nz-descriptions-item nzTitle="保理商">慧链通（深圳）商业保理有限公司</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="核心企业">碧桂园地产集团有限公司</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="SPV">招商证券资产管理有限公司</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="债务加入方"></nz-descriptions-item>
+          </nz-descriptions>
+          <!--额度信息-->
+          <div class="info-line-title" style="margin-top: 30px;">
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>额度信息</span>
+          </div>
+          <nz-descriptions nzBordered [nzSize]="'small'">
+            <nz-descriptions-item nzTitle="融资总额度"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="合同融资额度"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="应收账款融资额度"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="额度性质"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="额度期限">2年</nz-descriptions-item>
+          </nz-descriptions>
+          <!--费用信息-->
+          <div class="info-line-title" style="margin-top: 30px;">
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>费用信息</span>
+          </div>
+          <nz-descriptions nzBordered [nzSize]="'small'">
+            <nz-descriptions-item nzTitle="买入折扣">94.5%</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="卖出折扣">95.3%</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="年化利率"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="发行金额">80亿</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="使用期限">24月</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="宽限期限">10天</nz-descriptions-item>
+          </nz-descriptions>
+        </div>
+        <div *ngIf="title === tabTitle[1]">
+          <app-product-staging-list></app-product-staging-list>
+        </div>
+        <div *ngIf="title === tabTitle[2]">
+          <app-product-agreement-list></app-product-agreement-list>
+        </div>
+        <!--附件管理-->
+        <div *ngIf="title === tabTitle[3]">
+          <app-product-annex-list></app-product-annex-list>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+</ng-template>

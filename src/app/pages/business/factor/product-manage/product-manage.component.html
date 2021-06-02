@@ -1,1 +1,98 @@
-<p>产品管理列表</p>
+<nz-card *ngIf="showType === 1" class="card-list" nzTitle="产品列表">
+    <!--搜索-->
+    <div class="card-list-action">
+      <nz-input-group [nzSuffix]="ptNameSuffixTemplate">
+        <input type="text" nz-input [(ngModel)]="searchVo.ptNameOrCode" placeholder="产品名称，编号"/>
+      </nz-input-group>
+      <nz-input-group [nzSuffix]="coreEtpNameSuffixTemplate">
+        <input type="text" nz-input [(ngModel)]="searchVo.coreEtpName" placeholder="核心企业名称"/>
+      </nz-input-group>
+      <button nz-button nzType="default" (click)="search(true)"><i nz-icon nzType="search"></i>查询</button>
+      <button nz-button nzType="primary" [routerLink]="[productAddPath, 2]"><i nz-icon nzType="plus"></i>新增</button>
+      <button nz-button nzType="primary" nzDanger (click)="changShowType(2)"><i nz-icon nzType="delete"></i>删除</button>
+
+      <ng-template #ptNameSuffixTemplate
+      ><i
+        nz-icon
+        nz-tooltip
+        class="ant-input-clear-icon"
+        nzTheme="fill"
+        nzType="close-circle"
+        *ngIf="searchVo.ptNameOrCode"
+        (click)="searchVo.ptNameOrCode = null"
+      ></i
+      ></ng-template>
+      <ng-template #coreEtpNameSuffixTemplate
+      ><i
+        nz-icon
+        nz-tooltip
+        class="ant-input-clear-icon"
+        nzTheme="fill"
+        nzType="close-circle"
+        *ngIf="searchVo.coreEtpName"
+        (click)="searchVo.coreEtpName = null"
+      ></i
+      ></ng-template>
+    </div>
+
+  <div class="card-list-table">
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead>
+      <tr>
+        <th
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="15%" nzAlign="center">产品编号</th>
+        <th nzWidth="15%" nzAlign="center">产品名称</th>
+        <th nzWidth="15%" nzAlign="center">核心企业</th>
+        <th nzWidth="10%" nzAlign="center">产品类别</th>
+        <th nzWidth="10%" nzAlign="center">产品状态</th>
+        <th nzWidth="15%" nzAlign="center" nzShowSort>创建时间</th>
+        <th nzWidth="10%" nzAlign="center">创建人</th>
+        <th nzWidth="10%" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data.id]"
+          [nzDisabled]="data.disabled"
+          (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="center">{{ data.ptCode }}</td>
+        <td nzAlign="center">{{ data.ptName }}</td>
+        <td nzAlign="center">{{ data.coreEtpName }}</td>
+        <td nzAlign="center">{{ data.ptType }}</td>
+        <td nzAlign="center">{{data.ptStatus ? '已上线/在线' : '已下线'}}</td>
+        <td nzAlign="center">{{ data.dateCreated}}</td>
+        <td nzAlign="center">{{ data.creator}}</td>
+        <td nzAlign="center">
+            <a>查看</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>启用</a>
+            <a>停用</a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
+
+<app-product-details *ngIf="showType === 2" (showType)="changShowType($event)"></app-product-details>

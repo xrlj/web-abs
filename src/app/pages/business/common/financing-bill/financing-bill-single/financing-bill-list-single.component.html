@@ -1,0 +1,83 @@
+<div class="list-content">
+  <!--付款单各种操作，根据不同视图显示其对应操作-->
+  <div [ngSwitch]="fromViewType">
+    <div class="list-btn-action" *ngSwitchCase="1">
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="check-circle" nzTheme="outline"></i>审核</button>
+    </div>
+    <div class="list-btn-action" *ngSwitchCase="2">
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="check" nzTheme="outline"></i>复核</button>
+    </div>
+  </div>
+  <nz-table
+    nzShowPagination
+    nzShowSizeChanger
+    nzBordered
+    [nzFrontPagination]="false"
+    [nzData]="listOfAllData"
+    [nzLoading]="listLoading"
+    [nzTotal]="total"
+    [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize"
+    (nzPageIndexChange)="search()"
+    (nzPageSizeChange)="search(true)"
+    (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    [nzScroll]="{ x: '2200px', y: '400px' }"
+  >
+    <thead>
+    <tr>
+      <th nzLeft nzWidth="30px"
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+      ></th>
+      <th nzLeft nzWidth="150px" nzAlign="center">付款单号</th>
+      <th nzWidth="300px" nzAlign="center">分期名称</th>
+      <th nzWidth="180px" nzAlign="center">融资单号</th>
+      <th nzWidth="120px" nzAlign="center">融资金额</th>
+      <th nzWidth="250px" nzAlign="center">供应商</th>
+      <th nzWidth="180px" nzAlign="center">融资银行账号</th>
+      <th nzWidth="250px" nzAlign="center">账号名称</th>
+      <th nzWidth="300px" nzAlign="center">开户行名称</th>
+      <th nzWidth="100px" nzAlign="center">融资状态</th>
+      <th nzWidth="160px" nzAlign="center"
+          nzShowSort
+      >
+        创建时间
+      </th>
+      <th nzRight nzWidth="80px" nzAlign="center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfAllData">
+      <td nzLeft
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data.id]"
+          [nzDisabled]="data.disabled"
+          (nzCheckedChange)="refreshStatus()"
+      ></td>
+      <td nzLeft nzAlign="center">801S200925022631</td>
+      <td nzAlign="center">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
+      <td nzAlign="center">BGY202003-BL-000119</td>
+      <td nzAlign="center">4,838,726.25</td>
+      <td nzAlign="center">广东智潮建设工程有限公司</td>
+      <td nzAlign="center">2013014209200038901</td>
+      <td nzAlign="center">广东智潮建设工程有限公司</td>
+      <td nzAlign="center">中国工商银行股份有限公司佛山顺德陈村支行</td>
+      <td nzAlign="center">待放款</td>
+      <td nzAlign="center">2021-05-28 12:00:06</td>
+      <td nzRight nzAlign="center" [ngSwitch]="fromViewType">
+        <div *ngSwitchCase="0">
+          <a>查看</a>
+        </div>
+        <div *ngSwitchCase="1">
+          <a>审核</a>
+        </div>
+        <div *ngSwitchCase="2">
+          <a>复核</a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

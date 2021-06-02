@@ -5,11 +5,12 @@ import {AgreementTemplateComponent} from './agreement-template/agreement-templat
 import {BasicLedgerComponent} from './basic-ledger/basic-ledger.component';
 import {CreditorInventoryComponent} from './creditor-inventory/creditor-inventory.component';
 import {FinancingPackageComponent} from './financing-package/financing-package.component';
-import {FirstContractMakeComponent} from './first-contract-make/first-contract-make.component';
-import {SecondContractMakeComponent} from './second-contract-make/second-contract-make.component';
-import {FirstZdwRegisterComponent} from './first-zdw-register/first-zdw-register.component';
-import {SecondZdwRegisterComponent} from './second-zdw-register/second-zdw-register.component';
+import {FirstContractMakeComponent} from './contract-make/first-contract-make.component';
+import {SecondContractMakeComponent} from './contract-make/second-contract-make.component';
+import {FirstZdwRegisterComponent} from './zdw-register/first-zdw-register.component';
+import {SecondZdwRegisterComponent} from './zdw-register/second-zdw-register.component';
 import {PaymentWriteOffComponent} from './payment-write-off/payment-write-off.component';
+import {ProductAddComponent} from './product-manage/product-add.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,11 @@ const routes: Routes = [
     path: 'product-manage',
     component: ProductManageComponent,
     data: {title: '产品列表', isRemove: true}
+  },
+  {
+    path: 'product-add/:id',
+    component: ProductAddComponent,
+    data: {title: '产品维护', isRemove: true}
   },
   {
     path: 'agreement-template',

@@ -1,10 +1,12 @@
+import {MyValidators} from './MyValidators';
+
 export const Constants = {
   apiRequest: {
     retryTime: 3,  // 重试次数
     timeOut: 5000
   },
   appInfo: {
-    appName: '供应链融资平台',
+    appName: 'xxxxxxx',
     clientId: '2e5a0de806a58450',
     clientDeviceType: 'web',
     superUserId: '384564355850567680'

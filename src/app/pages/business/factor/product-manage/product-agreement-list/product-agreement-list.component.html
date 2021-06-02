@@ -1,0 +1,44 @@
+<div class="info-line-title">
+  <nz-divider nzType="vertical"></nz-divider>
+  <span>协议模板设定列表</span>
+</div>
+<nz-table
+  nzBordered
+  [nzShowPagination]="false"
+  [nzData]="listAgreementOfAllData"
+  [nzLoading]="listAgreementLoading"
+  [nzPageSize]="100">
+  <thead>
+  <tr>
+    <th nzWidth="5%" nzAlign="center">序号</th>
+    <th nzWidth="20%" nzAlign="center">协议名称</th>
+    <th nzWidth="20%" nzAlign="center">协议模板</th>
+    <th nzWidth="10%" nzAlign="center">上传角色</th>
+    <th nzWidth="25%" nzAlign="center">签章角色</th>
+    <th nzWidth="10%" nzAlign="center">是否必须上传</th>
+    <th nzWidth="5%" nzAlign="center">分组</th>
+    <th nzWidth="5%" nzAlign="center">排序</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of listAgreementOfAllData; let i = index">
+    <td nzAlign="center">{{i + 1}}</td>
+    <td nzAlign="center"></td>
+    <td nzAlign="center">
+      <a href="http://8.129.21.92/fastdfs/storage/data/00/05/wKgAM1_383aAQfX0AAC1v_zx_ss07.ftlh" target="_blank">01-【保理合同】招商创融-慧链通保理2020年第1-N期资产支持专项计划保理合同.ftlh</a>
+    </td>
+    <td nzAlign="center">保理商</td>
+    <td nzAlign="center">
+      <nz-checkbox-group [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
+    </td>
+    <td nzAlign="center">
+      <nz-radio-group [ngModel]="'Y'" disabled>
+        <label nz-radio nzValue="Y">是</label>
+        <label nz-radio nzValue="N">否</label>
+      </nz-radio-group>
+    </td>
+    <td nzAlign="center">2</td>
+    <td nzAlign="center">1</td>
+  </tr>
+  </tbody>
+</nz-table>

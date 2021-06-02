@@ -1,0 +1,96 @@
+<div class="payment-bill-content">
+  <!--付款单各种操作，根据不同视图显示其对应操作-->
+  <div [ngSwitch]="fromViewType">
+    <div class="list-btn-action" *ngSwitchCase="0">
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>接口获取</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>导入</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="delete" nzTheme="outline"></i>批量删除</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="edit" nzTheme="outline"></i>确认付款</button>
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="logout" nzTheme="outline"></i>出池</button>
+    </div>
+    <div *ngSwitchCase="1">
+      <span class="list-info-left">
+        待打包付款单：<a nz-button nzType="link">{{1}}</a>笔 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发票：<a nz-button nzType="link">{{4}}</a>张 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;付款金额：<a nz-button nzType="link">2,709,392.01</a>元
+      </span>
+      <div class="list-btn-action">
+        <button class="list-btn-action-right"  nz-button nzType="default" nzSize="small"><i nz-icon nzType="file-zip" nzTheme="outline"></i>打包处理</button>
+      </div>
+    </div>
+    <div class="list-btn-action" *ngSwitchCase="2">
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="check" nzTheme="outline"></i>律所审核通过</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="rest" nzTheme="outline"></i>调整分期</button>
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="carry-out" nzTheme="outline"></i>移出分期</button>
+    </div>
+    <div class="list-btn-action" *ngSwitchDefault></div>
+  </div>
+
+  <nz-table
+    nzShowPagination
+    nzShowSizeChanger
+    nzBordered
+    [nzFrontPagination]="false"
+    [nzData]="listOfAllData"
+    [nzLoading]="listLoading"
+    [nzTotal]="total"
+    [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize"
+    (nzPageIndexChange)="search()"
+    (nzPageSizeChange)="search(true)"
+    (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    [nzScroll]="{ x: '2400px', y: '400px' }"
+  >
+    <thead>
+    <tr>
+      <th nzLeft nzWidth="30px"
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+      ></th>
+      <th nzLeft nzWidth="150px" nzAlign="center">付款单号</th>
+      <th nzWidth="300px" nzAlign="center">分期名称</th>
+      <th nzWidth="250px" nzAlign="center">供应商</th>
+      <th nzWidth="250px" nzAlign="center">项目公司</th>
+      <th nzWidth="250px" nzAlign="center">核心企业</th>
+      <th nzWidth="100px" nzAlign="center">区域</th>
+      <th nzWidth="100px" nzAlign="center">款项类型</th>
+      <th nzWidth="100px" nzAlign="center">付款金额</th>
+      <th nzWidth="120px" nzAlign="center">供应商申请状态</th>
+      <th nzWidth="130px" nzAlign="center">项目公司申请状态</th>
+      <th nzWidth="120px" nzAlign="center"
+          nzShowSort
+      >
+        创建时间
+      </th>
+      <th nzRight nzWidth="200px" nzAlign="center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfAllData">
+      <td nzLeft
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data.id]"
+          [nzDisabled]="data.disabled"
+          (nzCheckedChange)="refreshStatus()"
+      ></td>
+      <td nzLeft nzAlign="center">801S200925022631</td>
+      <td nzAlign="center">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
+      <td nzAlign="center">陕西鑫嘉源建筑装饰工程有限公司</td>
+      <td nzAlign="center">佛山市高明区屿洲房地产开发经营有限公司</td>
+      <td nzAlign="center"></td>
+      <td nzAlign="center">桂东南区域</td>
+      <td nzAlign="center"></td>
+      <td nzAlign="center"></td>
+      <td nzAlign="center"></td>
+      <td nzAlign="center"></td>
+      <td nzAlign="center"></td>
+      <td nzRight nzAlign="center">
+        <a>查看</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>编辑</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

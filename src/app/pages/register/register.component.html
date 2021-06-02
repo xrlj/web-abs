@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="register-layout-content">
-    <nz-steps [nzCurrent]="current">
+    <nz-steps [nzCurrent]="current" nzSize="default">
       <nz-step nzTitle="验证手机号"></nz-step>
       <nz-step nzTitle="填写账号信息"></nz-step>
       <nz-step nzTitle="注册成功" [nzStatus]="doneStatus"></nz-step>
@@ -123,3 +123,5 @@
     </div>
   </div>
 </div>
+
+<app-custom-loading></app-custom-loading>

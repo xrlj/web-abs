@@ -24,7 +24,7 @@
   <!--提交认证信息-->
   <div *ngIf="etpStatus === enterpriseStatusEnum.CHECK_WAIT && current !== -1" class="verify-etp-layout-content">
     <div class="verify-etp-layout-content-title">
-      <nz-steps nzLabelPlacement="vertical" [nzCurrent]="current">
+      <nz-steps nzLabelPlacement="vertical" [nzCurrent]="current" nzSize="small">
         <nz-step nzTitle="填写企业基础信息"></nz-step>
         <nz-step nzTitle="上传相关证件扫描件"></nz-step>
         <nz-step nzTitle="填写企业银行账号信息"></nz-step>

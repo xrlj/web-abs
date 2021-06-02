@@ -1,4 +1,25 @@
-<button mat-raised-button (click)="openPdf()" color="primary" routerLinkActive="mat-accent">Open in new tab</button>
+<nz-card class="card-list" nzTitle="付款单列表">
+  <div class="card-container">
+    <nz-tabset
+      [nzTabBarGutter]="2"
+      [nzTabPosition]="'top'"
+      [(nzSelectedIndex)]="tabIndex"
+      nzType="card"
+      (nzSelectedIndexChange)="search(true)">
 
-
+      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
+        <div class="tab-card-list">
+          <!--搜索条件-->
+          <div class="tab-card-list-action">
+            <app-payment-bill-search></app-payment-bill-search>
+          </div>
+          <!--列表-->
+          <div class="tab-card-list-table">
+            <app-payment-bill-list [fromViewType]="0"></app-payment-bill-list>
+          </div>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</nz-card>
 

@@ -1,0 +1,73 @@
+<div class="list-content">
+  <!--付款单各种操作，根据不同视图显示其对应操作-->
+  <div [ngSwitch]="fromViewType">
+    <div class="list-btn-action" *ngSwitchCase="uiContractListActionType.FirstContractWait">
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>未签章检测</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>生成第一次合同</button>
+    </div>
+    <div class="list-btn-action" *ngSwitchCase="uiContractListActionType.FirstContractComplete">
+      <button class="list-btn-action-right"  nz-button nzType="default" nzSize="small"><i nz-icon nzType="file-zip" nzTheme="outline"></i>撤回生成</button>
+    </div>
+    <div class="list-btn-action" *ngSwitchCase="uiContractListActionType.SecondContractWait">
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>未签章检测</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>生成第二次合同</button>
+    </div>
+    <div class="list-btn-action" *ngSwitchCase="uiContractListActionType.SecondContractComplete">
+      <button class="list-btn-action-right"  nz-button nzType="default" nzSize="small"><i nz-icon nzType="file-zip" nzTheme="outline"></i>撤回生成</button>
+    </div>
+  </div>
+
+  <nz-table
+    nzShowPagination
+    nzShowSizeChanger
+    nzBordered
+    [nzFrontPagination]="false"
+    [nzData]="listOfAllData"
+    [nzLoading]="listLoading"
+    [nzTotal]="total"
+    [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize"
+    (nzPageIndexChange)="search()"
+    (nzPageSizeChange)="search(true)"
+    (nzCurrentPageDataChange)="currentPageDataChange($event)"
+  >
+    <thead>
+    <tr>
+      <th nzLeft
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+      ></th>
+      <th nzWidth="20%" nzAlign="center">分期名称</th>
+      <th nzWidth="15%" nzAlign="center">分期状态</th>
+      <th nzWidth="10%" nzAlign="center">付款单数</th>
+      <th nzWidth="10%" nzAlign="center">付款金额</th>
+      <th nzWidth="10%" nzAlign="center">发票张数</th>
+      <th nzWidth="15%" nzAlign="center">发票金额</th>
+      <th nzWidth="10%" nzAlign="center">生成状态</th>
+      <th nzWidth="10%" nzAlign="center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfAllData">
+      <td
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data.id]"
+          [nzDisabled]="data.disabled"
+          (nzCheckedChange)="refreshStatus()"
+      ></td>
+      <td nzLeft nzAlign="center">碧桂园ABS（有债务方）第一期</td>
+      <td nzAlign="center">初始</td>
+      <td nzAlign="center">5</td>
+      <td nzAlign="center">1,100.00</td>
+      <td nzAlign="center">50</td>
+      <td nzAlign="center">1,100.00</td>
+      <td nzAlign="center">未生成</td>
+      <td nzRight nzAlign="center">
+        <a>查看</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

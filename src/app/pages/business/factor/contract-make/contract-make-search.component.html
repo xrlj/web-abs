@@ -1,0 +1,18 @@
+<div class="tab-card-list-action">
+  <nz-input-group [nzSuffix]="suffixTemplate">
+    <input type="text" nz-input [(ngModel)]="stagingName" placeholder="请输入分期名称"/>
+  </nz-input-group>
+  <button nz-button nzType="primary" (click)="search()"><i nz-icon nzType="search"></i>查询</button>
+</div>
+
+<ng-template #suffixTemplate
+><i
+  nz-icon
+  nz-tooltip
+  class="ant-input-clear-icon"
+  nzTheme="fill"
+  nzType="close-circle"
+  *ngIf="stagingName"
+  (click)="stagingName = null"
+></i
+></ng-template>
