@@ -1,0 +1,180 @@
+<div [ngSwitch]="signStatus">
+  <!--待签章列表-->
+  <div class="list-content" *ngSwitchCase="signStatusEnum.SIGN_NO">
+    <div class="list-info-left">
+      <span>
+        待签章总是：<a nz-button nzType="link">{{3}}</a>笔
+      </span>
+    </div>
+    <div class="list-btn-action">
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="audit" nzTheme="outline"></i>全部签署
+      </button>
+    </div>
+    <!--列表-->
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead>
+      <tr>
+        <th
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzLeft nzWidth="10%" nzAlign="center">付款单号</th>
+        <th nzWidth="20%" nzAlign="center">文档类型</th>
+        <th nzWidth="20%" nzAlign="center">文档名称</th>
+        <th nzWidth="10%" nzAlign="center">文档大小</th>
+        <th nzWidth="20%" nzAlign="center">产品分期</th>
+        <th nzWidth="15%" nzAlign="center">创建时间</th>
+        <th nzWidth="5%" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="center">801S200925022631</td>
+        <td nzAlign="center">应收账款转让通知书及回执（适用于保理商向碧桂园下属公司&碧桂园地产出具-转让予计划管理人）</td>
+        <td nzAlign="center">应收账款转让通知书及回执（适用于保理商向碧桂园下属公司&碧桂园地产出具-转让予计划管理人）-BGY-HLT2020112702-BL-000002S</td>
+        <td nzAlign="center">10M</td>
+        <td nzAlign="center">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
+        <td nzAlign="center">2021-05-28 12:00:06</td>
+        <td nzRight nzAlign="center">
+          <a>签署</a>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <!--已签章列表-->
+  <div class="list-content" *ngSwitchCase="signStatusEnum.SIGN_YES">
+    <!--列表-->
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead>
+      <tr>
+        <th
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzLeft nzWidth="15%" nzAlign="center">付款单号</th>
+        <th nzWidth="20%" nzAlign="center">文档类型</th>
+        <th nzWidth="20%" nzAlign="center">文档名称</th>
+        <th nzWidth="10%" nzAlign="center">文档大小</th>
+        <th nzWidth="20%" nzAlign="center">产品分期</th>
+        <th nzWidth="15%" nzAlign="center">签署时间</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="center">801S200925022631</td>
+        <td nzAlign="center">应收账款转让通知书及回执（适用于保理商向碧桂园下属公司&碧桂园地产出具-转让予计划管理人）</td>
+        <td nzAlign="center">应收账款转让通知书及回执（适用于保理商向碧桂园下属公司&碧桂园地产出具-转让予计划管理人）-BGY-HLT2020112702-BL-000002S</td>
+        <td nzAlign="center">10M</td>
+        <td nzAlign="center">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
+        <td nzAlign="center">2021-05-28 12:00:06</td>
+      </tbody>
+    </nz-table>
+  </div>
+  <!--全部-->
+  <div class="list-content" *ngSwitchDefault>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '2600px', y: '400px' }"
+    >
+      <thead>
+      <tr>
+        <th nzLeft nzWidth="30px"
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzLeft nzWidth="160px" nzAlign="center">付款单号</th>
+        <th nzWidth="300px" nzAlign="center">文档名称</th>
+        <th nzWidth="300px" nzAlign="center">文档类型</th>
+        <th nzWidth="120px" nzAlign="center">供应商签章</th>
+        <th nzWidth="120px" nzAlign="center">项目公司签章</th>
+        <th nzWidth="120px" nzAlign="center">核心企业签章</th>
+        <th nzWidth="120px" nzAlign="center">保理商签章</th>
+        <th nzWidth="300px" nzAlign="center">产品分期</th>
+        <th nzWidth="250px" nzAlign="center">供应商</th>
+        <th nzWidth="250px" nzAlign="center">项目公司</th>
+        <th nzWidth="250px" nzAlign="center">核心企业</th>
+        <th nzWidth="250px" nzAlign="center">融资单号</th>
+        <th nzWidth="200px"   nzAlign="center">创建时间</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzLeft nzAlign="center">801S200925022631</td>
+        <td nzAlign="center">应收账款转让通知书及回执（适用于保理商向碧桂园下属公司&碧桂园地产出具-转让予计划管理人）</td>
+        <td nzAlign="center">应收账款转让通知书及回执（适用于保理商向碧桂园下属公司&碧桂园地产出具-转让予计划管理人）-BGY-HLT2020112702-BL-000002S</td>
+        <td nzAlign="center">不需签章</td>
+        <td nzAlign="center">未签章</td>
+        <td nzAlign="center">不需签章</td>
+        <td nzAlign="center">不需签章</td>
+        <td nzAlign="center">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
+        <td nzAlign="center">广东智潮建设工程有限公司</td>
+        <td nzAlign="center">广东智潮建设工程有限公司</td>
+        <td nzAlign="center">广东智潮建设工程有限公司</td>
+        <td nzAlign="center">BGY-HLT2020112702-BL-000002</td>
+        <td nzAlign="center">2021-05-28 12:00:06</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

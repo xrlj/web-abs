@@ -1,16 +1,16 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
-// 单笔融资，融资单列表
 @Component({
-  selector: 'app-financing-bill-list-single',
-  templateUrl: './financing-bill-list-single.component.html',
-  styleUrls: ['./financing-bill-list-single.component.less']
+  selector: 'app-first-zdw-register-details',
+  templateUrl: './first-zdw-register-details.component.html',
+  styleUrls: ['./first-zdw-register-details.component.less']
 })
-export class FinancingBillListSingleComponent implements OnInit {
+export class FirstZdwRegisterDetailsComponent implements OnInit {
 
-  // 1-审核；2-复核；0-查询
-  @Input()
-  fromViewType: number;
+  @Output() showType = new EventEmitter<number>();
+
+  // 供应商名称
+  supplierName: string;
 
   // 表格
   isAllDisplayDataChecked = false;
@@ -29,7 +29,8 @@ export class FinancingBillListSingleComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  search(reset: boolean = false): void {
+  search(b: boolean = false) {
+
   }
 
   refreshStatus() {
@@ -50,6 +51,10 @@ export class FinancingBillListSingleComponent implements OnInit {
   checkAll(value: boolean): void {
     this.listOfDisplayData.filter(item => !item.disabled).forEach(item => (this.mapOfCheckedId[item.id] = value));
     this.refreshStatus();
+  }
+
+  backToList() {
+    this.showType.emit(1);
   }
 
 }

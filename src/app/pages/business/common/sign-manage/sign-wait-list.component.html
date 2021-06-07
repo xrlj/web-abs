@@ -1,1 +1,9 @@
-<p>待签署列表</p>
+<nz-card class="card-list" nzTitle="待签章文件列表">
+  <div class="card-list-action">
+    <app-sign-list-search-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE" [signStatus]="signStatusEnum.SIGN_NO"></app-sign-list-search-single>
+  </div>
+  <div class="card-list-table">
+    <app-sign-list-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE" [signStatus]="signStatusEnum.SIGN_NO"></app-sign-list-single>
+    <app-sign-list-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE" [signStatus]="signStatusEnum.SIGN_NO"></app-sign-list-multiple>
+  </div>
+</nz-card>

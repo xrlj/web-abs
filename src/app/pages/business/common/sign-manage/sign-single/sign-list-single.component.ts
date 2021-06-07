@@ -1,16 +1,19 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {SignStatusEnum} from '../../../../../helpers/enum/sign-status-enum';
 
-// 单笔融资，融资单列表
+// 签章文件列表。单笔融资
 @Component({
-  selector: 'app-financing-bill-list-single',
-  templateUrl: './financing-bill-list-single.component.html',
-  styleUrls: ['./financing-bill-list-single.component.less']
+  selector: 'app-sign-list-single',
+  templateUrl: './sign-list-single.component.html',
+  styleUrls: ['./sign-list-single.component.less']
 })
-export class FinancingBillListSingleComponent implements OnInit {
+export class SignListSingleComponent implements OnInit {
 
-  // 1-审核；2-复核；0-查询
+  // 签署状态
   @Input()
-  fromViewType: number;
+  signStatus: SignStatusEnum;
+
+  signStatusEnum: typeof SignStatusEnum = SignStatusEnum;
 
   // 表格
   isAllDisplayDataChecked = false;

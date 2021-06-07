@@ -41,6 +41,8 @@ import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {BusinessModule} from '../business.module';
 import { ContractMakeListComponent } from './contract-make/contract-make-list.component';
 import { ContractMakeSearchComponent } from './contract-make/contract-make-search.component';
+import { FirstZdwRegisterDetailsComponent } from './zdw-register/first-zdw-register-details.component';
+import { SecondZdwRegisterDetailsComponent } from './zdw-register/second-zdw-register-details.component';
 
 
 @NgModule({
@@ -62,6 +64,8 @@ import { ContractMakeSearchComponent } from './contract-make/contract-make-searc
     ProductAnnexListComponent,
     ContractMakeListComponent,
     ContractMakeSearchComponent,
+    FirstZdwRegisterDetailsComponent,
+    SecondZdwRegisterDetailsComponent,
   ],
     imports: [
         CommonModule,

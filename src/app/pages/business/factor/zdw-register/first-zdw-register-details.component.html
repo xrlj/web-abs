@@ -1,11 +1,14 @@
-<nz-card class="card-list" nzTitle="第二次转让登记列表" *ngIf="showType === 1">
+<nz-card class="card-list" nzTitle="详情列表" [nzExtra]="extraTemplate">
   <div class="card-list-action">
-    <nz-input-group [nzSuffix]="pdtStagingNameSuffixTemplate">
-      <input type="text" nz-input [(ngModel)]="pdtStagingName" placeholder="请输入分期名称"/>
+    <nz-input-group [nzSuffix]="supplierNameSuffixTemplate">
+      <input type="text" nz-input [(ngModel)]="supplierName" placeholder="请输入供应商名称"/>
     </nz-input-group>
     <button nz-button nzType="primary" (click)="search(true)"><i nz-icon nzType="search"></i>搜索</button>
   </div>
   <div class="card-list-table">
+    <div class="list-btn-action">
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+    </div>
     <nz-table
       nzShowPagination
       nzShowSizeChanger
@@ -29,13 +32,13 @@
           (nzCheckedChange)="checkAll($event)"
         ></th>
         <th nzWidth="20%" nzAlign="center">分期名称</th>
-        <th nzWidth="20%" nzAlign="center">SPV名称</th>
+        <th nzWidth="15%" nzAlign="center">供应商名称</th>
         <th nzWidth="5%" nzAlign="center">类型</th>
-        <th nzWidth="5%" nzAlign="center">统一社会信用</th>
+        <th nzWidth="15%" nzAlign="center">统一社会信用代码</th>
         <th nzWidth="10%" nzAlign="center">法定代表人</th>
         <th nzWidth="15%" nzAlign="center">法人住所</th>
+        <th nzWidth="10%" nzAlign="center">基础合同编号</th>
         <th nzWidth="10%" nzAlign="center">转让财产价值</th>
-        <th nzWidth="10%" nzAlign="center">操作</th>
       </tr>
       </thead>
       <tbody>
@@ -46,32 +49,34 @@
             [nzDisabled]="data.disabled"
             (nzCheckedChange)="refreshStatus()"
         ></td>
-        <td nzAlign="center">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
-        <td nzAlign="center">招商证券资产管理有限公司</td>
+        <td nzAlign="center">招商创融—慧链通2019保理资产支持专项计划第10期</td>
+        <td nzAlign="center">中天建设集团有限公司</td>
         <td nzAlign="center">企业</td>
-        <td nzAlign="center">914403003351197322</td>
-        <td nzAlign="center">邓晓力</td>
-        <td nzAlign="center">深圳市福田区益田路江苏大厦A座38层</td>
-        <td nzAlign="center">854,789,281.51</td>
-        <td nzAlign="center">
-          <a (click)="showType = 2">详情</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a>登记</a>
-        </td>
+        <td nzAlign="center">91330783147520019P</td>
+        <td nzAlign="center">庄严</td>
+        <td nzAlign="center">浙江省东阳市吴宁东路65号</td>
+        <td nzAlign="center">【新疆-乌鲁木齐市高新区长春北路-长春北路碧桂园一期】【总包】【1】【2020】</td>
+        <td nzAlign="center">24,265,005.26</td>
       </tbody>
     </nz-table>
   </div>
 </nz-card>
-<app-second-zdw-register-details *ngIf="showType === 2" (showType)="showType = $event"></app-second-zdw-register-details>
 
-<ng-template #pdtStagingNameSuffixTemplate
+<ng-template #supplierNameSuffixTemplate
 ><i
   nz-icon
   nz-tooltip
   class="ant-input-clear-icon"
   nzTheme="fill"
   nzType="close-circle"
-  *ngIf="pdtStagingName"
-  (click)="pdtStagingName = null"
+  *ngIf="supplierName"
+  (click)="supplierName = null"
 ></i
 ></ng-template>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+</ng-template>

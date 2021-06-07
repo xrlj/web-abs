@@ -1,0 +1,157 @@
+<div class="search-layout" [ngSwitch]="signStatus">
+  <!--待签署文件列表查询条件-->
+  <div *ngSwitchCase="signStatusEnum.SIGN_NO">
+    <form nz-form [nzLayout]="signNoForm.get('formLayout')?.value" [formGroup]="signNoForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">付款单号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="paymentBillNo" placeholder="请输入付款单号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">融资单号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="fbNo" placeholder="请输入融资单号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">文档名称</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="signFileName" placeholder="请输入文档名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">文档类型</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="signFileTypeName" placeholder="请输入文档类型名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary">搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <!--已签署列表-->
+  <div *ngSwitchCase="signStatusEnum.SIGN_YES">
+    <form nz-form [nzLayout]="signYesForm.get('formLayout')?.value" [formGroup]="signYesForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">付款单号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="paymentBillNo" placeholder="请输入付款单号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">融资单号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="fbNo" placeholder="请输入融资单号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">文档名称</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="signFileName" placeholder="请输入文档名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">文档类型</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="signFileTypeName" placeholder="请输入文档类型名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>签署时间</nz-form-label>
+        <nz-form-control>
+          <nz-range-picker formControlName="signDate"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary">搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <!--全部列表查询-->
+  <div *ngSwitchDefault>
+    <form nz-form [nzLayout]="'inline'" [formGroup]="signAllForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">付款单号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="paymentBillNo" placeholder="请输入付款单号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">融资单号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="fbNo" placeholder="请输入融资单号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">供应商</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="supplierName" placeholder="请输入供应商名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">项目公司</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="subCompanyName" placeholder="请输入项目公司名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item [hidden]="isCollapse">
+        <nz-form-label [nzSpan]="null">文档名称</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="signFileName" placeholder="请输入文档名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item [hidden]="isCollapse">
+        <nz-form-label [nzSpan]="null">文档类型</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="signFileTypeName" placeholder="请输入文档类型名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item [hidden]="isCollapse">
+        <nz-form-label [nzSpan]="null">供应商签章</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <nz-select formControlName="supplierSignStatus">
+            <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
+            <nz-option nzValue="'1'" nzLabel="已签章"></nz-option>
+            <nz-option nzValue="'2'" nzLabel="未签章"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item [hidden]="isCollapse">
+        <nz-form-label>项目公司签章</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <nz-select formControlName="subCompanySignStatus">
+            <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
+            <nz-option nzValue="'1'" nzLabel="已签章"></nz-option>
+            <nz-option nzValue="'2'" nzLabel="未签章"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item [hidden]="isCollapse">
+        <nz-form-label>核心企业签章</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <nz-select formControlName="coreCompanySignStatus">
+            <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
+            <nz-option nzValue="'1'" nzLabel="已签章"></nz-option>
+            <nz-option nzValue="'2'" nzLabel="未签章"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button (click)="resetForm()" style="margin-left: 8px">重置</button>
+          <a class="collapse" (click)="toggleCollapse()">
+            {{isCollapse ? '展开' : '收起'}}
+            <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+          </a>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

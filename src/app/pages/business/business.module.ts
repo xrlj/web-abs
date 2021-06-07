@@ -10,7 +10,7 @@ import {NzCardModule} from 'ng-zorro-antd/card';
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzIconModule} from 'ng-zorro-antd/icon';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzSelectModule} from 'ng-zorro-antd/select';
@@ -22,6 +22,11 @@ import {FinancingBillListSingleComponent} from './common/financing-bill/financin
 import {FinancingBillListMultipleComponent} from './common/financing-bill/financing-bill-multiple/financing-bill-list-multiple.component';
 import {FinancingBillListSearchMultipleComponent} from './common/financing-bill/financing-bill-multiple/financing-bill-list-search-multiple.component';
 import {FinancingBillListSearchSingleComponent} from './common/financing-bill/financing-bill-single/financing-bill-list-search-single.component';
+import { SignListSingleComponent } from './common/sign-manage/sign-single/sign-list-single.component';
+import { SignListSearchSingleComponent } from './common/sign-manage/sign-single/sign-list-search-single.component';
+import { SignListMultipleComponent } from './common/sign-manage/sign-multiple/sign-list-multiple.component';
+import { SignListSearchMultipleComponent } from './common/sign-manage/sign-multiple/sign-list-search-multiple.component';
+import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 
 /**
  * 主业务模块
@@ -38,7 +43,11 @@ import {FinancingBillListSearchSingleComponent} from './common/financing-bill/fi
       FinancingBillListSingleComponent,
       FinancingBillListMultipleComponent,
       FinancingBillListSearchMultipleComponent,
-      FinancingBillListSearchSingleComponent
+      FinancingBillListSearchSingleComponent,
+      SignListSingleComponent,
+      SignListSearchSingleComponent,
+      SignListMultipleComponent,
+      SignListSearchMultipleComponent
     ],
   exports: [
     PaymentBillSearchComponent,
@@ -56,7 +65,9 @@ import {FinancingBillListSearchSingleComponent} from './common/financing-bill/fi
         NzIconModule,
         NzSelectModule,
         NzTableModule,
-        NzDividerModule
+        NzDividerModule,
+        FormsModule,
+        NzDatePickerModule
     ]
 })
 export class BusinessModule { }

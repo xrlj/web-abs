@@ -1,0 +1,80 @@
+<nz-card class="card-list" nzTitle="详情列表" [nzExtra]="extraTemplate">
+  <div class="card-list-action">
+    <nz-input-group [nzSuffix]="supplierNameSuffixTemplate">
+      <input type="text" nz-input [(ngModel)]="supplierName" placeholder="请输入供应商名称"/>
+    </nz-input-group>
+    <button nz-button nzType="primary" (click)="search(true)"><i nz-icon nzType="search"></i>搜索</button>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+    </div>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead>
+      <tr>
+        <th
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="20%" nzAlign="center">分期名称</th>
+        <th nzWidth="15%" nzAlign="center">供应商名称</th>
+        <th nzWidth="15%" nzAlign="center">项目公司</th>
+        <th nzWidth="15%" nzAlign="center">基础交易合同名称</th>
+        <th nzWidth="15%" nzAlign="center">基础交易合同编号</th>
+        <th nzWidth="10%" nzAlign="center">转让金额</th>
+        <th nzWidth="10%" nzAlign="center">发票信息</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="center">招商创融—慧链通2019保理资产支持专项计划第10期</td>
+        <td nzAlign="center">中天建设集团有限公司</td>
+        <td nzAlign="center">乌鲁木齐昌盛发展房地产开发有限公司</td>
+        <td nzAlign="center">碧桂园文启城一期1标段总承包工程</td>
+        <td nzAlign="center">【新疆-乌鲁木齐市高新区长春北路-长春北路碧桂园一期】【总包】【1】【2020】</td>
+        <td nzAlign="center">24,265,005.26</td>
+        <td nzAlign="center">18048877,18048878</td>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
+
+<ng-template #supplierNameSuffixTemplate
+><i
+  nz-icon
+  nz-tooltip
+  class="ant-input-clear-icon"
+  nzTheme="fill"
+  nzType="close-circle"
+  *ngIf="supplierName"
+  (click)="supplierName = null"
+></i
+></ng-template>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+</ng-template>
