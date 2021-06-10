@@ -1,1 +1,2 @@
-<p>合格应收账款债权清单!</p>
+<app-creditor-inventory-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE"></app-creditor-inventory-single>
+<app-creditor-inventory-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE"></app-creditor-inventory-multiple>

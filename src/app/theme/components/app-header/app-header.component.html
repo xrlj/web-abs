@@ -56,4 +56,12 @@
       <label nz-radio [nzValue]="themeEnum.Turquoise">turquoise 蓝绿色</label>
     </nz-radio-group>
   </div>
+  <nz-divider></nz-divider>
+  <div class="setting-drawer-theme">
+    <h4>融资模式</h4>
+    <nz-radio-group (ngModelChange)="changeFinancingMode($event)" [(ngModel)]="financingModeRadioValue">
+      <label nz-radio [nzValue]="financingModelEnum.FINANCING_SINGLE">单笔融资</label>
+      <label nz-radio [nzValue]="financingModelEnum.FINANCING_MULTIPLE">多笔融资</label>
+    </nz-radio-group>
+  </div>
 </nz-drawer>

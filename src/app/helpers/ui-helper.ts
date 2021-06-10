@@ -9,6 +9,8 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {VMenuResp} from './vo/resp/v-menu-resp';
 import {ThemeEnum} from './enum/theme-enum';
 import {NzTreeNode} from 'ng-zorro-antd/tree';
+import {VSettingInfo} from './vo/v-setting-info';
+import {FinancingModelEnum} from './enum/financing-model-enum';
 
 @Injectable({
   providedIn: 'root'
@@ -429,10 +431,38 @@ export class UIHelper {
 
   /*========================= 系统主题 end =========================*/
 
+  /*========================= 系统设置信息 start =========================*/
+
+  /**
+   * 更新系统设置信息
+   */
+  // TODO 保存到服务端
+  updateSettingInfo(settingInfo: VSettingInfo) {
+    localStorage.setItem(Constants.localStorageKey.systemSettingInfo, JSON.stringify(settingInfo));
+  }
+
+  /**
+   * 获取系统设置信息。
+   */
+  getSysSettingInfo(): VSettingInfo {
+    const str = localStorage.getItem(Constants.localStorageKey.systemSettingInfo);
+    return JSON.parse(str);
+  }
+
+  /**
+   * 获取融资模式设置。
+   */
+  getFinancingMode(): FinancingModelEnum {
+    return this.getSysSettingInfo().financingMode;
+  }
+
+  /*========================= 系统设置信息 end =========================*/
+
   /*=========== 登出，需要清理本地缓存 =============*/
   logoutLocalStorageClean(): void  {
     localStorage.removeItem(Constants.localStorageKey.token);
     localStorage.removeItem(Constants.localStorageKey.menus);
     localStorage.removeItem(Constants.localStorageKey.verifyStatus);
+    localStorage.removeItem(Constants.localStorageKey.systemSettingInfo);
   }
 }

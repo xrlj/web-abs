@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+// 融资打包
 @Component({
   selector: 'app-financing-package',
   templateUrl: './financing-package.component.html',

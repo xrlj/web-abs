@@ -11,11 +11,13 @@
         <div class="tab-card-list">
           <!--搜索条件-->
           <div class="tab-card-list-action">
-            <app-financing-bill-list-search-single></app-financing-bill-list-search-single>
+            <app-financing-bill-list-search-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE"></app-financing-bill-list-search-single>
+            <app-financing-bill-list-search-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE"></app-financing-bill-list-search-multiple>
           </div>
           <!--列表-->
           <div class="tab-card-list-table">
-            <app-financing-bill-list-single [fromViewType]="tabIndex === 0 ? 1 : (tabIndex === 1 ? 2 : 0)"></app-financing-bill-list-single>
+            <app-financing-bill-list-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE"  [fromViewType]="tabIndex === 0 ? 1 : (tabIndex === 1 ? 2 : 0)"></app-financing-bill-list-single>
+            <app-financing-bill-list-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE"></app-financing-bill-list-multiple>
           </div>
         </div>
       </nz-tab>

@@ -43,6 +43,18 @@ import { ContractMakeListComponent } from './contract-make/contract-make-list.co
 import { ContractMakeSearchComponent } from './contract-make/contract-make-search.component';
 import { FirstZdwRegisterDetailsComponent } from './zdw-register/first-zdw-register-details.component';
 import { SecondZdwRegisterDetailsComponent } from './zdw-register/second-zdw-register-details.component';
+import { PaymentWriteOffSingleComponent } from './payment-write-off/payment-write-off-single/payment-write-off-single.component';
+import { PaymentWriteOffDetailsSingleComponent } from './payment-write-off/payment-write-off-single/payment-write-off-details-single.component';
+import { BasicLedgerSingleComponent } from './basic-ledger/basic-ledger-single/basic-ledger-single.component';
+import { BasicLedgerDetailsSingleComponent } from './basic-ledger/basic-ledger-single/basic-ledger-details-single.component';
+import { BasicLedgerMultipleComponent } from './basic-ledger/basic-ledger-multiple/basic-ledger-multiple.component';
+import { BasicLedgerDetailsMultipleComponent } from './basic-ledger/basic-ledger-multiple/basic-ledger-details-multiple.component';
+import { PaymentWriteOffMultipleComponent } from './payment-write-off/payment-write-off-multiple/payment-write-off-multiple.component';
+import { PaymentWriteOffDetailsMultipleComponent } from './payment-write-off/payment-write-off-multiple/payment-write-off-details-multiple.component';
+import { CreditorInventorySingleComponent } from './creditor-inventory/creditor-inventory-single/creditor-inventory-single.component';
+import { CreditorInventoryMultipleComponent } from './creditor-inventory/creditor-inventory-multiple/creditor-inventory-multiple.component';
+import { CreditorInventoryDetailsSingleComponent } from './creditor-inventory/creditor-inventory-single/creditor-inventory-details-single.component';
+import { CreditorInventoryDetailsMultipleComponent } from './creditor-inventory/creditor-inventory-multiple/creditor-inventory-details-multiple.component';
 
 
 @NgModule({
@@ -66,6 +78,18 @@ import { SecondZdwRegisterDetailsComponent } from './zdw-register/second-zdw-reg
     ContractMakeSearchComponent,
     FirstZdwRegisterDetailsComponent,
     SecondZdwRegisterDetailsComponent,
+    PaymentWriteOffSingleComponent,
+    PaymentWriteOffDetailsSingleComponent,
+    BasicLedgerSingleComponent,
+    BasicLedgerDetailsSingleComponent,
+    BasicLedgerMultipleComponent,
+    BasicLedgerDetailsMultipleComponent,
+    PaymentWriteOffMultipleComponent,
+    PaymentWriteOffDetailsMultipleComponent,
+    CreditorInventorySingleComponent,
+    CreditorInventoryMultipleComponent,
+    CreditorInventoryDetailsSingleComponent,
+    CreditorInventoryDetailsMultipleComponent,
   ],
     imports: [
         CommonModule,

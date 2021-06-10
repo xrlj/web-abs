@@ -10,6 +10,9 @@ import {ThemeEnum} from '../../../helpers/enum/theme-enum';
 import {environment} from '../../../../environments/environment';
 import {Constants} from '../../../helpers/constants';
 import {CommonService} from '../../../helpers/service/common.service';
+import {FinancingModelEnum} from '../../../helpers/enum/financing-model-enum';
+import {VSettingInfo} from '../../../helpers/vo/v-setting-info';
+import {SimpleReuseStrategy} from '../../../helpers/simple-reuse-strategy';
 
 @Component({
   selector: 'app-header',
@@ -39,16 +42,28 @@ export class AppHeaderComponent implements OnInit {
 
   // ====== 系统设置-抽屉
   settingVisible: boolean;
-  sliderMenuThemeChecked = environment.asideTheme === 'dark' ? true : false;
+  sliderMenuThemeChecked: boolean;
   themeRadioValue: string;
+  // 融资模式
+  financingModeRadioValue: FinancingModelEnum;
+  financingModelEnum: typeof FinancingModelEnum = FinancingModelEnum;
+
 
   ngOnInit() {
-    this.themeRadioValue = this.uiHelper.getCurrentTheme();
+    const settingInfo = this.uiHelper.getSysSettingInfo();
+    if (settingInfo) {
+      this.themeRadioValue = settingInfo.theme;
+      this.sliderMenuThemeChecked = settingInfo.sliderMenuTheme === 'dark' ? true : false;
+      this.financingModeRadioValue = settingInfo.financingMode;
+    } else {
+      this.themeRadioValue = this.uiHelper.getCurrentTheme();
+      this.sliderMenuThemeChecked = environment.asideTheme === 'dark' ? true : false;
+      this.financingModeRadioValue = FinancingModelEnum.FINANCING_SINGLE;
+    }
 
     window.addEventListener('resize', () => {
       this.checkFull();
     });
-
   }
 
   toggle() {
@@ -62,6 +77,15 @@ export class AppHeaderComponent implements OnInit {
    */
   asideChangeTheme(event): void {
     this.asideTheme.emit(event);
+
+    // 更新系统设置
+    const s = this.uiHelper.getSysSettingInfo();
+    if (event) {
+      s.sliderMenuTheme = 'dark';
+    } else {
+      s.sliderMenuTheme = environment.asideTheme;
+    }
+    this.uiHelper.updateSettingInfo(s);
   }
 
   /**
@@ -83,6 +107,22 @@ export class AppHeaderComponent implements OnInit {
     }
     this.uiHelper.changeTheme(theme);
     this.currentTheme.emit(theme);
+
+    // 更新系统配置
+    const s = this.uiHelper.getSysSettingInfo();
+    s.theme = theme;
+    this.uiHelper.updateSettingInfo(s);
+  }
+
+  changeFinancingMode(financingMode: FinancingModelEnum): void {
+    console.log(financingMode);
+    // 更新系统配置
+    const s = this.uiHelper.getSysSettingInfo();
+    s.financingMode = financingMode;
+    this.uiHelper.updateSettingInfo(s);
+
+    // 刷新系统
+    SimpleReuseStrategy.deleteRouteSnapshotAll(); // 重新初始化路由复用，清空旧的复用路由
   }
 
   /**

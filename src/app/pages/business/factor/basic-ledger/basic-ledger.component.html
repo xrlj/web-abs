@@ -1,1 +1,2 @@
-<p>基础台账!</p>
+<app-basic-ledger-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE"></app-basic-ledger-single>
+<app-basic-ledger-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE"></app-basic-ledger-multiple>

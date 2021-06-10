@@ -5,6 +5,6 @@
   </div>
   <div class="card-list-table">
     <app-sign-list-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE" [signStatus]=""></app-sign-list-single>
-    <app-sign-list-single *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE" [signStatus]=""></app-sign-list-single>
+    <app-sign-list-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE" [signStatus]=""></app-sign-list-multiple>
   </div>
 </nz-card>

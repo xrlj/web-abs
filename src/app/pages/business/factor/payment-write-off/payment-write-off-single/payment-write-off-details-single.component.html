@@ -1,0 +1,101 @@
+<nz-card class="card-list" [nzTitle]="pdtStagingName" [nzExtra]="extraTemplate">
+  <div class="card-list-action card-list-action1">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">付款单号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="paymentBillNo" placeholder="请输入付款单号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">供应商</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="supplierName" placeholder="请输入供应商名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button class="list-btn-action-left" nz-button nzType="default"><i nz-icon nzType="money-collect" nzTheme="outline"></i>到期回款</button>
+      <button class="list-btn-action-right" nz-button nzType="default"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+    </div>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '2100px', y: '460px' }"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="30px" nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="150px" nzAlign="left">付款单号</th>
+        <th nzWidth="150px" nzAlign="left">融资单号</th>
+        <th nzWidth="200px" nzAlign="left">供应商</th>
+        <th nzWidth="100px" nzAlign="left">应收账款账面</th>
+        <th nzWidth="100px" nzAlign="left">第一次折价率</th>
+        <th nzWidth="100px" nzAlign="left">第一次折价金额</th>
+        <th nzWidth="100px" nzAlign="left">第一次付款金额</th>
+        <th nzWidth="100px" nzAlign="left">第二次折价率</th>
+        <th nzWidth="100px" nzAlign="left">第二次付款金额</th>
+        <th nzWidth="80px" nzAlign="left">付款日</th>
+        <th nzWidth="80px" nzAlign="left">融资状态</th>
+        <th nzWidth="80px" nzAlign="left">回款状态</th>
+        <th nzRight nzWidth="120px" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="left">801S201204017694</td>
+        <td nzAlign="left">BGY201910-BL-000001</td>
+        <td nzAlign="left">中闰建设集团第一工程有限公司</td>
+        <td nzAlign="left">976587.19</td>
+        <td nzAlign="left">94.5</td>
+        <td nzAlign="left">0</td>
+        <td nzAlign="left">922874.89</td>
+        <td nzAlign="left">95.3</td>
+        <td nzAlign="left">930687.59</td>
+        <td nzAlign="left">2021-12-20</td>
+        <td nzAlign="left">已放款</td>
+        <td nzAlign="left">已回款</td>
+        <td nzRight nzAlign="center">
+          <a>付款回单</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>到期回款</a>
+        </td>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+</ng-template>

@@ -28,7 +28,7 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary">搜索</button>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
         </nz-form-control>
       </nz-form-item>
     </form>
@@ -42,12 +42,12 @@
           <input nz-input formControlName="paymentBillNo" placeholder="请输入付款单号"/>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
+      <!--<nz-form-item>
         <nz-form-label [nzSpan]="null">融资单号</nz-form-label>
         <nz-form-control [nzSpan]="null">
           <input nz-input formControlName="fbNo" placeholder="请输入融资单号"/>
         </nz-form-control>
-      </nz-form-item>
+      </nz-form-item>-->
       <nz-form-item>
         <nz-form-label [nzSpan]="null">文档名称</nz-form-label>
         <nz-form-control [nzSpan]="null">
@@ -68,7 +68,7 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary">搜索</button>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
         </nz-form-control>
       </nz-form-item>
     </form>
@@ -144,7 +144,7 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button [nzType]="'primary'"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
           <button nz-button (click)="resetForm()" style="margin-left: 8px">重置</button>
           <a class="collapse" (click)="toggleCollapse()">
             {{isCollapse ? '展开' : '收起'}}

@@ -1,0 +1,97 @@
+<nz-card class="card-list" nzTitle="付款清单列表" *ngIf="showType === 1">
+  <div class="card-list-action card-list-action1">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">分期名称</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="pdtStagingName" placeholder="请输入分期名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button nz-button nzType="default"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+    </div>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '2150px', y: '460px' }"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="30px" nzLeft
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="250px" nzAlign="left">分期名称</th>
+        <th nzWidth="150px" nzAlign="left">应收账款账面总价值</th>
+        <th nzWidth="120px" nzAlign="left">应收账款总笔数</th>
+        <th nzWidth="120px" nzAlign="left">第一次折价率</th>
+        <th nzWidth="120px" nzAlign="left">第一次折价金额</th>
+        <th nzWidth="180px" nzAlign="left">第一次支付对价金额总额</th>
+        <th nzWidth="180px" nzAlign="left">第一次支付对价金额总额</th>
+        <th nzWidth="180px" nzAlign="left">第二次支付对价金额总额</th>
+        <th nzWidth="100px" nzAlign="left">付款日</th>
+        <th nzWidth="100px" nzAlign="left">到期日</th>
+        <th nzWidth="130px" nzAlign="left">第二次支付对价</th>
+        <th nzWidth="100px" nzAlign="left">到期回款</th>
+        <th nzRight nzWidth="150px" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="left">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
+        <td nzAlign="left">854789281.51</td>
+        <td nzAlign="left">306</td>
+        <td nzAlign="left">94.5</td>
+        <td nzAlign="left">0</td>
+        <td nzAlign="left">807775871.03</td>
+        <td nzAlign="left">95.3</td>
+        <td nzAlign="left">814614185.28</td>
+        <td nzAlign="left">2021-12-20</td>
+        <td nzAlign="left">2021-12-20</td>
+        <td nzAlign="left">
+          <a>上传回单</a>
+        </td>
+        <td nzAlign="left">
+          <a>上传回单</a>
+        </td>
+        <td nzRight nzAlign="center">
+          <a (click)="showType = 2; pdtStagingName = '招商创融—慧链通保理2020年第3期资产支持专项计划'">详情</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>推送</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>到期提醒</a>
+        </td>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
+<app-payment-write-off-details-single *ngIf="showType === 2"
+                                      (showType)="showType = $event"
+                                      [pdtStagingName]="pdtStagingName">
+</app-payment-write-off-details-single>

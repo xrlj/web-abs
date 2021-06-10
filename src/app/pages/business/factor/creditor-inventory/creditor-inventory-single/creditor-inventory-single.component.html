@@ -1,0 +1,93 @@
+<nz-card class="card-list" nzTitle="合格应收账债权清单列表" *ngIf="showType === 1">
+  <div class="card-list-action card-list-action1">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="search()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">债权清单编号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="creditorInventoryNo" placeholder="请输入"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">分期名称</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="pdtStagingName" placeholder="请输入"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button nz-button nzType="default"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+    </div>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '1950px', y: '460px' }"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="30px" nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="250px" nzAlign="left">分期名称</th>
+        <th nzWidth="130px" nzAlign="left">债权清单编号</th>
+        <th nzWidth="160px" nzAlign="left">应收账款账面总价值</th>
+        <th nzWidth="130px" nzAlign="left">应收账款总笔数</th>
+        <th nzWidth="150px" nzAlign="left">第二次折价率(%)</th>
+        <th nzWidth="250px" nzAlign="left">支付对价/原始权益人收款金额总额</th>
+        <th nzWidth="180px" nzAlign="left">原始权益人的收款账户</th>
+        <th nzWidth="180px" nzAlign="left">户名</th>
+        <th nzWidth="180px" nzAlign="left">开户行</th>
+        <th nzWidth="100px" nzAlign="left">是否已推送</th>
+        <th nzRight nzWidth="140px" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="left">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
+        <td nzAlign="left">ZS20210526001</td>
+        <td nzAlign="left">276409357.8</td>
+        <td nzAlign="left">119</td>
+        <td nzAlign="left">95.88</td>
+        <td nzAlign="left">265021292.26</td>
+        <td nzAlign="left">9550880056209803576</td>
+        <td nzAlign="left">碧桂园保理专户</td>
+        <td nzAlign="left">中国邮政储蓄银行股份有限公司佛山市分行</td>
+        <td nzAlign="center">否</td>
+        <td nzRight nzAlign="center">
+          <a>设置参数</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="showType = 2; pdtStagingName = '招商创融—慧链通保理2020年第3期资产支持专项计划'">详情</a>
+        </td>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
+<app-creditor-inventory-details-single *ngIf="showType === 2"
+                                 (showType)="showType = $event"
+                                 [pdtStagingName]="pdtStagingName">
+</app-creditor-inventory-details-single>

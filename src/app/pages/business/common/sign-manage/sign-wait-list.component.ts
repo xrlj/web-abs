@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SignStatusEnum} from '../../../../helpers/enum/sign-status-enum';
 import {FinancingModelEnum} from '../../../../helpers/enum/financing-model-enum';
+import {UIHelper} from '../../../../helpers/ui-helper';
 
 @Component({
   selector: 'app-sign-wait-list',
@@ -15,10 +16,10 @@ export class SignWaitListComponent implements OnInit {
   // 融资模式
   financingModel: FinancingModelEnum;
 
-  constructor() { }
+  constructor(private helper: UIHelper) { }
 
   ngOnInit(): void {
-    this.financingModel = FinancingModelEnum.FINANCING_SINGLE;
+    this.financingModel = this.helper.getFinancingMode();
   }
 
 }

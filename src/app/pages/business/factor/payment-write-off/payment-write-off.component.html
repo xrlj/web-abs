@@ -1,1 +1,2 @@
-<p>付款与核销</p>
+<app-payment-write-off-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE"></app-payment-write-off-single>
+<app-payment-write-off-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE"></app-payment-write-off-multiple>

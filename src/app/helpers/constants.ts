@@ -15,7 +15,8 @@ export const Constants = {
     token: 'm-jwt-token',
     verifyStatus: 'verify-status', // 企业、个人实名认证状态信息
     menus: 'user-menus', // 菜单
-    currentTheme: 'current-theme' // 当前主题色调风格
+    currentTheme: 'current-theme', // 当前主题色调风格,
+    systemSettingInfo:  'system-setting-info'  // 系统设置信息
   },
   nzFormItem: {
     nzFormLabel: {

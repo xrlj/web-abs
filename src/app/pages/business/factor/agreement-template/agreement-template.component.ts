@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
+import {Component, OnInit} from '@angular/core';
 
 /**
  * 协议模板管理。

@@ -1,0 +1,92 @@
+<nz-card class="card-list" [nzTitle]="pdtStagingName" [nzExtra]="extraTemplate">
+  <div class="card-list-action card-list-action1">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="search()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">原应收账款债权人</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="supplierName" placeholder="请输入"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">应收账款债务人</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="subCompanyName" placeholder="请输入"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button nz-button nzType="default"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+    </div>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '1800px', y: '460px' }"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="30px" nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="200px" nzAlign="left">原应收账款债权人</th>
+        <th nzWidth="200px" nzAlign="left">应收账款债务人</th>
+        <th nzWidth="200px" nzAlign="left">基础交易合同名称</th>
+        <th nzWidth="200px" nzAlign="left">基础交易合同编号</th>
+        <th nzWidth="150px" nzAlign="left">应收账款账面价值</th>
+        <th nzWidth="120px" nzAlign="left">发票信息</th>
+        <th nzWidth="140px" nzAlign="left">应收账款到期日</th>
+        <th nzWidth="100px" nzAlign="left">综合折价率</th>
+        <th nzWidth="160px" nzAlign="left">支付对价/原始权益人收款金额</th>
+        <th nzWidth="100px" nzAlign="left">回款方式</th>
+        <th nzWidth="100px" nzAlign="left">回款时间</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="left">广州市人防建筑设计研究院有限公司粤赣人防分公司</td>
+        <td nzAlign="left">景德镇市珑园房地产开发有限公司</td>
+        <td nzAlign="left">景德镇府前壹号防空地下室</td>
+        <td nzAlign="left">【江西-江西景德镇昌南拓展新区碧桂园项目-一期】【规划设计】【2】【2020】</td>
+        <td nzAlign="left">173830.32</td>
+        <td nzAlign="left">09701260,09701259……</td>
+        <td nzAlign="left">2022-06-07</td>
+        <td nzAlign="left">95.88%</td>
+        <td nzAlign="left">166668.51</td>
+        <td nzAlign="left"></td>
+        <td nzAlign="left"></td>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+</ng-template>
