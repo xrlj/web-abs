@@ -1,1 +1,133 @@
-<p>角色管理</p>
+<nz-card class="card-list" nzTitle="角色列表">
+  <div class="card-list-action card-list-action1">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="search(true)">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">角色名称</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="roleName" placeholder="请输入角色名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small" (click)="addRole()"><i nz-icon nzType="plus-circle"></i>新增</button>
+      <button nz-button nzType="default" nzSize="small" (click)="delBatch()"><i nz-icon nzType="delete"></i>删除</button>
+    </div>
+    <nz-table
+      #roleTable
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="loading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead>
+      <tr>
+        <th
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="30%" nzAlign="center">名称</th>
+        <th nzWidth="30%" nzAlign="center">备注</th>
+        <th nzWidth="20%" nzAlign="center"
+            nzShowSort
+        >
+          创建时间
+        </th>
+        <th nzWidth="20%" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of roleTable['data']">
+        <td
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data.id]"
+          [nzDisabled]="data.disabled"
+          (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="center">{{ data.roleName }}</td>
+        <td nzAlign="center">{{ data.description }}</td>
+        <td nzAlign="center">{{ data.dateCreated }}</td>
+        <td nzAlign="center">
+          <a (click)="editRole(data.id)">编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delRoleSingle(data.id, data.roleName)">删除</a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
+
+<!--新增、编辑角色-->
+<nz-modal *ngIf="isShowDialog"
+          [(nzVisible)]="isShowDialog"
+          nzWidth="800px"
+          [nzTitle]="dialogType === 1 ? '新增' : '修改'"
+          (nzOnCancel)="handleCancelDialog(dialogType)"
+          (nzOnOk)="handleOkDialog(dialogType)"
+          [nzOkLoading]="isAddOkLoading">
+
+  <form nz-form [formGroup]="addOrEditForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="labelSpan" nzFor="roleName" nzRequired>名称</nz-form-label>
+      <nz-form-control [nzSpan]="controlSpan" nzErrorTip="必填项">
+        <input nz-input id="roleName" formControlName="roleName" placeholder="角色名称"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="labelSpan" nzFor="roleDesc" nzRequired>备注</nz-form-label>
+      <nz-form-control [nzSpan]="controlSpan" nzErrorTip="必填项">
+        <input nz-input id="roleDesc" formControlName="roleDesc"
+               placeholder="备注"/>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <div class="per">
+    <div class="per-menu">
+      <label><span>菜单授权:</span></label>
+      <nz-tree  #nzTreeComponent class="per-menu-tree"
+                [nzData]="nzTreeMenusData"
+                nzCheckable
+                [nzCheckedKeys]="checkedKeys"
+                [nzExpandedKeys]="expandedKeys"
+                [nzSelectedKeys]="checkedKeys"
+                (nzClick)="nzTreeMenusClick($event)"
+                (nzCheckBoxChange)="nzTreeMenusCheck($event)"
+                (nzExpandChange)="nzTreeMenusCheck($event)"
+      >
+      </nz-tree>
+    </div>
+
+    <!--部门授权-->
+    <div class="per-dept">
+      <label><span>部门授权:</span></label>
+      <nz-tree  class="per-dept-tree"
+                [nzData]="deptList"
+                nzCheckable
+                [nzCheckedKeys]="deptCheckedKeys"
+                [nzExpandedKeys]="deptExpandedKeys"
+                [nzSelectedKeys]="deptCheckedKeys"
+                (nzCheckBoxChange)="deptTreeCheckEvent($event)"
+                (nzExpandChange)="deptTreeCheckEvent($event)"
+      >
+      </nz-tree>
+    </div>
+  </div>
+
+</nz-modal>

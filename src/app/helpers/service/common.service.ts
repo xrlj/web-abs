@@ -8,6 +8,9 @@ import {DefaultBusService} from '../event-bus/default-bus.service';
 import {UserStatusEnum} from '../enum/user-status-enum';
 import {EnterpriseStatusEnum} from '../enum/enterprise-status-enum';
 import {Constants} from '../constants';
+import {UserTypeEnum} from '../enum/user-type-enum';
+import {Utils} from '../utils';
+import {JwtKvEnum} from '../enum/jwt-kv-enum';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,7 @@ import {Constants} from '../constants';
 export class CommonService {
 
   constructor(private api: Api, private uiHelper: UIHelper,
-              private router: Router) { }
+              private router: Router, private utils: Utils) { }
 
   /**
    * 退出登录。
@@ -103,4 +106,16 @@ export class CommonService {
   }
 
   /**************************** 用户信息相关 end ********************************/
+
+  /**************************菜单 start****************************************/
+  getMenuList(_clientId: string, _type: number, _userType?: UserTypeEnum): any {
+    const uType = this.utils.getJwtTokenClaim(JwtKvEnum.UserType);
+    const body = {
+      clientId: _clientId,
+      type: _type,
+      userType: uType
+    };
+    return this.api.post(`${ApiPath.usercentral.menuApi.getMenuList}`, body);
+  }
+  /**************************菜单 end****************************************/
 }

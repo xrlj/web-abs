@@ -22,33 +22,53 @@ import {FinancingBillListSingleComponent} from './common/financing-bill/financin
 import {FinancingBillListMultipleComponent} from './common/financing-bill/financing-bill-multiple/financing-bill-list-multiple.component';
 import {FinancingBillListSearchMultipleComponent} from './common/financing-bill/financing-bill-multiple/financing-bill-list-search-multiple.component';
 import {FinancingBillListSearchSingleComponent} from './common/financing-bill/financing-bill-single/financing-bill-list-search-single.component';
-import { SignListSingleComponent } from './common/sign-manage/sign-single/sign-list-single.component';
-import { SignListSearchSingleComponent } from './common/sign-manage/sign-single/sign-list-search-single.component';
-import { SignListMultipleComponent } from './common/sign-manage/sign-multiple/sign-list-multiple.component';
-import { SignListSearchMultipleComponent } from './common/sign-manage/sign-multiple/sign-list-search-multiple.component';
+import {SignListSingleComponent} from './common/sign-manage/sign-single/sign-list-single.component';
+import {SignListSearchSingleComponent} from './common/sign-manage/sign-single/sign-list-search-single.component';
+import {SignListMultipleComponent} from './common/sign-manage/sign-multiple/sign-list-multiple.component';
+import {SignListSearchMultipleComponent} from './common/sign-manage/sign-multiple/sign-list-search-multiple.component';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
+import {PaymentBillDetailsComponent} from './common/payment-bill/payment-bill-details/payment-bill-details.component';
+import {PaymentBillDetailsBasicComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-basic.component';
+import {PaymentBillDetailsInvoiceComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-invoice.component';
+import {PaymentBillDetailsAnnexSubComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-annex-sub.component';
+import {PaymentBillDetailsAnnexSupplierComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-annex-supplier.component';
+import {PaymentBillDetailsAnnexFactorComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-annex-factor.component';
+import {PaymentBillDetailsSupplementComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-supplement.component';
+import {ComponentsModule} from '../../components/components.module';
+import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
+import {DirectivesModule} from '../../directives/directives.module';
+import {NzModalModule} from 'ng-zorro-antd/modal';
+// import {PaymentBillDetailsZdComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-zd.component';
 
 /**
  * 主业务模块
  */
 @NgModule({
-    declarations: [
-      PaymentBillComponent,
-      FinancingBillComponent,
-      SignWaitListComponent,
-      SignCompleteListComponent,
-      SignAllListComponent,
-      PaymentBillSearchComponent,
-      PaymentBillListComponent,
-      FinancingBillListSingleComponent,
-      FinancingBillListMultipleComponent,
-      FinancingBillListSearchMultipleComponent,
-      FinancingBillListSearchSingleComponent,
-      SignListSingleComponent,
-      SignListSearchSingleComponent,
-      SignListMultipleComponent,
-      SignListSearchMultipleComponent
-    ],
+  declarations: [
+    PaymentBillComponent,
+    FinancingBillComponent,
+    SignWaitListComponent,
+    SignCompleteListComponent,
+    SignAllListComponent,
+    PaymentBillSearchComponent,
+    PaymentBillListComponent,
+    FinancingBillListSingleComponent,
+    FinancingBillListMultipleComponent,
+    FinancingBillListSearchMultipleComponent,
+    FinancingBillListSearchSingleComponent,
+    SignListSingleComponent,
+    SignListSearchSingleComponent,
+    SignListMultipleComponent,
+    SignListSearchMultipleComponent,
+    PaymentBillDetailsComponent,
+    PaymentBillDetailsBasicComponent,
+    PaymentBillDetailsInvoiceComponent,
+    PaymentBillDetailsAnnexSubComponent,
+    PaymentBillDetailsAnnexSupplierComponent,
+    PaymentBillDetailsAnnexFactorComponent,
+    PaymentBillDetailsSupplementComponent,
+    PaymentBillListComponent,
+  ],
   exports: [
     PaymentBillSearchComponent,
     PaymentBillListComponent
@@ -67,7 +87,11 @@ import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
         NzTableModule,
         NzDividerModule,
         FormsModule,
-        NzDatePickerModule
+        NzDatePickerModule,
+        ComponentsModule,
+        NzDescriptionsModule,
+        DirectivesModule,
+        NzModalModule
     ]
 })
 export class BusinessModule { }

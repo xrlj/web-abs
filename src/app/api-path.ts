@@ -19,7 +19,36 @@ export const ApiPath = {
       saveVerifyCheckInfo: `/${usercentral}/user/saveVerifyCheckInfo`, // 提交个人实名认证信息到后台待审核。
       getUserCheckResultList: `/${usercentral}/user/getUserCheckResultList`, // 获取用户审核记录列表。
       getEtpUserList: `/${usercentral}/user/getEtpUserList`,
-      saveCheckUserSeal: `/${usercentral}/user/saveCheckUserSeal`
+      saveCheckUserSeal: `/${usercentral}/user/saveCheckUserSeal`,
+      exitUsername: `/${usercentral}/user/exitUsername`,
+      updateUserStatus: `/${usercentral}/user/updateUserStatus`,
+      delUser: `/${usercentral}/user/delUser`,
+      updateUserPassword: `/${usercentral}/user/updateUserPassword`,
+      resetUserPassword: `/${usercentral}/user/resetUserPassword`,
+      addSystemUser: `/${usercentral}/user/addSystemUser`,
+      getUserList: `/${usercentral}/user/getUserList`,
+      updateSystemUser: `/${usercentral}/user/updateSystemUser`,
+      getUserCanSelectRoles: `/${usercentral}/user/getUserCanSelectRoles`,
+      getRolesByUserId: `/${usercentral}/user/getRolesByUserId`,
+      addUserRoles: `/${usercentral}/user/addUserRoles`,
+    },
+    dept: {
+      saveOrUpdate: `/${usercentral}/dept/saveOrUpdate`,
+      del: `/${usercentral}/dept/del`,
+      getById: `/${usercentral}/dept/getById`,
+      getAll: `/${usercentral}/dept/getAll`
+    },
+    roleApi: {
+      getAll: `/${usercentral}/role/getAll`,
+      save: `/${usercentral}/role/save`,
+      update: `/${usercentral}/role/update`,
+      getById: `/${usercentral}/role/getById`,
+      del: `/${usercentral}/role/del`,
+      getAllRoleByDeptId: `/${usercentral}/role/getAllRoleByDeptId`
+    },
+    menuApi: {
+      getMenuList: `/${usercentral}/menu/getMenuList`,
+      getById: `/${usercentral}/menu/getById`
     },
     enterprise: {
       getEtpInfoByInvitationCode: `/${usercentral}/enterprise/getEtpInfoByInvitationCode`, // 根据邀请码获取邀请企业信息

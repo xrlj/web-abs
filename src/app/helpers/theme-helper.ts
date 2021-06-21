@@ -13,6 +13,7 @@ export class ThemeHelper {
 
   /**
    * 获取系统当前主题主色调值。
+   * 注意这里的颜色值要和主题文件中的对应。
    */
   getCurrentThemePrimaryColor(): string {
     let primaryColor;

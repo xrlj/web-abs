@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {VCustomerEtpResp} from '../../../../helpers/vo/resp/v-customer-etp-resp';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-payment-bill-list',
@@ -23,6 +22,8 @@ export class PaymentBillListComponent implements OnInit {
   pageIndex = 1; // 页码
   pageSize = 10; // 每页条数
   total = 20; // 总条数
+
+  @Output() detailsLook = new EventEmitter();
 
   constructor() {
   }
@@ -51,5 +52,9 @@ export class PaymentBillListComponent implements OnInit {
   checkAll(value: boolean): void {
     this.listOfDisplayData.filter(item => !item.disabled).forEach(item => (this.mapOfCheckedId[item.id] = value));
     this.refreshStatus();
+  }
+
+  details(data: any) {
+    this.detailsLook.emit(data);
   }
 }

@@ -1,0 +1,56 @@
+<nz-card class="card-list" [nzTitle]="actionType === 1 ? '付款单详情' : '编辑付款单'" [nzExtra]="extraTemplate">
+  <div class="card-container">
+    <nz-tabset
+      [nzTabBarGutter]="2"
+      [nzTabPosition]="'top'"
+      [(nzSelectedIndex)]="tabIndex"
+      nzType="card"
+      (nzSelectedIndexChange)="tabSwitch()">
+      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
+        <!--付款单-->
+        <div class="payment-bill" *ngIf="title === tabTitle[0]">
+          <app-custom-title title="付款单基础信息" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-payment-bill-details-basic></app-payment-bill-details-basic>
+
+          <app-custom-title title="发票信息" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"
+                            extraTip="是否反馈发票有问题" extraActionText="查看" (extraAction)="invoiceFeedbackInfo()">
+          </app-custom-title>
+          <app-payment-bill-details-invoice statisticsShow="true"></app-payment-bill-details-invoice>
+
+          <app-custom-title title="业务材料-项目公司上传" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-payment-bill-details-annex-sub></app-payment-bill-details-annex-sub>
+
+          <app-custom-title title="业务材料-供应商上传" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-payment-bill-details-annex-supplier></app-payment-bill-details-annex-supplier>
+
+          <app-custom-title title="业务材料-保理商上传" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-payment-bill-details-annex-factor></app-payment-bill-details-annex-factor>
+
+          <app-custom-title title="补充文件" isDLineDashed="true" titleLink="上传" (titleClick)="uploadSupplementAnnex()"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-payment-bill-details-supplement></app-payment-bill-details-supplement>
+
+          <app-custom-title title="中登相关信息" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+<!--          <app-payment-bill-details-zd></app-payment-bill-details-zd>-->
+
+        </div>
+        <!--操作日志-->
+        <div class="financing-log" *ngIf="title === tabTitle[1]"></div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+</ng-template>
+

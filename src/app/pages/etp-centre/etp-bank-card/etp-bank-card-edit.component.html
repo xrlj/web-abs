@@ -1,0 +1,30 @@
+<form nz-form [formGroup]="editForm">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="bankName" nzRequired>开户银行</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="必填项">
+      <nz-select id="bankName" formControlName="bankName" nzPlaceHolder="请选择">
+        <nz-option nzValue="'1'" nzLabel="ABS"></nz-option>
+        <nz-option nzValue="'2'" nzLabel="正向保理"></nz-option>
+        <nz-option nzValue="'3'" nzLabel="邮储再保理"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="branchName" nzRequired>开户行全称</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="必填项">
+      <input formControlName="branchName" id="branchName" placeholder="请输入全称" nz-input/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="bankAccountName" nzRequired>账户户名</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="必填项">
+      <input formControlName="bankAccountName" id="bankAccountName" placeholder="请输入开户名称" nz-input/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="bankNo" nzRequired>银行账号</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="必填项">
+      <input formControlName="bankNo" id="bankNo" placeholder="请输入开户账号" nz-input/>
+    </nz-form-control>
+  </nz-form-item>
+</form>

@@ -14,29 +14,35 @@ import {PdfViewerModule} from 'ng2-pdf-viewer';
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
+import { CustomTitleComponent } from './custom-title/custom-title.component';
+import {NzDividerModule} from 'ng-zorro-antd/divider';
+import {DirectivesModule} from '../directives/directives.module';
 
 /**
  * 自定义组件模块。适用于全系统。记得exports，导出去，否则外部无法调用。
  */
 @NgModule({
-  declarations: [CustomBtnComponent, CustomLoadingComponent, CustomPdfShowComponent, PdfShowComponent],
-    imports: [
-        CommonModule,
-        NzSpinModule,
-        PdfJsViewerModule,
-        RouterModule,
-        NzSliderModule,
-        NzButtonModule,
-        FormsModule,
-        PdfViewerModule,
-        NzIconModule,
-        NzInputModule
-    ],
+  declarations: [CustomBtnComponent, CustomLoadingComponent, CustomPdfShowComponent, PdfShowComponent, CustomTitleComponent],
+  imports: [
+    CommonModule,
+    NzSpinModule,
+    PdfJsViewerModule,
+    RouterModule,
+    NzSliderModule,
+    NzButtonModule,
+    FormsModule,
+    PdfViewerModule,
+    NzIconModule,
+    NzInputModule,
+    NzDividerModule,
+    DirectivesModule
+  ],
   exports: [
     CustomBtnComponent,
     CustomLoadingComponent,
     CustomPdfShowComponent,
-    PdfShowComponent
+    PdfShowComponent,
+    CustomTitleComponent
   ]
 })
 export class ComponentsModule {

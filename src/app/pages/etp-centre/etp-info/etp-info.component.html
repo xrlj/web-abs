@@ -1,1 +1,45 @@
-<p>企业信息</p>
+<nz-card class="card-simple" nzTitle="企业信息" *ngIf="showType === 1">
+  <app-custom-title
+    title="企业基础信息"
+    titleLink="编辑"
+    (titleClick)="titleClick($event)"
+    [isDLineShow]="true"
+    [isDLineDashed]="true"
+  >
+  </app-custom-title>
+  <nz-descriptions nzBordered [nzColumn]="3"  [nzSize]="'default'">
+    <nz-descriptions-item nzTitle="公司名称">慧链通（深圳）商业保理有限公司</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="统一社会信用代码">91440300349741506P</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="法定代表人">马富盛</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="注册地址">深圳市前海深港合作区前湾一路1号A栋201室</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="通信地址">广东省广州市天河区华夏路28号富力盈信大厦3205-06室</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="公司电话">18650489218</nz-descriptions-item>
+  </nz-descriptions>
+
+  <app-custom-title
+    title="用户注册信息"
+    [isDLineDashed]="true"
+  >
+  </app-custom-title>
+  <nz-descriptions nzBordered [nzColumn]="3" [nzSize]="'default'">
+    <nz-descriptions-item nzTitle="企业类型">保理商</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="登录账号">hlt0827</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="注册手机号码">18650489218</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="联系人">吕聪艳</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="联系电话">18650489218</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="认证状态"><span appTextColorTheme>已认证</span></nz-descriptions-item>
+    <nz-descriptions-item nzTitle="邮箱">lvcongyan@my-banker.com.cn</nz-descriptions-item>
+  </nz-descriptions>
+
+  <app-custom-title
+    title="签章代理人信息"
+    [isDLineDashed]="true"
+  >
+  </app-custom-title>
+  <nz-descriptions nzBordered [nzColumn]="3" [nzSize]="'default'">
+    <nz-descriptions-item nzTitle="姓名">吕聪艳</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="身份证号码">350822198506053344</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="手机号">18650489218</nz-descriptions-item>
+  </nz-descriptions>
+</nz-card>
+<app-etp-info-edit *ngIf="showType === 2" (showType)="showType = $event"></app-etp-info-edit>

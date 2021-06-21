@@ -24,6 +24,15 @@
   font-weight: bold;
 }
 
+// 卡片标题样式
+.ant-card-head-title {
+  //font-weight: normal;
+}
+
+.ant-descriptions-view .ant-descriptions-row .ant-descriptions-item-label {
+  //font-weight: bold;
+}
+
 // 表格右上角操作按钮
 .list-btn-action {
   float: right;
@@ -58,6 +67,10 @@
   &-action {
     margin-bottom: 28px;
     margin-top: -10px;
+
+    &>form>nz-form-item>nz-form-control {
+      width: 180px;
+    }
 
     &>nz-input-group {
       width: 180px;
@@ -109,4 +122,10 @@
   }
 }
 /*===========end===========*/
+
+.card-simple {
+  background: #fff;
+  min-height: 280px;
+  padding: 24px 24px 40px;
+}
 

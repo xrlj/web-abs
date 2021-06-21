@@ -1,0 +1,75 @@
+<nz-card class="card-simple" nzTitle="编辑企业信息" [nzExtra]="extraTemplate">
+  <div class="edit-content">
+    <form nz-form [formGroup]="editForm">
+      <app-custom-title class="title"
+        title="企业基础信息"
+        [isDLineShow]="true"
+      >
+      </app-custom-title>
+      <nz-form-item style="margin-top: 20px">
+        <nz-form-label [nzSpan]="spanLabel" nzFor="etpRegisterAdr" nzRequired>注册地址</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="etpRegisterAdr" formControlName="etpRegisterAdr" placeholder="请输入注册地址"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="etpContactAdr" nzRequired>通信地址</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="etpContactAdr" formControlName="etpContactAdr" placeholder="请输入通讯地址"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel">传真</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl">
+          <input nz-input id="etpFax" formControlName="etpFax" placeholder="请输入通讯地址"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="etpPhoneAdr" nzRequired>公司电话</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="etpPhoneAdr" formControlName="etpPhoneAdr" placeholder="请输入公司电话"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <app-custom-title
+        title="用户信息"
+      >
+      </app-custom-title>
+      <nz-form-item style="margin-top: 20px">
+        <nz-form-label [nzSpan]="spanLabel" nzFor="mobile" nzRequired>注册手机号码</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="mobile" formControlName="mobile" placeholder="请输入公司电话"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="linkMan" nzRequired>联系人</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="linkMan" formControlName="linkMan" placeholder="请输入联系人名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="linkManMobile" nzRequired>联系人电话</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="linkManMobile" formControlName="linkManMobile" placeholder="请输入联系人电话"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="email" nzRequired>电子邮箱</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="email" formControlName="email" placeholder="请输入电子邮箱"/>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="btn-action">
+    <button nz-button nzType="default" (click)="backToList()">返回</button>
+    <button nz-button nzType="primary">保存</button>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回</span>
+  </span>
+</ng-template>

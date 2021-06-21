@@ -11,7 +11,6 @@ import {environment} from '../../../../environments/environment';
 import {Constants} from '../../../helpers/constants';
 import {CommonService} from '../../../helpers/service/common.service';
 import {FinancingModelEnum} from '../../../helpers/enum/financing-model-enum';
-import {VSettingInfo} from '../../../helpers/vo/v-setting-info';
 import {SimpleReuseStrategy} from '../../../helpers/simple-reuse-strategy';
 
 @Component({

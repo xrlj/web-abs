@@ -1,1 +1,80 @@
-<p>企业银行账户管理</p>
+<nz-card class="card-list" nzTitle="基础资产台账">
+  <div class="card-list-action card-list-action1">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="search()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">开户行名称</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="branchName" placeholder="请输入支行名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">银行账号</nz-form-label>
+        <nz-form-control [nzSpan]="null">
+          <input nz-input formControlName="bankNo" placeholder="请输入账号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button (click)="editModal(1)"  class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>新增</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+      <button nz-button nzType="default" nzSize="small"><i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+    </div>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{y: '460px' }"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="30px" nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th nzWidth="25%" nzAlign="left">户名</th>
+        <th nzWidth="20%" nzAlign="left">银行账号</th>
+        <th nzWidth="25%" nzAlign="left">开户行名称</th>
+        <th nzWidth="10%" nzAlign="left">账户性质</th>
+        <th nzWidth="10%" nzAlign="left">是否对公账号</th>
+        <th nzWidth="10%" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td nzAlign="left">招商证券资产管理有限公司招商创融-慧链通保理2020年第3期资产支持专项计划</td>
+        <td nzAlign="left">9550880056209803756</td>
+        <td nzAlign="left">广发银行股份有限公司佛山顺德容桂支行</td>
+        <!--放款账户、收款账户、监管账户-->
+        <td nzAlign="left">收款账户</td>
+        <td nzAlign="left">否</td>
+        <td nzRight nzAlign="center">
+          <a (click)="editModal(2)">编辑</a>
+        </td>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>

@@ -1,0 +1,15 @@
+<div class="custom-title" [ngStyle]="isDLineShow ? rootDivStyles : null">
+  <span>
+    <span [ngStyle]="titleStyles" class="custom-title-title">{{title}}</span>
+    <button *ngIf="titleLink" nz-button nzType="link" (click)="btnClick(titleLink)">{{titleLink}}</button>
+    <div class="custom-title-extra" *ngIf="extraTip">
+      <span>
+        <i nz-icon nzType="question-circle" nzTheme="outline"></i>&nbsp;&nbsp;{{extraTip}}
+        <button *ngIf="extraActionText" nz-button nzType="link" (click)="extraActionClick()">{{extraActionText}}</button>
+      </span>
+    </div>
+  </span>
+  <div *ngIf="titleDesc">
+    <span class="custom-title-desc">{{titleDesc}}</span>
+  </div>
+</div>
