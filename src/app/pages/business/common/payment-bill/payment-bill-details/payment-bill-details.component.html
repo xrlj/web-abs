@@ -37,7 +37,7 @@
 
           <app-custom-title title="中登相关信息" isDLineDashed="true"
                             [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-<!--          <app-payment-bill-details-zd></app-payment-bill-details-zd>-->
+          <app-payment-bill-details-zd></app-payment-bill-details-zd>
 
         </div>
         <!--操作日志-->
@@ -51,6 +51,9 @@
   <span style="cursor: pointer;" (click)="backToList()">
     <i nz-icon nzType="rollback" nzTheme="outline"></i>
     <span style="margin-left: 5px;">返回列表</span>
+  </span>
+  <span style="cursor: pointer;" (click)="exportAnnexs()">
+    <a nz-button nzType="link" style="margin-left: 5px;"><i nz-icon nzType="folder" nzTheme="outline"></i>打包导出附件</a>
   </span>
 </ng-template>
 

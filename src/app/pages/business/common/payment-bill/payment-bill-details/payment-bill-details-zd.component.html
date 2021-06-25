@@ -1,0 +1,20 @@
+<div>
+  <span>
+    是否重复融资：
+    <nz-radio-group [(ngModel)]="zdRegisterStatus" [nzDisabled]="true">
+      <label nz-radio nzValue="1">是</label>
+      <label nz-radio nzValue="0">否</label>
+    </nz-radio-group>
+  </span>
+  <div style="margin-top: 14px">
+    <form nz-form [formGroup]="remarkForm" nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-textarea-count [nzMaxCharacterCount]="100" [nzComputeCharacterCount]="count">
+            <textarea rows="4" formControlName="remark" nz-input></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

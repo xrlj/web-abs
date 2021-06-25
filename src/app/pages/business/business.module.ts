@@ -38,7 +38,9 @@ import {ComponentsModule} from '../../components/components.module';
 import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
 import {DirectivesModule} from '../../directives/directives.module';
 import {NzModalModule} from 'ng-zorro-antd/modal';
-// import {PaymentBillDetailsZdComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-zd.component';
+import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
+import { PaymentBillDetailsZdComponent } from './common/payment-bill/payment-bill-details/payment-bill-details-zd.component';
+import {NzRadioModule} from 'ng-zorro-antd/radio';
 
 /**
  * 主业务模块
@@ -68,30 +70,33 @@ import {NzModalModule} from 'ng-zorro-antd/modal';
     PaymentBillDetailsAnnexFactorComponent,
     PaymentBillDetailsSupplementComponent,
     PaymentBillListComponent,
+    PaymentBillDetailsZdComponent
   ],
   exports: [
     PaymentBillSearchComponent,
     PaymentBillListComponent
   ],
-    imports: [
-        CommonModule,
-        BusinessRoutingModule,
-        NzCardModule,
-        NzTabsModule,
-        ReactiveFormsModule,
-        NzFormModule,
-        NzInputModule,
-        NzButtonModule,
-        NzIconModule,
-        NzSelectModule,
-        NzTableModule,
-        NzDividerModule,
-        FormsModule,
-        NzDatePickerModule,
-        ComponentsModule,
-        NzDescriptionsModule,
-        DirectivesModule,
-        NzModalModule
-    ]
+  imports: [
+    CommonModule,
+    BusinessRoutingModule,
+    NzCardModule,
+    NzTabsModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule,
+    NzIconModule,
+    NzSelectModule,
+    NzTableModule,
+    NzDividerModule,
+    FormsModule,
+    NzDatePickerModule,
+    ComponentsModule,
+    NzDescriptionsModule,
+    DirectivesModule,
+    NzModalModule,
+    NzCheckboxModule,
+    NzRadioModule
+  ]
 })
 export class BusinessModule { }

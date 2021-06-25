@@ -1,1 +1,36 @@
-<p>payment-bill-details-annex-factor works!</p>
+<div class="payment-bill-invoice">
+  <nz-table
+    nzBordered
+    [nzShowPagination]="false"
+    [nzData]="listOfAllData"
+    [nzLoading]="listLoading"
+    [(nzPageSize)]="pageSize">
+    <thead>
+    <tr>
+      <th nzLeft nzWidth="5%" nzAlign="center">序号</th>
+      <th nzWidth="35%" nzAlign="left">文档类型</th>
+      <th nzWidth="55%" nzAlign="left">文档</th>
+      <th nzWidth="5%" nzAlign="center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfAllData; let i = index">
+      <td nzAlign="center">{{i + 1}}</td>
+      <td nzAlign="left">{{data.annexTypeName}}</td>
+      <td nzAlign="left">
+        <div *ngFor="let file of data.annexFiles">
+          <span>
+            <a href="{{file.fileUrl}}" target="_blank">{{file.fileName}}</a>
+            <a style="margin-left: 20px" nz-button nzType="link" (click)="delAnnex(file.fileId)"><i nz-icon nzType="close" nzTheme="outline"></i></a>
+          </span>
+        </div>
+      </td>
+      <td nzAlign="left">
+        <a nz-button nzType="link">上传</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <div>
+  </div>
+</div>

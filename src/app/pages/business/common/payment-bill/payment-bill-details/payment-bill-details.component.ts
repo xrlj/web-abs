@@ -42,4 +42,8 @@ export class PaymentBillDetailsComponent implements OnInit {
   uploadSupplementAnnex() {
 
   }
+
+  exportAnnexs() {
+    alert('导出付款单');
+  }
 }
