@@ -8,19 +8,15 @@
     <thead>
     <tr>
       <th nzLeft nzWidth="5%" nzAlign="center">序号</th>
-      <th nzWidth="35%" nzAlign="left">文档类型</th>
-      <th nzWidth="60%" nzAlign="left">文档</th>
+      <th nzWidth="35%" nzAlign="center">合同文件类型</th>
+      <th nzWidth="60%" nzAlign="center">文件名称</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of listOfAllData; let i = index">
       <td nzAlign="center">{{i + 1}}</td>
-      <td nzAlign="left">{{data.annexTypeName}}</td>
-      <td nzAlign="left">
-        <div *ngFor="let file of data.annexFiles">
-          <a href="{{file.fileUrl}}" target="_blank">{{file.fileName}}</a>
-        </div>
-      </td>
+      <td nzAlign="left">{{data.fileTypeName}}</td>
+      <td nzAlign="left"><a href="{{data.fileUrl}}" target="_blank">{{data.fileName}}</a></td>
     </tr>
     </tbody>
   </nz-table>

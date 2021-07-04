@@ -1,4 +1,4 @@
-<nz-card class="card-list" nzTitle="融资单列表">
+<nz-card class="card-list" nzTitle="融资单列表" *ngIf="showType === 1">
   <div class="card-container">
     <nz-tabset
       [nzTabBarGutter]="2"
@@ -7,7 +7,7 @@
       nzType="card"
       (nzSelectedIndexChange)="search(true)">
 
-      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
+      <nz-tab *ngFor="let title of tabTitle; let i = index" [nzTitle]="title">
         <div class="tab-card-list">
           <!--搜索条件-->
           <div class="tab-card-list-action">
@@ -16,7 +16,7 @@
           </div>
           <!--列表-->
           <div class="tab-card-list-table">
-            <app-financing-bill-list-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE"  [fromViewType]="tabIndex === 0 ? 1 : (tabIndex === 1 ? 2 : 0)"></app-financing-bill-list-single>
+            <app-financing-bill-list-single *ngIf="financingModel === financingModelEnum.FINANCING_SINGLE"  [fromViewType]="i" (showDetails)="showType = 2"></app-financing-bill-list-single>
             <app-financing-bill-list-multiple *ngIf="financingModel === financingModelEnum.FINANCING_MULTIPLE"></app-financing-bill-list-multiple>
           </div>
         </div>
@@ -24,5 +24,7 @@
     </nz-tabset>
   </div>
 </nz-card>
+
+<app-financing-bill-single-details *ngIf="showType === 2"></app-financing-bill-single-details>
 
 

@@ -41,7 +41,9 @@
 
         </div>
         <!--操作日志-->
-        <div class="financing-log" *ngIf="title === tabTitle[1]"></div>
+        <div class="financing-log" *ngIf="title === tabTitle[1]">
+          <app-core-operate-log></app-core-operate-log>
+        </div>
       </nz-tab>
     </nz-tabset>
   </div>

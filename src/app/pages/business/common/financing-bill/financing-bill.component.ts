@@ -12,9 +12,12 @@ import {UIHelper} from '../../../../helpers/ui-helper';
 })
 export class FinancingBillComponent implements OnInit {
 
+  // 1-显示列表；2-显示详情
+  showType = 1;
+
   // tab
   tabIndex = 0;
-  tabTitle = ['待审核', '待复核', '全部'];
+  tabTitle = ['待审核', '待复核', '已复核', '全部'];
 
   financingModelEnum: typeof FinancingModelEnum = FinancingModelEnum;
 

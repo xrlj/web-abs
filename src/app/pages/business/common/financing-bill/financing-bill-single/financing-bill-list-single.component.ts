@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 // 单笔融资，融资单列表
 @Component({
@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class FinancingBillListSingleComponent implements OnInit {
 
-  // 1-审核；2-复核；0-查询
+  // 0-审核；1-复核；2-已复核
   @Input()
   fromViewType: number;
 
@@ -23,6 +23,8 @@ export class FinancingBillListSingleComponent implements OnInit {
   pageIndex = 1; // 页码
   pageSize = 10; // 每页条数
   total = 3; // 总条数
+
+  @Output() showDetails = new EventEmitter();
 
   constructor() { }
 
@@ -52,4 +54,7 @@ export class FinancingBillListSingleComponent implements OnInit {
     this.refreshStatus();
   }
 
+  showDetailsClick() {
+    this.showDetails.emit();
+  }
 }

@@ -1,0 +1,38 @@
+<div class="list-content">
+  <nz-table
+    nzShowPagination
+    nzShowSizeChanger
+    nzBordered
+    [nzFrontPagination]="false"
+    [nzData]="listOfAllData"
+    [nzLoading]="listLoading"
+    [nzTotal]="total"
+    [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize"
+    (nzPageIndexChange)="search()"
+    (nzPageSizeChange)="search(true)"
+    (nzCurrentPageDataChange)="currentPageDataChange($event)">
+    <thead>
+    <tr>
+      <th nzWidth="10%" nzAlign="center">操作角色</th>
+      <th nzWidth="20%" nzAlign="center">角色名称</th>
+      <th nzWidth="10%" nzAlign="center">操作人</th>
+      <th nzWidth="10%" nzAlign="center">操作类型</th>
+      <th nzWidth="20%" nzAlign="center">操作内容</th>
+      <th nzWidth="10%" nzAlign="center">操作时间</th>
+      <th nzWidth="20%" nzAlign="center">备注</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfAllData">
+      <td nzAlign="center">保理商</td>
+      <td nzAlign="center">慧链通（深圳）商业保理有限公司</td>
+      <td nzAlign="center">铁木真</td>
+      <td nzAlign="center">付款单复核</td>
+      <td nzAlign="center">项目公司复核退回</td>
+      <td nzAlign="center">2021-06-08 10:09:58</td>
+      <td nzAlign="center">1.支付申请表的“监理人复核金额”和“工程造价管理部审核金额”两栏需要补充完整</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

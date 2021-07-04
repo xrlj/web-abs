@@ -1,10 +1,10 @@
 <div class="list-content">
   <!--付款单各种操作，根据不同视图显示其对应操作-->
   <div [ngSwitch]="fromViewType">
-    <div class="list-btn-action" *ngSwitchCase="1">
+    <div class="list-btn-action" *ngSwitchCase="0">
       <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="check-circle" nzTheme="outline"></i>审核</button>
     </div>
-    <div class="list-btn-action" *ngSwitchCase="2">
+    <div class="list-btn-action" *ngSwitchCase="1">
       <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="check" nzTheme="outline"></i>复核</button>
     </div>
   </div>
@@ -68,13 +68,13 @@
       <td nzAlign="center">2021-05-28 12:00:06</td>
       <td nzRight nzAlign="center" [ngSwitch]="fromViewType">
         <div *ngSwitchCase="0">
-          <a>查看</a>
-        </div>
-        <div *ngSwitchCase="1">
           <a>审核</a>
         </div>
-        <div *ngSwitchCase="2">
+        <div *ngSwitchCase="1">
           <a>复核</a>
+        </div>
+        <div *ngSwitchCase="2">
+          <a (click)="showDetailsClick()">查看</a>
         </div>
       </td>
     </tr>

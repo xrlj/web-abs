@@ -1,0 +1,46 @@
+<nz-card class="card-list" [nzTitle]="'融资单详情'" [nzExtra]="extraTemplate">
+  <div class="card-container">
+    <nz-tabset
+      [nzTabBarGutter]="2"
+      [nzTabPosition]="'top'"
+      [(nzSelectedIndex)]="tabIndex"
+      nzType="card"
+      (nzSelectedIndexChange)="tabSwitch()">
+      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
+        <!--付款单-->
+        <div class="payment-bill" *ngIf="title === tabTitle[0]">
+          <app-custom-title title="付款单基础信息" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-payment-bill-details-basic></app-payment-bill-details-basic>
+
+          <app-custom-title title="第一次转让合同文件" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-financing-bill-contract-one></app-financing-bill-contract-one>
+
+          <app-custom-title title="第二次转让合同文件" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-financing-bill-contract-two></app-financing-bill-contract-two>
+
+          <app-custom-title title="付款确认" isDLineDashed="true"
+                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+          <app-financing-bill-payment></app-financing-bill-payment>
+        </div>
+        <!--操作日志-->
+        <div class="financing-log" *ngIf="title === tabTitle[1]">
+          <app-core-operate-log></app-core-operate-log>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+  <span style="cursor: pointer;" (click)="exportAnnexs()">
+    <a nz-button nzType="link" style="margin-left: 5px;"><i nz-icon nzType="folder" nzTheme="outline"></i>打包导出附件</a>
+  </span>
+</ng-template>
+

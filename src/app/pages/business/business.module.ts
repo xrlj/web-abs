@@ -39,8 +39,13 @@ import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
 import {DirectivesModule} from '../../directives/directives.module';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
-import { PaymentBillDetailsZdComponent } from './common/payment-bill/payment-bill-details/payment-bill-details-zd.component';
+import {PaymentBillDetailsZdComponent} from './common/payment-bill/payment-bill-details/payment-bill-details-zd.component';
 import {NzRadioModule} from 'ng-zorro-antd/radio';
+import {CoreOperateLogComponent} from './common/core-operate-log/core-operate-log.component';
+import {FinancingBillSingleDetailsComponent} from './common/financing-bill/financing-bill-single/financing-bill-single-details/financing-bill-single-details.component';
+import { FinancingBillContractOneComponent } from './common/financing-bill/common/financing-bill-contract-one.component';
+import { FinancingBillContractTwoComponent } from './common/financing-bill/common/financing-bill-contract-two.component';
+import { FinancingBillPaymentComponent } from './common/financing-bill/common/financing-bill-payment.component';
 
 /**
  * 主业务模块
@@ -70,7 +75,12 @@ import {NzRadioModule} from 'ng-zorro-antd/radio';
     PaymentBillDetailsAnnexFactorComponent,
     PaymentBillDetailsSupplementComponent,
     PaymentBillListComponent,
-    PaymentBillDetailsZdComponent
+    PaymentBillDetailsZdComponent,
+    CoreOperateLogComponent,
+    FinancingBillSingleDetailsComponent,
+    FinancingBillContractOneComponent,
+    FinancingBillContractTwoComponent,
+    FinancingBillPaymentComponent
   ],
   exports: [
     PaymentBillSearchComponent,

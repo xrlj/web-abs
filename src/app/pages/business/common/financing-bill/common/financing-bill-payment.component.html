@@ -1,0 +1,23 @@
+<div>
+  <nz-table
+    nzBordered
+    [nzShowPagination]="false"
+    [nzData]="listOfAllData"
+    [nzLoading]="listLoading"
+    [(nzPageSize)]="pageSize">
+    <thead>
+    <tr>
+      <th nzLeft nzWidth="20%" nzAlign="center">本次实付金额</th>
+      <th nzWidth="30%" nzAlign="center">付款时间</th>
+      <th nzWidth="50%" nzAlign="center">放款凭证</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of listOfAllData">
+      <td nzAlign="center">208065.23</td>
+      <td nzAlign="center">2021-06-15</td>
+      <td nzAlign="center"><a href="{{'https://file3.hlt-factoring.com/data/hlt/2021-06-15/59c6bf2830354534859e992da6ba6aa0.pdf'}}" target="_blank">河南区域_9.pdf</a></td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
