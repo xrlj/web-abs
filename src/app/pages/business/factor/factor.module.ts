@@ -55,6 +55,13 @@ import { CreditorInventorySingleComponent } from './creditor-inventory/creditor-
 import { CreditorInventoryMultipleComponent } from './creditor-inventory/creditor-inventory-multiple/creditor-inventory-multiple.component';
 import { CreditorInventoryDetailsSingleComponent } from './creditor-inventory/creditor-inventory-single/creditor-inventory-details-single.component';
 import { CreditorInventoryDetailsMultipleComponent } from './creditor-inventory/creditor-inventory-multiple/creditor-inventory-details-multiple.component';
+import { AgreementTemplateSearchComponent } from './agreement-template/agreement-template-search.component';
+import { AgreementTemplateDetailsComponent } from './agreement-template/agreement-template-details/agreement-template-details.component';
+import {DirectivesModule} from '../../../directives/directives.module';
+import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
+import {NzTreeModule} from 'ng-zorro-antd/tree';
+import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
+import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 
 
 @NgModule({
@@ -90,34 +97,41 @@ import { CreditorInventoryDetailsMultipleComponent } from './creditor-inventory/
     CreditorInventoryMultipleComponent,
     CreditorInventoryDetailsSingleComponent,
     CreditorInventoryDetailsMultipleComponent,
+    AgreementTemplateSearchComponent,
+    AgreementTemplateDetailsComponent,
   ],
-    imports: [
-        CommonModule,
-        FactorRoutingModule,
-        PdfViewerModule,
-        PdfViewerModule,
-        ComponentsModule,
-        NzCardModule,
-        NzInputModule,
-        FormsModule,
-        NzButtonModule,
-        NzIconModule,
-        NzGridModule,
-        NzTableModule,
-        NzDividerModule,
-        NzTabsModule,
-        NzDescriptionsModule,
-        NzBadgeModule,
-        NzCheckboxModule,
-        NzRadioModule,
-        NzTransferModule,
-        NzStepsModule,
-        ReactiveFormsModule,
-        NzFormModule,
-        NzSelectModule,
-        NzDatePickerModule,
-        NzModalModule,
-        BusinessModule,
-    ]
+  imports: [
+    CommonModule,
+    FactorRoutingModule,
+    PdfViewerModule,
+    PdfViewerModule,
+    ComponentsModule,
+    NzCardModule,
+    NzInputModule,
+    FormsModule,
+    NzButtonModule,
+    NzIconModule,
+    NzGridModule,
+    NzTableModule,
+    NzDividerModule,
+    NzTabsModule,
+    NzDescriptionsModule,
+    NzBadgeModule,
+    NzCheckboxModule,
+    NzRadioModule,
+    NzTransferModule,
+    NzStepsModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzSelectModule,
+    NzDatePickerModule,
+    NzModalModule,
+    BusinessModule,
+    DirectivesModule,
+    PdfJsViewerModule,
+    NzTreeModule,
+    NzInputNumberModule,
+    NzToolTipModule,
+  ]
 })
 export class FactorModule { }

@@ -1,8 +1,67 @@
-<!--<p>agreement-template works!</p>-->
+<nz-card class="card-list" nzTitle="协议模板管理" *ngIf="showType === 1">
+  <div class="card-list-action">
+    <app-agreement-template-search></app-agreement-template-search>
+  </div>
+  <div class="card-list-table">
+    <div class="list-btn-action">
+      <button (click)="showDetails()" class="list-btn-action-right" nz-button nzType="primary" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>新增</button>
+    </div>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '1000px', y: '400px' }"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="30px" nzAlign="center">序号</th>
+        <th nzWidth="50px" nzAlign="center">模板编码</th>
+        <th nzWidth="50px" nzAlign="center">合同大类</th>
+        <th nzWidth="80px" nzAlign="center">合同类别</th>
+        <th nzWidth="50px" nzAlign="center">合同版别</th>
+        <th nzWidth="80px" nzAlign="center">合同名称</th>
+        <th nzWidth="50px" nzAlign="center">版本号</th>
+        <th nzWidth="80px" nzAlign="center">强制阅读时间</th>
+        <th nzWidth="50px" nzAlign="center">状态</th>
+        <th nzWidth="50px" nzAlign="center">操作人</th>
+        <th nzWidth="80px" nzAlign="center">操作时间</th>
+        <th nzWidth="80px" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData">
+        <td nzAlign="center">1</td>
+        <td nzAlign="center">PT001</td>
+        <td nzAlign="center">平台服务类</td>
+        <td nzAlign="center">用户注册协议</td>
+        <td nzAlign="center">标准版</td>
+        <td nzAlign="center">用户注册协议</td>
+        <td nzAlign="center">2021-V1.0</td>
+        <td nzAlign="center">5</td>
+        <td nzAlign="center">草稿</td>
+        <td nzAlign="center">李白</td>
+        <td nzAlign="center">2021-05-28 12:00:00</td>
+        <td nzAlign="center">
+          <a>编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="showDetails(data)">查看</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>失效</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>删除</a>
+        </td>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-card>
 
-<!--<pdf-viewer [src]="pdfSrc" [render-text]="true" [render-text-mode]="2" style="display: block;"
-></pdf-viewer>-->
-
-<!--<app-pdf-show [externalWindow]="false"></app-pdf-show>-->
-
-<button (click)="open()">啊啊啊啊啊啊啊啊啊啊</button>
+<app-agreement-template-details *ngIf="showType == 2" (showList)="showType = 1"></app-agreement-template-details>

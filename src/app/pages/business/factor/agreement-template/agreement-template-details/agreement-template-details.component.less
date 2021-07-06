@@ -1,0 +1,156 @@
+@template-min-height: 670px;
+@template-border-with: 1.8px;
+@template-border-color: #dbd9d9;
+@template-top-height: 60px;
+
+.agr-content-layout {
+  margin: 40px 20px 20px;
+
+  &-left {
+    float: left;
+    width: 75%;
+    min-height: @template-min-height;
+    border:@template-border-with solid @template-border-color;
+
+    >.left-top {
+      width: 100%;
+      height: @template-top-height;
+      border-bottom-width: @template-border-with;
+      border-bottom-style: solid;
+      border-bottom-color: @template-border-color;
+
+      &>button {
+        margin-top: 12px;
+        height: 36px;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-left: 40px;
+      }
+    }
+
+    >.left-bottom {
+      height: 600px;
+      padding: 10px;
+    }
+  }
+
+  &-right {
+    float: right;
+    width: 25%;
+    min-height: @template-min-height;
+    border:@template-border-with solid @template-border-color;
+    border-left-width: 0px;
+
+    >.right-top {
+      width: 100%;
+      height: @template-top-height;
+      border-bottom-width: @template-border-with;
+      border-bottom-style: solid;
+      border-bottom-color: @template-border-color;
+      &>p {
+        padding-top: 12px;
+        font-size: 18px;
+        text-align: center;
+      }
+    }
+
+    >.right-bottom {
+      padding: 0px;
+
+      >.template-par {
+        height: 220px;
+        border-bottom-width: @template-border-with;
+        border-bottom-style: solid;
+        border-bottom-color: @template-border-color;
+        padding: 10px;
+
+        &>input {
+          text-align: center;
+          margin-bottom: 10px;
+        }
+
+        >.par-content {
+          height: 150px;
+          overflow-y: auto;
+          border: 1px solid @template-border-color;
+        }
+      }
+
+      >.template-sign-role {
+        height: 386px;
+
+        &>p {
+          text-align: center;
+          font-size: 18px;
+          padding-top: 12px;
+          padding-bottom: 0px;
+          height: 60px;
+          border-bottom-width: @template-border-with;
+          border-bottom-style: solid;
+          border-bottom-color: @template-border-color;
+        }
+
+        >.sign-role-content {
+          padding: 0px 10px 10px;
+          height: 80%;
+          overflow-y: auto;
+        }
+
+        &>div>table>tr {
+          min-height: 100px;
+        }
+
+        &>div>table>tr>th {
+          text-align: center;
+          width: 30%;
+        }
+
+        &>div>table>tr>td {
+          text-align: left;
+
+          &>div {
+            margin: 14px 8px 8px;
+
+            &>p {
+              margin-right: 10px;
+              margin-bottom: 2px;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.form-content {
+  display: flex;
+
+  >.form-column-one {
+    flex-flow: column;
+    flex: 1 1 33%;
+  }
+
+  >.form-column-two {
+    flex-flow: column;
+    flex: 1 1 33%;
+  }
+
+  >.form-column-third {
+    flex-flow: column;
+    flex: 1 1 33%;
+  }
+}
+
+.template-comment {
+  position: relative;
+  top: 0;
+  left: 0px;
+}
+
+.template-btn-action {
+  text-align: center;
+  &>button {
+    margin-top: 20px;
+  }
+}

@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {quillConfig} from '../../helpers/quill-config';
-import {QuillEditorComponent, QuillModule} from 'ngx-quill';
 
 @Component({
   selector: 'app-user-centre',

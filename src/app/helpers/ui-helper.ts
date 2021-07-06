@@ -465,4 +465,9 @@ export class UIHelper {
     localStorage.removeItem(Constants.localStorageKey.verifyStatus);
     localStorage.removeItem(Constants.localStorageKey.systemSettingInfo);
   }
+
+  /*======================= 打开pdf文件 ================*/
+  openSignPdf(): void {
+    window.open('#/pdf-show', '_blank', 'noopener');
+  }
 }

@@ -1,0 +1,76 @@
+<div class="search-layout" >
+  <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="search()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="null">合同大类</nz-form-label>
+      <nz-form-control [nzSpan]="null">
+        <nz-select formControlName="agrBigType" nzPlaceHolder="不限">
+          <nz-option nzValue="'0'" nzLabel="不限"></nz-option>
+          <nz-option nzValue="'1'" nzLabel="第一次转让"></nz-option>
+          <nz-option nzValue="'2'" nzLabel="第二次转让"></nz-option>
+          <nz-option nzValue="'3'" nzLabel="其它"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>合同类型</nz-form-label>
+      <nz-form-control [nzSpan]="null">
+        <nz-select formControlName="agrType" nzPlaceHolder="不限">
+          <nz-option nzValue="'0'" nzLabel="不限"></nz-option>
+          <nz-option nzValue="'1'" nzLabel="付款确认书"></nz-option>
+          <nz-option nzValue="'2'" nzLabel="保理合同"></nz-option>
+          <nz-option nzValue="'3'" nzLabel="转让通知书"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>合同版别</nz-form-label>
+      <nz-form-control [nzSpan]="null">
+        <nz-select formControlName="agrSpecify" nzPlaceHolder="不限">
+          <nz-option nzValue="'0'" nzLabel="不限"></nz-option>
+          <nz-option nzValue="'1'" nzLabel="标准版"></nz-option>
+          <nz-option nzValue="'2'" nzLabel="碧桂园版"></nz-option>
+          <nz-option nzValue="'3'" nzLabel="保利版"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>合同名称</nz-form-label>
+      <nz-form-control [nzSpan]="null">
+        <nz-select formControlName="agrName" nzPlaceHolder="不限">
+          <nz-option nzValue="'0'" nzLabel="不限"></nz-option>
+          <nz-option nzValue="'1'" nzLabel="名称1"></nz-option>
+          <nz-option nzValue="'2'" nzLabel="名称2"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>模板状态</nz-form-label>
+      <nz-form-control [nzSpan]="null">
+        <nz-select formControlName="agrTemplateStatus" nzPlaceHolder="不限">
+          <nz-option nzValue="'0'" nzLabel="不限"></nz-option>
+          <nz-option nzValue="'1'" nzLabel="草稿"></nz-option>
+          <nz-option nzValue="'2'" nzLabel="待审核"></nz-option>
+          <nz-option nzValue="'3'" nzLabel="审核拒绝"></nz-option>
+          <nz-option nzValue="'4'" nzLabel="已生效"></nz-option>
+          <nz-option nzValue="'5'" nzLabel="已失效"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item [hidden]="isCollapse">
+      <nz-form-label [nzSpan]="null">版本号</nz-form-label>
+      <nz-form-control [nzSpan]="null">
+        <input nz-input formControlName="agrVersion" placeholder="请输入"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button [nzType]="'primary'"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+        <button nz-button (click)="resetSearchForm()" style="margin-left: 8px">重置</button>
+        <a class="collapse" (click)="toggleCollapse()">
+          {{isCollapse ? '展开' : '收起'}}
+          <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+        </a>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

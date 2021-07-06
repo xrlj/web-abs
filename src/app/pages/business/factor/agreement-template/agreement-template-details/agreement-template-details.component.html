@@ -1,0 +1,170 @@
+<nz-card class="card-list" [nzTitle]="'协议模板'" [nzExtra]="extraTemplate">
+  <!--模板基础信息-->
+  <div class="basic-content">
+    <form nz-form [formGroup]="templateForm">
+      <div class="form-content">
+        <div class="form-column-one">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrBigType" nzRequired>合同大类</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+              <nz-select formControlName="agrBigType" nzPlaceHolder="请选择">
+                <nz-option nzValue="'1'" nzLabel="第一次转让"></nz-option>
+                <nz-option nzValue="'2'" nzLabel="第二次转让"></nz-option>
+                <nz-option nzValue="'3'" nzLabel="其它"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrName" nzRequired>合同名称</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+              <input nz-input formControlName="agrName" placeholder="请输入"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="form-column-two">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrType" nzRequired>合同类型</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+              <nz-select id="agrType" formControlName="agrType" nzPlaceHolder="请选择">
+                <nz-option nzValue="'1'" nzLabel="付款确认书"></nz-option>
+                <nz-option nzValue="'2'" nzLabel="保理合同"></nz-option>
+                <nz-option nzValue="'3'" nzLabel="转让通知书"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrVersion" nzRequired>版本号</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+              <input nz-input formControlName="agrVersion" placeholder="请输入"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="form-column-third">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrSpecify" nzRequired>合同版别</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+              <nz-select id="agrSpecify" formControlName="agrSpecify" nzPlaceHolder="请选择">
+                <nz-option nzValue="'1'" nzLabel="标准版"></nz-option>
+                <nz-option nzValue="'2'" nzLabel="碧桂园版"></nz-option>
+                <nz-option nzValue="'3'" nzLabel="保利版"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan">强制阅读时间</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan">
+              <input nz-input formControlName="agrTextReadTimeLimit" placeholder="请输入"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div class="template-comment">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="2" nzFor="remark">备注</nz-form-label>
+          <nz-form-control [nzSpan]="19">
+            <textarea formControlName="remark" id="remark" nz-input rows="3" placeholder="请输入产品分期说明"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </form>
+  </div>
+<!--  <nz-divider appTextColorTheme [nzDashed]="true" style="height: 5px;" nzType="horizontal"></nz-divider>-->
+  <div style="border-bottom: 2px dashed #dbd9d9;padding-top: 20px;"></div>
+  <!--协议文本内容等设置-->
+  <div class="agr-content-layout">
+    <div class="agr-content-layout-left">
+      <div class="left-top">
+        <button nz-button nzType="primary" nzSize="default">Word模板导入</button>
+        <button nz-button nzType="primary" nzSize="default">Pdf预览</button>
+      </div>
+      <div class="left-bottom">
+        <pdf-viewer class="pdf-viewer" [src]="pdfSrc" [fit-to-page]="true" [autoresize]="true"></pdf-viewer>
+        <!-- <ng2-pdfjs-viewer #bigPdfViewer [pdfSrc]="pdfSrc" downloadFileName="mySample" zoom="auto"
+                           viewerId="MyID"></ng2-pdfjs-viewer>-->
+      </div>
+    </div>
+    <div class="agr-content-layout-right">
+      <div class="right-top">
+        <p class="text-theme-color">模板参数</p>
+      </div>
+      <div class="right-bottom">
+        <div class="template-par">
+          <input type="text" nz-input placeholder="请输入关键字" [(ngModel)]="parSearchKey"/>
+          <div class="par-content">
+            <nz-tree
+              [nzData]="nodes"
+              [nzSearchValue]="parSearchKey"
+            >
+            </nz-tree>
+          </div>
+        </div>
+        <div class="template-sign-role">
+          <p class="text-theme-color">签章设置</p>
+          <div class="sign-role-content">
+            <table border="1px" bordercolor="#dbd9d9" width="100%">
+              <tr *ngFor="let sign of roleSignSetting">
+                <th>{{sign.roleName}}</th>
+                <td>
+                  <div>
+                    <p>关键字：</p>
+                    <input nzSize="small" style="width: 170px;font-size: 12px; padding: 2px" type="text" nz-input
+                           placeholder="请输入" [(ngModel)]="sign.key"/>
+                    <span style="margin-left: 10px"><i nz-tooltip [nzTooltipTitle]="signTipText"
+                                                       nzTooltipColor="#b4b4b4" nz-icon nzType="question-circle"
+                                                       nzTheme="outline"></i></span>
+                  </div>
+                  <div>
+                    <p>坐标：</p>
+                    <div>
+                      <nz-input-group nzSearch [nzSuffix]="suffixX" style="width: 80px; height: 24px; margin-top: 4px">
+                        <input [(ngModel)]="sign.signXY.x" style="font-size: 12px;" nzSize="small" placeholder=""
+                               nz-input/>
+                      </nz-input-group>
+                      <nz-input-group nzSearch [nzSuffix]="suffixY"
+                                      style="width: 80px; height: 24px; margin-left: 10px;">
+                        <input [(ngModel)]="sign.signXY.y" style="font-size: 10px;" nzSize="small" placeholder=""
+                               nz-input/>
+                      </nz-input-group>
+                    </div>
+                  </div>
+                  <div>
+                    <p>排序：</p>
+                    <nz-input-number [(ngModel)]="sign.signSort" style="width: 80px" nzSize="small" [nzMin]="1"
+                                     [nzMax]="6" [nzStep]="1"></nz-input-number>
+                  </div>
+                  <div style="margin-bottom: 10px">
+                    <p>是否签章：</p>
+                    <label style="margin-top: 2px; margin-left: 0px;" nz-checkbox [(ngModel)]="sign.signFlag"></label>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--按钮-->
+  <div class="template-btn-action">
+    <button nz-button nzType="primary" nzSize="default">保存为草稿</button>
+    <button nz-button nzType="primary" nzSize="default" style="margin-left: 20px;">提交</button>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <span style="cursor: pointer;" (click)="backToList()">
+    <i nz-icon nzType="rollback" nzTheme="outline"></i>
+    <span style="margin-left: 5px;">返回列表</span>
+  </span>
+</ng-template>
+
+<ng-template #suffixX>
+  <span>x</span>
+</ng-template>
+
+<ng-template #suffixY>
+  <span>y</span>
+</ng-template>
+
+
