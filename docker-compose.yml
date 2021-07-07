@@ -1,0 +1,7 @@
+version: '3'
+services:
+  web-abs:
+    build: .
+    container_name: web-abs
+    ports:
+      - 8081:80
