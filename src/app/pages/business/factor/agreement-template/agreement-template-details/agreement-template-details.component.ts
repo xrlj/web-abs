@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MyValidators} from '../../../../../helpers/MyValidators';
 
@@ -9,6 +9,11 @@ import {MyValidators} from '../../../../../helpers/MyValidators';
 })
 export class AgreementTemplateDetailsComponent implements OnInit {
 
+  // 1-新增；2-编辑；3-查看;4-审核
+  @Input() showType = 1;
+  // 协议模板信息id
+  @Input() id: string;
+
   @Output() showList = new EventEmitter();
 
   @ViewChild('bigPdfViewer', { static: true }) public bigPdfViewer;
@@ -16,6 +21,8 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   pdfSrc = 'https://seal.hlt-factoring.com/pdf/seal/a3b5c84d70f5479fadf5052dcc2bd6fb.pdf';
 
   parSearchKey = '';
+
+  cardTitle = '';
 
   nodes = [
     {
@@ -68,10 +75,23 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   formLabelSpan = 6;
   formControlSpan = 14;
 
+  checkStatus = 1; // 审核状态。1-审核通过；0-审核不通过
+
   roleSignSetting = [
     {
       role: 'factor',
       roleName: '保理商',
+      key: '',
+      signSort: 1,
+      signXY: {
+        x: '',
+        y: '',
+      },
+      signFlag: false
+    },
+    {
+      role: 'supplier',
+      roleName: '供应商',
       key: '',
       signSort: 1,
       signXY: {
@@ -101,18 +121,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
         y: '',
       },
       signFlag: false
-    },
-    {
-      role: 'supplier',
-      roleName: '供应商',
-      key: '',
-      signSort: 1,
-      signXY: {
-        x: '',
-        y: '',
-      },
-      signFlag: false
-    },
+    }
   ];
 
   constructor(private fb: FormBuilder) {
@@ -128,6 +137,36 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setCardTitle();
+  }
+
+  setCardTitle(): void {
+    switch (this.showType) {
+      case 1:
+        this.cardTitle = '新增协议模板';
+        break;
+      case 2:
+        this.cardTitle = '编辑协议模板';
+        break;
+      case 3:
+        this.cardTitle = '协议模板详情';
+        break;
+      case 4:
+        this.cardTitle = '审核协议模板';
+        break;
+    }
+  }
+
+  notEditStyle(b?: boolean): any {
+    let style = {};
+    if (this.showType === 3) { // 查看不可编辑，其它都可编辑
+      if (b) {
+        style = {cursor: 'not-allowed'};
+      } else  {
+        style = {'pointer-events': 'none'};
+      }
+    }
+    return style;
   }
 
   backToList() {

@@ -19,6 +19,9 @@ export class AgreementTemplateComponent implements OnInit {
   pageSize = 10; // 每页条数
   total = 3; // 总条数
 
+  selectedId: string;
+  detailsType: number;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -31,7 +34,11 @@ export class AgreementTemplateComponent implements OnInit {
     this.listOfAllData = $event;
   }
 
-  showDetails(data?: any) {
+  showDetails(detailsType: number, data?: any) {
+    this.detailsType = detailsType;
+    if (data) {
+      this.selectedId = data.id;
+    }
     this.showType = 2;
   }
 }

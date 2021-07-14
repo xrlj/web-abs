@@ -4,7 +4,7 @@
   </div>
   <div class="card-list-table">
     <div class="list-btn-action">
-      <button (click)="showDetails()" class="list-btn-action-right" nz-button nzType="primary" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>新增</button>
+      <button (click)="showDetails(1)" class="list-btn-action-right" nz-button nzType="primary" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>新增</button>
     </div>
     <nz-table
       nzShowPagination
@@ -51,9 +51,11 @@
         <td nzAlign="center">李白</td>
         <td nzAlign="center">2021-05-28 12:00:00</td>
         <td nzAlign="center">
-          <a>编辑</a>
+          <a (click)="showDetails(2, data)">编辑</a>
           <nz-divider nzType="vertical"></nz-divider>
-          <a (click)="showDetails(data)">查看</a>
+          <a (click)="showDetails(3, data)">查看</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="showDetails(4, data)">审核</a>
           <nz-divider nzType="vertical"></nz-divider>
           <a>失效</a>
           <nz-divider nzType="vertical"></nz-divider>
@@ -64,4 +66,4 @@
   </div>
 </nz-card>
 
-<app-agreement-template-details *ngIf="showType == 2" (showList)="showType = 1"></app-agreement-template-details>
+<app-agreement-template-details *ngIf="showType == 2" (showList)="showType = 1" [id]="selectedId" [showType]="detailsType"></app-agreement-template-details>
