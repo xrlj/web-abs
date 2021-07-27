@@ -54,67 +54,69 @@
           (nzOnCancel)="handleCancel()"
           (nzOnOk)="handleOk(modalType)"
           [nzOkLoading]="isModalOkLoading">
-  <form nz-form [formGroup]="stagingForm">
-    <div class="form-content">
-      <div class="form-column-left">
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="stagingForm">
+      <div class="form-content">
+        <div class="form-column-left">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgName" nzRequired>分期名称</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+              <input formControlName="stgName" id="stgName" placeholder="请输入分期名称" nz-input/>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgBuyDiscount" required>买入折扣</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan">
+              <nz-input-group nzSearch [nzSuffix]="suffixRate">
+                <input formControlName="stgBuyDiscount" id="stgBuyDiscount" placeholder="请输入，如：95" nz-input/>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgFoundDate">设立日期</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan">
+              <nz-date-picker style="width: 100%" id="stgFoundDate" formControlName="stgFoundDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="form-column-right">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgStatus" nzRequired>分期状态</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+              <nz-select id="stgStatus" formControlName="stgStatus" nzPlaceHolder="请选择">
+                <nz-option nzValue="'0'" nzLabel="初始"></nz-option>
+                <nz-option nzValue="'1'" nzLabel="已使用"></nz-option>
+                <nz-option nzValue="'2'" nzLabel="第一次合同生成中"></nz-option>
+                <nz-option nzValue="'3'" nzLabel="第一次合同生已生成"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgSellDiscount">卖出折扣</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan">
+              <nz-input-group nzSearch [nzSuffix]="suffixRate">
+                <input formControlName="stgSellDiscount" id="stgSellDiscount" placeholder="请输入，如：96" nz-input/>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgExpiryDate">到期日</nz-form-label>
+            <nz-form-control [nzSpan]="formControlSpan">
+              <nz-date-picker style="width: 100%" id="stgExpiryDate" formControlName="stgExpiryDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div class="stg-comment">
         <nz-form-item>
-          <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgName" nzRequired>分期名称</nz-form-label>
-          <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-            <input formControlName="stgName" id="stgName" placeholder="请输入分期名称" nz-input/>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgBuyDiscount" required>买入折扣</nz-form-label>
-          <nz-form-control [nzSpan]="formControlSpan">
-            <nz-input-group nzSearch [nzSuffix]="suffixRate">
-              <input formControlName="stgBuyDiscount" id="stgBuyDiscount" placeholder="请输入，如：95" nz-input/>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgFoundDate">设立日期</nz-form-label>
-          <nz-form-control [nzSpan]="formControlSpan">
-            <nz-date-picker style="width: 100%" id="stgFoundDate" formControlName="stgFoundDate"></nz-date-picker>
+          <nz-form-label [nzSpan]="0" nzFor="stgComment">分期说明</nz-form-label>
+          <nz-form-control [nzSpan]="19">
+            <textarea formControlName="stgComment" id="stgComment" nz-input rows="3" placeholder="请输入产品分期说明"></textarea>
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div class="form-column-right">
-        <nz-form-item>
-          <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgStatus" nzRequired>分期状态</nz-form-label>
-          <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-            <nz-select id="stgStatus" formControlName="stgStatus" nzPlaceHolder="请选择">
-              <nz-option nzValue="'0'" nzLabel="初始"></nz-option>
-              <nz-option nzValue="'1'" nzLabel="已使用"></nz-option>
-              <nz-option nzValue="'2'" nzLabel="第一次合同生成中"></nz-option>
-              <nz-option nzValue="'3'" nzLabel="第一次合同生已生成"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgSellDiscount">卖出折扣</nz-form-label>
-          <nz-form-control [nzSpan]="formControlSpan">
-            <nz-input-group nzSearch [nzSuffix]="suffixRate">
-              <input formControlName="stgSellDiscount" id="stgSellDiscount" placeholder="请输入，如：96" nz-input/>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSpan]="formLabelSpan" nzFor="stgExpiryDate">到期日</nz-form-label>
-          <nz-form-control [nzSpan]="formControlSpan">
-            <nz-date-picker style="width: 100%" id="stgExpiryDate" formControlName="stgExpiryDate"></nz-date-picker>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div>
-    <div class="stg-comment">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="0" nzFor="stgComment">分期说明</nz-form-label>
-        <nz-form-control [nzSpan]="19">
-          <textarea formControlName="stgComment" id="stgComment" nz-input rows="3" placeholder="请输入产品分期说明"></textarea>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </form>
+    </form>
+  </ng-container>
 </nz-modal>
 
 <ng-template #suffixRate>

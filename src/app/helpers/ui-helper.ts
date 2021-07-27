@@ -11,6 +11,7 @@ import {ThemeEnum} from './enum/theme-enum';
 import {NzTreeNode} from 'ng-zorro-antd/tree';
 import {VSettingInfo} from './vo/v-setting-info';
 import {FinancingModelEnum} from './enum/financing-model-enum';
+import {NzButtonType} from 'ng-zorro-antd/button';
 
 @Injectable({
   providedIn: 'root'
@@ -171,7 +172,8 @@ export class UIHelper {
       nzTitle: title ? title : '删除提示',
       nzContent: content,
       nzOkText: '确定',
-      nzOkType: 'danger',
+      nzOkType: 'primary',
+      nzOkDanger: true,
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           const ok = handlers['ok'];
