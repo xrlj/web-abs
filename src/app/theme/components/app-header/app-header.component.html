@@ -43,25 +43,27 @@
 </div>
 
 <nz-drawer class="setting-drawer" [nzClosable]="false" [nzVisible]="settingVisible" nzPlacement="right" nzTitle="系统设置" (nzOnClose)="closeSettingDrawer()">
-  <div class="setting-drawer-slider">
-    <h4>抽屉菜单</h4>
-    <label nz-checkbox (ngModelChange)="asideChangeTheme($event)" [(ngModel)]="sliderMenuThemeChecked">dark 黑色</label>
-  </div>
-  <nz-divider></nz-divider>
-  <div class="setting-drawer-theme">
-    <h4>主题色调</h4>
-    <nz-radio-group (ngModelChange)="changeTheme($event)" [(ngModel)]="themeRadioValue">
-      <label nz-radio [nzValue]="themeEnum.Default">default 默认</label>
-      <label nz-radio [nzValue]="themeEnum.Orange">orange 橙色</label>
-      <label nz-radio [nzValue]="themeEnum.Turquoise">turquoise 蓝绿色</label>
-    </nz-radio-group>
-  </div>
-  <nz-divider></nz-divider>
-  <div class="setting-drawer-theme">
-    <h4>融资模式</h4>
-    <nz-radio-group (ngModelChange)="changeFinancingMode($event)" [(ngModel)]="financingModeRadioValue">
-      <label nz-radio [nzValue]="financingModelEnum.FINANCING_SINGLE">单笔融资</label>
-      <label nz-radio [nzValue]="financingModelEnum.FINANCING_MULTIPLE">多笔融资</label>
-    </nz-radio-group>
-  </div>
+  <ng-container *nzDrawerContent>
+    <div class="setting-drawer-slider">
+      <h4>抽屉菜单</h4>
+      <label nz-checkbox (ngModelChange)="asideChangeTheme($event)" [(ngModel)]="sliderMenuThemeChecked">dark 黑色</label>
+    </div>
+    <nz-divider></nz-divider>
+    <div class="setting-drawer-theme">
+      <h4>主题色调</h4>
+      <nz-radio-group (ngModelChange)="changeTheme($event)" [(ngModel)]="themeRadioValue">
+        <label nz-radio [nzValue]="themeEnum.Default">default 默认</label>
+        <label nz-radio [nzValue]="themeEnum.Orange">orange 橙色</label>
+        <label nz-radio [nzValue]="themeEnum.Turquoise">turquoise 蓝绿色</label>
+      </nz-radio-group>
+    </div>
+    <nz-divider></nz-divider>
+    <div class="setting-drawer-theme">
+      <h4>融资模式</h4>
+      <nz-radio-group (ngModelChange)="changeFinancingMode($event)" [(ngModel)]="financingModeRadioValue">
+        <label nz-radio [nzValue]="financingModelEnum.FINANCING_SINGLE">单笔融资</label>
+        <label nz-radio [nzValue]="financingModelEnum.FINANCING_MULTIPLE">多笔融资</label>
+      </nz-radio-group>
+    </div>
+  </ng-container>
 </nz-drawer>
