@@ -134,7 +134,6 @@ export class Api {
   }
 
   get(path: string, params?: HttpParams | {}, version?: number,  refresh = false): any {
-    // debugger;
     if (!path) {
       throw new Error('url缺少path');
     }

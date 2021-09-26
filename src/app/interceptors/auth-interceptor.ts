@@ -15,11 +15,14 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log('>>>>>AuthInterceptor');
     const url: string = req.url;
-    const directUrl = url.includes(ApiPath.login) || url.includes(ApiPath.logout)
+    // 下面url直接通行
+    const directUrl = url.includes(ApiPath.login)|| url.includes(ApiPath.logout)
+      || url.includes(ApiPath.syscommon.kaptcha.getVerifyCode)
+      || url.includes(ApiPath.syscommon.kaptcha.verifyCode)
       || url.includes(ApiPath.usercentral.enterprise.getEtpInfoByInvitationCode)
-    || url.includes(ApiPath.sysnotify.smsApi.register)
-    || url.includes(ApiPath.sysnotify.smsApi.verifyAuthCode)
-    || url.includes(ApiPath.usercentral.userApi.registerByInvitationCode);
+      || url.includes(ApiPath.sysnotify.smsApi.register)
+      || url.includes(ApiPath.sysnotify.smsApi.verifyAuthCode)
+      || url.includes(ApiPath.usercentral.userApi.registerByInvitationCode);
     if (directUrl) { // 不需要登录携带token请求
       return next.handle(req);
     } else { // 非登录请求，带上token
@@ -37,7 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
       }
 
       // 普通请求
-      const authReq = req.clone({ setHeaders: { Authorization: authToken} });
+      const authReq = req.clone({setHeaders: {Authorization: authToken}});
       return next.handle(authReq);
     }
   }

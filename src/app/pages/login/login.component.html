@@ -1,45 +1,74 @@
 <div class="login">
-  <img src="assets/images/login-bg.jpg" alt="" />
-
+  <img src="assets/images/login_bg.png" class="bg_login" alt="">
   <div class="login-content">
-    <div class="form-left">
-      <h3 style="margin: 30px 0px;"><img src="assets/images/logo01.png" alt="" style="max-width: 60px;"></h3>
-      <h3 style="">供应链金融服务平台</h3>
+    <div class="login-content-left">
+      <h3 style="margin:55px 0px;">
+        <img src="assets/images/login_logo.png" alt="" style="max-width:200px;">
+      </h3>
+      <h3 style="">应收账款管理服务平台</h3>
       <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
         <nz-form-item>
-          <nz-form-control nzErrorTip="请输入用户账号!">
-            <nz-input-group nzPrefixIcon="user" [nzSuffix]="usernameSuffixTemplate">
+          <nz-form-control nzErrorTip="请输入用户账号">
+            <nz-input-group nzSize="default" nzPrefixIcon="user" [nzSuffix]="usernameSuffixTemplate">
               <input type="text" nz-input formControlName="username" placeholder="用户名" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control nzErrorTip="请输入密码!">
-            <nz-input-group nzPrefixIcon="lock" [nzSuffix]="pwdSuffixTemplate">
+          <nz-form-control nzErrorTip="请输入密码">
+            <nz-input-group nzSize="default" nzPrefixIcon="lock" [nzSuffix]="pwdSuffixTemplate">
               <input type="password" nz-input formControlName="password" placeholder="密码" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
+          <nz-form-control nzErrorTip="请输入图形验证码">
+            <div  nz-row>
+              <div nz-col nzFlex="3">
+                <nz-input-group nzSize="default" nzPrefixIcon="medicine-box" [nzSuffix]="verifyCodeLoading ? verifyCodeSuffixTemplate : ''">
+                  <input type="text" nz-input formControlName="verifyCode" maxlength="4" placeholder="验证码" />
+                </nz-input-group>
+              </div>
+              <div nz-col nzFlex="2" style="margin-left: 10px;">
+                <img [src]="verifyCodeImgData" (click)="getVerifyCode()" alt="">
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
           <nz-form-control>
-            <button nz-button class="login-form-button" nzType="primary" [nzLoading]="isLoadingOne" [disabled]="!validateForm.valid">登录</button>
+            <button nz-button nzSize="large" class="login-form-button" nzType="primary" [nzLoading]="isLoadingOne" [disabled]="!validateForm.valid">登录</button>
           </nz-form-control>
         </nz-form-item>
       </form>
     </div>
-    <img src="assets/images/login-form-right.png" class="form-right" alt="">
-    <div style="clear:both">&nbsp;</div>
+    <div class="login-content-right">
+      <img src="assets/images/login_right_pic.png" alt="">
+    </div>
+  </div>
+  <div class="login-bottom">
+    <div class="login-bottom-txt">
+      <div class="wxCode" (mouseover)="gzhShow(true)" (mouseleave)="gzhShow(false)">
+        <span>微信公众号</span>
+        <div class="imgCode" [style]="gzhShowStatus ? {display: 'inline-block'} : {display: 'none'}">
+          <img src="assets/images/login_gzh_pic.png">
+          <p>扫码联系我们</p>
+        </div>
+      </div>
+      <span>　|　Copyright 2013-2020 慧链通（深圳）商业保理有限公司　<a target="_blank" href="http://beian.miit.gov.cn/" style="color: white">粤ICP备19159565号</a>　|　客服热线 400-965-0108 / 020-8928-0442　</span>
+    </div>
   </div>
 </div>
+
 <ng-template #usernameSuffixTemplate>
   <i
-  nz-icon
-  nz-tooltip
-  class="ant-input-clear-icon"
-  nzTheme="fill"
-  nzType="close-circle"
-  *ngIf="validateForm.value.username"
-  (click)="clearUsername()">
+    nz-icon
+    nz-tooltip
+    class="ant-input-clear-icon"
+    nzTheme="fill"
+    nzType="close-circle"
+    *ngIf="validateForm.value.username"
+    (click)="clearUsername()">
   </i>
 </ng-template>
 <ng-template #pwdSuffixTemplate>
@@ -52,4 +81,8 @@
     *ngIf="validateForm.value.password"
     (click)="clearPassword()">
   </i>
+</ng-template>
+
+<ng-template #verifyCodeSuffixTemplate>
+  <i nz-icon nzType="loading" nzTheme="outline"></i>
 </ng-template>

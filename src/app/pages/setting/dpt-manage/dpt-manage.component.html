@@ -54,7 +54,7 @@
           (nzOnOk)="addOrEditHandleOk()"
           [nzOkLoading]="addOrEditOkLoading">
 
-  <form nz-form [formGroup]="addOrEditForm">
+  <form nz-form [formGroup]="addOrEditForm" *nzModalContent>
     <nz-form-item>
       <nz-form-label [nzSpan]="labelSpan" nzFor="name" nzRequired>名称</nz-form-label>
       <nz-form-control [nzSpan]="controlSpan" nzErrorTip="必填项">

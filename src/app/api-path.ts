@@ -1,4 +1,5 @@
 /****************服务名称start********************/
+
 const serviceauth = 'serviceauth';
 const usercentral = 'usercentral';
 const syscommon = 'syscommon';
@@ -67,6 +68,10 @@ export const ApiPath = {
       getProvinceList: `/${syscommon}/bankBranchDic/getProvinceList`, //  获取省份名称列表
       getCityByProvinceList: `/${syscommon}/bankBranchDic/getCityByProvinceList`,  // 获取某省份下所有城市名称列表。
       getBranchNameTopNumList: `/${syscommon}/bankBranchDic/getBranchNameTopNumList`  // 条件查询，获取支行名称列表。
+    },
+    kaptcha: {
+      getVerifyCode: `/${syscommon}/kaptcha/getVerifyCode`,
+      verifyCode: `/${syscommon}/kaptcha/verifyCode`
     }
   },
   sysfilesystem: {

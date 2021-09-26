@@ -80,7 +80,7 @@
                     <a>设置菜单权限</a>
                   </div>
                   <div *ngSwitchDefault>
-                    <a>查看</a>
+                    <a (click)="details(data.userId)">查看</a>
                   </div>
                 </td>
               </tr>
@@ -117,11 +117,15 @@
 
 <!--对话框-->
 <nz-modal [(nzVisible)]="checkModalVisible"
-          nzWidth="800"
+          nzWidth="800px"
           nzMaskClosable = "false"
           [nzTitle]="'经纪人认证-审核'"
           (nzOnCancel)="checkHandleCancel()"
           (nzOnOk)="checkHandleOk()"
           [nzOkLoading]="checkModalOkLoading">
-  <app-etp-account-details></app-etp-account-details>
+
+  <ng-container *nzModalContent>
+    <app-etp-account-details ></app-etp-account-details>
+  </ng-container>
+
 </nz-modal>

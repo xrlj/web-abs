@@ -130,6 +130,8 @@ export class EtpAccountComponent implements OnInit {
    * @param id 账号id
    */
   details(id: any) {
+    // this.etpAccountDetailsComponent.initData(id);
+    this.checkModalVisible = true;
   }
 
   /**

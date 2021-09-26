@@ -130,7 +130,7 @@
           (nzOnOk)="handleOk()"
           [nzOkLoading]="isModalOkLoading">
 
-  <form nz-form [formGroup]="addOrEditForm">
+  <form nz-form [formGroup]="addOrEditForm" *nzModalContent>
     <nz-form-item>
       <nz-form-label [nzSpan]="labelSpan" nzFor="username" nzRequired>用户名</nz-form-label>
       <nz-form-control [nzSpan]="controlSpan" nzHasFeedback nzValidatingTip="检查用户名..." [nzErrorTip]="userErrorTpl">
@@ -240,20 +240,22 @@
           [nzTitle]="'选择部门'"
           (nzOnCancel)="deptSearchHandleCancel()" [nzStyle]="{ top: '160px' }">
 
-  <nz-input-group [nzSuffix]="suffixIcon">
-    <input type="text" nz-input placeholder="关键字" [(ngModel)]="deptSearchValue" />
-  </nz-input-group>
-  <ng-template #suffixIcon>
-    <i nz-icon nzType="search"></i>
-  </ng-template>
-  <nz-tree
-    [nzData]="deptDataList"
-    [nzSearchValue]="deptSearchValue"
-    (nzClick)="deptClickEvent($event)"
-    (nzExpandChange)="deptSearchEvent($event)"
-    (nzSearchValueChange)="deptSearchEvent($event)"
-  >
-  </nz-tree>
+  <ng-container *nzModalContent>
+    <nz-input-group [nzSuffix]="suffixIcon">
+      <input type="text" nz-input placeholder="关键字" [(ngModel)]="deptSearchValue" />
+    </nz-input-group>
+    <ng-template #suffixIcon>
+      <i nz-icon nzType="search"></i>
+    </ng-template>
+    <nz-tree
+      [nzData]="deptDataList"
+      [nzSearchValue]="deptSearchValue"
+      (nzClick)="deptClickEvent($event)"
+      (nzExpandChange)="deptSearchEvent($event)"
+      (nzSearchValueChange)="deptSearchEvent($event)"
+    >
+    </nz-tree>
+  </ng-container>
 </nz-modal>
 
 <!--重置密码内容框                                                                                                                                                                                                                                                                                                          -->
@@ -265,7 +267,7 @@
           (nzOnCancel)="updateUserPwdHandleCancel()"
           [nzOkLoading]="isPwdModalOkLoading">
 
-  <form nz-form [formGroup]="modifyPwdForm">
+  <form nz-form [formGroup]="modifyPwdForm" *nzModalContent>
     <nz-form-item>
       <nz-form-label [nzSpan]="labelSpan" nzFor="oldPassword" nzRequired>旧密码</nz-form-label>
       <nz-form-control [nzSpan]="controlSpan">
@@ -315,12 +317,14 @@
           (nzOnCancel)="setUserRolesHandleCancel()"
           [nzOkLoading]="isUserRolesModalOkLoading">
 
-  <nz-checkbox-wrapper style="width: 100%;margin-left: 20px" (nzOnChange)="setUserRoleOnChange($event)">
-    <div nz-row>
-      <div nz-col nzSpan="8" *ngFor="let role of roleList">
-        <label nz-checkbox [nzValue]="role.id" [ngModel]="isUserRole(role.id)">{{role.roleName}}</label>
+  <ng-container *nzModalContent>
+    <nz-checkbox-wrapper style="width: 100%;margin-left: 20px" (nzOnChange)="setUserRoleOnChange($event)">
+      <div nz-row>
+        <div nz-col nzSpan="8" *ngFor="let role of roleList">
+          <label nz-checkbox [nzValue]="role.id" [ngModel]="isUserRole(role.id)">{{role.roleName}}</label>
+        </div>
       </div>
-    </div>
-  </nz-checkbox-wrapper>
+    </nz-checkbox-wrapper>
+  </ng-container>
 
 </nz-modal>

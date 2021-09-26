@@ -78,7 +78,7 @@ export class CommonService {
    * @param userId 用户id
    */
   getUserInfoById(userId: string): any {
-    return this.api.get(`${ApiPath.usercentral.userApi.getUserInfoById}/${userId}`)
+    return this.api.get(`${ApiPath.usercentral.userApi.getUserInfoById}/${userId}`);
   }
 
   /**
