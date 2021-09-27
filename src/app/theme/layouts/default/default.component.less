@@ -5,13 +5,17 @@
 .default-layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  //background: #f5f0f1;
+  height: 100vh;
   background-image: url("src/assets/images/bg-normal.png");
   background-repeat: no-repeat;
   background-size: cover;
 
   app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
   }
 
   app-aside {

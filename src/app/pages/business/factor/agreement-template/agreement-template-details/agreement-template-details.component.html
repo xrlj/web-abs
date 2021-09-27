@@ -7,10 +7,8 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrBigType" nzRequired>合同大类</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-              <nz-select formControlName="agrBigType" nzPlaceHolder="请选择">
-                <nz-option nzValue="'1'" nzLabel="第一次转让"></nz-option>
-                <nz-option nzValue="'2'" nzLabel="第二次转让"></nz-option>
-                <nz-option nzValue="'3'" nzLabel="其它"></nz-option>
+              <nz-select formControlName="agrBigType" (ngModelChange)="agrTypeBigSelect($event)" nzPlaceHolder="请选择">
+                <nz-option *ngFor="let agrTypeBig of agrTypeBigListAll" [nzValue]="agrTypeBig.id" [nzLabel]="agrTypeBig.bigName"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -25,10 +23,8 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrType" nzRequired>合同类型</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-              <nz-select id="agrType" formControlName="agrType" nzPlaceHolder="请选择">
-                <nz-option nzValue="'1'" nzLabel="付款确认书"></nz-option>
-                <nz-option nzValue="'2'" nzLabel="保理合同"></nz-option>
-                <nz-option nzValue="'3'" nzLabel="转让通知书"></nz-option>
+              <nz-select id="agrType" formControlName="agrType" (ngModelChange)="agrTypeSelect($event)" nzPlaceHolder="请选择">
+                <nz-option *ngFor="let agrType of agrTypeListAll" [nzValue]="agrType.id" [nzLabel]="agrType.typeName"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -44,9 +40,7 @@
             <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrSpecify" nzRequired>合同版别</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
               <nz-select id="agrSpecify" formControlName="agrSpecify" nzPlaceHolder="请选择">
-                <nz-option nzValue="'1'" nzLabel="标准版"></nz-option>
-                <nz-option nzValue="'2'" nzLabel="碧桂园版"></nz-option>
-                <nz-option nzValue="'3'" nzLabel="保利版"></nz-option>
+                <nz-option *ngFor="let specify of agrSpecifyListAll" [nzValue]="specify.id" [nzLabel]="specify.specifyName"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -91,7 +85,7 @@
           <input type="text" nz-input placeholder="请输入关键字" [(ngModel)]="parSearchKey"/>
           <div class="par-content">
             <nz-tree
-              [nzData]="nodes"
+              [nzData]="parData"
               [nzSearchValue]="parSearchKey"
             >
             </nz-tree>

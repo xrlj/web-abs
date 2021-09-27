@@ -6,6 +6,7 @@ const syscommon = 'syscommon';
 const sysfilesystem = 'sysfilesystem'; // 文件系统服务
 const sysnotify = 'sysnotify'; // 通知服务
 const esign = 'esign'; // e签宝服务
+const serviceAbsTemplate = 'serviceAbsTemplate';
 /****************服务名称 end********************/
 
 export const ApiPath = {
@@ -62,6 +63,24 @@ export const ApiPath = {
       checkEtpInfo: `/${usercentral}/enterprise/checkEtpInfo`
     }
   },
+  serviceAbsTemplate: {
+    agrTypeBig: {
+      get: `/${serviceAbsTemplate}/agrTypeBig/get`,
+      getListAll: `/${serviceAbsTemplate}/agrTypeBig/getListAll`
+    },
+    agrType: {
+      get: `/${serviceAbsTemplate}/agrType/get`,
+      getListAll: `/${serviceAbsTemplate}/agrType/getListAll`
+    },
+    agrTypeSpecify: {
+      get: `/${serviceAbsTemplate}/agrTypeSpecify/get`,
+      getListAll: `/${serviceAbsTemplate}/agrTypeSpecify/getListAll`
+    },
+    templateParManage: {
+      get: `/${serviceAbsTemplate}/templateParManage/get`,
+      getTreeListAll: `/${serviceAbsTemplate}/templateParManage/getTreeListAll`
+    }
+  },
   syscommon: {
     bankBranchDic: {
       getBankNameList: `/${syscommon}/bankBranchDic/getBankNameList`, // 获取银行名称列表
@@ -72,6 +91,12 @@ export const ApiPath = {
     kaptcha: {
       getVerifyCode: `/${syscommon}/kaptcha/getVerifyCode`,
       verifyCode: `/${syscommon}/kaptcha/verifyCode`
+    },
+    universalDic: {
+      getList: `/${syscommon}/universalDic/getList`
+    },
+    universalDicValue: {
+      getList: `/${syscommon}/universalDicValue/getList`
     }
   },
   sysfilesystem: {

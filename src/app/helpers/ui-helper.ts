@@ -273,6 +273,26 @@ export class UIHelper {
   }
 
   /**
+   * 补全下拉树需要属性。包含上面方法功能
+   */
+  patchSelectTree(treeDataList: any): void {
+    if (!treeDataList) {
+      return;
+    }
+    treeDataList.forEach(value => {
+      value.key = value.id;
+      value.expand = false;
+      const children = value.children;
+      if (children === null || children === undefined || children.length === 0) {
+        value.isLeaf = true;
+        value.children = null;
+      } else {
+        this.patchSelectTree(children);
+      }
+    });
+  }
+
+  /**
    * 通用方法。递归收集树选择（checked）的key以及对象id。注意去重。在多选树中的checked回调方法中调用改该方法。
    * @param node 节点。
    * @param checkedKeys 保存的选中key。注意去重

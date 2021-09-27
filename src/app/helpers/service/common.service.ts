@@ -118,4 +118,21 @@ export class CommonService {
     return this.api.post(`${ApiPath.usercentral.menuApi.getMenuList}`, body);
   }
   /**************************菜单 end****************************************/
+
+  /**
+   * 获取企业角色类型。
+   */
+  getEtpDic(etpList: any[]):void {
+    this.api.post(ApiPath.syscommon.universalDic.getList, {dictType: 'enterprise_type'})
+      .ok(data => {
+        const id = data[0].id;
+        this.api.post(ApiPath.syscommon.universalDicValue.getList, {universalDicId: id})
+          .ok(data1 => {
+            etpList = data1;
+          })
+      })
+      .fail(error => {
+        console.log(error.msg);
+      });
+  }
 }

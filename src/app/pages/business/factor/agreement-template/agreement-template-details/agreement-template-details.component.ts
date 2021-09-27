@@ -1,6 +1,24 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MyValidators} from '../../../../../helpers/MyValidators';
+import {AgreementTemplateService} from '../agreement-template.service';
+import {ApiPath} from '../../../../../api-path';
+import {Api} from '../../../../../helpers/http/api';
+import {UIHelper} from '../../../../../helpers/ui-helper';
+
+export interface RoleSignSetting {
+  role: string,
+  roleName: string,
+  key: string, // 签署关键字
+  signSort: number,
+  signXY: SignXY,
+  signFlag: boolean
+}
+
+export interface SignXY {
+  x: string;
+  y: string;
+}
 
 @Component({
   selector: 'app-agreement-template-details',
@@ -16,7 +34,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
 
   @Output() showList = new EventEmitter();
 
-  @ViewChild('bigPdfViewer', { static: true }) public bigPdfViewer;
+  @ViewChild('bigPdfViewer', {static: true}) public bigPdfViewer;
 
   pdfSrc = 'https://seal.hlt-factoring.com/pdf/seal/a3b5c84d70f5479fadf5052dcc2bd6fb.pdf';
 
@@ -24,51 +42,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
 
   cardTitle = '';
 
-  nodes = [
-    {
-      title: '0-0',
-      key: '0-0',
-      children: [
-        {
-          title: '0-0-0',
-          key: '0-0-0',
-          children: [
-            { title: '发票代码', key: '0-0-0-0', isLeaf: true },
-            { title: '0-0-0-1', key: '0-0-0-1', isLeaf: true },
-            { title: '0-0-0-2', key: '0-0-0-2', isLeaf: true }
-          ]
-        },
-        {
-          title: '0-0-1',
-          key: '0-0-1',
-          children: [
-            { title: '0-0-1-0', key: '0-0-1-0', isLeaf: true },
-            { title: '0-0-1-1', key: '0-0-1-1', isLeaf: true },
-            { title: '付款单号', key: '0-0-1-2', isLeaf: true }
-          ]
-        },
-        {
-          title: '0-0-2',
-          key: '0-0-2',
-          isLeaf: true
-        }
-      ]
-    },
-    {
-      title: '0-1',
-      key: '0-1',
-      children: [
-        { title: '0-1-0-0', key: '0-1-0-0', isLeaf: true },
-        { title: '0-1-0-1', key: '0-1-0-1', isLeaf: true },
-        { title: '0-1-0-2', key: '0-1-0-2', isLeaf: true }
-      ]
-    },
-    {
-      title: '0-2',
-      key: '0-2',
-      isLeaf: true
-    }
-  ];
+  parData: any[];
 
   signTipText = '如果有坐标，将按坐标盖章，否则按关键字盖章';
   templateForm: FormGroup;
@@ -77,54 +51,14 @@ export class AgreementTemplateDetailsComponent implements OnInit {
 
   checkStatus = 1; // 审核状态。1-审核通过；0-审核不通过
 
-  roleSignSetting = [
-    {
-      role: 'factor',
-      roleName: '保理商',
-      key: '',
-      signSort: 1,
-      signXY: {
-        x: '',
-        y: '',
-      },
-      signFlag: false
-    },
-    {
-      role: 'supplier',
-      roleName: '供应商',
-      key: '',
-      signSort: 1,
-      signXY: {
-        x: '',
-        y: '',
-      },
-      signFlag: false
-    },
-    {
-      role: 'core',
-      roleName: '核心企业',
-      key: '',
-      signSort: 1,
-      signXY: {
-        x: '',
-        y: '',
-      },
-      signFlag: false
-    },
-    {
-      role: 'subCompany',
-      roleName: '项目公司',
-      key: '',
-      signSort: 1,
-      signXY: {
-        x: '',
-        y: '',
-      },
-      signFlag: false
-    }
-  ];
+  agrTypeBigListAll: any[];
+  agrTypeListAll: any[];
+  agrSpecifyListAll: any[];
 
-  constructor(private fb: FormBuilder) {
+  roleSignSetting: any[] = []; // 企业角色签章信息
+
+  constructor(private fb: FormBuilder, private agreementTemplateService: AgreementTemplateService,
+              private api: Api, private uiHelper: UIHelper) {
     this.templateForm = this.fb.group({
       agrBigType: [null, [MyValidators.required]],
       agrType: [null, [MyValidators.required]],
@@ -138,6 +72,48 @@ export class AgreementTemplateDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCardTitle();
+    this.getArgTypes();
+    this.setRoleSettingInfo();
+    this.getPars();
+  }
+
+  getPars() {
+    this.agreementTemplateService.getParTreeListAll()
+      .ok(data => {
+        this.parData = data;
+        this.uiHelper.patchSelectTree(this.parData);
+        console.log(this.parData);
+      })
+      .fail(error => {})
+      .final(b => {});
+  }
+
+  setRoleSettingInfo() {
+    this.api.post(ApiPath.syscommon.universalDic.getList, {dictType: 'enterprise_type'})
+      .ok(data => {
+        const id = data[0].id;
+        this.api.post(ApiPath.syscommon.universalDicValue.getList, {universalDicId: id})
+          .ok(data1 => {
+            data1.forEach((etp, index) => {
+              const r: RoleSignSetting = {key: '', role: etp.dictValueEnum, roleName: etp.dictLabel, signFlag: false, signSort: 1, signXY: {x: '', y: ''}};
+              this.roleSignSetting[index] = r;
+            });
+          })
+      })
+      .fail(error => {
+        console.log(error.msg);
+      });
+  }
+
+  getArgTypes() {
+    this.agreementTemplateService.getArgTypeBigListAll({})
+      .ok(data => {
+        this.agrTypeBigListAll = data;
+      })
+      .fail(error => {
+      })
+      .final(b => {
+      });
   }
 
   setCardTitle(): void {
@@ -162,7 +138,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
     if (this.showType === 3) { // 查看不可编辑，其它都可编辑
       if (b) {
         style = {cursor: 'not-allowed'};
-      } else  {
+      } else {
         style = {'pointer-events': 'none'};
       }
     }
@@ -173,4 +149,26 @@ export class AgreementTemplateDetailsComponent implements OnInit {
     this.showList.emit();
   }
 
+  agrTypeBigSelect($event: any) {
+    this.templateForm.controls.agrType.setValue(null);
+    this.agreementTemplateService.getArgTypeListAll($event)
+      .ok(data => {
+        this.agrTypeListAll = data;
+      })
+      .fail(error => {
+      })
+      .final(b => {
+      });
+  }
+
+  agrTypeSelect($event: any) {
+    this.templateForm.controls.agrSpecify.setValue(null);
+    this.agreementTemplateService.getArgTypeSpecifyListAll($event)
+      .ok(data => {
+        this.agrSpecifyListAll = data;
+      })
+      .fail(error => {
+        console.log(error.msg)
+      });
+  }
 }
