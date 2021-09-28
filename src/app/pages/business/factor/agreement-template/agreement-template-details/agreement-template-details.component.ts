@@ -5,6 +5,8 @@ import {AgreementTemplateService} from '../agreement-template.service';
 import {ApiPath} from '../../../../../api-path';
 import {Api} from '../../../../../helpers/http/api';
 import {UIHelper} from '../../../../../helpers/ui-helper';
+import {NzFormatEmitEvent} from 'ng-zorro-antd/tree';
+import {DefaultBusService} from '../../../../../helpers/event-bus/default-bus.service';
 
 export interface RoleSignSetting {
   role: string,
@@ -43,6 +45,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   cardTitle = '';
 
   parData: any[];
+  parCheckedKeys: any[];
 
   signTipText = '如果有坐标，将按坐标盖章，否则按关键字盖章';
   templateForm: FormGroup;
@@ -55,10 +58,11 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   agrTypeListAll: any[];
   agrSpecifyListAll: any[];
 
-  roleSignSetting: any[] = []; // 企业角色签章信息
+  roleSignSetting: any[]; // 企业角色签章信息
 
   constructor(private fb: FormBuilder, private agreementTemplateService: AgreementTemplateService,
-              private api: Api, private uiHelper: UIHelper) {
+              private api: Api, private defaultBusService: DefaultBusService,
+              private uiHelper: UIHelper) {
     this.templateForm = this.fb.group({
       agrBigType: [null, [MyValidators.required]],
       agrType: [null, [MyValidators.required]],
@@ -81,11 +85,29 @@ export class AgreementTemplateDetailsComponent implements OnInit {
     this.agreementTemplateService.getParTreeListAll()
       .ok(data => {
         this.parData = data;
-        this.uiHelper.patchSelectTree(this.parData);
-        console.log(this.parData);
+        this.patchSelectTree(this.parData);
+        // this.parCheckedKeys = ['531730918432260096'];
       })
       .fail(error => {})
       .final(b => {});
+  }
+
+  private patchSelectTree(treeDataList: any): void {
+    if (!treeDataList) {
+      return;
+    }
+    treeDataList.forEach(value => {
+      value.key = value.id;
+      value.expand = false;
+      value.title = `${value.title}-${value.parName}`;
+      const children = value.children;
+      if (children === null || children === undefined || children.length === 0) {
+        value.isLeaf = true;
+        value.children = null;
+      } else {
+        this.patchSelectTree(children);
+      }
+    });
   }
 
   setRoleSettingInfo() {
@@ -96,6 +118,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
           .ok(data1 => {
             data1.forEach((etp, index) => {
               const r: RoleSignSetting = {key: '', role: etp.dictValueEnum, roleName: etp.dictLabel, signFlag: false, signSort: 1, signXY: {x: '', y: ''}};
+              this.roleSignSetting = [];
               this.roleSignSetting[index] = r;
             });
           })
@@ -169,6 +192,35 @@ export class AgreementTemplateDetailsComponent implements OnInit {
       })
       .fail(error => {
         console.log(error.msg)
+      });
+  }
+
+  parCheckHandler($event: NzFormatEmitEvent) {
+    this.parCheckedKeys = $event.keys;
+  }
+
+  /**
+   * 保存数据。
+   */
+  add() {
+    this.defaultBusService.showLoading(true);
+    debugger;
+    if (this.parCheckedKeys.length === 0) {
+      this.uiHelper.msgTipWarning('请选择模板参数域');
+      return;
+    }
+    if (this.roleSignSetting.length === 0) {
+      this.uiHelper.msgTipWarning('请设置签署信息');
+      return;
+    }
+    const body = this.templateForm.value;
+    this.agreementTemplateService.saveAgrTemplateAll(body)
+      .ok(data => {
+        console.log(data);
+      })
+      .fail(error => error.msg)
+      .final(b => {
+        this.defaultBusService.showLoading(false);
       });
   }
 }

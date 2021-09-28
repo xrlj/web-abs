@@ -71,9 +71,9 @@
         <button nz-button nzType="primary" nzSize="default">Pdf预览</button>
       </div>
       <div class="left-bottom">
-        <pdf-viewer class="pdf-viewer" [src]="pdfSrc" [fit-to-page]="true" [autoresize]="true"></pdf-viewer>
-        <!-- <ng2-pdfjs-viewer #bigPdfViewer [pdfSrc]="pdfSrc" downloadFileName="mySample" zoom="auto"
-                           viewerId="MyID"></ng2-pdfjs-viewer>-->
+<!--        <pdf-viewer class="pdf-viewer" [src]="pdfSrc" [fit-to-page]="true" [autoresize]="true"></pdf-viewer>-->
+         <ng2-pdfjs-viewer #bigPdfViewer [pdfSrc]="pdfSrc" downloadFileName="mySample" zoom="auto"
+                           viewerId="MyID"></ng2-pdfjs-viewer>
       </div>
     </div>
     <div class="agr-content-layout-right">
@@ -87,6 +87,11 @@
             <nz-tree
               [nzData]="parData"
               [nzSearchValue]="parSearchKey"
+              nzCheckable
+              multiple
+              [nzHideUnMatched]="true"
+              [nzCheckedKeys]="parCheckedKeys"
+              (nzCheckBoxChange)="parCheckHandler($event)"
             >
             </nz-tree>
           </div>
@@ -163,7 +168,7 @@
 
   <!--按钮-->
   <div class="template-btn-action" *ngIf="showType === 1">
-    <button nz-button nzType="primary" nzSize="default">保存为草稿</button>
+    <button nz-button nzType="primary" nzSize="default" (click)="add()">保存为草稿</button>
     <button nz-button nzType="primary" nzSize="default" style="margin-left: 20px;">提交</button>
   </div>
   <div class="template-btn-action" *ngIf="showType === 2">

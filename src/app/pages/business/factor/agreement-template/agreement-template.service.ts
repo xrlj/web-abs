@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Api} from '../../../../helpers/http/api';
 import {ApiPath} from '../../../../api-path';
+import {getIifeBody} from '@angular/compiler-cli/ngcc/src/host/esm2015_host';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,12 @@ export class AgreementTemplateService {
    */
   getParTreeListAll(): any {
     return this.api.get(ApiPath.serviceAbsTemplate.templateParManage.getTreeListAll);
+  }
+
+  /**
+   * 保存协议模板全部信息。
+   */
+  saveAgrTemplateAll(body: any): any {
+    return this.api.post(ApiPath.serviceAbsTemplate.agrTemplate.add, body);
   }
 }

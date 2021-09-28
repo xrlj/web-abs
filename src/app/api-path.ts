@@ -79,6 +79,9 @@ export const ApiPath = {
     templateParManage: {
       get: `/${serviceAbsTemplate}/templateParManage/get`,
       getTreeListAll: `/${serviceAbsTemplate}/templateParManage/getTreeListAll`
+    },
+    agrTemplate: {
+      add: `/${serviceAbsTemplate}/agrTemplate/add`
     }
   },
   syscommon: {
