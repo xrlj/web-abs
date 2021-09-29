@@ -5,9 +5,9 @@
       <div class="form-content">
         <div class="form-column-one">
           <nz-form-item>
-            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrBigType" nzRequired>合同大类</nz-form-label>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrTypeBigId" nzRequired>合同大类</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-              <nz-select formControlName="agrBigType" (ngModelChange)="agrTypeBigSelect($event)" nzPlaceHolder="请选择">
+              <nz-select formControlName="agrTypeBigId" (ngModelChange)="agrTypeBigSelect($event)" nzPlaceHolder="请选择">
                 <nz-option *ngFor="let agrTypeBig of agrTypeBigListAll" [nzValue]="agrTypeBig.id" [nzLabel]="agrTypeBig.bigName"></nz-option>
               </nz-select>
             </nz-form-control>
@@ -21,9 +21,9 @@
         </div>
         <div class="form-column-two">
           <nz-form-item>
-            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrType" nzRequired>合同类型</nz-form-label>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrTypeId" nzRequired>合同类型</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-              <nz-select id="agrType" formControlName="agrType" (ngModelChange)="agrTypeSelect($event)" nzPlaceHolder="请选择">
+              <nz-select id="agrTypeId" formControlName="agrTypeId" (ngModelChange)="agrTypeSelect($event)" nzPlaceHolder="请选择">
                 <nz-option *ngFor="let agrType of agrTypeListAll" [nzValue]="agrType.id" [nzLabel]="agrType.typeName"></nz-option>
               </nz-select>
             </nz-form-control>
@@ -37,9 +37,9 @@
         </div>
         <div class="form-column-third">
           <nz-form-item>
-            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrSpecify" nzRequired>合同版别</nz-form-label>
+            <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrTypeSpecifyId" nzRequired>合同版别</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-              <nz-select id="agrSpecify" formControlName="agrSpecify" nzPlaceHolder="请选择">
+              <nz-select id="agrTypeSpecifyId" formControlName="agrTypeSpecifyId" nzPlaceHolder="请选择">
                 <nz-option *ngFor="let specify of agrSpecifyListAll" [nzValue]="specify.id" [nzLabel]="specify.specifyName"></nz-option>
               </nz-select>
             </nz-form-control>

@@ -45,7 +45,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   cardTitle = '';
 
   parData: any[];
-  parCheckedKeys: any[];
+  parCheckedKeys: any[] = [];
 
   signTipText = '如果有坐标，将按坐标盖章，否则按关键字盖章';
   templateForm: FormGroup;
@@ -58,15 +58,15 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   agrTypeListAll: any[];
   agrSpecifyListAll: any[];
 
-  roleSignSetting: any[]; // 企业角色签章信息
+  roleSignSetting: RoleSignSetting[] = []; // 企业角色签章信息
 
   constructor(private fb: FormBuilder, private agreementTemplateService: AgreementTemplateService,
               private api: Api, private defaultBusService: DefaultBusService,
               private uiHelper: UIHelper) {
     this.templateForm = this.fb.group({
-      agrBigType: [null, [MyValidators.required]],
-      agrType: [null, [MyValidators.required]],
-      agrSpecify: [null, [MyValidators.required]],
+      agrTypeBigId: [null, [MyValidators.required]],
+      agrTypeId: [null, [MyValidators.required]],
+      agrTypeSpecifyId: [null, [MyValidators.required]],
       agrName: [null, [MyValidators.required]],
       agrVersion: [null, [MyValidators.required]],
       agrTextReadTimeLimit: [null, [MyValidators.positiveInteger]],
@@ -118,8 +118,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
           .ok(data1 => {
             data1.forEach((etp, index) => {
               const r: RoleSignSetting = {key: '', role: etp.dictValueEnum, roleName: etp.dictLabel, signFlag: false, signSort: 1, signXY: {x: '', y: ''}};
-              this.roleSignSetting = [];
-              this.roleSignSetting[index] = r;
+              this.roleSignSetting.push(r);
             });
           })
       })
@@ -173,7 +172,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   }
 
   agrTypeBigSelect($event: any) {
-    this.templateForm.controls.agrType.setValue(null);
+    this.templateForm.controls.agrTypeId.setValue(null);
     this.agreementTemplateService.getArgTypeListAll($event)
       .ok(data => {
         this.agrTypeListAll = data;
@@ -185,7 +184,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   }
 
   agrTypeSelect($event: any) {
-    this.templateForm.controls.agrSpecify.setValue(null);
+    this.templateForm.controls.agrTypeSpecifyId.setValue(null);
     this.agreementTemplateService.getArgTypeSpecifyListAll($event)
       .ok(data => {
         this.agrSpecifyListAll = data;
@@ -213,7 +212,34 @@ export class AgreementTemplateDetailsComponent implements OnInit {
       this.uiHelper.msgTipWarning('请设置签署信息');
       return;
     }
+
+    // 模板域参数
+    const agrTemplateParReqList = [];
+    this.parCheckedKeys.forEach(value => {
+      const agrTemplatePar: any = {};
+      agrTemplatePar.templateParManageId = value;
+      agrTemplateParReqList.push(agrTemplatePar);
+    });
+
+    // 签章信息
+    const agrTemplateSignInfoReqList = [];
+    this.roleSignSetting.forEach(value => {
+      if (value.signFlag === true) {
+        const agrTemplateSignInfo: any = {};
+        agrTemplateSignInfo.userType = value.role;
+        agrTemplateSignInfo.keyName = value.key;
+        agrTemplateSignInfo.posx = value.signXY.x;
+        agrTemplateSignInfo.posy = value.signXY.y;
+        agrTemplateSignInfo.signSort = value.signSort;
+        agrTemplateSignInfoReqList.push(agrTemplateSignInfo);
+      }
+    });
+
     const body = this.templateForm.value;
+    body.agrFileId = '24324232134';
+    body.agrTemplateParReqList = agrTemplateParReqList;
+    body.agrTemplateSignInfoReqList = agrTemplateSignInfoReqList;
+
     this.agreementTemplateService.saveAgrTemplateAll(body)
       .ok(data => {
         console.log(data);
