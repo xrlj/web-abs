@@ -9,7 +9,7 @@
 
   &-left {
     float: left;
-    width: 75%;
+    width: 74%;
     min-height: @template-min-height;
     border:@template-border-with solid @template-border-color;
 
@@ -20,11 +20,26 @@
       border-bottom-style: solid;
       border-bottom-color: @template-border-color;
 
-      &>button {
+      &>nz-upload {
+        float: left;
         margin-top: 12px;
-        height: 36px;
-        padding-left: 8px;
-        padding-right: 8px;
+        margin-left: 40px;
+      }
+
+      &>a {
+        float: left;
+        margin-top: 12px;
+        font-size: 14px;
+        color: red;
+        padding-left: 2px;
+      }
+
+      &>button {
+        float: left;
+        margin-top: 12px;
+        //height: 36px;
+        //padding-left: 8px;
+        //padding-right: 8px;
         margin-left: 40px;
       }
     }
@@ -37,7 +52,7 @@
 
   &-right {
     float: right;
-    width: 25%;
+    width: 26%;
     min-height: @template-min-height;
     border:@template-border-with solid @template-border-color;
     border-left-width: 0px;

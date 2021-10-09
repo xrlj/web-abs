@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Api} from '../../../../helpers/http/api';
 import {ApiPath} from '../../../../api-path';
-import {getIifeBody} from '@angular/compiler-cli/ngcc/src/host/esm2015_host';
 
 @Injectable({
   providedIn: 'root'

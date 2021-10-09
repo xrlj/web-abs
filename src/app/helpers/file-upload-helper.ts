@@ -1,15 +1,18 @@
 import {Injectable} from '@angular/core';
 import {HttpUtils} from './http/HttpUtils';
 import {UIHelper} from './ui-helper';
-import {NzUploadChangeParam} from 'ng-zorro-antd/upload';
+import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd/upload';
+import {Observable, Observer} from 'rxjs';
+import {FileTypeEnum} from './enum/file-type-enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileUploadHelper {
-  constructor(private uiHelper: UIHelper, private httpUtils: HttpUtils) {}
+  constructor(private uiHelper: UIHelper, private httpUtils: HttpUtils) {
+  }
 
-  uploadFileHandleChange({ file, fileList }: NzUploadChangeParam, isTip?: boolean | false): any {
+  uploadFileHandleChange({file, fileList}: NzUploadChangeParam, isTip?: boolean | false): any {
     const status = file.status;
     if (status !== 'uploading') {
       console.log(file, fileList);
@@ -44,5 +47,35 @@ export class FileUploadHelper {
     }
 
     return undefined;
+  }
+
+  beforeUpload(fileSizeLimit: number, fileTypeTip: string, ...fileType: FileTypeEnum[]): any {
+    const beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) =>
+      new Observable((observer: Observer<boolean>) => {
+        let isFileType = false
+        fileType.every(value => {
+          if (file.type === value) {
+            isFileType = true;
+            return false;
+          }
+          return true;
+        });
+        if (!isFileType) {
+          this.uiHelper.msgTipError(fileTypeTip);
+          observer.complete();
+          return;
+        }
+        // tslint:disable-next-line:no-non-null-assertion
+        const isLtFileSize = file.size! / 1024 / 1024 < fileSizeLimit;
+        if (!isLtFileSize) {
+          this.uiHelper.msgTipError(`文件大小不能超过${fileSizeLimit}M`);
+          observer.complete();
+          return;
+        }
+        observer.next(isFileType && isLtFileSize);
+        observer.complete();
+      });
+
+    return beforeUpload;
   }
 }

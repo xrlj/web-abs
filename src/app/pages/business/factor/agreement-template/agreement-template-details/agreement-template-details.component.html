@@ -8,7 +8,8 @@
             <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrTypeBigId" nzRequired>合同大类</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
               <nz-select formControlName="agrTypeBigId" (ngModelChange)="agrTypeBigSelect($event)" nzPlaceHolder="请选择">
-                <nz-option *ngFor="let agrTypeBig of agrTypeBigListAll" [nzValue]="agrTypeBig.id" [nzLabel]="agrTypeBig.bigName"></nz-option>
+                <nz-option *ngFor="let agrTypeBig of agrTypeBigListAll" [nzValue]="agrTypeBig.id"
+                           [nzLabel]="agrTypeBig.bigName"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -23,8 +24,10 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrTypeId" nzRequired>合同类型</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
-              <nz-select id="agrTypeId" formControlName="agrTypeId" (ngModelChange)="agrTypeSelect($event)" nzPlaceHolder="请选择">
-                <nz-option *ngFor="let agrType of agrTypeListAll" [nzValue]="agrType.id" [nzLabel]="agrType.typeName"></nz-option>
+              <nz-select id="agrTypeId" formControlName="agrTypeId" (ngModelChange)="agrTypeSelect($event)"
+                         nzPlaceHolder="请选择">
+                <nz-option *ngFor="let agrType of agrTypeListAll" [nzValue]="agrType.id"
+                           [nzLabel]="agrType.typeName"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -40,7 +43,8 @@
             <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrTypeSpecifyId" nzRequired>合同版别</nz-form-label>
             <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
               <nz-select id="agrTypeSpecifyId" formControlName="agrTypeSpecifyId" nzPlaceHolder="请选择">
-                <nz-option *ngFor="let specify of agrSpecifyListAll" [nzValue]="specify.id" [nzLabel]="specify.specifyName"></nz-option>
+                <nz-option *ngFor="let specify of agrSpecifyListAll" [nzValue]="specify.id"
+                           [nzLabel]="specify.specifyName"></nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
@@ -67,13 +71,25 @@
   <div class="agr-content-layout">
     <div class="agr-content-layout-left">
       <div class="left-top">
-        <button nz-button nzType="primary" nzSize="default">Word模板导入</button>
+        <nz-upload class="upload-word"
+                   [nzAction]="uploadFileUrl"
+                   (nzChange)="uploadFileHandleChange($event, true)"
+                   [nzLimit]="1"
+                   [nzShowUploadList]="false"
+                   [nzBeforeUpload]="beforeUpload()"
+        >
+          <button nz-button nzType="primary" nzSize="default">
+            <i nz-icon [nzType]="uploadIcon"></i>
+            Word模板导入
+          </button>
+        </nz-upload>
+        <a *ngIf="wordTemplateFileInfo" nz-button nzType="text" target="_blank" [href]="wordTemplateFileInfo.url">（{{wordTemplateFileInfo.oriName}}）</a>
         <button nz-button nzType="primary" nzSize="default">Pdf预览</button>
       </div>
       <div class="left-bottom">
-<!--        <pdf-viewer class="pdf-viewer" [src]="pdfSrc" [fit-to-page]="true" [autoresize]="true"></pdf-viewer>-->
-         <ng2-pdfjs-viewer #bigPdfViewer [pdfSrc]="pdfSrc" downloadFileName="mySample" zoom="auto"
-                           viewerId="MyID"></ng2-pdfjs-viewer>
+        <!--        <pdf-viewer class="pdf-viewer" [src]="pdfSrc" [fit-to-page]="true" [autoresize]="true"></pdf-viewer>-->
+        <ng2-pdfjs-viewer #bigPdfViewer [pdfSrc]="pdfSrc" downloadFileName="mySample" zoom="auto"
+                          viewerId="MyID"></ng2-pdfjs-viewer>
       </div>
     </div>
     <div class="agr-content-layout-right">
@@ -107,7 +123,7 @@
                   <!--没选定角色可以盖章时，div层禁止所有事件，即不可编辑-->
                   <div [ngStyle]="sign.signFlag ? {} : {'pointer-events': 'none'}">
                     <p>关键字：</p>
-                    <input nzSize="small" style="width: 170px;font-size: 12px; padding: 2px" type="text" nz-input
+                    <input (keyup)="keywordChange(sign.key)" nzSize="small" style="width: 170px;font-size: 12px; padding: 2px" type="text" nz-input
                            placeholder="请输入" [(ngModel)]="sign.key"/>
                     <span style="margin-left: 10px"><i nz-tooltip [nzTooltipTitle]="signTipText"
                                                        nzTooltipColor="#b4b4b4" nz-icon nzType="question-circle"
@@ -129,7 +145,8 @@
                   </div>
                   <div [ngStyle]="sign.signFlag ? {} : {'pointer-events': 'none'}">
                     <p>排序：</p>
-                    <nz-input-number style="margin-bottom: 10px;width: 80px" [(ngModel)]="sign.signSort" nzSize="small" [nzMin]="1"
+                    <nz-input-number style="margin-bottom: 10px;width: 80px" [(ngModel)]="sign.signSort" nzSize="small"
+                                     [nzMin]="1"
                                      [nzMax]="6" [nzStep]="1"></nz-input-number>
                     <span style="margin-left: 10px"><i nz-tooltip [nzTooltipTitle]="'角色盖章顺序设置，数值越大的越后盖章，数值相同则角色盖章不分顺序。'"
                                                        nzTooltipColor="#b4b4b4" nz-icon nzType="question-circle"

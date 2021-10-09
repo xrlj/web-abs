@@ -7,6 +7,13 @@ import {Api} from '../../../../../helpers/http/api';
 import {UIHelper} from '../../../../../helpers/ui-helper';
 import {NzFormatEmitEvent} from 'ng-zorro-antd/tree';
 import {DefaultBusService} from '../../../../../helpers/event-bus/default-bus.service';
+import {environment} from '../../../../../../environments/environment';
+import {FileUploadHelper} from '../../../../../helpers/file-upload-helper';
+import {NzUploadChangeParam} from 'ng-zorro-antd/upload';
+import {HttpUtils} from '../../../../../helpers/http/HttpUtils';
+import {FileTypeEnum} from '../../../../../helpers/enum/file-type-enum';
+import {Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 export interface RoleSignSetting {
   role: string,
@@ -38,6 +45,8 @@ export class AgreementTemplateDetailsComponent implements OnInit {
 
   @ViewChild('bigPdfViewer', {static: true}) public bigPdfViewer;
 
+  uploadFileUrl = environment.apiUrl.concat(ApiPath.sysfilesystem.sysFiles.uploadFile);
+
   pdfSrc = 'https://seal.hlt-factoring.com/pdf/seal/a3b5c84d70f5479fadf5052dcc2bd6fb.pdf';
 
   parSearchKey = '';
@@ -59,10 +68,16 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   agrSpecifyListAll: any[];
 
   roleSignSetting: RoleSignSetting[] = []; // 企业角色签章信息
+  // private signKeyTextChange = new Subject<RoleSignSetting>();
+  private signKeyTextChange = new Subject<string>();
+
+  uploadIcon = 'upload';
+  wordTemplateFileInfo: any; // word协议模板文件信息
 
   constructor(private fb: FormBuilder, private agreementTemplateService: AgreementTemplateService,
               private api: Api, private defaultBusService: DefaultBusService,
-              private uiHelper: UIHelper) {
+              private uiHelper: UIHelper, public fileUploadHelper: FileUploadHelper,
+              private httpUtils: HttpUtils) {
     this.templateForm = this.fb.group({
       agrTypeBigId: [null, [MyValidators.required]],
       agrTypeId: [null, [MyValidators.required]],
@@ -75,6 +90,13 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.signKeyTextChange.pipe(
+      debounceTime(1000), // 等待1s，直到用户停止输入
+      distinctUntilChanged()  // 等待，直到内容发生了变化
+    ).subscribe(value => {
+      console.log(value);
+      // TODO 根据关键字获取关键字所在坐标
+    });
     this.setCardTitle();
     this.getArgTypes();
     this.setRoleSettingInfo();
@@ -88,8 +110,10 @@ export class AgreementTemplateDetailsComponent implements OnInit {
         this.patchSelectTree(this.parData);
         // this.parCheckedKeys = ['531730918432260096'];
       })
-      .fail(error => {})
-      .final(b => {});
+      .fail(error => {
+      })
+      .final(b => {
+      });
   }
 
   private patchSelectTree(treeDataList: any): void {
@@ -198,55 +222,123 @@ export class AgreementTemplateDetailsComponent implements OnInit {
     this.parCheckedKeys = $event.keys;
   }
 
+  reInitData() {
+    this.templateForm.reset();
+    this.wordTemplateFileInfo = undefined;
+  }
+
   /**
    * 保存数据。
    */
   add() {
-    this.defaultBusService.showLoading(true);
-    debugger;
-    if (this.parCheckedKeys.length === 0) {
-      this.uiHelper.msgTipWarning('请选择模板参数域');
-      return;
-    }
-    if (this.roleSignSetting.length === 0) {
-      this.uiHelper.msgTipWarning('请设置签署信息');
-      return;
-    }
-
-    // 模板域参数
-    const agrTemplateParReqList = [];
-    this.parCheckedKeys.forEach(value => {
-      const agrTemplatePar: any = {};
-      agrTemplatePar.templateParManageId = value;
-      agrTemplateParReqList.push(agrTemplatePar);
-    });
-
-    // 签章信息
-    const agrTemplateSignInfoReqList = [];
-    this.roleSignSetting.forEach(value => {
-      if (value.signFlag === true) {
-        const agrTemplateSignInfo: any = {};
-        agrTemplateSignInfo.userType = value.role;
-        agrTemplateSignInfo.keyName = value.key;
-        agrTemplateSignInfo.posx = value.signXY.x;
-        agrTemplateSignInfo.posy = value.signXY.y;
-        agrTemplateSignInfo.signSort = value.signSort;
-        agrTemplateSignInfoReqList.push(agrTemplateSignInfo);
+    if (this.templateForm.valid) {
+      if (this.parCheckedKeys.length === 0) {
+        this.uiHelper.msgTipWarning('请选择模板参数域');
+        return;
       }
-    });
+      if (this.roleSignSetting.length === 0) {
+        this.uiHelper.msgTipWarning('请设置签署信息');
+        return;
+      }
+      if (!this.wordTemplateFileInfo) {
+        this.uiHelper.msgTipWarning('请上传word协议模板文件');
+        return;
+      }
 
-    const body = this.templateForm.value;
-    body.agrFileId = '24324232134';
-    body.agrTemplateParReqList = agrTemplateParReqList;
-    body.agrTemplateSignInfoReqList = agrTemplateSignInfoReqList;
-
-    this.agreementTemplateService.saveAgrTemplateAll(body)
-      .ok(data => {
-        console.log(data);
-      })
-      .fail(error => error.msg)
-      .final(b => {
-        this.defaultBusService.showLoading(false);
+      // 模板域参数
+      const agrTemplateParReqList = [];
+      this.parCheckedKeys.forEach(value => {
+        const agrTemplatePar: any = {};
+        agrTemplatePar.templateParManageId = value;
+        agrTemplateParReqList.push(agrTemplatePar);
       });
+
+      // 签章信息
+      const agrTemplateSignInfoReqList = [];
+      this.roleSignSetting.forEach(value => {
+        if (value.signFlag === true) {
+          const agrTemplateSignInfo: any = {};
+          agrTemplateSignInfo.userType = value.role;
+          agrTemplateSignInfo.keyName = value.key;
+          agrTemplateSignInfo.posx = value.signXY.x;
+          agrTemplateSignInfo.posy = value.signXY.y;
+          agrTemplateSignInfo.signSort = value.signSort;
+          agrTemplateSignInfoReqList.push(agrTemplateSignInfo);
+        }
+      });
+
+      const body = this.templateForm.value;
+      body.agrFileId = this.wordTemplateFileInfo.id;
+      body.agrTemplateParReqList = agrTemplateParReqList;
+      body.agrTemplateSignInfoReqList = agrTemplateSignInfoReqList;
+
+      this.defaultBusService.showLoading(true);
+      this.agreementTemplateService.saveAgrTemplateAll(body)
+        .ok(data => {
+          console.log(data);
+          this.reInitData();
+          this.uiHelper.msgTipSuccess('成功');
+        })
+        .fail(error => {
+          this.uiHelper.msgTipError(error.msg);
+        })
+        .final(b => {
+          this.defaultBusService.showLoading(false);
+        });
+    } else {
+      for (const key in this.templateForm.controls) {
+        if (this.templateForm.controls.hasOwnProperty(key)) {
+          this.templateForm.controls[key].markAsDirty();
+          this.templateForm.controls[key].updateValueAndValidity();
+        }
+      }
+    }
+  }
+
+  beforeUpload(): any {
+    return this.fileUploadHelper.beforeUpload(2, '请上传docx、doc文件', FileTypeEnum.DOCX, FileTypeEnum.DOC);
+  }
+
+  uploadFileHandleChange({file, fileList}: NzUploadChangeParam, isTip?: boolean | false): void {
+    this.uploadIcon = 'loading';
+    const status = file.status;
+    if (status !== 'uploading') {
+      console.log(file, fileList);
+    }
+    if (status === 'done') {
+      this.uploadIcon = 'upload';
+      const response = file.response;
+      if (!response) {
+        if (isTip) {
+          this.uiHelper.msgTipError(`${file.name} 文件上传失败`);
+        }
+        return;
+      }
+
+      const success = response.success;
+      const code = response.code;
+      const msg = response.msg;
+      if (success) {
+        if (isTip) {
+          this.uiHelper.msgTipSuccess(`${file.name} 文件上传成功。`);
+        }
+        this.wordTemplateFileInfo = response.data;
+      } else {
+        const b = this.httpUtils.dealError(code, msg);
+        if (!b) {
+          this.uiHelper.msgTipError(msg);
+        }
+      }
+    }
+    if (status === 'error') {
+      this.uploadIcon = 'upload';
+      if (isTip) {
+        this.uiHelper.msgTipError(`${file.name} 文件上传失败`);
+      }
+    }
+  }
+
+  keywordChange(sign: string) {
+    this.signKeyTextChange.next(sign);
   }
 }
