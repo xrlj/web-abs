@@ -12,7 +12,7 @@ import {PdfShowComponent} from '../components/pdf-show/pdf-show.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'pages',
     pathMatch: 'full'
   },
   {
