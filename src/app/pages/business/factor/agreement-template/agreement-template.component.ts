@@ -1,4 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AgreementTemplateSearchComponent} from './agreement-template-search.component';
+import {AgreementTemplateService} from './agreement-template.service';
+import {UIHelper} from '../../../../helpers/ui-helper';
 
 /**
  * 协议模板管理。
@@ -22,12 +25,48 @@ export class AgreementTemplateComponent implements OnInit {
   selectedId: string;
   detailsType: number;
 
-  constructor() { }
+  @ViewChild(AgreementTemplateSearchComponent)
+  private agreementTemplateSearchComponent: AgreementTemplateSearchComponent;
+
+  // 查询条件对象
+  searchParBody = {
+    pageIndex: this.pageIndex,
+    pageSize: this.pageSize,
+    agrTypeBigId: null,
+    agrTypeId: null,
+    agrTypeSpecifyId: null,
+    agrName: null,
+    agrStatus: null,
+    agrVersion: null
+  };
+
+  constructor(private agreementTemplateService: AgreementTemplateService,
+              private uiHelper: UIHelper) { }
 
   ngOnInit(): void {
+    this.search(null);
   }
 
-  search(b: boolean = false) {
+  search(searchData) {
+    if (searchData !== null) {
+      this.searchParBody.agrTypeBigId = searchData.agrTypeBig;
+      this.searchParBody.agrTypeId = searchData.agrType;
+      this.searchParBody.agrTypeSpecifyId = searchData.agrTypeSpecify;
+      this.searchParBody.agrName = searchData.agrName;
+      this.searchParBody.agrStatus = searchData.agrStatus;
+      this.searchParBody.agrVersion = searchData.agrVersion;
+    }
+    this.listLoading = true;
+    this.agreementTemplateService.getAgrTemplateListPage(this.searchParBody)
+      .ok(data => {
+        console.log(data);
+      })
+      .fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      })
+      .final(b => {
+        this.listLoading = false;
+      });
   }
 
   currentPageDataChange($event: any[]): void {
@@ -40,5 +79,10 @@ export class AgreementTemplateComponent implements OnInit {
       this.selectedId = data.id;
     }
     this.showType = 2;
+  }
+
+  refreshUI() {
+    this.agreementTemplateSearchComponent.ngOnInit();
+    this.ngOnInit();
   }
 }

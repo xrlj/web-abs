@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MyValidators} from '../../../../helpers/MyValidators';
 import {ActivatedRoute} from '@angular/router';
+import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
 
-// 融资产品添加编辑
+// 融资产品新增、编辑
 @Component({
   selector: 'app-product-add',
   templateUrl: './product-add.component.html',
@@ -16,11 +17,12 @@ export class ProductAddComponent implements OnInit {
   productId: string;  // 产品id
 
   tabIndex = 0;
-  tabTitle = [];
+  tabTitle = [{name: '基础信息', disable: false},  {name: '分期信息', disable: false}, {name: '协议模板', disable: false}, {name: '附件管理', disable: false}];
 
   ptBasicInfoForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder,
+              private defaultBusService: DefaultBusService) {
     this.ptBasicInfoForm = this.fb.group({
       ptName: [null, [MyValidators.required, MyValidators.maxLength(80)]],
       ptCode: [null, [MyValidators.required,MyValidators. maxLength(40)]],
@@ -49,21 +51,35 @@ export class ProductAddComponent implements OnInit {
   ngOnInit(): void {
     this.productId = this.route.snapshot.params['id'];
     console.log('>>>productId:', this.productId);
-    if (this.productId && this.productId === '0') {
-      this.tabTitle = ['基础信息'];
-    } else {
-      this.tabTitle = ['基础信息', '分期信息', '协议模板', '附件管理'];
-    }
+    this.setTabsStatus();
   }
 
-  onIndexChange(event: number): void {
-    this.index = event;
+  setTabsStatus() {
+    this.tabTitle.forEach((value, index1) => {
+      if (this.productId && this.productId === '0') { // 新增
+        if (index1 === 0) {
+          value.disable = false;
+        } else {
+          value.disable = true;
+        }
+      } else { // 编辑
+        value.disable = false;
+      }
+    });
   }
 
   getContent(tabIndex: number) {
   }
 
-  saveTabInfo() {
-
+  /**
+   * 保存产品基础信息。
+   */
+  saveProductBasicInfo() {
+    this.defaultBusService.showLoading(true);
+    setTimeout(() => {
+      this.productId = '2';
+      this.setTabsStatus();
+      this.defaultBusService.showLoading(false);
+    }, 5000);
   }
 }

@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {VProductListResp} from '../../../../helpers/vo/resp/v-product-list-resp';
 import {Router} from '@angular/router';
 import {AppPath} from '../../../../app-path';
-import {Api} from '../../../../helpers/http/api';
 
 /**
  * 融资产品管理。

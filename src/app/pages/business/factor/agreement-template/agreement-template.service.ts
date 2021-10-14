@@ -45,4 +45,11 @@ export class AgreementTemplateService {
   saveAgrTemplateAll(body: any): any {
     return this.api.post(ApiPath.serviceAbsTemplate.agrTemplate.add, body);
   }
+
+  /**
+   * 分页列表。
+   */
+  getAgrTemplateListPage(body: any): any {
+    return this.api.post(ApiPath.serviceAbsTemplate.agrTemplate.getListPage, body);
+  }
 }

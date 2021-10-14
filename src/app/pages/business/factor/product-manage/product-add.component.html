@@ -4,7 +4,7 @@
                [(nzSelectedIndex)]="tabIndex"
                nzType="card"
                (nzSelectedIndexChange)="getContent(tabIndex)">
-      <nz-tab *ngFor="let title of tabTitle, let i = index" [nzTitle]="title">
+      <nz-tab *ngFor="let title of tabTitle, let i = index" [nzTitle]="title.name" [nzDisabled]="title.disable">
         <!--基础信息-->
         <div class="tab-content" *ngIf="i === 0">
           <form nz-form [formGroup]="ptBasicInfoForm">
@@ -234,7 +234,7 @@
 </nz-card>
 
 <ng-template #extraTemplate>
-  <button nz-button nzType="primary" nzSize="small"><i nz-icon nzType="save" nzTheme="outline"></i>保存</button>
+  <button nz-button nzType="primary" nzSize="small" (click)="saveProductBasicInfo()"><i nz-icon nzType="save" nzTheme="outline"></i>保存</button>
 </ng-template>
 
 <ng-template #suffixYear>

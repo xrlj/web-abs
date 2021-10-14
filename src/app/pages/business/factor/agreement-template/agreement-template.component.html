@@ -1,6 +1,6 @@
-<nz-card class="card-list" nzTitle="协议模板管理" *ngIf="showType === 1">
+<nz-card class="card-list" nzTitle="协议模板管理" *ngIf="showType === 1" [nzExtra]="refreshTemplate">
   <div class="card-list-action">
-    <app-agreement-template-search></app-agreement-template-search>
+    <app-agreement-template-search (searchData)="search($event)"></app-agreement-template-search>
   </div>
   <div class="card-list-table">
     <div class="list-btn-action">
@@ -67,3 +67,10 @@
 </nz-card>
 
 <app-agreement-template-details *ngIf="showType == 2" (showList)="showType = 1" [id]="selectedId" [showType]="detailsType"></app-agreement-template-details>
+
+<ng-template #refreshTemplate>
+  <span style="cursor: pointer;" (click)="refreshUI()">
+    <i nz-icon [nzType]="'sync'" [nzSpin]="listLoading"></i><!--动态加载的，点击刷新的时候把false改成true-->
+    <span style="margin-left: 5px;">刷新</span>
+  </span>
+</ng-template>
