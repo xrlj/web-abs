@@ -164,12 +164,24 @@
   left: 0px;
 }
 
-.template-btn-action {
-  text-align: center;
-  &>button {
-    margin-top: 20px;
+.btn-action {
+  // 下面三行,水平垂直居中
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
+  margin-right: 100px;
+
+  >.template-btn-action {
+    margin-left: 20px;
+  }
+
+  >.btn-action-back {
+    margin-left: 20px;
   }
 }
+
+
 
 .agr-check-layout {
   margin: 40px 20px 20px;

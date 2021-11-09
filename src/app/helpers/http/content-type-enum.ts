@@ -5,4 +5,7 @@ export enum ContentTypeEnum {
   APPLICATION_PDF_VALUE = 'application/pdf',
   MULTIPART_FORM_DATA_VALUE = 'multipart/form-data',
   TEXT_PLAIN_VALUE = 'text/plain',
+  DOC = 'application/msword',
+  DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  ZIP = 'application/zip'
 }

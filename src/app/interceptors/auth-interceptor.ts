@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Constants} from '../helpers/constants';
 import {Utils} from '../helpers/utils';
 import {AppPath} from '../app-path';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -14,7 +15,14 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log('>>>>>AuthInterceptor');
+
     const url: string = req.url;
+    const urlObject = new URL(url);
+    // 下载文件不做拦截
+    if (urlObject.origin === environment.apiFileUrl) {
+      return next.handle(req);
+    }
+
     // 下面url直接通行
     const directUrl = url.includes(ApiPath.login)|| url.includes(ApiPath.logout)
       || url.includes(ApiPath.syscommon.kaptcha.getVerifyCode)

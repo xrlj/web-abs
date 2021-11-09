@@ -100,12 +100,14 @@ export const ApiPath = {
       getList: `/${syscommon}/universalDic/getList`
     },
     universalDicValue: {
-      getList: `/${syscommon}/universalDicValue/getList`
+      getList: `/${syscommon}/universalDicValue/getList`,
+      getValueListByDicType: `/${syscommon}/universalDicValue/getValueListByDicType`,
     }
   },
   sysfilesystem: {
     sysFiles: {
-      uploadFile: `/${sysfilesystem}/sysFiles/uploadFile` // 上传文件接口
+      uploadFile: `/${sysfilesystem}/sysFiles/uploadFile`, // 上传文件接口
+      getById: `/${sysfilesystem}/sysFiles/getById` // 根据文件id获取文件信息
     }
   },
   sysnotify: {

@@ -1,12 +1,18 @@
 <nz-card class="card-list" nzTitle="协议模板管理" *ngIf="showType === 1" [nzExtra]="refreshTemplate">
   <div class="card-list-action">
-    <app-agreement-template-search (searchData)="search($event)"></app-agreement-template-search>
+    <app-agreement-template-search (searchClick)=search($event,true) [searchData]="searchData"></app-agreement-template-search>
   </div>
   <div class="card-list-table">
     <div class="list-btn-action">
-      <button (click)="showDetails(1)" class="list-btn-action-right" nz-button nzType="primary" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>新增</button>
+      <button (click)="showDetails(1)"
+              class="list-btn-action-right"
+              nz-button nzType="primary"
+              nzSize="small">
+        <i nz-icon nzType="plus-circle" nzTheme="outline"></i>新增
+      </button>
     </div>
     <nz-table
+      #table
       nzShowPagination
       nzShowSizeChanger
       nzBordered
@@ -16,40 +22,39 @@
       [nzTotal]="total"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"
-      (nzPageIndexChange)="search()"
-      (nzPageSizeChange)="search(true)"
-      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      (nzPageIndexChange)="search(searchData)"
+      (nzPageSizeChange)="search(searchData, true)"
       [nzScroll]="{ x: '1000px', y: '400px' }"
     >
       <thead>
       <tr>
         <th nzWidth="30px" nzAlign="center">序号</th>
-        <th nzWidth="50px" nzAlign="center">模板编码</th>
-        <th nzWidth="50px" nzAlign="center">合同大类</th>
+        <th nzWidth="80px" nzAlign="center">合同大类</th>
         <th nzWidth="80px" nzAlign="center">合同类别</th>
         <th nzWidth="50px" nzAlign="center">合同版别</th>
         <th nzWidth="80px" nzAlign="center">合同名称</th>
         <th nzWidth="50px" nzAlign="center">版本号</th>
-        <th nzWidth="80px" nzAlign="center">强制阅读时间</th>
+        <th nzWidth="60px" nzAlign="center">强制阅读时间</th>
         <th nzWidth="50px" nzAlign="center">状态</th>
         <th nzWidth="50px" nzAlign="center">操作人</th>
         <th nzWidth="80px" nzAlign="center">操作时间</th>
-        <th nzWidth="80px" nzAlign="center">操作</th>
+        <th nzWidth="120px" nzAlign="center">操作</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let data of listOfAllData">
-        <td nzAlign="center">1</td>
-        <td nzAlign="center">PT001</td>
-        <td nzAlign="center">平台服务类</td>
-        <td nzAlign="center">用户注册协议</td>
-        <td nzAlign="center">标准版</td>
-        <td nzAlign="center">用户注册协议</td>
-        <td nzAlign="center">2021-V1.0</td>
-        <td nzAlign="center">5</td>
-        <td nzAlign="center">草稿</td>
-        <td nzAlign="center">李白</td>
-        <td nzAlign="center">2021-05-28 12:00:00</td>
+      <tr *ngFor="let i = index; let data of table['data']">
+        <td nzAlign="center">{{i * pageIndex + 1}}</td>
+        <td nzAlign="center">{{data.agrTypeBig}}</td>
+        <td nzAlign="center">{{data.agrType}}</td>
+        <td nzAlign="center">{{data.agrTypeSpecify}}</td>
+        <td nzAlign="center">
+          <a (click)="openTemplateFile(data.agrFileId)">{{data.agrName}}</a>
+        </td>
+        <td nzAlign="center">{{data.agrVersion}}</td>
+        <td nzAlign="center">{{data.agrTextReadTimeLimit}}</td>
+        <td nzAlign="center">{{data.agrStatusName}}</td>
+        <td nzAlign="center">{{data.operatorUserName}}</td>
+        <td nzAlign="center">{{data.dateCreated}}</td>
         <td nzAlign="center">
           <a (click)="showDetails(2, data)">编辑</a>
           <nz-divider nzType="vertical"></nz-divider>
@@ -66,7 +71,7 @@
   </div>
 </nz-card>
 
-<app-agreement-template-details *ngIf="showType == 2" (showList)="showType = 1" [id]="selectedId" [showType]="detailsType"></app-agreement-template-details>
+<app-agreement-template-details *ngIf="showType == 2" (showList)="goBackList()" [id]="selectedId" [showType]="detailsType"></app-agreement-template-details>
 
 <ng-template #refreshTemplate>
   <span style="cursor: pointer;" (click)="refreshUI()">

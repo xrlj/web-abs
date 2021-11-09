@@ -1,14 +1,14 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AgreementTemplateService} from './agreement-template.service';
-import {AgrTemplateStatusEnum} from '../../../../helpers/enum/agr-template-status-enum';
+import {CommonService} from '../../../../helpers/service/common.service';
 
 @Component({
   selector: 'app-agreement-template-search',
   templateUrl: './agreement-template-search.component.html',
   styleUrls: ['./agreement-template-search.component.less']
 })
-export class AgreementTemplateSearchComponent implements OnInit {
+export class AgreementTemplateSearchComponent implements OnInit, AfterViewInit {
 
   searchForm!: FormGroup;
   isCollapse = false;
@@ -17,11 +17,14 @@ export class AgreementTemplateSearchComponent implements OnInit {
   agrTypeListAll: any[];
   agrSpecifyListAll: any[];
 
-  agrTemplateStatusEnum: typeof  AgrTemplateStatusEnum = AgrTemplateStatusEnum;
+  agrTemplateStatus = []; // 协议模板状态
 
-  @Output() searchData = new EventEmitter<any>();
+  @Output() searchClick = new EventEmitter<any>();
 
-  constructor(private fb: FormBuilder, private agreementTemplateService: AgreementTemplateService) {
+  @Input() searchData: any;
+
+  constructor(private fb: FormBuilder, private agreementTemplateService: AgreementTemplateService,
+              private commonService: CommonService) {
     this.searchForm = this.fb.group({
       agrBigType: [null, null],
       agrType: [null, null],
@@ -37,10 +40,22 @@ export class AgreementTemplateSearchComponent implements OnInit {
       .ok(data => {
         this.agrTypeBigListAll = data;
       });
+
+    this.commonService.getDictValueListByType('agr_status')
+      .ok(data => {
+        this.agrTemplateStatus = data;
+      });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.searchData) {
+      this.searchForm.patchValue(this.searchData);
+    }
   }
 
   search() {
-    this.searchData.next(this.searchForm.value);
+    this.searchData = this.searchForm.value;
+    this.searchClick.next(this.searchData);
   }
 
   agrTypeBigSelect($event: any) {

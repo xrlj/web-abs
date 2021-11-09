@@ -6,117 +6,123 @@
       [(nzSelectedIndex)]="tabIndex"
       nzType="card"
       (nzSelectedIndexChange)="search(true)">
-      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
-        <div class="tab-card-list">
-          <!--搜索-->
-          <div class="tab-card-list-action">
-            <nz-input-group [nzSuffix]="etpCodeSuffixTemplate">
-              <input type="text" nz-input [(ngModel)]="etpSearchVo.etpCode" placeholder="企业编号"/>
-            </nz-input-group>
-            <nz-input-group [nzSuffix]="fullNameSuffixTemplate">
-              <input type="text" nz-input [(ngModel)]="etpSearchVo.etpName" placeholder="企业名称"/>
-            </nz-input-group>
-            <button nz-button nzType="default" (click)="search(true)"><i nz-icon nzType="search"></i>查询</button>
-            <button nz-button nzType="primary" (click)="addModalShow(1)"><i nz-icon nzType="plus"></i>新增</button>
-            <button nz-button nzType="primary" nzDanger *ngIf="tabIndex === 0"><i nz-icon nzType="delete"></i>删除</button>
-            <button nz-button nzType="default"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
-            <button nz-button nzType="dashed"><i nz-icon nzType="export" nzTheme="outline"></i>短信邀请注册</button>
-          </div>
-          <!--列表-->
-          <div class="tab-card-list-table">
-            <nz-table
-              nzShowPagination
-              nzShowSizeChanger
-              nzBordered
-              [nzFrontPagination]="false"
-              [nzData]="listOfAllData"
-              [nzLoading]="listLoading"
-              [nzTotal]="total"
-              [(nzPageIndex)]="pageIndex"
-              [(nzPageSize)]="pageSize"
-              (nzPageIndexChange)="search()"
-              (nzPageSizeChange)="search(true)"
-              (nzCurrentPageDataChange)="currentPageDataChange($event)"
-            >
-              <thead>
-              <tr>
-                <th
-                  nzShowCheckbox
-                  [(nzChecked)]="isAllDisplayDataChecked"
-                  [nzIndeterminate]="isIndeterminate"
-                  (nzCheckedChange)="checkAll($event)"
-                ></th>
-                <th nzWidth="8%" nzAlign="center">企业编号</th>
-                <th nzWidth="15%" nzAlign="center">企业名称</th>
-                <th nzWidth="10%" nzAlign="center">联系人</th>
-                <th nzWidth="10%" nzAlign="center">联系电话</th>
-                <th nzWidth="10%" nzAlign="center">状态</th>
-                <th nzWidth="15%" nzAlign="center">注册邀请</th>
-                <th nzWidth="6%" nzAlign="center">注册状态</th>
-                <th nzWidth="12%" nzAlign="center"
-                    nzShowSort
-                >
-                  创建时间
-                </th>
-                <th nzWidth="14%" nzAlign="center">操作</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let data of listOfAllData">
-                <td
-                  nzShowCheckbox
-                  [(nzChecked)]="mapOfCheckedId[data.id]"
-                  [nzDisabled]="data.disabled"
-                  (nzCheckedChange)="refreshStatus()"
-                ></td>
-                <td nzAlign="center">{{ data.etpCode }}</td>
-                <td nzAlign="center">{{ data.etpName }}</td>
-                <td nzAlign="center">{{ data.contactName }}</td>
-                <td nzAlign="center">{{ data.contactMobile }}</td>
-                <td nzAlign="center">
-                  <nz-tag [nzColor]="themeHelper.setEtpStatusColor(data.etpStatus).background" [style.color]="themeHelper.setEtpStatusColor(data.etpStatus).color">{{ data.etpStatusName}}</nz-tag>
-                </td>
-                <td nzAlign="center">{{ data.registerInvitationUrl}}</td>
-                <td nzAlign="center">{{ data.registerStatus}}</td>
-                <td nzAlign="center">{{ data.dateCreated }}</td>
-                <td nzAlign="center" [ngSwitch]="data?.etpStatus">
-                  <div *ngSwitchCase="1">
-                    <a (click)="verifyCheck(data.id)">审核</a>
-                  </div>
-                  <div *ngSwitchDefault>
-                    <a>查看</a>
-                    <nz-divider nzType="vertical"></nz-divider>
-                    <a (click)="addModalShow(2)">编辑</a>
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </nz-table>
-          </div>
+      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title.dictLabel">
+        <!--懒加载方式： 默认情况下，nz-tab 中的组件的 ngOnInit 会提前触发，如果希望当 Tab 被激活时再触发 ngOnInit，可以使用该示例中的懒加载方式。-->
+        <ng-template nz-tab>
+          <div class="tab-card-list">
+            <!--搜索-->
+            <div class="tab-card-list-action">
+              <nz-input-group [nzSuffix]="etpCodeSuffixTemplate">
+                <input type="text" nz-input [(ngModel)]="etpSearchVo.etpCode" placeholder="企业编号"/>
+              </nz-input-group>
+              <nz-input-group [nzSuffix]="fullNameSuffixTemplate">
+                <input type="text" nz-input [(ngModel)]="etpSearchVo.etpName" placeholder="企业名称"/>
+              </nz-input-group>
+              <button nz-button nzType="primary" (click)="search(true)"><i nz-icon nzType="search"></i>查询</button>
+              <button nz-button nzType="primary" (click)="addModalShow(1)"><i nz-icon nzType="plus"></i>新增</button>
+              <!--核心企业才可删除-->
+              <button nz-button nzType="primary" nzDanger *ngIf="title.dictValue === 2"><i nz-icon nzType="delete"></i>删除
+              </button>
+              <button nz-button nzType="primary" nzGhost><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+              <button nz-button nzType="dashed"><i nz-icon nzType="export" nzTheme="outline"></i>短信邀请注册</button>
+            </div>
+            <!--列表-->
+            <div class="tab-card-list-table">
+              <nz-table
+                nzShowPagination
+                nzShowSizeChanger
+                nzBordered
+                [nzFrontPagination]="false"
+                [nzData]="listOfAllData"
+                [nzLoading]="listLoading"
+                [nzTotal]="total"
+                [(nzPageIndex)]="pageIndex"
+                [(nzPageSize)]="pageSize"
+                (nzPageIndexChange)="search()"
+                (nzPageSizeChange)="search(true)"
+                (nzCurrentPageDataChange)="currentPageDataChange($event)"
+              >
+                <thead>
+                <tr>
+                  <th
+                    nzShowCheckbox
+                    [(nzChecked)]="isAllDisplayDataChecked"
+                    [nzIndeterminate]="isIndeterminate"
+                    (nzCheckedChange)="checkAll($event)"
+                  ></th>
+                  <th nzWidth="8%" nzAlign="center">企业编号</th>
+                  <th nzWidth="15%" nzAlign="center">企业名称</th>
+                  <th nzWidth="10%" nzAlign="center">联系人</th>
+                  <th nzWidth="10%" nzAlign="center">联系电话</th>
+                  <th nzWidth="10%" nzAlign="center">状态</th>
+                  <th nzWidth="15%" nzAlign="center">注册邀请</th>
+                  <th nzWidth="6%" nzAlign="center">注册状态</th>
+                  <th nzWidth="12%" nzAlign="center"
+                      nzShowSort
+                  >
+                    创建时间
+                  </th>
+                  <th nzWidth="14%" nzAlign="center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of listOfAllData">
+                  <td
+                    nzShowCheckbox
+                    [(nzChecked)]="mapOfCheckedId[data.id]"
+                    [nzDisabled]="data.disabled"
+                    (nzCheckedChange)="refreshStatus()"
+                  ></td>
+                  <td nzAlign="center">{{ data.etpCode }}</td>
+                  <td nzAlign="center">{{ data.etpName }}</td>
+                  <td nzAlign="center">{{ data.contactName }}</td>
+                  <td nzAlign="center">{{ data.contactMobile }}</td>
+                  <td nzAlign="center">
+                    <nz-tag [nzColor]="themeHelper.setEtpStatusColor(data.etpStatus).background"
+                            [style.color]="themeHelper.setEtpStatusColor(data.etpStatus).color">{{ data.etpStatusName}}</nz-tag>
+                  </td>
+                  <td nzAlign="center">{{ data.registerInvitationUrl}}</td>
+                  <td nzAlign="center">{{ data.registerStatus}}</td>
+                  <td nzAlign="center">{{ data.dateCreated }}</td>
+                  <td nzAlign="center" [ngSwitch]="data?.etpStatus">
+                    <div *ngSwitchCase="1">
+                      <a (click)="verifyCheck(data.id)">审核</a>
+                    </div>
+                    <div *ngSwitchDefault>
+                      <a>查看</a>
+                      <nz-divider nzType="vertical"></nz-divider>
+                      <a (click)="addModalShow(2)">编辑</a>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </nz-table>
+            </div>
 
-          <ng-template #etpCodeSuffixTemplate
-          ><i
-            nz-icon
-            nz-tooltip
-            class="ant-input-clear-icon"
-            nzTheme="fill"
-            nzType="close-circle"
-            *ngIf="etpSearchVo.etpCode"
-            (click)="etpSearchVo.etpCode = null"
-          ></i
-          ></ng-template>
-          <ng-template #fullNameSuffixTemplate
-          ><i
-            nz-icon
-            nz-tooltip
-            class="ant-input-clear-icon"
-            nzTheme="fill"
-            nzType="close-circle"
-            *ngIf="etpSearchVo.etpName"
-            (click)="etpSearchVo.etpName = null"
-          ></i
-          ></ng-template>
-        </div>
+            <ng-template #etpCodeSuffixTemplate
+            ><i
+              nz-icon
+              nz-tooltip
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="etpSearchVo.etpCode"
+              (click)="etpSearchVo.etpCode = null"
+            ></i
+            ></ng-template>
+            <ng-template #fullNameSuffixTemplate
+            ><i
+              nz-icon
+              nz-tooltip
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="etpSearchVo.etpName"
+              (click)="etpSearchVo.etpName = null"
+            ></i
+            ></ng-template>
+          </div>
+        </ng-template>
       </nz-tab>
     </nz-tabset>
   </div>

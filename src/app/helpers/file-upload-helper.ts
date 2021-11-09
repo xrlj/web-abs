@@ -3,7 +3,7 @@ import {HttpUtils} from './http/HttpUtils';
 import {UIHelper} from './ui-helper';
 import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd/upload';
 import {Observable, Observer} from 'rxjs';
-import {FileTypeEnum} from './enum/file-type-enum';
+import {ContentTypeEnum} from './http/content-type-enum';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +49,7 @@ export class FileUploadHelper {
     return undefined;
   }
 
-  beforeUpload(fileSizeLimit: number, fileTypeTip: string, ...fileType: FileTypeEnum[]): any {
+  beforeUpload(fileSizeLimit: number, fileTypeTip: string, ...fileType: ContentTypeEnum[]): any {
     const beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) =>
       new Observable((observer: Observer<boolean>) => {
         let isFileType = false

@@ -34,6 +34,8 @@ export class ProductAddComponent implements OnInit {
       ptSPV: [null, null],
       ptCore: [null, null],
       ptCoreDebt: [null, null],
+      pbDataSource: [null, null],
+      lawOffice: [null, null],
       ptQuota: [null, null],
       ptContractQuota: [null, null],
       ptPaymentBillQuota: [null, null],

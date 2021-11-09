@@ -1,4 +1,5 @@
-<nz-card class="card-list" [nzTitle]="productId === '0' ? '新增产品' : '编辑产品'" [nzExtra]=" tabIndex === 0 ? extraTemplate : null">
+<nz-card class="card-list" [nzTitle]="productId === '0' ? '新增产品' : '编辑产品'"
+         [nzExtra]=" tabIndex === 0 ? extraTemplate : null">
   <div class="card-container">
     <nz-tabset [nzTabBarGutter]="2"
                [(nzSelectedIndex)]="tabIndex"
@@ -29,9 +30,19 @@
                 <nz-form-item>
                   <nz-form-label [nzSpan]="6">产品说明</nz-form-label>
                   <nz-form-control [nzSpan]="0">
-                    <textarea formControlName="ptComment" id="ptComment" nz-input rows="3" placeholder="请输入产品描述"></textarea>
+                    <textarea formControlName="ptComment" id="ptComment" nz-input rows="2"
+                              placeholder="请输入产品描述"></textarea>
                   </nz-form-control>
                 </nz-form-item>
+                <!--<nz-form-item>
+                  <nz-form-label [nzSpan]="6">数据源</nz-form-label>
+                  <nz-form-control [nzSpan]="0">
+                    <nz-radio-group formControlName="pbDataSource" id="pbDataSource">
+                      <label nz-radio nzValue="A">导入</label>
+                      <label nz-radio nzValue="B">接口</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>-->
               </div>
               <div class="form-column-two">
                 <nz-form-item>
@@ -82,6 +93,15 @@
                     <nz-select name="ptSPV" formControlName="ptSPV">
                       <nz-option nzValue="'0'" nzLabel="请选择"></nz-option>
                       <nz-option nzValue="'1'" nzLabel="xxx证券"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="6" nzFor="lawOffice">律师事务所</nz-form-label>
+                  <nz-form-control [nzSpan]="10">
+                    <nz-select name="lawOffice" formControlName="lawOffice">
+                      <nz-option nzValue="'0'" nzLabel="请选择"></nz-option>
+                      <nz-option nzValue="'1'" nzLabel="碧盛"></nz-option>
                     </nz-select>
                   </nz-form-control>
                 </nz-form-item>
@@ -141,7 +161,8 @@
                 <nz-form-item>
                   <nz-form-label [nzSpan]="6" nzFor="ptPaymentBillQuota">应收账款融资额度</nz-form-label>
                   <nz-form-control [nzSpan]="6">
-                    <input formControlName="ptPaymentBillQuota" id="ptPaymentBillQuota" placeholder="请输入应收账款融资额度" nz-input/>
+                    <input formControlName="ptPaymentBillQuota" id="ptPaymentBillQuota" placeholder="请输入应收账款融资额度"
+                           nz-input/>
                   </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
@@ -214,6 +235,36 @@
                 </nz-form-item>
               </div>
             </div>
+            <!--其它-->
+            <div class="info-line-title">
+              <nz-divider nzType="vertical"></nz-divider>
+              <span>其它信息</span>
+            </div>
+            <div class="form-column">
+              <div class="form-column-one">
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="6">数据源</nz-form-label>
+                  <nz-form-control [nzSpan]="0">
+                    <nz-radio-group formControlName="pbDataSource" id="pbDataSource">
+                      <label nz-radio nzValue="A">导入</label>
+                      <label nz-radio nzValue="B">接口</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div class="form-column-two">
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="6">转让次数</nz-form-label>
+                  <nz-form-control [nzSpan]="0">
+                    <nz-radio-group formControlName="pbDataSource" id="pbDataSource">
+                      <label nz-radio nzValue="A">一次转让</label>
+                      <label nz-radio nzValue="B">二次转让</label>
+                      <label nz-radio nzValue="c">无</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
           </form>
         </div>
         <!--产品分期-->
@@ -234,7 +285,9 @@
 </nz-card>
 
 <ng-template #extraTemplate>
-  <button nz-button nzType="primary" nzSize="small" (click)="saveProductBasicInfo()"><i nz-icon nzType="save" nzTheme="outline"></i>保存</button>
+  <button nz-button nzType="primary" nzSize="small" (click)="saveProductBasicInfo()"><i nz-icon nzType="save"
+                                                                                        nzTheme="outline"></i>保存
+  </button>
 </ng-template>
 
 <ng-template #suffixYear>

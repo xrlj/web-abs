@@ -11,6 +11,7 @@ import {ThemeHelper} from '../../../../../helpers/theme-helper';
 import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {JwtKvEnum} from '../../../../../helpers/enum/jwt-kv-enum';
+import {CommonService} from '../../../../../helpers/service/common.service';
 
 @Component({
   selector: 'app-etp-manage',
@@ -21,7 +22,7 @@ export class EtpManageComponent implements OnInit {
   // tab
   tabIndex = 0;
   // tabTitle = ['保理商', '核心企业', '成员公司', '供应商', '资金方'];
-  tabTitle = ['核心企业', '成员公司', '供应商', '资金方'];
+  tabTitle = [];
 
   // 表格
   isAllDisplayDataChecked = false;
@@ -46,12 +47,11 @@ export class EtpManageComponent implements OnInit {
   spanLabel = 4;
   spanFormControl = 18;
 
-  userType: number; // 企业类型。
-
   constructor(private fb: FormBuilder, private etpManageService: EtpManageService,
               public uiHelper: UIHelper, private utils: Utils,
               private modal: NzModalService, private viewContainerRef: ViewContainerRef,
-              private defaultBusService: DefaultBusService, public themeHelper: ThemeHelper) {
+              private defaultBusService: DefaultBusService, public themeHelper: ThemeHelper,
+              private commonService: CommonService) {
     // 新增编辑对话框
     this.addOrEditForm = this.fb.group({
       etpName: [null, [Validators.required]],
@@ -67,14 +67,21 @@ export class EtpManageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.commonService.getDictValueListByType('enterprise_type')
+      .ok(data => {
+        this.tabTitle = data;
+      })
+      .fail(error => {
+        console.log(error);
+      });
+
     this.search();
   }
 
   search(reset: boolean = false): void {
     reset ? this.etpSearchVo.pageIndex = 1 : this.etpSearchVo.pageIndex = this.pageIndex;
     this.etpSearchVo.pageSize = this.pageSize;
-    this.setEtpType();
-    this.etpSearchVo.userType = this.userType;
+    this.etpSearchVo.userType = this.tabTitle[this.tabIndex].dictValue;
     this.etpSearchVo.holderEtpId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId);
     this.utils.print(this.etpSearchVo);
     this.listLoading = true;
@@ -128,28 +135,6 @@ export class EtpManageComponent implements OnInit {
   addModalShow(modalType: number) {
     this.modalType = modalType;
     this.isShowAddOrEditModal = true;
-    this.setEtpType();
-  }
-
-  /**
-   * 转换设定企业类型。
-   */
-  private setEtpType(): void {
-    switch (this.tabIndex) {
-      case 0: // 核心企业
-        this.userType = UserTypeEnum.CORE;
-        break;
-      case 1:
-        this.userType = UserTypeEnum.MEMBER;
-        break;
-      case 2:
-        this.userType = UserTypeEnum.SUPPLIER;
-        break;
-      case 3:
-        this.userType = UserTypeEnum.SPV;
-        break;
-      default:
-    }
   }
 
   /**
@@ -173,7 +158,7 @@ export class EtpManageComponent implements OnInit {
   handleOk(modalType: number) {
     if (this.addOrEditForm.valid) { // 前端通过所有输入校验
       const value = this.addOrEditForm.value;
-      value.userType = this.userType;
+      value.userType = this.tabTitle[this.tabIndex].dictValue;
       value.holderEtpId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId);
       this.utils.print(`请求参数：${value}`);
       this.isModalOkLoading = true;

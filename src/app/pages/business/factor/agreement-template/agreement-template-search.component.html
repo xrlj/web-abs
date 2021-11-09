@@ -51,11 +51,7 @@
                    nzPlaceHolder="不限"
                    nzAllowClear
         >
-          <nz-option [nzValue]="agrTemplateStatusEnum.DRAFT" nzLabel="草稿"></nz-option>
-          <nz-option [nzValue]="agrTemplateStatusEnum.CHECK_WAIT" nzLabel="待审核"></nz-option>
-          <nz-option [nzValue]="agrTemplateStatusEnum.CHECK_PASS" nzLabel="审核通过"></nz-option>
-          <nz-option [nzValue]="agrTemplateStatusEnum.CHECK_FAIL" nzLabel="审核不通过"></nz-option>
-          <nz-option [nzValue]="agrTemplateStatusEnum.BLACK" nzLabel="已失效"></nz-option>
+          <nz-option *ngFor="let status of agrTemplateStatus" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>

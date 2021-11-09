@@ -8,6 +8,7 @@ import {VCustomerAccountResp} from '../../../../../helpers/vo/resp/v-customer-ac
 import {UIHelper} from '../../../../../helpers/ui-helper';
 import {ThemeHelper} from '../../../../../helpers/theme-helper';
 import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
+import {CommonService} from '../../../../../helpers/service/common.service';
 
 @Component({
   selector: 'app-etp-account',
@@ -20,7 +21,7 @@ export class EtpAccountComponent implements OnInit {
 
   // tab
   tabIndex = 0;
-  tabTitle = ['核心企业', '成员公司', '供应商', '资金方'];
+  tabTitle = [];
 
   // 表格
   isAllDisplayDataChecked = false;
@@ -37,8 +38,6 @@ export class EtpAccountComponent implements OnInit {
   // 列表搜索条件
   vCustomerAccountReq: VCustomerAccountReq = {pageIndex: this.pageIndex, pageSize: this.pageSize};
 
-  userType: number;
-
   // 子组件
   @ViewChild(EtpAccountDetailsComponent)
   etpAccountDetailsComponent: EtpAccountDetailsComponent;
@@ -47,18 +46,27 @@ export class EtpAccountComponent implements OnInit {
   checkModalOkLoading = false;
 
   constructor(private fb: FormBuilder, public uiHelper: UIHelper,
-              private etpAccountService: EtpAccountService, public themeHelper: ThemeHelper) {
+              private etpAccountService: EtpAccountService, public themeHelper: ThemeHelper,
+              private commonService: CommonService) {
   }
 
   ngOnInit() {
+    this.commonService.getDictValueListByType('enterprise_type')
+      .ok(data => {
+        this.tabTitle = data;
+      })
+      .fail(error => {
+        console.log(error);
+      });
+
+
     this.search();
   }
 
   search(reset: boolean = false): void {
     reset ? this.vCustomerAccountReq.pageIndex = 1 : this.vCustomerAccountReq.pageIndex = this.pageIndex;
     this.vCustomerAccountReq.pageSize = this.pageSize;
-    this.setUserType();
-    this.vCustomerAccountReq.userType = this.userType;
+    this.vCustomerAccountReq.userType = this.tabTitle[this.tabIndex].dictValue;
     this.loading = true;
     this.etpAccountService.getEtpUserList(this.vCustomerAccountReq)
       .ok(data => {
@@ -71,27 +79,6 @@ export class EtpAccountComponent implements OnInit {
     }).final(() => {
       this.loading = false;
     });
-  }
-
-  /**
-   * 转换设定企业类型。
-   */
-  private setUserType(): void {
-    switch (this.tabIndex) {
-     case 0: // 核心企业
-        this.userType = UserTypeEnum.CORE;
-        break;
-      case 1:
-        this.userType = UserTypeEnum.MEMBER;
-        break;
-      case 2:
-        this.userType = UserTypeEnum.SUPPLIER;
-        break;
-      case 3:
-        this.userType = UserTypeEnum.SPV;
-        break;
-      default:
-    }
   }
 
   /**

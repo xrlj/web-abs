@@ -16,25 +16,27 @@ import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzIconModule} from 'ng-zorro-antd/icon';
+import {NzTagModule} from 'ng-zorro-antd/tag';
 
 
 @NgModule({
   declarations: [EtpManageComponent, EtpAccountComponent, EtpAccountDetailsComponent, EtpDetailsComponent],
-  imports: [
-    CommonModule,
-    CustomerRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NzDividerModule,
-    NzRadioModule,
-    NzInputModule,
-    NzCardModule,
-    NzTabsModule,
-    NzTableModule,
-    NzModalModule,
-    NzFormModule,
-    NzButtonModule,
-    NzIconModule
-  ]
+    imports: [
+        CommonModule,
+        CustomerRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NzDividerModule,
+        NzRadioModule,
+        NzInputModule,
+        NzCardModule,
+        NzTabsModule,
+        NzTableModule,
+        NzModalModule,
+        NzFormModule,
+        NzButtonModule,
+        NzIconModule,
+        NzTagModule
+    ]
 })
 export class CustomerModule { }

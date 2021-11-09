@@ -4,11 +4,19 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class TrimNameInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log('>>>>>HeaderInterceptor');
+
+    const url: string = req.url;
+    const urlObject = new URL(url);
+    if (urlObject.origin === environment.apiFileUrl) {
+      return next.handle(req);
+    }
+
     console.log(req.body);
     const body = req.body;
     if (!body || !body.name ) {

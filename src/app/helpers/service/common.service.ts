@@ -11,6 +11,9 @@ import {Constants} from '../constants';
 import {UserTypeEnum} from '../enum/user-type-enum';
 import {Utils} from '../utils';
 import {JwtKvEnum} from '../enum/jwt-kv-enum';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ContentTypeEnum} from '../http/content-type-enum';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,8 @@ import {JwtKvEnum} from '../enum/jwt-kv-enum';
 export class CommonService {
 
   constructor(private api: Api, private uiHelper: UIHelper,
-              private router: Router, private utils: Utils) { }
+              private router: Router, private utils: Utils,
+              private httpClient: HttpClient) { }
 
   /**
    * 退出登录。
@@ -119,20 +123,70 @@ export class CommonService {
   }
   /**************************菜单 end****************************************/
 
+  /********************************* 文件操作 ***************************/
+
   /**
-   * 获取企业角色类型。
+   * 下载或者打开文件。
+   * @param fileId 文件id
    */
-  getEtpDic(etpList: any[]):void {
-    this.api.post(ApiPath.syscommon.universalDic.getList, {dictType: 'enterprise_type'})
+  openFileNewBrowserTab(fileId: string) {
+    this.api.get(`${ApiPath.sysfilesystem.sysFiles.getById}/${fileId}`)
       .ok(data => {
-        const id = data[0].id;
-        this.api.post(ApiPath.syscommon.universalDicValue.getList, {universalDicId: id})
-          .ok(data1 => {
-            etpList = data1;
-          })
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display:none');
+        a.setAttribute('href', data.url);
+        a.setAttribute('target', '_blank')
+        a.setAttribute('download', data.oriName);
+        a.click();
+        URL.revokeObjectURL(data.url);
+        document.body.removeChild(a); // 删除该a标签
       })
       .fail(error => {
-        console.log(error.msg);
-      });
+        this.uiHelper.msgTipError(error.msg);
+      })
   }
+
+  /**
+   * 客户端下载文件二进制。
+   * @param fileId 文件id
+   */
+  downloadFileById(fileId: string) {
+    this.api.get(`${ApiPath.sysfilesystem.sysFiles.getById}/${fileId}`)
+      .ok(data => {
+        const url = `${environment.apiFileUrl}/${data.path}`;
+        // const url = 'http://192.168.0.3:9020/xrlj-20200620/2021-07-02/2781ebec-27fc-42d5-8e7b-6364aabadec7.pdf';
+        this.downloadFileBlob(url, data.suffix, data.oriName);
+      })
+      .fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      })
+  }
+
+  private downloadFileBlob(url: string, fileType: string, fileOriName: string): void {
+    this.httpClient.get(url, {responseType: 'blob'})
+      .subscribe((data: any) => {
+        const aLink = document.createElement('a');
+        const blob = new Blob([data], {type: ContentTypeEnum[fileType.toUpperCase()]});
+        const objectURL = URL.createObjectURL(blob);
+        aLink.setAttribute('href', objectURL);
+        aLink.setAttribute('target', '_blank');
+        aLink.setAttribute('download', fileOriName);
+        aLink.style.visibility = 'hidden';
+        document.body.appendChild(aLink);
+        aLink.click();
+        URL.revokeObjectURL(objectURL); // 释放上面创建的url，内存不再保存它
+        document.body.removeChild(aLink); // 删除该a标签
+      })
+  }
+
+  /********************* 字典 ***********************/
+
+  /**
+   * 根据字典类型获取字典值列表
+   */
+  getDictValueListByType(dictType: string): any {
+    return this.api.get(`${ApiPath.syscommon.universalDicValue.getValueListByDicType}/${dictType}`);
+  }
+
 }
