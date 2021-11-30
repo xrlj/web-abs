@@ -8,6 +8,7 @@ import {environment} from '../../../../environments/environment';
 import {ThemeEnum} from '../../../helpers/enum/theme-enum';
 import {Subscription} from 'rxjs';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
+import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 
 @Component({
   selector: 'app-body',
@@ -28,10 +29,13 @@ export class AppBodyComponent implements OnInit, OnDestroy {
 
   currentTabClasses: {};  // tab 样式类
 
+  defaultBusServiceSubscribe: Subscription;
+
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
-              private nzContextMenuService: NzContextMenuService) {
+              private nzContextMenuService: NzContextMenuService,
+              private defaultBusService: DefaultBusService) {
     // 注册监听路由变动
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
@@ -64,6 +68,11 @@ export class AppBodyComponent implements OnInit, OnDestroy {
       }
       this.currentMenuTab = this.menuList.findIndex(p => p.url === url);
     });
+
+    // 订阅是否显示加载对话框事件
+    this.defaultBusServiceSubscribe = this.defaultBusService.closeTab$.subscribe(url => {
+      this.closeUrl(url);
+    });
   }
 
   ngOnInit() {
@@ -73,6 +82,10 @@ export class AppBodyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe(); // 不要忘记处理手动订阅
+    }
+
+    if (this.defaultBusServiceSubscribe) {
+      this.defaultBusServiceSubscribe.unsubscribe(); // 取消订阅
     }
   }
 
@@ -105,7 +118,7 @@ export class AppBodyComponent implements OnInit, OnDestroy {
     // 当前关闭的是第几个路由
     const index = this.menuList.findIndex(p => p.url === url);
     // 如果只有一个不可以关闭, 当前选定的是首页不可以关闭
-    if (this.menuList.length === 1 || index ===0) {
+    if (this.menuList.length === 1 || index === 0) {
       return;
     }
     this.menuList.splice(index, 1);
@@ -177,6 +190,19 @@ export class AppBodyComponent implements OnInit, OnDestroy {
    */
   clickTab(menu: any) {
     this.tabMenu.emit(menu);
+  }
+
+  onRefreshCurrentTab(url: string) {
+    /*debugger;
+    SimpleReuseStrategy.deleteRouteSnapshot(url);
+    const menu = this.menuList[this.currentMenuTab];
+    // 跳转路由
+    this.router.navigate([menu.url]);*/
+    // this.router.navigate([url]);
+
+    debugger;
+    const a = SimpleReuseStrategy.handlers[url];
+    console.log(a);
   }
 }
 

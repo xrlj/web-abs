@@ -11,6 +11,7 @@ import {FirstZdwRegisterComponent} from './zdw-register/first-zdw-register.compo
 import {SecondZdwRegisterComponent} from './zdw-register/second-zdw-register.component';
 import {PaymentWriteOffComponent} from './payment-write-off/payment-write-off.component';
 import {ProductAddComponent} from './product-manage/product-add.component';
+import {RefactoringListComponent} from './refactoring-list/refactoring-list.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,7 @@ const routes: Routes = [
   {
     path: 'product-manage',
     component: ProductManageComponent,
-    data: {title: '产品列表', isRemove: true}
+    data: {title: '产品列表', isRemove: true, reload: false}
   },
   {
     path: 'product-add/:id',
@@ -72,6 +73,11 @@ const routes: Routes = [
     path: 'payment-write-off',
     component: PaymentWriteOffComponent,
     data: {title: '付款与核销', isRemove: true}
+  },
+  {
+    path: 'refactoring-list',
+    component: RefactoringListComponent,
+    data: {title: '邮储再保理清单', isRemove: true}
   }
 ];
 

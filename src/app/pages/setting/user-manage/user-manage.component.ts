@@ -10,7 +10,6 @@ import {UserStatusEnum} from '../../../helpers/enum/user-status-enum';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
 import {VUserResp} from '../../../helpers/vo/resp/v-user-resp';
 import {UserSexEnum} from '../../../helpers/enum/user-sex-enum';
-import {VUserPwdReq} from '../../../helpers/vo/req/v-user-pwd-req';
 import {Observable, Observer} from 'rxjs';
 import {MyValidators} from '../../../helpers/MyValidators';
 import {ThemeHelper} from '../../../helpers/theme-helper';
@@ -55,9 +54,8 @@ export class UserManageComponent implements OnInit {
   userInfo: VUserResp; // 用户详情
 
   // 更改密码内容框
-  modifyPwdForm: FormGroup;
-  isShowModifyPwdModal = false;
-  isPwdModalOkLoading = false;
+  // isShowModifyPwdModal = false;
+  // isPwdModalOkLoading = false;
 
   // 部门搜索对话框
   isShowDeptSearchModal = false;
@@ -95,13 +93,6 @@ export class UserManageComponent implements OnInit {
       email: [null, [email]],
       mobile: [null, [required, mobile]],
       status: ['1', null] // 用户状态。0=停用；1-正常
-    });
-
-    // 更改密码表单
-    this.modifyPwdForm = this.fb.group({
-      oldPassword: [null, [required]],
-      password: [null, [this.notOldPwd]],
-      confirm: [null, [this.updatePwdConfirmValidator]]
     });
   }
 
@@ -254,37 +245,6 @@ export class UserManageComponent implements OnInit {
   }
 
   /**
-   * 修改密码-校验密码
-   */
-  updatePwdValidateConfirmPassword(): void {
-    setTimeout(() => this.modifyPwdForm.controls.confirm.updateValueAndValidity());
-  }
-
-  /**
-   * 修改密码-新密码不能和旧密码一样校验
-   */
-  notOldPwd = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value === this.modifyPwdForm.controls.oldPassword.value) {
-      return { notOld: true, error: true };
-    }
-    return {};
-  }
-
-  /**
-   * 修改密码-确认前后密码是否一致。
-   */
-  updatePwdConfirmValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value !== this.modifyPwdForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  }
-
-  /**
    * 搜索并选定部门。
    */
   showDeptSearchModal(): void {
@@ -382,60 +342,6 @@ export class UserManageComponent implements OnInit {
           this.defaultBusService.showLoading(false);
         });
       });
-  }
-
-  /**
-   * 更新用户密码
-   * @param userId 用户id
-   */
-  updateUserPwd(userId: string): void {
-    this.isShowModifyPwdModal = true;
-    this.selectedUserId = userId;
-  }
-
-  /**
-   * 确定更新密码操作。
-   */
-  updateUserPwdHandleOk(): void {
-    if (this.modifyPwdForm.valid) { // 前端通过所有输入校验
-      this.isPwdModalOkLoading = true;
-      const value = this.modifyPwdForm.value;
-      const  vUserPwdReq: VUserPwdReq = {
-        userId: this.selectedUserId,
-        oldPassword: value.oldPassword,
-        password: value.password,
-        confirmPassword: value.confirm
-      };
-      console.log(vUserPwdReq);
-      this.userManageService.updateUserPassword(vUserPwdReq)
-        .ok(data => {
-          if (data) {
-            this.uiHelper.msgTipSuccess('更改用户密码成功');
-            this.updateUserPwdHandleCancel();
-            this.isShowModifyPwdModal = false;
-          } else {
-            this.uiHelper.msgTipError('更改用户密码失败');
-          }
-        }).fail(error => {
-        this.uiHelper.msgTipError(error.msg);
-      }).final(() => {
-        this.isPwdModalOkLoading = false;
-      });
-    } else {
-      for (const key in this.modifyPwdForm.controls) {
-        this.modifyPwdForm.controls[key].markAsDirty();
-        this.modifyPwdForm.controls[key].updateValueAndValidity();
-      }
-    }
-  }
-
-  /**
-   * 取消更新密码操作。
-   */
-  updateUserPwdHandleCancel(): void {
-    this.isShowModifyPwdModal = false;
-    this.selectedUserId = null;
-    this.modifyPwdForm.reset();
   }
 
   /**

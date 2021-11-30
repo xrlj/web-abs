@@ -18,6 +18,10 @@ export class DefaultBusService {
   private pdfShow = new Subject<VPdfShow>();
   pdfShow$ = this.pdfShow.asObservable();
 
+  // 关闭body上的快捷tab
+  private closeTab = new Subject<string>();
+  closeTab$ = this.closeTab.asObservable();
+
   // 是否显示加载等待对话框
   showLoading(isLoading: boolean) {
     this.loadingSpin.next(isLoading);
@@ -26,5 +30,10 @@ export class DefaultBusService {
   // 打开pdf预览
   showPdf(vPdfShow: VPdfShow): void {
     this.pdfShow.next(vPdfShow);
+  }
+
+  // 关闭快捷tab
+  closeTabUrl(url: string) {
+    this.closeTab.next(url);
   }
 }

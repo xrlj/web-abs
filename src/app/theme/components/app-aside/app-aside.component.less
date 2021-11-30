@@ -42,3 +42,26 @@
     }
   }
 }
+
+/*下面改变箭头显示样式*/
+:host ::ng-deep .ant-menu-submenu-arrow::before {
+  color: rgba(0,0,0,.60);
+  height: 1.4px;
+  width: 6px;
+  transform: rotate(-45deg) translateX(3px);
+}
+
+:host ::ng-deep .ant-menu-submenu-arrow::after {
+  color: rgba(0,0,0,.60);
+  height: 1.4px;
+  width: 6px;
+  transform: rotate(45deg) translateX(-3px);
+}
+
+/*:host ::ng-deep .ant-menu-light > .ant-menu-submenu-open.ant-menu-submenu-inline>.ant-menu-submenu-title>.ant-menu-submenu-arrow::before {
+  background: red;
+}
+
+:host ::ng-deep .ant-menu-light .ant-menu-submenu-open.ant-menu-submenu-inline>.ant-menu-submenu-title>.ant-menu-submenu-arrow::after {
+  background: red;
+}*/

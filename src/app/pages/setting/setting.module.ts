@@ -20,31 +20,33 @@ import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
 import {NzTreeSelectModule} from 'ng-zorro-antd/tree-select';
 import {NzTreeModule} from 'ng-zorro-antd/tree';
 import {NzSelectModule} from 'ng-zorro-antd/select';
+import {NzTagModule} from 'ng-zorro-antd/tag';
 
 /**
  * 系统设置
  */
 @NgModule({
   declarations: [UserManageComponent, DptManageComponent, RoleManageComponent],
-  imports: [
-    CommonModule,
-    SettingRoutingModule,
-    NzCardModule,
-    NzButtonModule,
-    NzInputModule,
-    FormsModule,
-    NzTableModule,
-    NzDividerModule,
-    NzModalModule,
-    ReactiveFormsModule,
-    NzFormModule,
-    NzCheckboxModule,
-    NzRadioModule,
-    NzIconModule,
-    NzInputNumberModule,
-    NzTreeSelectModule,
-    NzTreeModule,
-    NzSelectModule
-  ]
+    imports: [
+        CommonModule,
+        SettingRoutingModule,
+        NzCardModule,
+        NzButtonModule,
+        NzInputModule,
+        FormsModule,
+        NzTableModule,
+        NzDividerModule,
+        NzModalModule,
+        ReactiveFormsModule,
+        NzFormModule,
+        NzCheckboxModule,
+        NzRadioModule,
+        NzIconModule,
+        NzInputNumberModule,
+        NzTreeSelectModule,
+        NzTreeModule,
+        NzSelectModule,
+        NzTagModule
+    ]
 })
 export class SettingModule { }

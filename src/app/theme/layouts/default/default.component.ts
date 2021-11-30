@@ -61,4 +61,8 @@ export class DefaultComponent implements OnInit, OnDestroy {
     }
     this.appAsideComponent.selectedMenuOnClickTabMenu($event);
   }
+
+  onRefreshUrl(currentUrl: string) {
+    this.appBodyComponent.onRefreshCurrentTab(currentUrl);
+  }
 }

@@ -70,12 +70,11 @@ export class EtpManageComponent implements OnInit {
     this.commonService.getDictValueListByType('enterprise_type')
       .ok(data => {
         this.tabTitle = data;
+        this.search();
       })
       .fail(error => {
         console.log(error);
       });
-
-    this.search();
   }
 
   search(reset: boolean = false): void {

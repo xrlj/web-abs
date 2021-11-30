@@ -191,4 +191,90 @@ export class ThemeHelper {
     }
     return style;
   }
+
+  /**
+   * 通用状态tag标签各种颜色标识设置。
+   */
+  setCommonStatusColor(status: number): any {
+    let style = {};
+    const theme = this.uiHelper.getCurrentTheme();
+    switch (theme) {
+      case ThemeEnum.Turquoise:
+        switch (status) {
+          case 0:
+            style = {background: '#F6F6F6', color: '#505654'};
+            break;
+          case 1:
+            style = {background: 'green', color: 'green'};
+            break;
+          case 2:
+            style = {background: 'red', color: 'red'};
+            break;
+          case 3:
+            style = {background: '#F6F6F6', color: '#505654'};
+            break;
+          case 4:
+            style = {background: 'green', color: 'green'};
+            break;
+          case 5:
+            style = {background: 'red', color: 'red'};
+            break;
+          case 6:
+            style = {background: 'red', color: 'red'};
+            break;
+        }
+        break;
+      case ThemeEnum.Orange:
+        switch (status) {
+          case 0:
+            style = {background: '#F6F6F6', color: '#505654'};
+            break;
+          case 1:
+            style = {background: 'gold', color: 'gold'};
+            break;
+          case 2:
+            style = {background: 'red', color: 'red'};
+            break;
+          case 3:
+            style = {background: '#F6F6F6', color: '#505654'};
+            break;
+          case 4:
+            style = {background: 'gold', color: 'gold'};
+            break;
+          case 5:
+            style = {background: 'red', color: 'red'};
+            break;
+          case 6:
+            style = {background: 'red', color: 'red'};
+            break;
+        }
+        break;
+      case ThemeEnum.Default:
+        switch (status) {
+          case 0:
+            style = {background: '#F6F6F6', color: '#505654'};
+            break;
+          case 1:
+            style = {background: 'blue', color: 'blue'};
+            break;
+          case 2:
+            style = {background: 'red', color: 'red'};
+            break;
+          case 3:
+            style = {background: '#F6F6F6', color: '#505654'};
+            break;
+          case 4:
+            style = {background: 'blue', color: 'blue'};
+            break;
+          case 5:
+            style = {background: 'red', color: 'red'};
+            break;
+          case 6:
+            style = {background: 'red', color: 'red'};
+            break;
+        }
+        break;
+    }
+    return style;
+  }
 }

@@ -1,12 +1,14 @@
 /****************服务名称start********************/
 
-const serviceauth = 'serviceauth';
-const usercentral = 'usercentral';
-const syscommon = 'syscommon';
+const serviceauth = 'serviceauth'; // 鉴权中心服务
+const usercentral = 'usercentral'; // 用户中心服务
+const syscommon = 'syscommon';  // 公共服务
 const sysfilesystem = 'sysfilesystem'; // 文件系统服务
 const sysnotify = 'sysnotify'; // 通知服务
 const esign = 'esign'; // e签宝服务
-const serviceAbsTemplate = 'serviceAbsTemplate';
+const serviceAbsTemplate = 'serviceAbsTemplate'; // 模板协议服务
+const serviceAbsProduct = 'serviceAbsProduct'; // 产品服务
+
 /****************服务名称 end********************/
 
 export const ApiPath = {
@@ -121,6 +123,17 @@ export const ApiPath = {
     eSignApi: {
       verifyEnterprise: `/${esign}/esign/verifyEnterprise`, // e签宝-企业信息校验。
       verifyPersonal: `/${esign}/esign/verifyPersonal` // 个人实名认证（运营商三要素）。
+    }
+  },
+  serviceAbsProduct: {
+    fpdtTypeApi: {
+      getListAll: `/${serviceAbsProduct}/fpdtType/getListAll` // 获取全部产品类型
+    },
+    productApi: {
+      add: `/${serviceAbsProduct}/product/add`, // 新增
+      update: `/${serviceAbsProduct}/product/update`, // 更新
+      getProductById: `/${serviceAbsProduct}/product/getProductById`, // 根据id获取详情
+      getProductListPage: `/${serviceAbsProduct}/product/getProductListPage` // 分页获取列表
     }
   }
 };

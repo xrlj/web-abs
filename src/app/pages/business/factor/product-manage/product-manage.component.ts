@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {VProductListResp} from '../../../../helpers/vo/resp/v-product-list-resp';
-import {Router} from '@angular/router';
 import {AppPath} from '../../../../app-path';
+import {ProductService} from './product.service';
+import {Utils} from '../../../../helpers/utils';
+import {JwtKvEnum} from '../../../../helpers/enum/jwt-kv-enum';
+import {UIHelper} from '../../../../helpers/ui-helper';
+import {ThemeHelper} from '../../../../helpers/theme-helper';
 
 /**
  * 融资产品管理。
@@ -32,13 +36,33 @@ export class ProductManageComponent implements OnInit {
   isIndeterminate = false;
   numberOfChecked = 0;
 
-  constructor(private router: Router) { }
+  constructor(private productService: ProductService,
+              private utils: Utils, public themeHelper: ThemeHelper,
+              private uiHelper: UIHelper) { }
 
   ngOnInit(): void {
+    this.search();
   }
 
   search(b: boolean = false) {
-
+    this.searchVo.pageIndex = this.pageIndex;
+    this.searchVo.pageSize = this.pageSize;
+    this.searchVo.factorId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId); // 当前登录用户为保理商
+    if (b) this.pageIndex = 1;
+    this.listLoading = true;
+    this.productService.getProductListPage(this.searchVo)
+      .ok(data => {
+        this.pageIndex = data.pageIndex;
+        this.pageSize = data.pageSize;
+        this.total = data.total;
+        this.listOfAllData = data.list;
+      })
+      .fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      })
+      .final(status => {
+        this.listLoading = false;
+      });
   }
 
   /**

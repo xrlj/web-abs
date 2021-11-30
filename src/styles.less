@@ -1,17 +1,18 @@
 @import "~quill/dist/quill.core.css";
 @import "~quill/dist/quill.snow.css";
 
-// 自定义滚动条样式 start
-/*::-webkit-scrollbar {
+/*// 自定义滚动条样式 start
+!*滚动条整体样式*!
+::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
-
+!*滚动条里面轨道*!
 ::-webkit-scrollbar-track {
   border-radius: 1em;
   background-color: hsla(0,0%,58.8%,.1);
 }
-
+!*滚动条里面小方块*!
 ::-webkit-scrollbar-thumb {
   border-radius: 1em;
   background-color: rgba(50,50,50,.3);
@@ -59,10 +60,14 @@
 }
 
 /*=========== 卡片列表以及其按钮样式 start ===========*/
+@card-shadow: 0 0 10px rgb(128 145 165 / 20%); // 边框阴影
+
 .card-list {
   background: #fff;
   min-height: 280px;
-  padding: 24px 24px 40px;
+  //padding: 24px 24px 40px;
+  padding: 24px;
+  box-shadow: @card-shadow;
 
   &-action {
     margin-bottom: 28px;
@@ -127,5 +132,10 @@
   background: #fff;
   min-height: 280px;
   padding: 24px 24px 40px;
+  box-shadow: @card-shadow;
+}
+
+.card-shadow {
+  box-shadow: @card-shadow;
 }
 

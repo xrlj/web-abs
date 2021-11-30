@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit {
       });
       this.api.post(ApiPath.login, null, null, null, null, headers)
         .ok(data => {
+          console.log('>>>>>access_token login:', data.access_token);
           localStorage.setItem(Constants.localStorageKey.token, data.access_token);
           this.router.navigateByUrl(AppPath.init);
         }).fail(error => {

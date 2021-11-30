@@ -63,6 +63,8 @@ import {NzTreeModule} from 'ng-zorro-antd/tree';
 import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
+import { RefactoringListComponent } from './refactoring-list/refactoring-list.component';
+import {NzTagModule} from 'ng-zorro-antd/tag';
 
 
 @NgModule({
@@ -100,6 +102,7 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
     CreditorInventoryDetailsMultipleComponent,
     AgreementTemplateSearchComponent,
     AgreementTemplateDetailsComponent,
+    RefactoringListComponent,
   ],
     imports: [
         CommonModule,
@@ -134,6 +137,7 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
         NzInputNumberModule,
         NzToolTipModule,
         NzUploadModule,
+        NzTagModule,
     ]
 })
 export class FactorModule { }

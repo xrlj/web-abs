@@ -1,11 +1,13 @@
 @app-aside-width: 230px;  // 左边菜单抽屉打开的宽度
 @app-aside-collapsed-width: 50px; // 左边菜单抽屉收缩后的宽度
 @app-header-height: 50px; // 顶部导航栏的高度
+@tab-height: 38px; // 菜单tab导航栏高度
 
 .default-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
   //background-image: url("src/assets/images/bg-normal.png");
   //background-repeat: no-repeat;
   //background-size: cover;
@@ -25,12 +27,13 @@
     width: @app-aside-width;
     height: calc(100vh - 50px);
     //box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%); // 边框阴影;
+    box-shadow: 0 0 10px rgb(128 145 165 / 20%);
   }
 
   app-body {
-    margin-top: @app-header-height;
+    margin-top: @app-header-height + @tab-height;
     margin-left: @app-aside-width;
-    //margin-bottom: 20px;
+    overflow: auto;
   }
 
   app-footer {

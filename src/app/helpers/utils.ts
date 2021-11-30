@@ -112,6 +112,9 @@ export class Utils {
       case JwtKvEnum.UserType:
         return decodeToken.userType;
         break;
+      case JwtKvEnum.EnterpriseName:
+        return decodeToken.etpName;
+        break;
       default:
         return '';
         break;

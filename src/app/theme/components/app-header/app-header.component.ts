@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Api} from '../../../helpers/http/api';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UIHelper} from '../../../helpers/ui-helper';
 import {AppPath} from '../../../app-path';
 import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service';
@@ -33,6 +33,8 @@ export class AppHeaderComponent implements OnInit {
   @Output() toggleCollapsed = new EventEmitter();
   @Output() currentTheme = new EventEmitter();  // 更改主题色调，弹射主题到父组件
   @Output() asideTheme = new EventEmitter();  // 更改菜单抽屉主题，弹射主题到父组件
+
+  @Output() onRefreshUrl = new EventEmitter<string>(); // 刷新页面
 
   appName = Constants.appInfo.appName;
 
@@ -151,7 +153,11 @@ export class AppHeaderComponent implements OnInit {
    * // TODO 路由会重新加载，但是页面无法重新加载。需要再具体组件中订阅路由事件，是否有更好办法？
    */
   routerRefresh() {
+    const object = SimpleReuseStrategy.getHandleObject(this.router.url);
+    console.log(object);
+    // this.onRefreshUrl.emit(this.router.url);
     // this.router.navigate([this.router.url]);
+    // this.router.navigate(['/pages/business/factor/agreement-template']);
   }
 
   fullScreen() {

@@ -7,11 +7,11 @@ export interface VProductListResp {
   /**
    * 产品编号
    */
-  ptCode: string;
+  pdtCode: string;
   /**
    * 产品名称
    */
-  ptName: string;
+  pdtName: string;
   /**
    * 核心企业名称
    */
@@ -19,11 +19,15 @@ export interface VProductListResp {
   /**
    * 产品状态
    */
-  ptStatus: boolean;
+  pdtStatus: number;
+  /**
+   * 产品状态名称
+   */
+  pdtStatusName: string;
   /**
    * 产品类型
    */
-  ptType: string;
+  pdtTypeName: string;
   /**
    * 创建时间
    */
@@ -31,7 +35,7 @@ export interface VProductListResp {
   /**
    * 创建人
    */
-  creator: string;
+  creatorRealName: string;
   /**
    * 选择状态。
    */

@@ -11,13 +11,34 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
   private static route: ActivatedRouteSnapshot;
 
+  private static getKey(url: string): string {
+    const key = url.replace(/\//g, '_')
+      + '_' + (SimpleReuseStrategy.route.routeConfig.loadChildren || SimpleReuseStrategy.route.routeConfig.component.toString().split('(')[0].split(' ')[1]);
+
+    return key;
+  }
+
+  /**
+   * 返回缓存组件对象。
+   * @param url path路径
+   */
+  public static getHandleObject(url: string): DetachedRouteHandle {
+    // const key = url.replace(/\//g, '_') + '_' + (this.route.routeConfig.loadChildren || this.route.routeConfig.component.toString().split('(')[0].split(' ')[1]);
+
+    const key = this.getKey(url);
+    return SimpleReuseStrategy.handlers[key];
+  }
+
   public static deleteRouteSnapshotAll(): void {
-    this.handlers = {};
+    for (const handlersKey in this.handlers) {
+      delete SimpleReuseStrategy.handlers[handlersKey];
+    }
   }
 
   public static deleteRouteSnapshot(url: string): void {
     // const key = url.replace(/\//g, '_');
-    const key = url.replace(/\//g, '_') + '_' + (this.route.routeConfig.loadChildren || this.route.routeConfig.component.toString().split('(')[0].split(' ')[1] );
+    // const key = url.replace(/\//g, '_') + '_' + (this.route.routeConfig.loadChildren || this.route.routeConfig.component.toString().split('(')[0].split(' ')[1]);
+    const key = this.getKey(url);
     if (SimpleReuseStrategy.handlers[key]) {
       delete SimpleReuseStrategy.handlers[key];
     } else {
@@ -27,7 +48,7 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
   /** 表示对所有路由允许复用 如果你有路由不想利用可以在这加一些业务逻辑判断 */
   public shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    const  data = route.routeConfig && route.routeConfig.data && route.routeConfig.data.isRemove; // 路由中配置了data数据的，才复用
+    const data = route.routeConfig && route.routeConfig.data && route.routeConfig.data.isRemove; // 路由中配置了data数据的，才复用
     if (data) {
       return true;  // true代表复用该路由
     } else {
@@ -37,11 +58,13 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
   /** 当路由离开时会触发。按path作为key存储路由快照&组件当前实例对象 */
   public store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
+    // debugger;
     if (SimpleReuseStrategy.waitDelete && SimpleReuseStrategy.waitDelete === this.getRouteUrl(route)) {
       // 如果待删除是当前路由则不存储快照
       SimpleReuseStrategy.waitDelete = null;
       return;
     }
+    // SimpleReuseStrategy.handlers[route.data.key] = handle; // 无效，无法复用。key路径有问题
     SimpleReuseStrategy.handlers[this.getRouteUrl(route)] = handle;
   }
 
@@ -55,11 +78,11 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
     if (!route.routeConfig) {
       return null;
     }
-
-    return SimpleReuseStrategy.handlers[this.getRouteUrl(route)];
+    const d = SimpleReuseStrategy.handlers[this.getRouteUrl(route)];
+    return d;
   }
 
-  /** 进入路由触发，判断是否同一路由 */
+  /** 是否重用路由。进入路由触发，判断是否同一路由 */
   public shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
     return future.routeConfig === curr.routeConfig &&
       JSON.stringify(future.params) === JSON.stringify(curr.params);
@@ -71,7 +94,10 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
     SimpleReuseStrategy.route = route;
 
-    return route['_routerState'].url.replace(/\//g, '_')
-      + '_' + (route.routeConfig.loadChildren || route.routeConfig.component.toString().split('(')[0].split(' ')[1] );
+    const url = route['_routerState'].url;
+    return SimpleReuseStrategy.getKey(url);
+
+    /*return route['_routerState'].url.replace(/\//g, '_')
+      + '_' + (route.routeConfig.loadChildren || route.routeConfig.component.toString().split('(')[0].split(' ')[1]);*/
   }
 }

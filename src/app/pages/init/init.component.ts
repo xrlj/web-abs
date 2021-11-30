@@ -5,8 +5,6 @@ import {ApiPath} from '../../api-path';
 import {Constants} from '../../helpers/constants';
 import {AppPath} from '../../app-path';
 import {SimpleReuseStrategy} from '../../helpers/simple-reuse-strategy';
-import {UserStatusEnum} from '../../helpers/enum/user-status-enum';
-import {EnterpriseStatusEnum} from '../../helpers/enum/enterprise-status-enum';
 import {VSettingInfo} from '../../helpers/vo/v-setting-info';
 import {environment} from '../../../environments/environment';
 import {FinancingModelEnum} from '../../helpers/enum/financing-model-enum';
