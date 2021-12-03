@@ -6,271 +6,272 @@
                nzType="card"
                (nzSelectedIndexChange)="getContent(tabIndex)">
       <nz-tab *ngFor="let title of tabTitle, let i = index" [nzTitle]="title.name" [nzDisabled]="title.disable">
-        <!--基础信息-->
-        <div class="tab-content" *ngIf="i === 0">
-          <form nz-form [formGroup]="ptBasicInfoForm">
-            <div class="info-line-title">
-              <nz-divider nzType="vertical"></nz-divider>
-              <span>产品信息</span>
-            </div>
-            <div class="form-column">
-              <div class="form-column-one">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptName" nzRequired>产品名称</nz-form-label>
-                  <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
-                    <input formControlName="ptName" id="ptName" placeholder="请输入产品名称" nz-input/>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptCode">产品编号</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <input formControlName="ptCode" id="ptCode" placeholder="请输入产品编号" nz-input/>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6">产品说明</nz-form-label>
-                  <nz-form-control [nzSpan]="0">
+        <!--懒加载方式： 默认情况下，nz-tab 中的组件的 ngOnInit 会提前触发，如果希望当 Tab 被激活时再触发 ngOnInit，可以使用该示例中的懒加载方式。-->
+        <ng-template nz-tab>
+          <!--基础信息-->
+          <div class="tab-content" *ngIf="i === 0">
+            <form nz-form [formGroup]="ptBasicInfoForm">
+              <div class="info-line-title">
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>产品信息</span>
+              </div>
+              <div class="form-column">
+                <div class="form-column-one">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptName" nzRequired>产品名称</nz-form-label>
+                    <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
+                      <input formControlName="ptName" id="ptName" placeholder="请输入产品名称" nz-input/>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptCode">产品编号</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <input formControlName="ptCode" id="ptCode" placeholder="请输入产品编号" nz-input/>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6">产品说明</nz-form-label>
+                    <nz-form-control [nzSpan]="0">
                     <textarea formControlName="ptComment" id="ptComment" nz-input rows="2"
                               placeholder="请输入产品描述"></textarea>
-                  </nz-form-control>
-                </nz-form-item>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div class="form-column-two">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptStatus" nzRequired>产品状态</nz-form-label>
+                    <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
+                      <nz-select nzAllowClear id="ptStatus" formControlName="ptStatus" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let status of pdtStatus" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptType" nzRequired>产品类别</nz-form-label>
+                    <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
+                      <nz-select nzAllowClear id="ptType" formControlName="ptType" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let type of fpdtType" [nzValue]="type.id" [nzLabel]="type.pdtTypeName"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptPeriodsNum">产品期数</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <input formControlName="ptPeriodsNum" id="ptPeriodsNum" placeholder="请输入产品期数" nz-input/>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
               </div>
-              <div class="form-column-two">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptStatus" nzRequired>产品状态</nz-form-label>
-                  <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
-                    <nz-select nzAllowClear id="ptStatus" formControlName="ptStatus" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let status of pdtStatus" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptType" nzRequired>产品类别</nz-form-label>
-                  <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
-                    <nz-select (ngModelChange)="ptTypeChange($event)" nzAllowClear id="ptType" formControlName="ptType" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let type of fpdtType" [nzValue]="type.id" [nzLabel]="type.pdtTypeName"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptPeriodsNum">产品期数</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <input formControlName="ptPeriodsNum" id="ptPeriodsNum" placeholder="请输入产品期数" nz-input/>
-                  </nz-form-control>
-                </nz-form-item>
-              </div>
-            </div>
 
-            <div class="info-line-title">
-              <nz-divider nzType="vertical"></nz-divider>
-              <span>企业设置</span>
-            </div>
-            <div class="form-column">
-              <div class="form-column-one">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptFactor" nzRequired>保理商</nz-form-label>
-                  <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
-                    <nz-select id="ptFactor" formControlName="ptFactor" nzPlaceHolder="请选择">
-                      <nz-option [nzValue]="factoringEtpId" [nzLabel]="factoringEtpName"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptSPV">SPV</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-select nzAllowClear name="ptSPV" formControlName="ptSPV" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let spv of etpSPVs" [nzValue]="spv.id" [nzLabel]="spv.etpName"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="lawOffice">律师事务所</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-select nzAllowClear name="lawOffice" formControlName="lawOffice" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let law of etpLawOffices" [nzValue]="law.id" [nzLabel]="law.etpName"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
+              <div class="info-line-title">
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>企业设置</span>
               </div>
-              <div class="form-column-two">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptCore" nzRequired>核心企业</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <nz-select nzAllowClear name="ptCore" formControlName="ptCore" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let etpCore of etpCores" [nzValue]="etpCore.id" [nzLabel]="etpCore.etpName"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptCoreDebt">债务加入方</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <nz-select nzAllowClear name="ptCoreDebt" formControlName="ptCoreDebt" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let debt of etpCoreDebts" [nzValue]="debt.id" [nzLabel]="debt.etpName"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
+              <div class="form-column">
+                <div class="form-column-one">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptFactor" nzRequired>保理商</nz-form-label>
+                    <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
+                      <nz-select id="ptFactor" formControlName="ptFactor" nzPlaceHolder="请选择">
+                        <nz-option [nzValue]="factoringEtpId" [nzLabel]="factoringEtpName"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptSPV">SPV</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-select nzAllowClear name="ptSPV" formControlName="ptSPV" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let spv of etpSPVs" [nzValue]="spv.id" [nzLabel]="spv.etpName"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="lawOffice">律师事务所</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-select nzAllowClear name="lawOffice" formControlName="lawOffice" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let law of etpLawOffices" [nzValue]="law.id" [nzLabel]="law.etpName"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div class="form-column-two">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptCore" nzRequired>核心企业</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <nz-select nzAllowClear name="ptCore" formControlName="ptCore" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let etpCore of etpCores" [nzValue]="etpCore.id" [nzLabel]="etpCore.etpName"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptCoreDebt">债务加入方</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <nz-select nzAllowClear name="ptCoreDebt" formControlName="ptCoreDebt" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let debt of etpCoreDebts" [nzValue]="debt.id" [nzLabel]="debt.etpName"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
               </div>
-            </div>
 
-            <div class="info-line-title">
-              <nz-divider nzType="vertical"></nz-divider>
-              <span>额度信息</span>
-            </div>
-            <div class="form-column">
-              <div class="form-column-one">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptQuota">融资总额度</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-input-group [nzSuffix]="suffixRmb">
-                      <input formControlName="ptQuota" id="ptQuota" placeholder="请输入总额度" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptContractQuota">合同融资总额度</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-input-group [nzSuffix]="suffixRmb">
-                      <input formControlName="ptContractQuota" id="ptContractQuota" placeholder="请输入合同总额度" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptQuotaNature">额度性质</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-select nzAllowClear formControlName="ptQuotaNature" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let value of pdtEdNature" [nzValue]="value.dictValue" [nzLabel]="value.dictLabel"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
+              <div class="info-line-title">
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>额度信息</span>
               </div>
-              <div class="form-column-two">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptPaymentBillQuota">应收账款融资额度</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <nz-input-group [nzSuffix]="suffixRmb">
-                      <input formControlName="ptPaymentBillQuota" id="ptPaymentBillQuota" placeholder="请输入应收账款融资额度"
-                             nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptQuotaDeadline">额度期限</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <nz-input-group [nzSuffix]="suffixYear">
-                      <input formControlName="ptQuotaDeadline" id="ptQuotaDeadline" placeholder="请输入融资期限" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
+              <div class="form-column">
+                <div class="form-column-one">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptQuota">融资总额度</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-input-group [nzSuffix]="suffixRmb">
+                        <input formControlName="ptQuota" id="ptQuota" placeholder="请输入总额度" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptContractQuota">合同融资总额度</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-input-group [nzSuffix]="suffixRmb">
+                        <input formControlName="ptContractQuota" id="ptContractQuota" placeholder="请输入合同总额度" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptQuotaNature">额度性质</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-select nzAllowClear formControlName="ptQuotaNature" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let value of pdtEdNature" [nzValue]="value.dictValue" [nzLabel]="value.dictLabel"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div class="form-column-two">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptPaymentBillQuota">应收账款融资额度</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <nz-input-group [nzSuffix]="suffixRmb">
+                        <input formControlName="ptPaymentBillQuota" id="ptPaymentBillQuota" placeholder="请输入应收账款融资额度"
+                               nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptQuotaDeadline">额度期限</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <nz-input-group [nzSuffix]="suffixYear">
+                        <input formControlName="ptQuotaDeadline" id="ptQuotaDeadline" placeholder="请输入融资期限" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
               </div>
-            </div>
 
-            <!--费用信息-->
-            <div class="info-line-title">
-              <nz-divider nzType="vertical"></nz-divider>
-              <span>费用信息</span>
-            </div>
-            <div class="form-column">
-              <div class="form-column-one">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptBuyDiscount">买入折扣</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-input-group [nzSuffix]="suffixRate">
-                      <input formControlName="ptBuyDiscount" id="ptBuyDiscount" placeholder="请输入买入折扣，如：95" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptYearRate">年化利率</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-input-group [nzSuffix]="suffixRate">
-                      <input formControlName="ptYearRate" id="ptYearRate" placeholder="请输入年化利率，如：4.5" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptCostPeriod">使用期限</nz-form-label>
-                  <nz-form-control [nzSpan]="10">
-                    <nz-input-group [nzSuffix]="suffixMonth">
-                      <input formControlName="ptCostPeriod" id="ptCostPeriod" placeholder="请输入使用期限" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
+              <!--费用信息-->
+              <div class="info-line-title">
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>费用信息</span>
               </div>
-              <div class="form-column-two">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptSellDiscount">卖出折扣</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <nz-input-group nzSearch [nzSuffix]="suffixRate">
-                      <input formControlName="ptSellDiscount" id="ptSellDiscount" placeholder="请输入卖出折扣，如：96" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptIssuanceAmount">发行金额</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <nz-input-group nzSearch [nzSuffix]="suffixPtIssuanceAmount">
-                      <input formControlName="ptIssuanceAmount" id="ptIssuanceAmount" placeholder="请输入发行金额" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="ptGraceDeadline">宽限期限</nz-form-label>
-                  <nz-form-control [nzSpan]="6">
-                    <nz-input-group nzSearch [nzSuffix]="suffixDay">
-                      <input formControlName="ptGraceDeadline" id="ptGraceDeadline" placeholder="请输入宽限期限" nz-input/>
-                    </nz-input-group>
-                  </nz-form-control>
-                </nz-form-item>
+              <div class="form-column">
+                <div class="form-column-one">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptBuyDiscount">买入折扣</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-input-group [nzSuffix]="suffixRate">
+                        <input formControlName="ptBuyDiscount" id="ptBuyDiscount" placeholder="请输入买入折扣，如：95" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptYearRate">年化利率</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-input-group [nzSuffix]="suffixRate">
+                        <input formControlName="ptYearRate" id="ptYearRate" placeholder="请输入年化利率，如：4.5" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptCostPeriod">使用期限</nz-form-label>
+                    <nz-form-control [nzSpan]="10">
+                      <nz-input-group [nzSuffix]="suffixMonth">
+                        <input formControlName="ptCostPeriod" id="ptCostPeriod" placeholder="请输入使用期限" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div class="form-column-two">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptSellDiscount">卖出折扣</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <nz-input-group nzSearch [nzSuffix]="suffixRate">
+                        <input formControlName="ptSellDiscount" id="ptSellDiscount" placeholder="请输入卖出折扣，如：96" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptIssuanceAmount">发行金额</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <nz-input-group nzSearch [nzSuffix]="suffixPtIssuanceAmount">
+                        <input formControlName="ptIssuanceAmount" id="ptIssuanceAmount" placeholder="请输入发行金额" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="ptGraceDeadline">宽限期限</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                      <nz-input-group nzSearch [nzSuffix]="suffixDay">
+                        <input formControlName="ptGraceDeadline" id="ptGraceDeadline" placeholder="请输入宽限期限" nz-input/>
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
               </div>
-            </div>
-            <!--其它-->
-            <div class="info-line-title">
-              <nz-divider nzType="vertical"></nz-divider>
-              <span>其它信息</span>
-            </div>
-            <div class="form-column">
-              <div class="form-column-one">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="pbDataSource" nzRequired>数据源</nz-form-label>
-                  <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
-                    <nz-select nzAllowClear formControlName="pbDataSource" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let dataSource of paymentBillDbSource" [nzValue]="dataSource.dictValue" [nzLabel]="dataSource.dictLabel"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
+              <!--其它-->
+              <div class="info-line-title">
+                <nz-divider nzType="vertical"></nz-divider>
+                <span>其它信息</span>
               </div>
-              <div class="form-column-two">
-                <nz-form-item>
-                  <nz-form-label [nzSpan]="6" nzFor="pbSellNum" nzRequired>转让次数</nz-form-label>
-                  <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
-                    <nz-select *ngIf="!fpdtTypeABSSelect" nzAllowClear formControlName="pbSellNum" nzPlaceHolder="请选择">
-                      <nz-option *ngFor="let item of paymentBillTransferNum" [nzValue]="item.dictValue" [nzLabel]="item.dictLabel"></nz-option>
-                    </nz-select>
-                    <nz-select nzDisabled *ngIf="fpdtTypeABSSelect" formControlName="pbSellNum" nzPlaceHolder="请选择">
-                      <nz-option [nzValue]="TWO_TRANSFER.dictValue" [nzLabel]="TWO_TRANSFER.dictLabel"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
+              <div class="form-column">
+                <div class="form-column-one">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="pbDataSource" nzRequired>数据源</nz-form-label>
+                    <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
+                      <nz-select nzAllowClear formControlName="pbDataSource" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let dataSource of paymentBillDbSource" [nzValue]="dataSource.dictValue" [nzLabel]="dataSource.dictLabel"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div class="form-column-two">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzFor="pbSellNum" nzRequired>转让次数</nz-form-label>
+                    <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
+                      <nz-select  nzAllowClear formControlName="pbSellNum" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let item of paymentBillTransferNum" [nzValue]="item.dictValue" [nzLabel]="item.dictLabel"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
               </div>
+            </form>
+            <div class="pd-basic-action-btn">
+              <button (click)="saveProductBasicInfo()" nz-button nzType="primary">保存</button>
+              <button (click)="closeTab()" nz-button nzType="primary" nzGhost>关闭</button>
             </div>
-          </form>
-          <div class="pd-basic-action-btn">
-            <button (click)="saveProductBasicInfo()" nz-button nzType="primary">保存</button>
-            <button (click)="closeTab()" nz-button nzType="primary" nzGhost>关闭</button>
           </div>
-        </div>
-        <!--产品分期-->
-        <div class="tab-content" *ngIf="i === 1">
-          <app-product-staging-list></app-product-staging-list>
-        </div>
-        <!--协议模板-->
-        <div class="tab-content" *ngIf="i === 2">
-          <app-product-agreement-list></app-product-agreement-list>
-        </div>
-        <!--附件-->
-        <div class="tab-content" *ngIf="i === 3">
-          <app-product-annex-list></app-product-annex-list>
-        </div>
+          <!--产品分期-->
+          <div class="tab-content" *ngIf="i === 1">
+            <app-product-staging-list [productId]="productId" [showType]="1"></app-product-staging-list>
+          </div>
+          <!--协议模板-->
+          <div class="tab-content" *ngIf="i === 2">
+            <app-product-agreement-list></app-product-agreement-list>
+          </div>
+          <!--附件-->
+          <div class="tab-content" *ngIf="i === 3">
+            <app-product-annex-list></app-product-annex-list>
+          </div>
+
+        </ng-template>
       </nz-tab>
     </nz-tabset>
   </div>

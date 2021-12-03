@@ -9,7 +9,7 @@
     </nz-input-group>
     <button nz-button nzType="primary" (click)="search(true)"><i nz-icon nzType="search"></i>搜索</button>
     <button nz-button nzType="primary" [routerLink]="[productAddPath, 0]"><i nz-icon nzType="plus"></i>新增</button>
-    <button nz-button nzType="primary" nzDanger (click)="changShowType(2)"><i nz-icon nzType="delete"></i>删除</button>
+    <button nz-button nzType="primary" nzDanger><i nz-icon nzType="delete"></i>删除</button>
 
     <ng-template #ptNameSuffixTemplate
     ><i
@@ -58,8 +58,8 @@
           [nzIndeterminate]="isIndeterminate"
           (nzCheckedChange)="checkAll($event)"
         ></th>
-        <th nzWidth="15%" nzAlign="center">产品编号</th>
-        <th nzWidth="15%" nzAlign="center">产品名称</th>
+        <th nzWidth="10%" nzAlign="center">产品编号</th>
+        <th nzWidth="20%" nzAlign="center">产品名称</th>
         <th nzWidth="15%" nzAlign="center">核心企业</th>
         <th nzWidth="10%" nzAlign="center">产品类别</th>
         <th nzWidth="10%" nzAlign="center">产品状态</th>
@@ -91,17 +91,17 @@
         <td nzAlign="center">{{ data.creatorRealName}}</td>
         <td nzAlign="center" [ngSwitch]="data.pdtStatus">
           <div *ngSwitchCase="0">
-            <a>编辑</a>
+            <a [routerLink]="[productAddPath, data.id]">编辑</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a>启用</a>
+            <a (click)="startProduct(data.id, 1)">启用</a>
           </div>
           <div *ngSwitchCase="1">
-            <a>查看</a>
+            <a (click)="goLookDetails(data.id)">查看</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a>停用</a>
+            <a (click)="stopProduct(data.id, 0)">停用</a>
           </div>
           <div *ngSwitchCase="2">
-            <a>查看</a>
+            <a (click)="goLookDetails(data.id)">查看</a>
           </div>
         </td>
       </tr>
@@ -110,4 +110,4 @@
   </div>
 </nz-card>
 
-<app-product-details *ngIf="showType === 2" (showType)="changShowType($event)"></app-product-details>
+<app-product-details *ngIf="showType === 2" (showType)="showType = $event" [productId]="productSelectedId"></app-product-details>

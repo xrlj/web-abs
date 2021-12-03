@@ -133,7 +133,14 @@ export const ApiPath = {
       add: `/${serviceAbsProduct}/product/add`, // 新增
       update: `/${serviceAbsProduct}/product/update`, // 更新
       getProductById: `/${serviceAbsProduct}/product/getProductById`, // 根据id获取详情
-      getProductListPage: `/${serviceAbsProduct}/product/getProductListPage` // 分页获取列表
+      getProductListPage: `/${serviceAbsProduct}/product/getProductListPage`, // 分页获取列表
+      updateProductStatus: `/${serviceAbsProduct}/product/updateProductStatus` // 更新产品状态
+    },
+    productStagingApi: {
+      add: `/${serviceAbsProduct}/productStaging/add`, // 新增
+      update: `/${serviceAbsProduct}/productStaging/update`, // 更新
+      getListPage: `/${serviceAbsProduct}/productStaging/getListPage`, // 分页获取列表
+      getById: `/${serviceAbsProduct}/productStaging/getById`,
     }
   }
 };

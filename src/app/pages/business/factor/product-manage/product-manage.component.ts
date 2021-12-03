@@ -6,6 +6,8 @@ import {Utils} from '../../../../helpers/utils';
 import {JwtKvEnum} from '../../../../helpers/enum/jwt-kv-enum';
 import {UIHelper} from '../../../../helpers/ui-helper';
 import {ThemeHelper} from '../../../../helpers/theme-helper';
+import {Router} from '@angular/router';
+import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
 
 /**
  * 融资产品管理。
@@ -36,9 +38,13 @@ export class ProductManageComponent implements OnInit {
   isIndeterminate = false;
   numberOfChecked = 0;
 
+  productSelectedId: string; // 选定产品id，单挑
+
   constructor(private productService: ProductService,
               private utils: Utils, public themeHelper: ThemeHelper,
-              private uiHelper: UIHelper) { }
+              private uiHelper: UIHelper,
+              private defaultBusService: DefaultBusService) {
+  }
 
   ngOnInit(): void {
     this.search();
@@ -96,7 +102,42 @@ export class ProductManageComponent implements OnInit {
     this.refreshStatus();
   }
 
-  changShowType(showType: number) {
-    this.showType = showType;
+  startProduct(productId: string, pdtStatus: number) {
+    this.updateProductStatus(productId, pdtStatus);
+  }
+
+  stopProduct(productId: string, pdtStatus: number) {
+    this.uiHelper.modalConfirm('确定停用？')
+      .ok(() => {
+        this.updateProductStatus(productId, pdtStatus);
+      });
+  }
+
+  updateProductStatus(productId: string, pdtStatus: number) {
+    this.defaultBusService.showLoading(true);
+    this.productService.updateProductStatus(productId, pdtStatus)
+      .ok(data => {
+        if (data) {
+          this.uiHelper.msgTipSuccess('请求成功');
+          setTimeout(() => {
+            this.search();
+          }, 100);
+        }
+      })
+      .fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      })
+      .final(b => {
+        this.defaultBusService.showLoading(false);
+      });
+  }
+
+  /**
+   * 查看产品详情信息
+   * @param id 产品id
+   */
+  goLookDetails(id: string) {
+    this.productSelectedId = id;
+    this.showType = 2; // 显示详情ui
   }
 }

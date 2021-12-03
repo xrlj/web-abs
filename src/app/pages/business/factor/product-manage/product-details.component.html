@@ -3,7 +3,7 @@
     <nz-tabset [nzTabBarGutter]="2"
                [(nzSelectedIndex)]="tabIndex"
                nzType="card"
-               (nzSelectedIndexChange)="getContent(tabIndex)">
+               (nzSelectedIndexChange)="getTabContent(tabIndex)">
       <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
         <div *ngIf="title === tabTitle[0]">
           <!--产品信息-->
@@ -12,15 +12,16 @@
             <span>产品信息</span>
           </div>
           <nz-descriptions nzBordered  [nzSize]="'small'">
-            <nz-descriptions-item nzTitle="产品编号">ZR-001</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="产品名称">招商创融—慧链通2019保理资产支持专项计划</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品编号">{{productBasicInfo?.pdtCode}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品名称">{{productBasicInfo?.pdtName}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="产品状态">
-              <nz-badge nzStatus="processing" nzText="已上线/在线"></nz-badge>
+              <nz-badge *ngIf="productBasicInfo?.pdtStatus === 0" nzStatus="default" [nzText]="productBasicInfo?.extra.pdtStatusName"></nz-badge>
+              <nz-badge *ngIf="productBasicInfo?.pdtStatus === 1" nzStatus="processing" [nzText]="productBasicInfo?.extra.pdtStatusName"></nz-badge>
+              <nz-badge *ngIf="productBasicInfo?.pdtStatus === 2" nzStatus="success" [nzText]="productBasicInfo?.extra.pdtStatusName"></nz-badge>
             </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="产品类别">地产ABS融资</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="原始编号"></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="产品期数"></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="产品说明">测试<br>测试</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品类别">{{productBasicInfo?.extra.pdtTypeName}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品说明">{{productBasicInfo?.pdtDesc}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="产品期数">{{productBasicInfo?.pdtPeriodsNum}}</nz-descriptions-item>
           </nz-descriptions>
           <!--相关企业-->
           <div class="info-line-title" style="margin-top: 30px;">
@@ -28,10 +29,11 @@
             <span>相关企业信息</span>
           </div>
           <nz-descriptions nzBordered [nzSize]="'small'">
-            <nz-descriptions-item nzTitle="保理商">慧链通（深圳）商业保理有限公司</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="核心企业">碧桂园地产集团有限公司</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="SPV">招商证券资产管理有限公司</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="债务加入方"></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="保理商">{{productBasicInfo?.extra.factor}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="核心企业">{{productBasicInfo?.extra.core}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="SPV">{{productBasicInfo?.extra.spv}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="债务加入方">{{productBasicInfo?.extra.coreDebtor}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="律师事务所">{{productBasicInfo?.extra.law}}</nz-descriptions-item>
           </nz-descriptions>
           <!--额度信息-->
           <div class="info-line-title" style="margin-top: 30px;">
@@ -39,11 +41,11 @@
             <span>额度信息</span>
           </div>
           <nz-descriptions nzBordered [nzSize]="'small'">
-            <nz-descriptions-item nzTitle="融资总额度"></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="合同融资额度"></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="应收账款融资额度"></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="额度性质"></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="额度期限">2年</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="融资总额度">{{productBasicInfo?.totalFinancingMoney}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="合同融资额度">{{productBasicInfo?.totalContractMoney}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="应收账款融资额度">{{productBasicInfo?.totalReceivableMoney}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="额度性质">{{productBasicInfo?.extra.pdtEdNatureName}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="额度期限">{{productBasicInfo?.pdtQuotaTimeLimit}}年</nz-descriptions-item>
           </nz-descriptions>
           <!--费用信息-->
           <div class="info-line-title" style="margin-top: 30px;">
@@ -51,16 +53,25 @@
             <span>费用信息</span>
           </div>
           <nz-descriptions nzBordered [nzSize]="'small'">
-            <nz-descriptions-item nzTitle="买入折扣">94.5%</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="卖出折扣">95.3%</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="年化利率"></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="发行金额">80亿</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="使用期限">24月</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="宽限期限">10天</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="买入折扣">{{productBasicInfo?.buyDiscount}}%</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="卖出折扣">{{productBasicInfo?.selloutDiscount}}%</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="年化利率">{{productBasicInfo?.yearRate}}%</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="发行金额">{{productBasicInfo?.issuanceAmount}}亿</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="使用期限">{{productBasicInfo?.useTimeLimit}}月</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="宽限期限">{{productBasicInfo?.graceTimeLimit}}天</nz-descriptions-item>
+          </nz-descriptions>
+          <!--产品信息-->
+          <div class="info-line-title">
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>其它信息</span>
+          </div>
+          <nz-descriptions nzBordered [nzSize]="'small'">
+            <nz-descriptions-item nzTitle="数据源">{{productBasicInfo?.extra.paymentBillDbSourceName}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="转让次数">{{productBasicInfo?.extra.paymentBillTransferNum}}</nz-descriptions-item>
           </nz-descriptions>
         </div>
         <div *ngIf="title === tabTitle[1]">
-          <app-product-staging-list></app-product-staging-list>
+          <app-product-staging-list [showType]="2"></app-product-staging-list>
         </div>
         <div *ngIf="title === tabTitle[2]">
           <app-product-agreement-list></app-product-agreement-list>

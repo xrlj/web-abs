@@ -10,6 +10,7 @@
     "deprecation": {
       "severity": "warning"
     },
+    "no-shadowed-variable": false, // true-不允许隐藏变量声明;false-允许
     "variable-name": [ // 定义变量命名规则
       true,
       "ban-keywords",
