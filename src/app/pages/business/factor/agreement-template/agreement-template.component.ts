@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AgreementTemplateSearchComponent} from './agreement-template-search.component';
 import {AgreementTemplateService} from './agreement-template.service';
 import {UIHelper} from '../../../../helpers/ui-helper';
 import {CommonService} from '../../../../helpers/service/common.service';
+import {UiTableHelper} from '../../../../helpers/ui-table-helper';
 
 /**
  * 协议模板管理。
@@ -14,6 +15,9 @@ import {CommonService} from '../../../../helpers/service/common.service';
 })
 export class AgreementTemplateComponent implements OnInit {
 
+  @Input()
+  selectAgrFlag = false;
+
   showType = 1; // 1-显示列表；2-显示详情、新增、编辑页面
 
   // 表格
@@ -22,6 +26,14 @@ export class AgreementTemplateComponent implements OnInit {
   pageIndex = 1; // 页码
   pageSize = 10; // 每页条数
   total = 0; // 总条数
+
+  // 列表选定
+  isAllDisplayDataChecked = false;
+  isIndeterminate = false;
+  listOfDisplayData: any[] = [];
+  mapOfCheckedId: { [key: string]: boolean } = {}; // 记录选择id
+  mapOfCheckedObj: { [key: string]: any } = {}; // 记录选择对象
+  numberOfChecked = 0; // 每页选择的记录
 
   selectedId: string;
   detailsType: number;
@@ -44,7 +56,8 @@ export class AgreementTemplateComponent implements OnInit {
   searchData: any;
 
   constructor(private agreementTemplateService: AgreementTemplateService,
-              private uiHelper: UIHelper, private commonService: CommonService) { }
+              private uiHelper: UIHelper, private commonService: CommonService,
+              private uiTableHelper: UiTableHelper) { }
 
   ngOnInit(): void {
     this.search(null);
@@ -67,6 +80,10 @@ export class AgreementTemplateComponent implements OnInit {
     }
     this.searchParBody.pageIndex = this.pageIndex;
     this.searchParBody.pageSize = this.pageSize;
+    if (this.selectAgrFlag) {
+      // 选择模板，只能选择状态为已生效的。生效的值为2，注意和字段设置的一致
+      this.searchParBody.agrStatus = 2;
+    }
 
     this.listLoading = true;
     this.agreementTemplateService.getAgrTemplateListPage(this.searchParBody)
@@ -74,7 +91,7 @@ export class AgreementTemplateComponent implements OnInit {
         this.pageIndex = data.pageIndex;
         this.pageSize = data.pageSize;
         this.total = data.total;
-        this.listOfAllData = data.list;
+        this.listOfAllData = this.uiTableHelper.tableListDataAddCheckDisablePar(data.list);
       })
       .fail(error => {
         this.uiHelper.msgTipError(error.msg);
@@ -85,7 +102,8 @@ export class AgreementTemplateComponent implements OnInit {
   }
 
   currentPageDataChange($event: any[]): void {
-    this.listOfAllData = $event;
+    this.listOfDisplayData = $event;
+    this.refreshStatus();
   }
 
   showDetails(detailsType: number, data?: any) {
@@ -107,5 +125,22 @@ export class AgreementTemplateComponent implements OnInit {
 
   openTemplateFile(agrFileId: string) {
     this.commonService.downloadFileById(agrFileId);
+  }
+
+  checkAll(value: boolean): void {
+    this.listOfDisplayData.filter(item => !item.disabled).forEach(item => (this.mapOfCheckedId[item.id] = value));
+    this.refreshStatus();
+  }
+
+  refreshStatus(): void {
+    this.isAllDisplayDataChecked = this.listOfDisplayData
+      .filter(item => !item.disabled)
+      .every(item => this.mapOfCheckedId[item.id]);
+    this.isIndeterminate =
+      this.listOfDisplayData.filter(item => !item.disabled).some(item => this.mapOfCheckedId[item.id]) &&
+      !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllData.filter(item => this.mapOfCheckedId[item.id]).length;
+
+    this.listOfDisplayData.filter(item => !item.disabled).forEach(item => (this.mapOfCheckedObj[item.id] = item));
   }
 }

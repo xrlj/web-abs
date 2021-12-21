@@ -28,8 +28,9 @@ export class HttpUtils {
       isUnifiedError = true;
       // this.uiHelper.msgTipWarning(msg);
       console.log(msg);
-      this.router.navigateByUrl(AppPath.login);
       this.uiHelper.logoutLocalStorageClean();
+      this.router.navigateByUrl(AppPath.login);
+      window.location.reload(); // 浏览器刷新
     } else if (errorCode === 405) { // 对接口无访问权限
       isUnifiedError = true;
       this.uiHelper.msgTipWarning(msg);

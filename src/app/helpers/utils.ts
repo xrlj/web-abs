@@ -164,4 +164,17 @@ export class Utils {
       return v.toString(16);
     });
   }
+
+  /**
+   * 把json对象中指定字段值转换成string类型。
+   * 注意json对象只处理第一层而已。
+   */
+  conversionJsonNumValue2StrValue(jsonObjData: any, keys: string[]): any {
+    if (!jsonObjData) return jsonObjData;
+    for (const key in jsonObjData) {
+      if (keys.find(i => i === key)) {
+        jsonObjData[key] = jsonObjData[key].toString;
+      }
+    }
+  }
 }

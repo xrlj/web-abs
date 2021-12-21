@@ -44,7 +44,7 @@ export class Api {
    * @param params 请求参数。
    * @param contentType 请求内容类型，和params同时存在。参考枚举类:ContentTypeEnum
    */
-  post(path: string, body?: any, version?: number, params?: HttpParams | {}, contentType?: string, headers?: HttpHeaders, refresh = false): any {
+  post(path: string, body?: any, version?: number, params?: HttpParams | {}, contentType?: string, headers?: HttpHeaders, refresh = false) {
     if (path === null || path === undefined) {
       throw new Error('url缺少path');
     }
@@ -133,7 +133,7 @@ export class Api {
     return result;
   }
 
-  get(path: string, params?: HttpParams | {}, version?: number,  refresh = false): any {
+  get(path: string, params?: HttpParams | {}, version?: number,  refresh = false) {
     if (!path) {
       throw new Error('url缺少path');
     }
@@ -213,7 +213,7 @@ export class Api {
     return result;
   }
 
-  delete(path: string, version?: number): any {
+  delete(path: string, version?: number) {
     if (!path) {
       throw new Error('url缺少path');
     }
@@ -320,7 +320,7 @@ export class Api {
   }
 
   /**
-   * 到处文件。
+   * 导出文件。
    * 参考：https://blog.csdn.net/sunxiaoju/article/details/88664369
    * @param url 文件路径
    * @param fileName 文件名称，带后缀

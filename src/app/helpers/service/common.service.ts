@@ -90,7 +90,7 @@ export class CommonService {
    * 1.如果企业，代理人都已经实名认证，则返回认证信息。
    * 2.否则，跳转到实名认证页面。
    */
-  async checkVerify() {
+  /*async checkVerify() {
     // 获取用户企业实名认证、个人实名认证状态信息
     await this.api.get(ApiPath.usercentral.userApi.getAuthenticateStatus)
       .ok(data => {
@@ -107,7 +107,7 @@ export class CommonService {
       }).final(b => {
         return null;
     });
-  }
+  }*/
 
   /**************************** 用户信息相关 end ********************************/
 
@@ -185,7 +185,7 @@ export class CommonService {
   /**
    * 根据字典类型获取字典值列表
    */
-  getDictValueListByType(dictType: string): any {
+  getDictValueListByType(dictType: string) {
     return this.api.get(`${ApiPath.syscommon.universalDicValue.getValueListByDicType}/${dictType}`);
   }
 

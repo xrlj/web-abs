@@ -1,9 +1,14 @@
-<nz-card class="card-list" nzTitle="协议模板管理" *ngIf="showType === 1" [nzExtra]="refreshTemplate">
+<nz-card class="card-list" *ngIf="showType === 1" [nzTitle]="!selectAgrFlag ? '协议模板管理' : null"
+         [nzExtra]="!selectAgrFlag ? refreshTemplate : null">
   <div class="card-list-action">
-    <app-agreement-template-search (searchClick)=search($event,true) [searchData]="searchData"></app-agreement-template-search>
+    <app-agreement-template-search (searchClick)=search($event,true)
+                                   [searchData]="searchData"
+                                   [selectAgrFlag]="selectAgrFlag"
+    >
+    </app-agreement-template-search>
   </div>
   <div class="card-list-table">
-    <div class="list-btn-action">
+    <div *ngIf="!selectAgrFlag" class="list-btn-action">
       <button (click)="showDetails(1)"
               class="list-btn-action-right"
               nz-button nzType="primary"
@@ -24,11 +29,19 @@
       [(nzPageSize)]="pageSize"
       (nzPageIndexChange)="search(searchData)"
       (nzPageSizeChange)="search(searchData, true)"
-      [nzScroll]="{ x: '1000px', y: '400px' }"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '700px', y: '400px' }"
     >
       <thead>
       <tr>
-        <th nzWidth="30px" nzAlign="center">序号</th>
+        <th
+          nzWidth="20px"
+          nzAlign="center"
+          nzShowCheckbox
+          [(nzChecked)]="isAllDisplayDataChecked"
+          [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
         <th nzWidth="80px" nzAlign="center">合同大类</th>
         <th nzWidth="80px" nzAlign="center">合同类别</th>
         <th nzWidth="50px" nzAlign="center">合同版别</th>
@@ -38,12 +51,17 @@
         <th nzWidth="50px" nzAlign="center">状态</th>
         <th nzWidth="50px" nzAlign="center">操作人</th>
         <th nzWidth="80px" nzAlign="center">操作时间</th>
-        <th nzWidth="120px" nzAlign="center">操作</th>
+        <th [nzWidth]="selectAgrFlag ? '50px' : '120px'" nzAlign="center">操作</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let i = index; let data of table['data']">
-        <td nzAlign="center">{{i * pageIndex + 1}}</td>
+        <td
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data.id]"
+          [nzDisabled]="data.disabled"
+          (nzCheckedChange)="refreshStatus()"
+        ></td>
         <td nzAlign="center">{{data.agrTypeBig}}</td>
         <td nzAlign="center">{{data.agrType}}</td>
         <td nzAlign="center">{{data.agrTypeSpecify}}</td>
@@ -56,22 +74,29 @@
         <td nzAlign="center">{{data.operatorUserName}}</td>
         <td nzAlign="center">{{data.dateCreated}}</td>
         <td nzAlign="center">
-          <a (click)="showDetails(2, data)">编辑</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a (click)="showDetails(3, data)">查看</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a (click)="showDetails(4, data)">审核</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a>失效</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a>删除</a>
+          <div *ngIf="!selectAgrFlag">
+            <a (click)="showDetails(2, data)">编辑</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="showDetails(3, data)">查看</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="showDetails(4, data)">审核</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>失效</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>删除</a>
+          </div>
+          <div *ngIf="selectAgrFlag">
+            <a (click)="showDetails(3, data)">查看</a>
+          </div>
+
         </td>
       </tbody>
     </nz-table>
   </div>
 </nz-card>
 
-<app-agreement-template-details *ngIf="showType == 2" (showList)="goBackList()" [id]="selectedId" [showType]="detailsType"></app-agreement-template-details>
+<app-agreement-template-details *ngIf="showType == 2" (showList)="goBackList()" [id]="selectedId"
+                                [showType]="detailsType"></app-agreement-template-details>
 
 <ng-template #refreshTemplate>
   <span style="cursor: pointer;" (click)="refreshUI()">

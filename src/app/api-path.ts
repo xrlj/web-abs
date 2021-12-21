@@ -141,6 +141,21 @@ export const ApiPath = {
       update: `/${serviceAbsProduct}/productStaging/update`, // 更新
       getListPage: `/${serviceAbsProduct}/productStaging/getListPage`, // 分页获取列表
       getById: `/${serviceAbsProduct}/productStaging/getById`,
+      del: `/${serviceAbsProduct}/productStaging/del`,
+    },
+    productTemplateApi: {
+      addList: `/${serviceAbsProduct}/productTemplate/addList`, // 新增列表
+      getByProductIdList: `/${serviceAbsProduct}/productTemplate/getByProductIdList`, // 获取产品的所有协议模板
+      del: `/${serviceAbsProduct}/productTemplate/del`, // 批量删除产品协议模板
+    },
+    annexTypeApi: {
+      getListAll: `/${serviceAbsProduct}/annexType/getListAll` // 获取所有附件列表
+    },
+    productAnnexApi: {
+      addOrUpdateList: `/${serviceAbsProduct}/productAnnex/addOrUpdateList`, // 新增或者更新
+      getListByProductId: `/${serviceAbsProduct}/productAnnex/getListByProductId`, // 获取产品所有附件
+      delByProductId: `/${serviceAbsProduct}/productAnnex/delByProductId`, // 批量删除产品下附件类型
+      delByIds: `/${serviceAbsProduct}/productAnnex/delByIds`, // 批量删除产品附件类型
     }
   }
 };

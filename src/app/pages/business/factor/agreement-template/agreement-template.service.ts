@@ -12,14 +12,14 @@ export class AgreementTemplateService {
   /**
    * 获取模板大类列表。
    */
-  getArgTypeBigListAll(body: any): any {
+  getArgTypeBigListAll(body: any) {
     return this.api.post(ApiPath.serviceAbsTemplate.agrTypeBig.getListAll, body);
   }
 
   /**
    * 获取大类下下面所有类型。
    */
-  getArgTypeListAll(argTypeBigId: string): any {
+  getArgTypeListAll(argTypeBigId: string) {
     const  body = {'agrTypeBigId': argTypeBigId};
     return this.api.post(ApiPath.serviceAbsTemplate.agrType.getListAll, body);
   }
@@ -27,7 +27,7 @@ export class AgreementTemplateService {
   /**
    * 获取类型下所有版别。
    */
-  getArgTypeSpecifyListAll(agrTypeId: string): any {
+  getArgTypeSpecifyListAll(agrTypeId: string) {
     const  body = {'agrTypeId': agrTypeId};
     return this.api.post(ApiPath.serviceAbsTemplate.agrTypeSpecify.getListAll, body);
   }
@@ -35,21 +35,21 @@ export class AgreementTemplateService {
   /**
    * 获取参数设置列表。
    */
-  getParTreeListAll(): any {
+  getParTreeListAll() {
     return this.api.get(ApiPath.serviceAbsTemplate.templateParManage.getTreeListAll);
   }
 
   /**
    * 保存协议模板全部信息。
    */
-  saveAgrTemplateAll(body: any): any {
+  saveAgrTemplateAll(body: any) {
     return this.api.post(ApiPath.serviceAbsTemplate.agrTemplate.add, body);
   }
 
   /**
    * 分页列表。
    */
-  getAgrTemplateListPage(body: any): any {
+  getAgrTemplateListPage(body: any) {
     return this.api.post(ApiPath.serviceAbsTemplate.agrTemplate.getListPage, body);
   }
 }

@@ -4,8 +4,40 @@
   border-bottom-color: transparent;
   padding-left: 1px;
 
-  &>span {
+  & > span {
     font-size: 16px;
     //font-weight: bold
+  }
+
+  & > button {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.list-input-number {
+  width: 60px;
+  height: 30px;
+  padding-top: 2px;
+}
+
+.new-tip {
+  width: 70px;
+  height: 28px;
+  background-size: 70px 38px;
+  position: absolute;
+  left: -17px;
+  top: 0;
+  font-size: 16px;
+  color: #fff;
+  line-height: 28px;
+  transform: scale(0.5);
+  text-align: center;
+  background-image: url(src/assets/images/ready-only.svg);
+}
+
+.link-download {
+  &:hover {
+    text-decoration: underline;
   }
 }

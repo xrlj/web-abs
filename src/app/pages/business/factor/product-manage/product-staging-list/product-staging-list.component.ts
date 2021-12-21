@@ -8,7 +8,6 @@ import {JwtKvEnum} from '../../../../../helpers/enum/jwt-kv-enum';
 import {DefaultBusService} from '../../../../../helpers/event-bus/default-bus.service';
 import {UIHelper} from '../../../../../helpers/ui-helper';
 import {ThemeHelper} from '../../../../../helpers/theme-helper';
-import {error} from 'protractor';
 
 // 产品分期列表
 @Component({
@@ -42,6 +41,7 @@ export class ProductStagingListComponent implements OnInit {
   pdtStagingStatuses = []; // 分期状态字典值
 
   selectedId: string; // 选中记录id
+  detailsInfo: any;
 
   constructor(private fb: FormBuilder,
               private commonService: CommonService,
@@ -56,7 +56,7 @@ export class ProductStagingListComponent implements OnInit {
       foundDate: [null, null],
       selloutDiscount: [null, [MyValidators.decimal]],
       expiryDate: [null, null],
-      pdtStagingDesc: [null, [MyValidators.maxLength(200), MyValidators.maxLength(5)]],
+      pdtStagingDesc: [null, [MyValidators.maxLength(200), MyValidators.minLength(5)]],
     });
   }
 
@@ -106,7 +106,11 @@ export class ProductStagingListComponent implements OnInit {
         this.isShowAddOrEditModal = true;
         this.modalType = 2;
         this.selectedId = id;
+        data.buyDiscount = data.buyDiscount?.toString();
+        data.selloutDiscount = data.selloutDiscount?.toString();
+        this.detailsInfo = data;
         this.addOrEditForm.patchValue(data);
+        this.addOrEditForm.controls.pdtStagingStatus.disable({onlySelf: true}); // 设置不可编辑
       })
       .fail(e => {
         this.uiHelper.msgTipError(e.msg);
@@ -121,37 +125,74 @@ export class ProductStagingListComponent implements OnInit {
   }
 
   handleOk(modalType: number) {
-    const body = this.addOrEditForm.value;
-    body.creatorId = this.utils.getJwtTokenClaim(JwtKvEnum.UserId);
-    body.productId = this.productId;
-    this.defaultBusService.showLoading(true);
-    if (modalType === 1) {
-      body.pdtStagingStatus = this.pdtStagingStatuses[0]?.dictValue;
-      this.productService.addProductStaging(body)
-        .ok(data => {
-          console.log('>>>>新增分期id：', data);
-          this.handleCancel();
-          this.getListPage();
-        })
-        .fail(error => {
-          this.uiHelper.msgTipError(error.msg);
-        })
-        .final(b => {
-          this.defaultBusService.showLoading(false);
-        });
+    if (this.addOrEditForm.valid) {
+      const body = this.addOrEditForm.value;
+      body.creatorId = this.utils.getJwtTokenClaim(JwtKvEnum.UserId);
+      body.productId = this.productId;
+      this.defaultBusService.showLoading(true);
+      if (modalType === 1) {
+        body.pdtStagingStatus = this.pdtStagingStatuses[0]?.dictValue;
+        this.productService.addProductStaging(body)
+          .ok(data => {
+            console.log('>>>>新增分期id：', data);
+            this.handleCancel();
+            this.getListPage();
+          })
+          .fail(error => {
+            this.uiHelper.msgTipError(error.msg);
+          })
+          .final(b => {
+            this.defaultBusService.showLoading(false);
+          });
+      } else {
+        body.id = this.selectedId;
+        body.pdtStagingStatus = this.detailsInfo.pdtStagingStatus;
+        this.productService.updateProductStaging(body)
+          .ok(data => {
+            this.uiHelper.msgTipSuccess('更新成功');
+            this.handleCancel();
+            this.getListPage();
+          })
+          .fail(error => {
+            this.uiHelper.msgTipError(error.msg);
+          })
+          .final(b => {
+            this.defaultBusService.showLoading(false);
+          });
+      }
     } else {
-      body.id = this.selectedId;
-      this.productService.updateProductStaging(body)
-        .ok(data => {
-          this.handleCancel();
-          this.getListPage();
-        })
-        .fail(error => {
-          this.uiHelper.msgTipError(error.msg);
-        })
-        .final(b => {
-          this.defaultBusService.showLoading(false);
-        });
+      this.uiHelper.formGroupValid(this.addOrEditForm);
     }
+  }
+
+  delProductStaging(...ids: string[]) {
+    if (!ids || ids.length === 0) return;
+    this.uiHelper.modalDel('确定删除分期？')
+      .ok(() => {
+        this.defaultBusService.showLoading(true);
+        // @ts-ignore
+        this.productService.delProductStaging(ids)
+          .ok(data => {
+            this.getListPage();
+          })
+          .fail(error => {
+            this.uiHelper.msgTipError(error.msg);
+          })
+          .final(b => {
+            this.defaultBusService.showLoading(false);
+          });
+      });
+  }
+
+  notEditStyle(b?: boolean): any {
+    let style = {};
+    if (this.showType === 2) { // 查看不可编辑，其它都可编辑
+      if (b) {
+        style = {cursor: 'not-allowed'};
+      } else {
+        style = {'pointer-events': 'none'};
+      }
+    }
+    return style;
   }
 }

@@ -50,6 +50,7 @@
         <nz-select formControlName="agrTemplateStatus"
                    nzPlaceHolder="不限"
                    nzAllowClear
+                   [nzDisabled]="selectAgrFlag"
         >
           <nz-option *ngFor="let status of agrTemplateStatus" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
         </nz-select>

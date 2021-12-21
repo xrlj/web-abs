@@ -10,7 +10,10 @@ import {JwtKvEnum} from '../../../../helpers/enum/jwt-kv-enum';
 import {EtpManageService} from '../customer/etp-manage/etp-manage.service';
 import {UIHelper} from '../../../../helpers/ui-helper';
 import {AppPath} from '../../../../app-path';
-import {ProductStagingListComponent} from './product-staging-list/product-staging-list.component';
+import {ProductAgreementListComponent} from './product-agreement-list/product-agreement-list.component';
+import {NzTabsCanDeactivateFn} from 'ng-zorro-antd/tabs';
+import {Observable} from 'rxjs';
+import {ProductAnnexListComponent} from './product-annex-list/product-annex-list.component';
 
 // 融资产品新增、编辑
 @Component({
@@ -19,8 +22,6 @@ import {ProductStagingListComponent} from './product-staging-list/product-stagin
   styleUrls: ['./product-add.component.less']
 })
 export class ProductAddComponent implements OnInit, AfterViewInit {
-
-  index = 0;
 
   productId: string;  // 产品id
 
@@ -50,6 +51,12 @@ export class ProductAddComponent implements OnInit, AfterViewInit {
 
   // 产品基础信息对象
   productBasicInfo: any;
+
+  @ViewChild(ProductAgreementListComponent)
+  private productAgreementListComponent: ProductAgreementListComponent;
+
+  @ViewChild(ProductAnnexListComponent)
+  private productAnnexListComponent: ProductAnnexListComponent;
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder,
               private defaultBusService: DefaultBusService,
@@ -115,13 +122,17 @@ export class ProductAddComponent implements OnInit, AfterViewInit {
     this.ptBasicInfoForm.patchValue({ptFactor: this.factoringEtpId});
 
     // 核心企业
-    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 2}).ok(data => this.etpCores = data.list);
+    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 2})
+      .ok(data => this.etpCores = data.list);
     // SVP
-    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 7}).ok(data => this.etpSPVs = data.list);
+    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 7})
+      .ok(data => this.etpSPVs = data.list);
     // 债务加入方
-    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 5}).ok(data => this.etpCoreDebts = data.list);
+    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 5})
+      .ok(data => this.etpCoreDebts = data.list);
     // 律师事务所
-    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 6}).ok(data => this.etpLawOffices = data.list);
+    this.etpManageService.getAllByEtp({pageIndex: 1, pageSize: 100, holderEtpId: this.factoringEtpId, userType: 6})
+      .ok(data => this.etpLawOffices = data.list);
   }
 
   getProductBasicInfo() {
@@ -203,7 +214,34 @@ export class ProductAddComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getContent(tabIndex: number) {
+  getContent(_tabIndex: number) {
+  }
+
+  canDeactivate: NzTabsCanDeactivateFn = (fromIndex: number, toIndex: number) => {
+    switch (fromIndex) {
+      case 2:
+        if (this.productAgreementListComponent.hasGiveUpSave()) {
+          return this.confirm();
+        } else {
+          return true;
+        }
+      default:
+        return true;
+    }
+  };
+
+  private confirm(): Observable<boolean> {
+    return new Observable(observer => {
+      this.uiHelper.modalConfirm('确定放弃保存？')
+        .ok(() => {
+          observer.next(true);
+          observer.complete();
+        })
+        .no(() => {
+          observer.next(false);
+          observer.complete();
+        });
+    });
   }
 
   /**
@@ -284,5 +322,12 @@ export class ProductAddComponent implements OnInit, AfterViewInit {
 
   closeTab() {
     this.defaultBusService.closeTabUrl(this.router.url);
+  }
+
+  /**
+   * 保存附件信息
+   */
+  saveProductAnnex() {
+    this.productAnnexListComponent.save();
   }
 }

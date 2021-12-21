@@ -6,7 +6,6 @@ import {Utils} from '../../../../helpers/utils';
 import {JwtKvEnum} from '../../../../helpers/enum/jwt-kv-enum';
 import {UIHelper} from '../../../../helpers/ui-helper';
 import {ThemeHelper} from '../../../../helpers/theme-helper';
-import {Router} from '@angular/router';
 import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
 
 /**
@@ -118,7 +117,6 @@ export class ProductManageComponent implements OnInit {
     this.productService.updateProductStatus(productId, pdtStatus)
       .ok(data => {
         if (data) {
-          this.uiHelper.msgTipSuccess('请求成功');
           setTimeout(() => {
             this.search();
           }, 100);

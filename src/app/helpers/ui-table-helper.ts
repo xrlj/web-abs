@@ -52,4 +52,13 @@ export class UiTableHelper {
   }
 
   // ==============树形展开表格 end ============= //
+
+  tableListDataAddCheckDisablePar(listData: any[]): any {
+    if (listData && listData.length > 0) {
+      listData.forEach(item => {
+        item.disabled = false;
+      });
+    }
+    return listData;
+  }
 }

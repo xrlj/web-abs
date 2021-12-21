@@ -37,6 +37,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.getProductBasicById(this.productId)
       .ok(data => {
         this.productBasicInfo = data;
+        console.log(this.productBasicInfo);
       })
       .fail(error => {
         this.uiHelper.msgTipError(error.msg);

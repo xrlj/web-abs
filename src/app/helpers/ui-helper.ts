@@ -12,6 +12,7 @@ import {NzTreeNode} from 'ng-zorro-antd/tree';
 import {VSettingInfo} from './vo/v-setting-info';
 import {FinancingModelEnum} from './enum/financing-model-enum';
 import {NzButtonType} from 'ng-zorro-antd/button';
+import {FormGroup} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,13 @@ export class UIHelper {
               private message: NzMessageService,
               private notification: NzNotificationService,
               private modalService: NzModalService) {}
+
+  formGroupValid( formGroup: FormGroup) {
+    for (const key in formGroup.controls) {
+      formGroup.controls[key].markAsDirty();
+      formGroup.controls[key].updateValueAndValidity();
+    }
+  }
 
   /**
    * 返回。相当按下浏览器返回按钮。
@@ -150,11 +158,21 @@ export class UIHelper {
             ok();
           }
         }).catch(() => console.log('操作错误!'));
+      },
+      nzOnCancel: () => {
+        const no = handlers['no'];
+        if (no instanceof Function) {
+          no();
+        }
       }
     });
     const result = {
       ok: fn => {
         handlers['ok'] = fn;
+        return result;
+      },
+      no: fn => {
+        handlers['no'] = fn;
         return result;
       }
     };
@@ -491,5 +509,22 @@ export class UIHelper {
   /*======================= 打开pdf文件 ================*/
   openSignPdf(): void {
     window.open('#/pdf-show', '_blank', 'noopener');
+  }
+
+  /**
+   * 不可编辑样式。
+   * @param onlyRead true-不可编辑，只能查看；false-可编辑
+   * @param b true-上一层视图；false-下一层视图或者不传
+   */
+  notEditStyle(onlyRead: boolean, b?: boolean): any {
+    let style = {};
+    if (onlyRead) { // 查看不可编辑，其它都可编辑
+      if (b) {
+        style = {cursor: 'not-allowed'};
+      } else {
+        style = {'pointer-events': 'none'};
+      }
+    }
+    return style;
   }
 }

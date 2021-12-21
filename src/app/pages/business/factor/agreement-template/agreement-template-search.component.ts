@@ -10,6 +10,9 @@ import {CommonService} from '../../../../helpers/service/common.service';
 })
 export class AgreementTemplateSearchComponent implements OnInit, AfterViewInit {
 
+  @Input()
+  selectAgrFlag = false;
+
   searchForm!: FormGroup;
   isCollapse = false;
 
@@ -44,6 +47,10 @@ export class AgreementTemplateSearchComponent implements OnInit, AfterViewInit {
     this.commonService.getDictValueListByType('agr_status')
       .ok(data => {
         this.agrTemplateStatus = data;
+        // 别的地方选择模板，查询状态未
+        if (this.selectAgrFlag) {
+          this.searchForm.controls.agrTemplateStatus.setValue(2);
+        }
       });
   }
 

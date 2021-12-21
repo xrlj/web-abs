@@ -5,7 +5,7 @@
           nz-button nzType="primary"
           nzSize="default" style="margin-left: 20px;"
   >
-    <i nz-icon nzType="plus-circle" nzTheme="outline"></i>新增分期
+    <i nz-icon nzType="plus" nzTheme="outline"></i>新增分期
   </button>
 </div>
 <nz-table
@@ -18,24 +18,28 @@
   [(nzPageSize)]="pageSize">
   <thead>
   <tr>
-    <th nzWidth="20%" nzAlign="center">分期名称</th>
-    <th nzWidth="10%" nzAlign="center">买入折扣</th>
-    <th nzWidth="10%" nzAlign="center">卖出折扣</th>
+    <th nzWidth="5%" nzAlign="center">序号</th>
+    <th nzWidth="17%" nzAlign="center">分期名称</th>
+    <th nzWidth="8%" nzAlign="center">买入折扣</th>
+    <th nzWidth="8%" nzAlign="center">卖出折扣</th>
     <th nzWidth="10%" nzAlign="center">设立日期</th>
     <th nzWidth="10%" nzAlign="center">到期日</th>
-    <th nzWidth="10%" nzAlign="center">分期状态</th>
+    <th nzWidth="12%" nzAlign="center">分期状态</th>
     <th nzWidth="10%" nzAlign="center" nzShowSort>创建时间</th>
     <th nzWidth="10%" nzAlign="center">创建人</th>
     <th nzWidth="10%" nzAlign="center">操作</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let data of listOfAllData">
+  <tr *ngFor="let data of listOfAllData; let i = index;">
+    <td nzAlign="center">{{i + 1}}</td>
     <td nzAlign="center">{{data.pdtStagingName}}</td>
-    <td nzAlign="center">{{data.buyDiscount}}</td>
-    <td nzAlign="center">{{data.selloutDiscount}}</td>
-    <td nzAlign="center">{{data.foundDate | date: "yyyy-mm-dd"}}</td>
-    <td nzAlign="center">{{data.expiryDate | date: "yyyy-mm-dd"}}</td>
+    <td nzAlign="center" appTextColorTheme>
+      {{data.buyDiscount}}%
+    </td>
+    <td nzAlign="center">{{data.selloutDiscount}}%</td>
+    <td nzAlign="center">{{data.foundDate | date: "yyyy-MM-dd"}}</td>
+    <td nzAlign="center">{{data.expiryDate | date: "yyyy-MM-dd"}}</td>
     <td nzAlign="center">
       <nz-tag [nzColor]="themeHelper.setCommonStatusColor(data.pdtStatus).background"
               [style.color]="themeHelper.setCommonStatusColor(data.pdtStatus).color"
@@ -46,9 +50,14 @@
     <td nzAlign="center">{{ data.dateCreated}}</td>
     <td nzAlign="center">{{ data.creator}}</td>
     <td nzAlign="center">
-      <a (click)="edit(data.id)">编辑</a>
-      <nz-divider nzType="vertical"></nz-divider>
-      <a>删除</a>
+      <div *ngIf="showType === 1">
+        <a (click)="edit(data.id)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="delProductStaging(data.id)">删除</a>
+      </div>
+      <div *ngIf="showType === 2">
+        <a (click)="edit(data.id)">查看</a>
+      </div>
     </td>
   </tr>
   </tbody>
@@ -59,13 +68,16 @@
           [(nzVisible)]="isShowAddOrEditModal"
           [nzWidth]="680"
           [nzMaskClosable]="false"
-          [nzTitle]="modalType === 1 ? '新增' : '修改'"
+          [nzTitle]="showType === 1 ? modalType === 1 ? '新增' : '修改' : '分期详情'"
           (nzOnCancel)="handleCancel()"
           (nzOnOk)="handleOk(modalType)"
-          [nzOkLoading]="isModalOkLoading">
+          [nzOkLoading]="isModalOkLoading"
+          [nzCancelText]="showType === 1 ? '取消': null"
+          [nzOkText]="showType === 1 ? '确定': null"
+>
   <ng-container *nzModalContent>
-    <form nz-form [formGroup]="addOrEditForm">
-      <div class="form-content">
+    <form nz-form [formGroup]="addOrEditForm" [ngStyle]="notEditStyle(true)">
+      <div class="form-content" [ngStyle]="notEditStyle()">
         <div class="form-column-left">
           <nz-form-item>
             <nz-form-label [nzSpan]="formLabelSpan" nzFor="pdtStagingName" nzRequired>分期名称</nz-form-label>
@@ -113,7 +125,7 @@
           </nz-form-item>
         </div>
       </div>
-      <div class="stg-comment">
+      <div class="stg-comment" [ngStyle]="notEditStyle()">
         <nz-form-item>
           <nz-form-label [nzSpan]="0" nzFor="pdtStagingDesc">分期说明</nz-form-label>
           <nz-form-control [nzSpan]="19">

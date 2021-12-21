@@ -1,13 +1,14 @@
 <nz-transfer
   [nzDataSource]="listAnnexTransferData"
   [nzDisabled]="false"
-  [nzShowSearch]="false"
+  [nzShowSearch]="true"
   [nzShowSelectAll]="false"
   [nzOperations]="['选定附件类型', '移出附件类型']"
   [nzTitles]="['未选列表', '已选列表']"
   [nzRenderList]="[renderList, renderList]"
   (nzSelectChange)="annexSelect($event)"
   (nzChange)="annexChange($event)"
+  [nzTargetKeys]="targetKes"
 >
 </nz-transfer>
 <ng-template
@@ -19,48 +20,83 @@
   let-onItemSelectAll="onItemSelectAll"
   let-onItemSelect="onItemSelect"
 >
-  <nz-table  #t [nzData]="items" nzBordered
-             [style]="direction === 'left' ? 'width: 400px;' : 'width: 800px'">
+  <nz-table  #t [nzData]="$asTransferItems(items)" nzBordered nzSize="default"
+             [nzScroll]="direction === 'right' ? {x: '1100px', y: '400px'} : {y: '400px'}"
+             [ngStyle]="showType === 1 ? uiHelper.notEditStyle(false) : uiHelper.notEditStyle(true, true)"
+  >
     <thead>
-    <tr>
-      <th nzAlign="left"
+    <tr [ngStyle]="showType === 1 ? uiHelper.notEditStyle(false) : uiHelper.notEditStyle(true)">
+      <th nzWidth="40px"
+        nzAlign="center"
           [nzDisabled]="disabled"
           [nzChecked]="stat.checkAll"
           [nzIndeterminate]="stat.checkHalf"
           (nzCheckedChange)="onItemSelectAll($event)"
       ></th>
-      <th nzWidth="20%" nzAlign="left" *ngIf="direction === 'left'">序号</th>
-      <th nzWidth="80%" nzAlign="left" *ngIf="direction === 'left'">附件类型</th>
+      <th nzWidth="60px" nzAlign="center" *ngIf="direction === 'left'">序号</th>
+      <th nzWidth="200px" nzAlign="left" *ngIf="direction === 'left'">附件类型</th>
 
-      <th nzWidth="10%" nzAlign="left" *ngIf="direction === 'right'">序号</th>
-      <th nzWidth="20%" nzAlign="left" *ngIf="direction === 'right'">附件类型</th>
-      <th nzWidth="20%" nzAlign="left" *ngIf="direction === 'right'">上传角色</th>
-      <th nzWidth="20%" nzAlign="left" *ngIf="direction === 'right'">签章角色</th>
-      <th nzWidth="10%" nzAlign="left" *ngIf="direction === 'right'">必传</th>
-      <th nzWidth="10%" nzAlign="left" *ngIf="direction === 'right'">分组</th>
-      <th nzWidth="10%" nzAlign="left" *ngIf="direction === 'right'">排序</th>
+     <!-- <th nzWidth="10%" nzAlign="center" *ngIf="direction === 'right'">序号</th>
+      <th nzWidth="30%" nzAlign="center" *ngIf="direction === 'right'">附件类型</th>
+      <th nzWidth="20%" nzAlign="center" *ngIf="direction === 'right'">上传角色</th>
+      <th nzWidth="20%" nzAlign="center" *ngIf="direction === 'right'">签章角色</th>
+      <th nzWidth="10%" nzAlign="center" *ngIf="direction === 'right'">必传</th>
+      <th nzWidth="10%" nzAlign="center" *ngIf="direction === 'right'">排序</th>-->
+
+      <th nzWidth="60px" nzAlign="center" *ngIf="direction === 'right'">序号</th>
+      <th nzWidth="220px" nzAlign="center" *ngIf="direction === 'right'">附件类型</th>
+      <th nzWidth="250px" nzAlign="center" *ngIf="direction === 'right'">上传角色</th>
+      <th nzWidth="250px" nzAlign="center" *ngIf="direction === 'right'">签章角色</th>
+      <th nzWidth="80px" nzAlign="center" *ngIf="direction === 'right'">必传</th>
+      <th nzWidth="100px" nzAlign="center" *ngIf="direction === 'right'">排序</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let data of t.data, let i = index" (click)="onItemSelect(data)">
-      <td nzAlign="left" [nzChecked]="data.checked" [nzDisabled]="disabled || data.disabled" (nzCheckedChange)="onItemSelect(data)"></td>
-      <!--      <td nzAlign="left">{{ (annexPageIndex - 1) * annexPageSize + i + 1 }}</td>-->
-      <td nzAlign="left">{{ data.index }}</td>
-      <td nzAlign="left">工程进度款申请支付表-{{data.title}}</td>
+    <tr *ngFor="let data of t.data" (click)="onItemSelect(data)"
+        [ngStyle]="showType === 1 ? uiHelper.notEditStyle(false) : uiHelper.notEditStyle(true)">
+      <td nzAlign="center"
+          [nzChecked]="data.checked"
+          [nzDisabled]="disabled || data.disabled"
+          (nzCheckedChange)="onItemSelect(data)"
+      >
+      </td>
+      <!--      <td nzAlign="center">{{ (annexPageIndex - 1) * annexPageSize + i + 1 }}</td>-->
+      <td nzAlign="center">{{data.index}}</td>
+      <td [nzAlign]="direction === 'left' ? 'left' : 'center'">{{data.annexTypeName}}</td>
       <td nzAlign="left" *ngIf="direction === 'right'">
-        <nz-checkbox-group [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
+        <!--<nz-checkbox-group [(ngModel)]="data.etpRolesUpload"></nz-checkbox-group>-->
+        <nz-checkbox-wrapper style="width: 100%;">
+          <div nz-row>
+            <div *ngFor="let etp of data.etpRolesUpload" nz-col nzSpan="12">
+              <label nz-checkbox [nzValue]="etp.value" [(ngModel)]="etp.checked">{{etp.label}}</label>
+            </div>
+          </div>
+        </nz-checkbox-wrapper>
       </td>
       <td nzAlign="left" *ngIf="direction === 'right'">
-        <nz-checkbox-group [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
+<!--        <nz-checkbox-group [(ngModel)]="data.etpRolesSing"></nz-checkbox-group>-->
+        <nz-checkbox-wrapper style="width: 100%;">
+          <div nz-row>
+            <div *ngFor="let etp of data.etpRolesSign" nz-col nzSpan="12">
+              <label nz-checkbox [nzValue]="etp.value" [(ngModel)]="etp.checked">{{etp.label}}</label>
+            </div>
+          </div>
+        </nz-checkbox-wrapper>
       </td>
-      <td nzAlign="left" *ngIf="direction === 'right'">
-        <nz-radio-group [ngModel]="'Y'" disabled>
-          <label nz-radio nzValue="Y">是</label>
-          <label nz-radio nzValue="N">否</label>
+      <td nzAlign="center" *ngIf="direction === 'right'">
+        <nz-radio-group [(ngModel)]="data.uploadStatus">
+          <label nz-radio [nzValue]="true">是</label>
+          <label nz-radio [nzValue]="false">否</label>
         </nz-radio-group>
       </td>
-      <td nzAlign="left" *ngIf="direction === 'right'">2</td>
-      <td nzAlign="left" *ngIf="direction === 'right'">1</td>
+      <td nzAlign="center" *ngIf="direction === 'right'">
+        <nz-input-number class="list-input-number" nzSize="small"
+                         [(ngModel)]="data.productAnnexSort"
+                         [nzMin]="1" [nzMax]="10"
+                         [nzStep]="1"
+        >
+        </nz-input-number>
+      </td>
     </tr>
     </tbody>
   </nz-table>

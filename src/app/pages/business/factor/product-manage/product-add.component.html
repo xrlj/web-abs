@@ -1,11 +1,16 @@
-<nz-card class="card-list" [nzTitle]="productId === '0' ? '新增产品' : '编辑产品'"
-         [nzExtra]=" tabIndex === 0 ? extraTemplate : null">
+<nz-card class="card-list" [nzTitle]="productId === '0' ? '新增产品' : '编辑产品'">
   <div class="card-container">
-    <nz-tabset [nzTabBarGutter]="2"
+    <nz-tabset nzType="card"
+               [nzTabBarExtraContent]="tabIndex === 0 ? extraTemplate : tabIndex === 3 ? saveAnnexTemplate : null"
+               [nzTabBarGutter]="2"
                [(nzSelectedIndex)]="tabIndex"
-               nzType="card"
-               (nzSelectedIndexChange)="getContent(tabIndex)">
-      <nz-tab *ngFor="let title of tabTitle, let i = index" [nzTitle]="title.name" [nzDisabled]="title.disable">
+               (nzSelectedIndexChange)="getContent($event)"
+               [nzCanDeactivate]="canDeactivate"
+    >
+      <nz-tab *ngFor="let title of tabTitle, let i = index"
+              [nzTitle]="title.name"
+              [nzDisabled]="title.disable"
+      >
         <!--懒加载方式： 默认情况下，nz-tab 中的组件的 ngOnInit 会提前触发，如果希望当 Tab 被激活时再触发 ngOnInit，可以使用该示例中的懒加载方式。-->
         <ng-template nz-tab>
           <!--基础信息-->
@@ -42,7 +47,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="ptStatus" nzRequired>产品状态</nz-form-label>
                     <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
                       <nz-select nzAllowClear id="ptStatus" formControlName="ptStatus" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let status of pdtStatus" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
+                        <nz-option *ngFor="let status of pdtStatus" [nzValue]="status.dictValue"
+                                   [nzLabel]="status.dictLabel"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -50,7 +56,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="ptType" nzRequired>产品类别</nz-form-label>
                     <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
                       <nz-select nzAllowClear id="ptType" formControlName="ptType" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let type of fpdtType" [nzValue]="type.id" [nzLabel]="type.pdtTypeName"></nz-option>
+                        <nz-option *ngFor="let type of fpdtType" [nzValue]="type.id"
+                                   [nzLabel]="type.pdtTypeName"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -89,7 +96,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="lawOffice">律师事务所</nz-form-label>
                     <nz-form-control [nzSpan]="10">
                       <nz-select nzAllowClear name="lawOffice" formControlName="lawOffice" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let law of etpLawOffices" [nzValue]="law.id" [nzLabel]="law.etpName"></nz-option>
+                        <nz-option *ngFor="let law of etpLawOffices" [nzValue]="law.id"
+                                   [nzLabel]="law.etpName"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -99,7 +107,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="ptCore" nzRequired>核心企业</nz-form-label>
                     <nz-form-control [nzSpan]="6">
                       <nz-select nzAllowClear name="ptCore" formControlName="ptCore" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let etpCore of etpCores" [nzValue]="etpCore.id" [nzLabel]="etpCore.etpName"></nz-option>
+                        <nz-option *ngFor="let etpCore of etpCores" [nzValue]="etpCore.id"
+                                   [nzLabel]="etpCore.etpName"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -107,7 +116,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="ptCoreDebt">债务加入方</nz-form-label>
                     <nz-form-control [nzSpan]="6">
                       <nz-select nzAllowClear name="ptCoreDebt" formControlName="ptCoreDebt" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let debt of etpCoreDebts" [nzValue]="debt.id" [nzLabel]="debt.etpName"></nz-option>
+                        <nz-option *ngFor="let debt of etpCoreDebts" [nzValue]="debt.id"
+                                   [nzLabel]="debt.etpName"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -140,7 +150,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="ptQuotaNature">额度性质</nz-form-label>
                     <nz-form-control [nzSpan]="10">
                       <nz-select nzAllowClear formControlName="ptQuotaNature" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let value of pdtEdNature" [nzValue]="value.dictValue" [nzLabel]="value.dictLabel"></nz-option>
+                        <nz-option *ngFor="let value of pdtEdNature" [nzValue]="value.dictValue"
+                                   [nzLabel]="value.dictLabel"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -203,7 +214,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="ptSellDiscount">卖出折扣</nz-form-label>
                     <nz-form-control [nzSpan]="6">
                       <nz-input-group nzSearch [nzSuffix]="suffixRate">
-                        <input formControlName="ptSellDiscount" id="ptSellDiscount" placeholder="请输入卖出折扣，如：96" nz-input/>
+                        <input formControlName="ptSellDiscount" id="ptSellDiscount" placeholder="请输入卖出折扣，如：96"
+                               nz-input/>
                       </nz-input-group>
                     </nz-form-control>
                   </nz-form-item>
@@ -236,7 +248,8 @@
                     <nz-form-label [nzSpan]="6" nzFor="pbDataSource" nzRequired>数据源</nz-form-label>
                     <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
                       <nz-select nzAllowClear formControlName="pbDataSource" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let dataSource of paymentBillDbSource" [nzValue]="dataSource.dictValue" [nzLabel]="dataSource.dictLabel"></nz-option>
+                        <nz-option *ngFor="let dataSource of paymentBillDbSource" [nzValue]="dataSource.dictValue"
+                                   [nzLabel]="dataSource.dictLabel"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -245,8 +258,9 @@
                   <nz-form-item>
                     <nz-form-label [nzSpan]="6" nzFor="pbSellNum" nzRequired>转让次数</nz-form-label>
                     <nz-form-control [nzSpan]="6" nzErrorTip="必填项">
-                      <nz-select  nzAllowClear formControlName="pbSellNum" nzPlaceHolder="请选择">
-                        <nz-option *ngFor="let item of paymentBillTransferNum" [nzValue]="item.dictValue" [nzLabel]="item.dictLabel"></nz-option>
+                      <nz-select nzAllowClear formControlName="pbSellNum" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let item of paymentBillTransferNum" [nzValue]="item.dictValue"
+                                   [nzLabel]="item.dictLabel"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </nz-form-item>
@@ -264,11 +278,13 @@
           </div>
           <!--协议模板-->
           <div class="tab-content" *ngIf="i === 2">
-            <app-product-agreement-list></app-product-agreement-list>
+            <app-product-agreement-list [productId]="productId"
+                                        [showType]="productId && productId !== '0' ? 1 : 2"></app-product-agreement-list>
           </div>
           <!--附件-->
           <div class="tab-content" *ngIf="i === 3">
-            <app-product-annex-list></app-product-annex-list>
+            <app-product-annex-list [productId]="productId"
+                                    [showType]="productId && productId !== '0' ? 1 : 2"></app-product-annex-list>
           </div>
 
         </ng-template>
@@ -276,6 +292,12 @@
     </nz-tabset>
   </div>
 </nz-card>
+
+<ng-template #saveAnnexTemplate>
+  <button nz-button nzType="primary" nzSize="small" (click)="saveProductAnnex()"><i nz-icon nzType="save"
+                                                                                        nzTheme="outline"></i>保存
+  </button>
+</ng-template>
 
 <ng-template #extraTemplate>
   <button nz-button nzType="primary" nzSize="small" (click)="saveProductBasicInfo()"><i nz-icon nzType="save"

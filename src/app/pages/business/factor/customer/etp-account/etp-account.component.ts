@@ -7,7 +7,6 @@ import {VCustomerAccountReq} from '../../../../../helpers/vo/req/v-customer-acco
 import {VCustomerAccountResp} from '../../../../../helpers/vo/resp/v-customer-account-resp';
 import {UIHelper} from '../../../../../helpers/ui-helper';
 import {ThemeHelper} from '../../../../../helpers/theme-helper';
-import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
 import {CommonService} from '../../../../../helpers/service/common.service';
 
 @Component({
