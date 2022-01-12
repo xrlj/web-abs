@@ -46,6 +46,8 @@ import {FinancingBillSingleDetailsComponent} from './common/financing-bill/finan
 import { FinancingBillContractOneComponent } from './common/financing-bill/common/financing-bill-contract-one.component';
 import { FinancingBillContractTwoComponent } from './common/financing-bill/common/financing-bill-contract-two.component';
 import { FinancingBillPaymentComponent } from './common/financing-bill/common/financing-bill-payment.component';
+import { PaymentBillCheckComponent } from './common/payment-bill/payment-bill-check.component';
+import { PaymentBillReviewComponent } from './common/payment-bill/payment-bill-review.component';
 
 /**
  * 主业务模块
@@ -80,7 +82,9 @@ import { FinancingBillPaymentComponent } from './common/financing-bill/common/fi
     FinancingBillSingleDetailsComponent,
     FinancingBillContractOneComponent,
     FinancingBillContractTwoComponent,
-    FinancingBillPaymentComponent
+    FinancingBillPaymentComponent,
+    PaymentBillCheckComponent,
+    PaymentBillReviewComponent
   ],
   exports: [
     PaymentBillSearchComponent,

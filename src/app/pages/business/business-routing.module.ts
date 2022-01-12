@@ -5,13 +5,25 @@ import {FinancingBillComponent} from './common/financing-bill/financing-bill.com
 import {SignWaitListComponent} from './common/sign-manage/sign-wait-list.component';
 import {SignCompleteListComponent} from './common/sign-manage/sign-complete-list.component';
 import {SignAllListComponent} from './common/sign-manage/sign-all-list.component';
+import {PaymentBillCheckComponent} from './common/payment-bill/payment-bill-check.component';
+import {PaymentBillReviewComponent} from './common/payment-bill/payment-bill-review.component';
 
 
 const routes: Routes = [
   {
     path: 'payment-bill',
     component: PaymentBillComponent,
-    data: {title: '付款单管理', isRemove: true}
+    data: {title: '付款单查询', isRemove: true}
+  },
+  {
+    path: 'payment-bill-check',
+    component: PaymentBillCheckComponent,
+    data: {title: '付款单审核', isRemove: true}
+  },
+  {
+    path: 'payment-bill-review',
+    component: PaymentBillReviewComponent,
+    data: {title: '付款单复核', isRemove: true}
   },
   {
     path: 'financing-bill',

@@ -102,7 +102,10 @@ export class ProductManageComponent implements OnInit {
   }
 
   startProduct(productId: string, pdtStatus: number) {
-    this.updateProductStatus(productId, pdtStatus);
+    this.uiHelper.modalConfirm('启用产品之前，请先确定产品各项配置信息已经正确配置完成！')
+      .ok(() => {
+        this.updateProductStatus(productId, pdtStatus);
+      });
   }
 
   stopProduct(productId: string, pdtStatus: number) {

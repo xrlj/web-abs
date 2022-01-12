@@ -13,10 +13,6 @@ export class PaymentBillComponent implements OnInit {
   // 1-显示列表界面；2-显示付款单详情页面；
   showType = 1;
 
-  // tab
-  tabIndex = 0;
-  tabTitle = ['待审核', '待复核', '已复核', '全部'];
-
   constructor() {
   }
 

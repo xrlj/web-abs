@@ -37,6 +37,7 @@
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
       <li nz-menu-item (click)="openUserCentre()">个人中心</li>
+      <li nz-menu-item (click)="changeEtpSpace()">切换企业空间</li>
       <li nz-menu-item (click)="logout()">退出登录</li>
     </ul>
   </nz-dropdown-menu>
@@ -67,3 +68,24 @@
     </div>
   </ng-container>
 </nz-drawer>
+
+<nz-modal *ngIf="isShowChangeEtpSpaceModal"
+          [(nzVisible)]="isShowChangeEtpSpaceModal"
+          [nzWidth]="500"
+          [nzMaskClosable]="false"
+          nzTitle="切换企业空间"
+          (nzOnCancel)="handleEtpSpaceModalCancel()"
+          (nzOnOk)="handleEtpSpaceModalOk()"
+          [nzOkLoading]="isEtpSpaceModalOkLoading">
+  <form nz-form nzLayout="horizontal" [formGroup]="etpSpaceChangeForm" *nzModalContent>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzFor="etpSpace" nzRequired>企业和标签</nz-form-label>
+      <nz-form-control [nzSpan]="20" nzErrorTip="必填项">
+        <nz-select id="etpSpace" formControlName="etpSpace"  ngModel="1">
+          <nz-option nzValue="1" nzLabel="慧链通保理-保理商"></nz-option>
+          <nz-option nzValue="2" nzLabel="中力保理-保理商"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

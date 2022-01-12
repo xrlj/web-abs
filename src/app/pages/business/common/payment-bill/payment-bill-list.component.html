@@ -1,13 +1,15 @@
 <div class="payment-bill-content">
   <!--付款单各种操作，根据不同视图显示其对应操作-->
   <div [ngSwitch]="fromViewType">
-    <div class="list-btn-action" *ngSwitchCase="0">
-      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>接口获取</button>
-      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>导入</button>
-      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
-      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="delete" nzTheme="outline"></i>批量删除</button>
-      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="edit" nzTheme="outline"></i>确认付款</button>
-      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="logout" nzTheme="outline"></i>出池</button>
+    <div *ngIf="paymentBillMenuType === 'all'">
+      <div class="list-btn-action" *ngSwitchCase="0">
+        <button (click)="getPaymentBillFromApi()" class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>接口获取</button>
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>导入</button>
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="delete" nzTheme="outline"></i>批量删除</button>
+        <!--      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="edit" nzTheme="outline"></i>确认付款</button>-->
+        <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="logout" nzTheme="outline"></i>出池</button>
+      </div>
     </div>
     <div *ngSwitchCase="1">
       <span class="list-info-left">
@@ -38,7 +40,7 @@
     (nzPageIndexChange)="search()"
     (nzPageSizeChange)="search(true)"
     (nzCurrentPageDataChange)="currentPageDataChange($event)"
-    [nzScroll]="{ x: '2450px', y: '400px' }"
+    [nzScroll]="{ x: '2450px', y: '450px' }"
   >
     <thead>
     <tr>
@@ -53,6 +55,7 @@
       <th nzWidth="250px" nzAlign="center">供应商</th>
       <th nzWidth="250px" nzAlign="center">项目公司</th>
       <th nzWidth="250px" nzAlign="center">核心企业</th>
+      <th nzWidth="120px" nzAlign="center">付款单状态</th>
       <th nzWidth="100px" nzAlign="center">区域</th>
       <th nzWidth="100px" nzAlign="center">款项类型</th>
       <th nzWidth="100px" nzAlign="center">付款金额</th>
@@ -63,7 +66,7 @@
       >
         创建时间
       </th>
-      <th nzRight nzWidth="200px" nzAlign="center">操作</th>
+      <th nzRight nzWidth="120px" nzAlign="center">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -79,6 +82,7 @@
       <td nzAlign="center">陕西鑫嘉源建筑装饰工程有限公司</td>
       <td nzAlign="center">佛山市高明区屿洲房地产开发经营有限公司</td>
       <td nzAlign="center"></td>
+      <td nzAlign="center">待审核</td>
       <td nzAlign="center">桂东南区域</td>
       <td nzAlign="center"></td>
       <td nzAlign="center"></td>
@@ -86,11 +90,60 @@
       <td nzAlign="center"></td>
       <td nzAlign="center"></td>
       <td nzRight nzAlign="center">
-        <a (click)="details(data)">查看</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a>编辑</a>
+        <div *ngIf="paymentBillMenuType === 'all'">
+          <a (click)="details(data)">查看</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>编辑</a>
+        </div>
+        <div *ngIf="paymentBillMenuType === 'check'">
+          <a (click)="checkPaymentBill(data.id)">审核</a>
+        </div>
+        <div *ngIf="paymentBillMenuType === 'review'">
+          <a (click)="reviewPaymentBill(data.id)">复核</a>
+        </div>
       </td>
     </tr>
     </tbody>
   </nz-table>
 </div>
+
+<nz-modal *ngIf="isShowApiPBillModal"
+          [(nzVisible)]="isShowApiPBillModal"
+          [nzWidth]="600"
+          [nzMaskClosable]="false"
+          nzTitle="接口获取核心企业付款单信息"
+          (nzOnCancel)="handleApiPBillModalCancel()"
+          (nzOnOk)="handleApiPBillModalOk()"
+          [nzOkLoading]="isApiPBillModalOkLoading">
+  <div *nzModalContent>
+    <span class="tip-text">点击确定，将会通过接口获取产品设定的核心企业的付款单信息，并把该批付款单绑定在选定的产品分期之下。</span>
+    <form nz-form [formGroup]="apiPBillModalForm" style="margin-top: 20px;">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzFor="product" nzRequired>选择产品</nz-form-label>
+        <nz-form-control [nzSpan]="16" nzErrorTip="必填项">
+          <nz-select nzShowSearch nzPlaceHolder="请选择"
+                     nzMode="default" (ngModelChange)="productSelect($event)"
+                     id="product" formControlName="product">
+            <nz-option *ngFor="let product of productList" [nzValue]="product.id" [nzLabel]="product.pdtName"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzFor="productStaging" nzRequired>选择产品分期</nz-form-label>
+        <nz-form-control [nzSpan]="16" nzErrorTip="必填项">
+          <nz-select nzShowSearch nzPlaceHolder="请选择" id="productStaging" formControlName="productStaging">
+            <nz-option *ngFor="let pdtStaging of productStagingList" [nzValue]="pdtStaging.id" [nzLabel]="pdtStaging.pdtStagingName"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzFor="pBillDateTime" nzRequired>时间选择</nz-form-label>
+        <nz-form-control [nzSpan]="16" nzErrorTip="必填项">
+          <nz-range-picker [nzShowTime]="true" formControlName="pBillDateTime" (ngModelChange)="pBillDateTimeOnChange($event)"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</nz-modal>
+
+

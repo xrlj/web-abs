@@ -11,8 +11,8 @@ import {ThemeEnum} from './enum/theme-enum';
 import {NzTreeNode} from 'ng-zorro-antd/tree';
 import {VSettingInfo} from './vo/v-setting-info';
 import {FinancingModelEnum} from './enum/financing-model-enum';
-import {NzButtonType} from 'ng-zorro-antd/button';
 import {FormGroup} from '@angular/forms';
+import {JwtKvEnum} from './enum/jwt-kv-enum';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,10 @@ export class UIHelper {
               private message: NzMessageService,
               private notification: NzNotificationService,
               private modalService: NzModalService) {}
-
-  formGroupValid( formGroup: FormGroup) {
+  /**
+   * 校验表单组
+   */
+  formGroupValid(formGroup: FormGroup) {
     for (const key in formGroup.controls) {
       formGroup.controls[key].markAsDirty();
       formGroup.controls[key].updateValueAndValidity();
@@ -527,4 +529,24 @@ export class UIHelper {
     }
     return style;
   }
+
+  /****************** 设置登录用户选定的企业空间信息 start ********************/
+
+  /**
+   * 设置当前企业空间信息
+   */
+  setCurrentEnterpriseInfo() {
+    const etpInfo = {id: this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId)};
+    localStorage.setItem(Constants.localStorageKey.currentEtpInfo, JSON.stringify(etpInfo));
+  }
+
+  /**
+   * 获取当前企业空间企业id
+   */
+  getCurrentEtpId(): string {
+    const cEtp = localStorage.getItem(Constants.localStorageKey.currentEtpInfo);
+    return  JSON.parse(cEtp).id;
+  }
+
+  /****************** 设置登录用户选定的企业空间信息 start ********************/
 }

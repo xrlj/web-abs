@@ -24,6 +24,8 @@ export class InitComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.helper.setCurrentEnterpriseInfo();
+
     // this.checkVerify();
     this.setMenus();
 

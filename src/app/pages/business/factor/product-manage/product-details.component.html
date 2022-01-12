@@ -76,7 +76,7 @@
             </div>
           </div>
           <div *ngIf="title === tabTitle[1]">
-            <app-product-staging-list [showType]="2"></app-product-staging-list>
+            <app-product-staging-list [productId]="productId" [showType]="2"></app-product-staging-list>
           </div>
           <div *ngIf="title === tabTitle[2]">
             <app-product-agreement-list

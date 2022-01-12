@@ -29,8 +29,8 @@
                     </nz-form-control>
                   </nz-form-item>
                   <nz-form-item>
-                    <nz-form-label [nzSpan]="6" nzFor="ptCode">产品编号</nz-form-label>
-                    <nz-form-control [nzSpan]="10">
+                    <nz-form-label [nzSpan]="6" nzFor="ptCode" nzRequired="">产品编号</nz-form-label>
+                    <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
                       <input formControlName="ptCode" id="ptCode" placeholder="请输入产品编号" nz-input/>
                     </nz-form-control>
                   </nz-form-item>
@@ -185,8 +185,8 @@
               <div class="form-column">
                 <div class="form-column-one">
                   <nz-form-item>
-                    <nz-form-label [nzSpan]="6" nzFor="ptBuyDiscount">买入折扣</nz-form-label>
-                    <nz-form-control [nzSpan]="10">
+                    <nz-form-label [nzSpan]="6" nzFor="ptBuyDiscount" nzRequired="">买入折扣</nz-form-label>
+                    <nz-form-control [nzSpan]="10" nzErrorTip="必填项">
                       <nz-input-group [nzSuffix]="suffixRate">
                         <input formControlName="ptBuyDiscount" id="ptBuyDiscount" placeholder="请输入买入折扣，如：95" nz-input/>
                       </nz-input-group>
@@ -274,7 +274,7 @@
           </div>
           <!--产品分期-->
           <div class="tab-content" *ngIf="i === 1">
-            <app-product-staging-list [productId]="productId" [showType]="1"></app-product-staging-list>
+            <app-product-staging-list [productId]="productId" [buyDiscount]="productBasicInfo!.buyDiscount!.toString()" [showType]="1"></app-product-staging-list>
           </div>
           <!--协议模板-->
           <div class="tab-content" *ngIf="i === 2">

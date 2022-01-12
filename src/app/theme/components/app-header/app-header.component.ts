@@ -12,6 +12,8 @@ import {Constants} from '../../../helpers/constants';
 import {CommonService} from '../../../helpers/service/common.service';
 import {FinancingModelEnum} from '../../../helpers/enum/financing-model-enum';
 import {SimpleReuseStrategy} from '../../../helpers/simple-reuse-strategy';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MyValidators} from '../../../helpers/MyValidators';
 
 @Component({
   selector: 'app-header',
@@ -19,12 +21,6 @@ import {SimpleReuseStrategy} from '../../../helpers/simple-reuse-strategy';
   styleUrls: ['./app-header.component.less']
 })
 export class AppHeaderComponent implements OnInit {
-  constructor(private router: Router,
-              private api: Api,
-              public utils: Utils,
-              public uiHelper: UIHelper, private defaultBusService: DefaultBusService,
-              private commonService: CommonService) {
-  }
 
   isFullScreen = false;
 
@@ -49,6 +45,21 @@ export class AppHeaderComponent implements OnInit {
   financingModeRadioValue: FinancingModelEnum;
   financingModelEnum: typeof FinancingModelEnum = FinancingModelEnum;
 
+  isShowChangeEtpSpaceModal = false;
+  isEtpSpaceModalOkLoading = false;
+  etpSpaceChangeForm: FormGroup;
+
+  constructor(private router: Router,
+              private api: Api,
+              public utils: Utils,
+              private fb: FormBuilder,
+              public uiHelper: UIHelper, private defaultBusService: DefaultBusService,
+              private commonService: CommonService) {
+
+    this.etpSpaceChangeForm = this.fb.group({
+      etpSpace: [null, [MyValidators.required]]
+    });
+  }
 
   ngOnInit() {
     const settingInfo = this.uiHelper.getSysSettingInfo();
@@ -207,4 +218,17 @@ export class AppHeaderComponent implements OnInit {
   }
 
 
+  changeEtpSpace() {
+    this.isShowChangeEtpSpaceModal = true;
+  }
+
+  handleEtpSpaceModalCancel() {
+    this.isShowChangeEtpSpaceModal = false;
+    this.isEtpSpaceModalOkLoading = false;
+    this.etpSpaceChangeForm.reset();
+  }
+
+  handleEtpSpaceModalOk() {
+
+  }
 }

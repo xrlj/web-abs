@@ -19,9 +19,10 @@ export class ProductStagingListComponent implements OnInit {
 
   @Input()
   showType: number; // 1-编辑；2-查看
-
   @Input()
   productId: string; // 产品id
+  @Input()
+  buyDiscount: string; // 产品买入折扣，从产品信息带过默认为分期买入折扣
 
   // ====产品分期列表
   listOfAllData: any[] = [];
@@ -71,7 +72,7 @@ export class ProductStagingListComponent implements OnInit {
 
   getListPage() {
     this.listLoading = true;
-    this.productService.getProductStagingListPage({pageIndex: this.pageIndex, pageSize: this.pageSize})
+    this.productService.getProductStagingListPage({pageIndex: this.pageIndex, pageSize: this.pageSize, productId: this.productId})
       .ok(data => {
         this.listOfAllData = data.list;
         this.pageIndex = data.pageIndex;
@@ -94,6 +95,8 @@ export class ProductStagingListComponent implements OnInit {
     this.modalType = 1;
     this.addOrEditForm.controls.pdtStagingStatus.setValue(this.pdtStagingStatuses[0]?.dictValue);
     this.addOrEditForm.controls.pdtStagingStatus.disable({onlySelf: true}); // 设置不可编辑
+    // 设置买入折扣
+    if (this.buyDiscount) this.addOrEditForm.controls.buyDiscount.setValue(this.buyDiscount);
   }
 
   /**

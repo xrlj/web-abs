@@ -1,25 +1,13 @@
-<nz-card class="card-list" nzTitle="付款单列表" *ngIf="showType === 1">
-  <div class="card-container">
-    <nz-tabset
-      [nzTabBarGutter]="2"
-      [nzTabPosition]="'top'"
-      [(nzSelectedIndex)]="tabIndex"
-      nzType="card"
-      (nzSelectedIndexChange)="search(true)">
-
-      <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
-        <div class="tab-card-list">
-          <!--搜索条件-->
-          <div class="tab-card-list-action">
-            <app-payment-bill-search></app-payment-bill-search>
-          </div>
-          <!--列表-->
-          <div class="tab-card-list-table">
-            <app-payment-bill-list [fromViewType]="0" (detailsLook)="details($event)"></app-payment-bill-list>
-          </div>
-        </div>
-      </nz-tab>
-    </nz-tabset>
+<nz-card class="card-list" nzTitle="全部付款单列表" *ngIf="showType === 1">
+  <div class="tab-card-list">
+    <!--搜索条件-->
+    <div class="tab-card-list-action">
+      <app-payment-bill-search paymentBillMenuType="all"></app-payment-bill-search>
+    </div>
+    <!--列表-->
+    <div class="tab-card-list-table">
+      <app-payment-bill-list [fromViewType]="0" [paymentBillMenuType]="'all'" (detailsLook)="details($event)"></app-payment-bill-list>
+    </div>
   </div>
 </nz-card>
 <app-payment-bill-details *ngIf="showType === 2" (showList)="showList()"></app-payment-bill-details>

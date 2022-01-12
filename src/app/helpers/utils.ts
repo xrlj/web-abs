@@ -6,11 +6,17 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {JwtKvEnum} from './enum/jwt-kv-enum';
 import {Constants} from './constants';
 import {environment} from '../../environments/environment';
+import {AppPath} from '../app-path';
+import {UIHelper} from './ui-helper';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Utils {
+
+  constructor(private router: Router) {
+  }
 
   /**
    * 开发，测试环境下才打印文本到控制台
@@ -66,9 +72,10 @@ export class Utils {
    * @param token 待解析token。
    */
   jwtTokenDecode(): any {
-    const  token = localStorage.getItem(Constants.localStorageKey.token);
+    const token = localStorage.getItem(Constants.localStorageKey.token);
     if (!token) {
-      throw new Error('没有获取到token');
+      // throw new Error('没有获取到token');
+      this.router.navigate([AppPath.login]);
     }
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(token);
@@ -80,7 +87,7 @@ export class Utils {
    * @param token 保存的token。
    */
   jwtTokenIsExpired(): boolean {
-    const  token = localStorage.getItem(Constants.localStorageKey.token);
+    const token = localStorage.getItem(Constants.localStorageKey.token);
     if (!token) {
       throw new Error('没有获取到token');
     }

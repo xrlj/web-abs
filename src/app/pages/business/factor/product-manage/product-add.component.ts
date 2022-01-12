@@ -82,7 +82,7 @@ export class ProductAddComponent implements OnInit, AfterViewInit {
       ptPaymentBillQuota: [null, [MyValidators.decimal, MyValidators.maxLength(15)]],
       ptQuotaNature: [null, null],
       ptQuotaDeadline: [null, [MyValidators.decimal, MyValidators.positiveInteger, MyValidators.maxLength(1)]],
-      ptBuyDiscount: [null, [MyValidators.decimal]],
+      ptBuyDiscount: [null, [MyValidators.required, MyValidators.decimal]],
       ptYearRate: [null, [MyValidators.decimal]],
       ptCostPeriod: [null, [MyValidators.positiveInteger]],
       ptSellDiscount: [null, [MyValidators.decimal]],

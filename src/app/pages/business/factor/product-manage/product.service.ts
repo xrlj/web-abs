@@ -11,50 +11,58 @@ export class ProductService {
 
   constructor(private api: Api, private utils: Utils) { }
 
-  getFpdtTypeListAll(): any {
+  getFpdtTypeListAll() {
     return this.api.get(ApiPath.serviceAbsProduct.fpdtTypeApi.getListAll);
   }
 
-  addProductBasicInfo(body: any): any {
+  addProductBasicInfo(body: any) {
     return this.api.post(ApiPath.serviceAbsProduct.productApi.add, body);
   }
 
-  updateProductBasicInfo(body: any): any {
+  updateProductBasicInfo(body: any) {
     return this.api.post(ApiPath.serviceAbsProduct.productApi.update, body);
   }
 
-  getProductBasicById(id: string): any {
+  getProductBasicById(id: string) {
     return this.api.get(`${ApiPath.serviceAbsProduct.productApi.getProductById}/${id}`);
   }
 
-  getProductListPage(body: any): any {
+  getProductListPage(body: any) {
     return this.api.post(ApiPath.serviceAbsProduct.productApi.getProductListPage, body);
   }
 
-  updateProductStatus(id: string, pdtStatus: number): any {
+  getProductListAll(factorId: string) {
+    return this.api.get(`${ApiPath.serviceAbsProduct.productApi.getProductListAll}/${factorId}`);
+  }
+
+  updateProductStatus(id: string, pdtStatus: number) {
     return this.api.post(ApiPath.serviceAbsProduct.productApi.updateProductStatus, null, null,
       {productId: id, status: pdtStatus}, ContentTypeEnum.APPLICATION_FORM_URLENCODED_VALUE);
   }
 
   /**************** 产品分期相关 **************/
 
-  addProductStaging(body: any): any {
+  addProductStaging(body: any) {
     return this.api.post(ApiPath.serviceAbsProduct.productStagingApi.add, body);
   }
 
-  updateProductStaging(body: any): any {
+  updateProductStaging(body: any) {
     return this.api.post(ApiPath.serviceAbsProduct.productStagingApi.update, body);
   }
 
-  getProductStagingListPage(body: any): any {
+  getProductStagingListPage(body: any) {
     return this.api.post(ApiPath.serviceAbsProduct.productStagingApi.getListPage, body);
   }
 
-  getProductStagingInfo(id: string): any {
+  getProductStagingListAll(productId: string) {
+    return this.api.get(`${ApiPath.serviceAbsProduct.productStagingApi.getListAll}/${productId}`)
+  }
+
+  getProductStagingInfo(id: string) {
     return this.api.get(`${ApiPath.serviceAbsProduct.productStagingApi.getById}/${id}`);
   }
 
-  delProductStaging(...ids: string[]): any {
+  delProductStaging(...ids: string[]) {
     return this.api.delete(`${ApiPath.serviceAbsProduct.productStagingApi.del}/${this.utils.arrayToArrayParam(ids)}`);
   }
 

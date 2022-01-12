@@ -17,6 +17,7 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzTagModule} from 'ng-zorro-antd/tag';
+import {NzSelectModule} from 'ng-zorro-antd/select';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {NzTagModule} from 'ng-zorro-antd/tag';
         NzFormModule,
         NzButtonModule,
         NzIconModule,
-        NzTagModule
+        NzTagModule,
+        NzSelectModule
     ]
 })
 export class CustomerModule { }

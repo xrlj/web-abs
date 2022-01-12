@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MyValidators} from '../../../../helpers/MyValidators';
 
@@ -9,9 +9,12 @@ import {MyValidators} from '../../../../helpers/MyValidators';
 })
 export class PaymentBillSearchComponent implements OnInit {
 
+  // all-付款单查询；check-付款单审核；review-付款单复核；
+  @Input()
+  paymentBillMenuType: string;
+
   searchFormGroup!: FormGroup;
   isCollapse = true
-  rowItem = 4; // 24 / 6 = 4 四列
 
   constructor(private fb: FormBuilder) {
     this.searchFormGroup = this.fb.group({

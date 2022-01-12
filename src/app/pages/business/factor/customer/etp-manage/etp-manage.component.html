@@ -92,6 +92,10 @@
                       <a>查看</a>
                       <nz-divider nzType="vertical"></nz-divider>
                       <a (click)="addModalShow(2)">编辑</a>
+                      <span *ngIf="title.dictValue === 2">
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a (click)="setEtpApiConf(data.id)">开放接口配置</a>
+                      </span>
                     </div>
                   </td>
                 </tr>
@@ -201,6 +205,42 @@
       <nz-form-label [nzSpan]="spanLabel">联系人电话</nz-form-label>
       <nz-form-control [nzSpan]="spanFormControl">
         <input nz-input id="contactPhone" formControlName="contactPhone" placeholder="联系人电话"/>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+
+<nz-modal *ngIf="isShowEtpApiSetModal"
+          [(nzVisible)]="isShowEtpApiSetModal"
+          [nzWidth]="800"
+          [nzMaskClosable]="false"
+          nzTitle="编辑"
+          (nzOnCancel)="handleEtpApiModalCancel()"
+          (nzOnOk)="handleEtpApiModalOk()"
+          [nzOkLoading]="isEtpApiModalOkLoading">
+  <form nz-form [formGroup]="etpApiSetForm" *nzModalContent>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="apiUrl" nzRequired>ApiUrl</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input nz-input id="apiUrl" formControlName="apiUrl" placeholder="请输入接口请求路径URL"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="accessKey" nzRequired>AccessKey</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input nz-input id="accessKey" formControlName="accessKey" placeholder="请输入AccessKey"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="secretKey" nzRequired>SecretKey</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input nz-input id="secretKey" formControlName="secretKey" placeholder="请输入SecretKey"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel">备注</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl">
+        <textarea formControlName="remark" nz-input rows="2" placeholder="备注,不超过255字"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>

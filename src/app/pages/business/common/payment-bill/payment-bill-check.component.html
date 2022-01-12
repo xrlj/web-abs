@@ -1,0 +1,14 @@
+<nz-card class="card-list" nzTitle="付款单审核列表" *ngIf="showType === 1">
+  <div class="tab-card-list">
+    <!--搜索条件-->
+    <div class="tab-card-list-action">
+      <app-payment-bill-search paymentBillMenuType="check"></app-payment-bill-search>
+    </div>
+    <!--列表-->
+    <div class="tab-card-list-table">
+      <app-payment-bill-list [fromViewType]="0" [paymentBillMenuType]="'check'" (detailsLook)="details($event)"></app-payment-bill-list>
+    </div>
+  </div>
+</nz-card>
+<app-payment-bill-details *ngIf="showType === 2" (showList)="showList()"></app-payment-bill-details>
+

@@ -8,10 +8,10 @@ import {UIHelper} from '../../../../../helpers/ui-helper';
 import {DefaultBusService} from '../../../../../helpers/event-bus/default-bus.service';
 import {Utils} from '../../../../../helpers/utils';
 import {ThemeHelper} from '../../../../../helpers/theme-helper';
-import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {JwtKvEnum} from '../../../../../helpers/enum/jwt-kv-enum';
 import {CommonService} from '../../../../../helpers/service/common.service';
+import {MyValidators} from '../../../../../helpers/MyValidators';
 
 @Component({
   selector: 'app-etp-manage',
@@ -47,6 +47,14 @@ export class EtpManageComponent implements OnInit {
   spanLabel = 4;
   spanFormControl = 18;
 
+  // ========= 设置企业开放接口配置modal相关
+  isShowEtpApiSetModal = false;
+  isEtpApiModalOkLoading = false;
+  etpApiSetForm: FormGroup;
+
+  selectedEtpId = null;
+  etpApiConfId = null;
+
   constructor(private fb: FormBuilder, private etpManageService: EtpManageService,
               public uiHelper: UIHelper, private utils: Utils,
               private modal: NzModalService, private viewContainerRef: ViewContainerRef,
@@ -63,6 +71,13 @@ export class EtpManageComponent implements OnInit {
       contactName: [null, [Validators.required]],
       contactMobile: [null, [Validators.required]],
       contactPhone: [null, null]
+    });
+
+    this.etpApiSetForm = this.fb.group({
+      apiUrl: [null, [MyValidators.required]],
+      accessKey: [null, [MyValidators.required]],
+      secretKey: [null, [MyValidators.required]],
+      remark: [null, null]
     });
   }
 
@@ -263,5 +278,60 @@ export class EtpManageComponent implements OnInit {
       .final(b => {
         this.defaultBusService.showLoading(false);
       });
+  }
+
+  /**
+   * 设置企业开放接口信息。需要加密传输
+   * @param id 企业id
+   */
+  setEtpApiConf(id: string) {
+    this.selectedEtpId = id;
+    this.defaultBusService.showLoading(true);
+    const factorId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId); // TODO 多企业切换空间处理更改
+    this.etpManageService.getEtpApiConfByEtpId(id, factorId)
+      .ok(data => {
+        console.log(data);
+        this.etpApiConfId = data.id;
+        this.etpApiSetForm.patchValue(data);
+      })
+      .fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      })
+      .final(b => {
+        this.defaultBusService.showLoading(false);
+        this.isShowEtpApiSetModal = true;
+      });
+  }
+
+  handleEtpApiModalCancel() {
+    this.isShowEtpApiSetModal = false;
+    this.etpApiSetForm.reset();
+  }
+
+  handleEtpApiModalOk() {
+    if (this.etpApiSetForm.valid) {
+      const body = this.etpApiSetForm.value;
+      body.enterpriseId = this.selectedEtpId;
+      body.id = this.etpApiConfId;
+      body.factorId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId); // TODO 多企业切换空间处理更改
+      this.isEtpApiModalOkLoading = true;
+      this.etpManageService.addEtpApiConf(body)
+        .ok(data => {
+          console.log(data);
+          this.uiHelper.msgTipSuccess('提交成功');
+          this.handleEtpApiModalCancel();
+        })
+        .fail(error => {
+          this.uiHelper.msgTipError(error.msg);
+        })
+        .final(b => {
+          this.isEtpApiModalOkLoading = false;
+        });
+    } else {
+      for (const key in this.etpApiSetForm.controls) {
+        this.etpApiSetForm.controls[key].markAsDirty();
+        this.etpApiSetForm.controls[key].updateValueAndValidity();
+      }
+    }
   }
 }

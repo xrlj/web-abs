@@ -1,9 +1,7 @@
-import {MyValidators} from './MyValidators';
-
 export const Constants = {
   apiRequest: {
-    retryTime: 3,  // 重试次数
-    timeOut: 5000
+    retryTime: 2,  // 重试次数
+    timeOut: 1000 * 5 // 5秒
   },
   appInfo: {
     appName: 'xxxxxxx',
@@ -13,6 +11,7 @@ export const Constants = {
   },
   localStorageKey: {
     token: 'm-jwt-token',
+    currentEtpInfo: 'current-etp-info', // 当前企业和标签
     verifyStatus: 'verify-status', // 企业、个人实名认证状态信息
     menus: 'user-menus', // 菜单
     currentTheme: 'current-theme', // 当前主题色调风格,

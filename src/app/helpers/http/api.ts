@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 
 import {Observable, throwError} from 'rxjs';
-import {catchError, retry, tap} from 'rxjs/operators';
+import {catchError, retry, tap, timeout} from 'rxjs/operators';
 import {Constants} from '../constants';
 import {HttpErrorHandler} from './http-error-handler';
 import {environment} from '../../../environments/environment';
@@ -77,7 +77,7 @@ export class Api {
 
     // 定义处理器
     const handlers = {};
-    client.pipe(retry(Constants.apiRequest.retryTime), catchError(this.handleError))
+    client.pipe(timeout(Constants.apiRequest.timeOut), retry(Constants.apiRequest.retryTime), catchError(this.handleError))
       .subscribe(resp => {
         const ok = handlers['ok'];
         const fail = handlers['fail'];
@@ -157,7 +157,7 @@ export class Api {
     }
     client = this.http.get(url, httpOptions);
     const handlers = {};
-    client = client.pipe(retry(Constants.apiRequest.retryTime), catchError(this.handleError));
+    client = client.pipe(timeout(Constants.apiRequest.timeOut), retry(Constants.apiRequest.retryTime), catchError(this.handleError));
     client.subscribe(resp => {
       const success = resp.success;
       const code = resp.code;
@@ -227,7 +227,7 @@ export class Api {
 
     // 定义处理器
     const handlers = {};
-    client.pipe(retry(Constants.apiRequest.retryTime), catchError(this.handleError))
+    client.pipe(timeout(Constants.apiRequest.timeOut), retry(Constants.apiRequest.retryTime), catchError(this.handleError))
       .subscribe(resp => {
         const success = resp.success;
         const code = resp.code;
@@ -327,7 +327,7 @@ export class Api {
    */
   exportFile(url: string, fileName: string) {
     this.http.get(url, {responseType: 'blob'})
-      .pipe(tap(
+      .pipe(timeout(Constants.apiRequest.timeOut), tap(
         data => {
           console.log(data);
         },
@@ -339,5 +339,86 @@ export class Api {
         // resp: 文件流
         this.downloadFile(resp, fileName);
       })
+  }
+
+  /***** 接口导入付款单特用 ******/
+  getPBillFromApi(path: string, params?: HttpParams | {}, version?: number,  refresh = false) {
+    if (!path) {
+      throw new Error('url缺少path');
+    }
+    const url = environment.apiUrl.concat(path);
+    const httpOptions = createHttpOptions(refresh);
+    if (version) {
+      httpOptions.headers = httpOptions.headers.set('Content-Version', version.toString());
+    }
+    let client: Observable<any>;
+    if (params) {
+      if (!(params instanceof HttpParams)) {
+        for (const key of Object.keys(params)) {
+          if (params.hasOwnProperty(key)) {
+            const v = params[key];
+            httpOptions.params = httpOptions.params.set(key, v);
+          }
+        }
+      } else {
+        httpOptions.params = params;
+      }
+    }
+    client = this.http.get(url, httpOptions);
+    const handlers = {};
+    client = client.pipe(timeout(1000 * 60 * 10), retry(0), catchError(this.handleError)); // 特殊的超时，重试
+    client.subscribe(resp => {
+      const success = resp.success;
+      const code = resp.code;
+      const msg = resp.msg;
+      const ok = handlers['ok'];
+      const fail = handlers['fail'];
+      const final = handlers['final'];
+      if (success && code === 200) {
+        if (ok instanceof Function) {
+          ok(resp.data);
+        }
+        if (final instanceof Function) {
+          final(true);
+        }
+      } else {
+        if (!this.httpUtils.dealError(code, msg)) {
+          if (fail instanceof Function) {
+            fail(resp);
+          }
+        }
+        if (final instanceof Function) {
+          final(false);
+        }
+      }
+    }, error => {
+      const fail = handlers['fail'];
+      const final = handlers['final'];
+      if (!this.httpUtils.dealError(error.code, error.msg)) {
+        if (fail instanceof Function) {
+          fail(error);
+        }
+      }
+      if (final instanceof Function) {
+        final(false);
+      }
+    });
+
+    // 拟态返回器
+    const result = {
+      ok: fn => {
+        handlers['ok'] = fn;
+        return result;
+      },
+      fail: fn => {
+        handlers['fail'] = fn;
+        return result;
+      },
+      final: fn => {
+        handlers['final'] = fn;
+        return result;
+      }
+    };
+    return result;
   }
 }

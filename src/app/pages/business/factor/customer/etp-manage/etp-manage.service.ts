@@ -39,4 +39,15 @@ export class EtpManageService {
   checkEtpInfo(body: any): any {
     return this.api.post(ApiPath.usercentral.enterprise.checkEtpInfo, body);
   }
+
+  /**
+   * 添加企业开放接口请求配信信息。
+   */
+  addEtpApiConf(body: any) {
+    return this.api.post(ApiPath.usercentral.enterprise.addEtpApiConf, body);
+  }
+
+  getEtpApiConfByEtpId(etpId: string, factorId: string) {
+    return this.api.get(`${ApiPath.usercentral.enterprise.getEtpApiConfByEtpId}/${etpId}/${factorId}`);
+  }
 }

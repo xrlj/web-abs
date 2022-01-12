@@ -8,6 +8,7 @@ const sysnotify = 'sysnotify'; // 通知服务
 const esign = 'esign'; // e签宝服务
 const serviceAbsTemplate = 'serviceAbsTemplate'; // 模板协议服务
 const serviceAbsProduct = 'serviceAbsProduct'; // 产品服务
+const serviceAbsPayment = 'serviceAbsPayment'; // 付款单管理服务
 
 /****************服务名称 end********************/
 
@@ -62,7 +63,9 @@ export const ApiPath = {
       addEtp: `/${usercentral}/enterprise/addEtp`,
       getAllByEtp: `/${usercentral}/enterprise/getAllByEtp`,
       getEtpInfo: `/${usercentral}/enterprise/getEtpInfo`,
-      checkEtpInfo: `/${usercentral}/enterprise/checkEtpInfo`
+      checkEtpInfo: `/${usercentral}/enterprise/checkEtpInfo`,
+      addEtpApiConf: `/${usercentral}/enterprise/addEtpApiConf`,
+      getEtpApiConfByEtpId: `/${usercentral}/enterprise/getEtpApiConfByEtpId`,
     }
   },
   serviceAbsTemplate: {
@@ -134,12 +137,14 @@ export const ApiPath = {
       update: `/${serviceAbsProduct}/product/update`, // 更新
       getProductById: `/${serviceAbsProduct}/product/getProductById`, // 根据id获取详情
       getProductListPage: `/${serviceAbsProduct}/product/getProductListPage`, // 分页获取列表
+      getProductListAll: `/${serviceAbsProduct}/product/getProductListAll`, // 获取保理商所有产品列表
       updateProductStatus: `/${serviceAbsProduct}/product/updateProductStatus` // 更新产品状态
     },
     productStagingApi: {
       add: `/${serviceAbsProduct}/productStaging/add`, // 新增
       update: `/${serviceAbsProduct}/productStaging/update`, // 更新
       getListPage: `/${serviceAbsProduct}/productStaging/getListPage`, // 分页获取列表
+      getListAll: `/${serviceAbsProduct}/productStaging/getListAll`, // 获取产品下所有分期列表
       getById: `/${serviceAbsProduct}/productStaging/getById`,
       del: `/${serviceAbsProduct}/productStaging/del`,
     },
@@ -156,6 +161,11 @@ export const ApiPath = {
       getListByProductId: `/${serviceAbsProduct}/productAnnex/getListByProductId`, // 获取产品所有附件
       delByProductId: `/${serviceAbsProduct}/productAnnex/delByProductId`, // 批量删除产品下附件类型
       delByIds: `/${serviceAbsProduct}/productAnnex/delByIds`, // 批量删除产品附件类型
+    }
+  },
+  serviceAbsPayment: {
+    paymentBillApi: {
+      getPaymentBillFromApiAndImport: `/${serviceAbsPayment}/paymentBill/getPaymentBillFromApiAndImport`
     }
   }
 };
