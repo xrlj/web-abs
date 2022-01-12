@@ -10,6 +10,6 @@ export class PaymentBillService {
   constructor(private api: Api) { }
 
   getPaymentBillFromApi(par: string) {
-    return this.api.getPBillFromApi(ApiPath.serviceAbsPayment.paymentBillApi.getPaymentBillFromApiAndImport, {jsonString: par});
+    return this.api.get(ApiPath.serviceAbsPayment.paymentBillApi.getPaymentBillFromApiAndImport, {jsonString: par});
   }
 }
