@@ -12,12 +12,19 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzRadioModule} from 'ng-zorro-antd/radio';
+import {NzMenuModule} from 'ng-zorro-antd/menu';
+import { UserTaskImportComponent } from './user-task-import/user-task-import.component';
+import { UserTaskExportComponent } from './user-task-export/user-task-export.component';
+import { UserCentreBasicComponent } from './user-centre-basic/user-centre-basic.component';
+import {NzSelectModule} from 'ng-zorro-antd/select';
+import {NzTableModule} from 'ng-zorro-antd/table';
+import {DirectivesModule} from '../../directives/directives.module';
 
 /**
  * 个人账号中心
  */
 @NgModule({
-  declarations: [UserCentreComponent],
+  declarations: [UserCentreComponent, UserTaskImportComponent, UserTaskExportComponent, UserCentreBasicComponent],
   imports: [
     CommonModule,
     UserCentreRoutingModule,
@@ -31,7 +38,11 @@ import {NzRadioModule} from 'ng-zorro-antd/radio';
     ReactiveFormsModule,
     NzInputModule,
     NzButtonModule,
-    NzRadioModule
+    NzRadioModule,
+    NzMenuModule,
+    NzSelectModule,
+    NzTableModule,
+    DirectivesModule
   ]
 })
 export class UserCentreModule { }

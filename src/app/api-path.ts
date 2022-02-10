@@ -71,14 +71,23 @@ export const ApiPath = {
   serviceAbsTemplate: {
     agrTypeBig: {
       get: `/${serviceAbsTemplate}/agrTypeBig/get`,
-      getListAll: `/${serviceAbsTemplate}/agrTypeBig/getListAll`
+      getListAll: `/${serviceAbsTemplate}/agrTypeBig/getListAll`,
+      addOrUpdate: `/${serviceAbsTemplate}/agrType/addOrUpdate`,
+      getListPage: `/${serviceAbsTemplate}/agrType/getListPage`,
+      delete: `/${serviceAbsTemplate}/agrType/delete`
     },
     agrType: {
+      addOrUpdate: `/${serviceAbsTemplate}/agrType/addOrUpdate`,
+      getListPage: `/${serviceAbsTemplate}/agrType/getListPage`,
       get: `/${serviceAbsTemplate}/agrType/get`,
+      delete: `/${serviceAbsTemplate}/agrType/delete`,
       getListAll: `/${serviceAbsTemplate}/agrType/getListAll`
     },
     agrTypeSpecify: {
+      addOrUpdate: `/${serviceAbsTemplate}/agrTypeSpecify/addOrUpdate`,
+      delete: `/${serviceAbsTemplate}/agrTypeSpecify/delete`,
       get: `/${serviceAbsTemplate}/agrTypeSpecify/get`,
+      getListPage: `/${serviceAbsTemplate}/agrTypeSpecify/getListPage`,
       getListAll: `/${serviceAbsTemplate}/agrTypeSpecify/getListAll`
     },
     templateParManage: {
@@ -131,6 +140,13 @@ export const ApiPath = {
   serviceAbsProduct: {
     fpdtTypeApi: {
       getListAll: `/${serviceAbsProduct}/fpdtType/getListAll` // 获取全部产品类型
+    },
+    annexType: {
+      addOrUpdate: `/${serviceAbsProduct}/annexType/addOrUpdate`,
+      delete: `/${serviceAbsProduct}/annexType/delete`,
+      get: `/${serviceAbsProduct}/annexType/get`,
+      getListPage: `/${serviceAbsProduct}/annexType/getListPage`,
+      getList: `/${serviceAbsProduct}/annexType/getList`
     },
     productApi: {
       add: `/${serviceAbsProduct}/product/add`, // 新增

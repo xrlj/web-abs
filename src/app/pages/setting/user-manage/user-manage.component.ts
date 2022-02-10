@@ -118,7 +118,9 @@ export class UserManageComponent implements OnInit {
       this.pageIndex = 1;
     }
     this.loading = true;
-    this.vUserSearchReq.etpId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId);
+    // this.vUserSearchReq.etpId = this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId);
+    this.vUserSearchReq.etpId = this.uiHelper.getCurrentEtpId();
+    this.vUserSearchReq.isRootUser = false;
     this.vUserSearchReq.username = this.searchForm.value.username;
     this.vUserSearchReq.sex = this.searchForm.value.sex;
     this.userManageService.getUserList(this.vUserSearchReq)

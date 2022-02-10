@@ -67,6 +67,10 @@ import { RefactoringListComponent } from './refactoring-list/refactoring-list.co
 import {NzTagModule} from 'ng-zorro-antd/tag';
 import {NzEmptyModule} from 'ng-zorro-antd/empty';
 import {NzListModule} from 'ng-zorro-antd/list';
+import { ProductAnnexTypeComponent } from './product-manage/product-annex-type/product-annex-type.component';
+import { AgrTypeBigComponent } from './agreement-template/agr-type-big/agr-type-big.component';
+import { AgrTypeComponent } from './agreement-template/agr-type/agr-type.component';
+import { AgrTypeSpecifyComponent } from './agreement-template/agr-type-specify/agr-type-specify.component';
 
 
 @NgModule({
@@ -105,6 +109,10 @@ import {NzListModule} from 'ng-zorro-antd/list';
     AgreementTemplateSearchComponent,
     AgreementTemplateDetailsComponent,
     RefactoringListComponent,
+    ProductAnnexTypeComponent,
+    AgrTypeBigComponent,
+    AgrTypeComponent,
+    AgrTypeSpecifyComponent,
   ],
   imports: [
     CommonModule,

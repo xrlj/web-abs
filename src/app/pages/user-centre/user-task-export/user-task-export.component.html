@@ -1,0 +1,75 @@
+<nz-card class="card-list" nzTitle="导出列表">
+  <div class="tab-card-list">
+    <!--搜索条件-->
+    <div class="tab-card-list-action">
+      <form nz-form [formGroup]="searchFormGroup" class="search-form" nzLayout="inline">
+        <nz-form-item>
+          <nz-form-label nzFor="taskType">任务类型</nz-form-label>
+          <nz-form-control [nzSpan]="0">
+            <nz-select nzAllowClear id="taskType" formControlName="taskType" nzPlaceHolder="请选择">
+              <nz-option nzValue="'0'" nzLabel="付款单接口导入"></nz-option>
+              <nz-option nzValue="'1'" nzLabel="付款单EXCEL导入"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="taskStatus">任务状态</nz-form-label>
+          <nz-form-control [nzSpan]="0">
+            <nz-select nzAllowClear id="taskStatus" formControlName="taskStatus" nzPlaceHolder="请选择">
+              <nz-option nzValue="'0'" nzLabel="执行中"></nz-option>
+              <nz-option nzValue="'1'" nzLabel="成功"></nz-option>
+              <nz-option nzValue="'2'" nzLabel="失败"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+          <button nz-button (click)="resetForm()" style="margin-left: 8px">重置</button>
+        </nz-form-item>
+      </form>
+    </div>
+    <!--列表-->
+    <div class="tab-card-list-table">
+      <nz-table
+        nzShowPagination
+        nzShowSizeChanger
+        nzBordered
+        [nzFrontPagination]="false"
+        [nzData]="listOfAllData"
+        [nzLoading]="listLoading"
+        [nzTotal]="total"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)"
+        (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      >
+        <thead>
+        <tr>
+          <th nzWidth="15%" nzAlign="center">任务类型</th>
+          <th nzWidth="20%" nzAlign="center">文件名称</th>
+          <th nzWidth="15%" nzAlign="center">文件类型</th>
+          <th nzWidth="15%" nzAlign="center">任务状态</th>
+          <th nzWidth="10%" nzAlign="center">响应时间</th>
+          <th nzWidth="15%" nzAlign="center">创建时间</th>
+          <th nzWidth="10%" nzAlign="center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of listOfAllData">
+          <td nzAlign="center">付款单导入</td>
+          <td nzAlign="center">
+            <a appTextColorTheme>付款单明细</a>
+          </td>
+          <td nzAlign="center">.excel</td>
+          <td nzAlign="center">执行中</td>
+          <td nzAlign="center">45秒</td>
+          <td nzAlign="center">2022-01-14 12:16</td>
+          <td nzRight nzAlign="center">
+            <a>下载</a>
+          </td>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</nz-card>

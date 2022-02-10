@@ -148,13 +148,11 @@ export class RegisterComponent implements OnInit {
             this.sendMessage();   // 调用下面的按钮倒计时的方法
           } else {
             this.uiHelper.msgTipError('获取短信验证码失败');
-            this.captchaBtnLoading = false;
           }
         }).fail(error => {
           this.uiHelper.msgTipError(error.msg);
-          this.captchaBtnLoading = false;
         }).final(() => {
-          // this.captchaBtnLoading = false;
+          this.captchaBtnLoading = false;
         });
     } else {
       this.stepOneForm.controls['phoneNumber'].markAsDirty();           // 点击获取验证码要以输入了手机号为前提

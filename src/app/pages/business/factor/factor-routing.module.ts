@@ -12,6 +12,10 @@ import {SecondZdwRegisterComponent} from './zdw-register/second-zdw-register.com
 import {PaymentWriteOffComponent} from './payment-write-off/payment-write-off.component';
 import {ProductAddComponent} from './product-manage/product-add.component';
 import {RefactoringListComponent} from './refactoring-list/refactoring-list.component';
+import {ProductAnnexTypeComponent} from './product-manage/product-annex-type/product-annex-type.component';
+import {AgrTypeBigComponent} from './agreement-template/agr-type-big/agr-type-big.component';
+import {AgrTypeComponent} from './agreement-template/agr-type/agr-type.component';
+import {AgrTypeSpecifyComponent} from './agreement-template/agr-type-specify/agr-type-specify.component';
 
 
 const routes: Routes = [
@@ -25,6 +29,11 @@ const routes: Routes = [
     data: {title: '产品列表', isRemove: true, reload: false}
   },
   {
+    path: 'product-annex-type',
+    component: ProductAnnexTypeComponent,
+    data: {title: '产品附件类型管理', isRemove: true, reload: false}
+  },
+  {
     path: 'product-add/:id',
     component: ProductAddComponent,
     data: {title: '产品维护', isRemove: true}
@@ -33,6 +42,21 @@ const routes: Routes = [
     path: 'agreement-template',
     component: AgreementTemplateComponent,
     data: {title: '协议模板管理', isRemove: true}
+  },
+  {
+    path: 'agr-type-big',
+    component: AgrTypeBigComponent,
+    data: {title: '合同大类管理', isRemove: true}
+  },
+  {
+    path: 'agr-type',
+    component: AgrTypeComponent,
+    data: {title: '合同类别管理', isRemove: true}
+  },
+  {
+    path: 'agr-type-specify',
+    component: AgrTypeSpecifyComponent,
+    data: {title: '合同版别管理', isRemove: true}
   },
   {
     path: 'basic-ledger',

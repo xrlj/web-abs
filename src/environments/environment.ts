@@ -12,8 +12,8 @@ export const environment = {
   asideTheme: 'light',  // 菜单抽屉主题，dark or light
   apiFileUrl: 'http://192.168.0.3:9020',
   // apiUrl: 'http://api-dev.xrlj.com:5555'
-  // apiUrl: 'http://192.168.0.3:5555'
-  apiUrl: 'http://127.0.0.1:5555'
+  apiUrl: 'http://192.168.0.3:5555'
+  // apiUrl: 'http://127.0.0.1:5555'
 };
 /*
  * For easier debugging in development mode, you can import the following file
