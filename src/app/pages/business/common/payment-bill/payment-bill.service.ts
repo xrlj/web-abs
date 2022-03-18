@@ -12,4 +12,12 @@ export class PaymentBillService {
   getPaymentBillFromApi(par: string) {
     return this.api.get(ApiPath.serviceAbsPayment.paymentBillApi.getPaymentBillFromApiAndImport, {jsonString: par});
   }
+
+  getPaymentBillListPage(body: any) {
+    return this.api.post(ApiPath.serviceAbsPayment.paymentBillApi.getListPage, body);
+  }
+
+  importPaymentBillByExcel(body: any) {
+    return this.api.post(ApiPath.serviceAbsPayment.paymentBillApi.saveImportPaymentBillByExcel, body);
+  }
 }

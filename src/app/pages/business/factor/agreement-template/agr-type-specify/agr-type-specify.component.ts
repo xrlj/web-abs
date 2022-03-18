@@ -14,6 +14,9 @@ import {AgrTypeSpecifyService} from './agr-type-specify.service';
 })
 export class AgrTypeSpecifyComponent implements OnInit {
 
+  formLabelSpan = 5;
+  formControlSpan = 16;
+
   agrTypeBigSelected = '';
   loadingAgrTypeBig = false;
   agrTypeBigListAll: any[]; // 所有大类列表
@@ -64,7 +67,7 @@ export class AgrTypeSpecifyComponent implements OnInit {
     }
 
     // 参数
-    const par: any = {};
+    const par: any = {etpId: this.uiHelper.getCurrentEtpId()};
     par.pageIndex = this.pageIndex;
     par.pageSize = this.pageSize;
     par.agrTypeId = this.agrTypeSelected;
@@ -88,7 +91,7 @@ export class AgrTypeSpecifyComponent implements OnInit {
 
   getAgrTypeBigList() {
     this.loadingAgrTypeBig = true;
-    this.agrTypeBigService.getListAll({})
+    this.agrTypeBigService.getListAll({etpId: this.uiHelper.getCurrentEtpId()})
       .ok(data => {
         this.agrTypeBigListAll = data;
         this.agrTypeBigSelected = data[0]?.id;
@@ -104,7 +107,7 @@ export class AgrTypeSpecifyComponent implements OnInit {
 
   getAgrTypeList(_agrTypeBigId: string) {
     this.loadingAgrType = true;
-    this.agrTypeService.getListAll({agrTypeBigId: _agrTypeBigId})
+    this.agrTypeService.getListAll({etpId: this.uiHelper.getCurrentEtpId(), agrTypeBigId: _agrTypeBigId})
       .ok(data => {
         this.agrTypeListAll = data;
         this.agrTypeSelected = data[0]?.id;
@@ -172,6 +175,7 @@ export class AgrTypeSpecifyComponent implements OnInit {
   handleOk(dialogType: number) {
     if (this.addOrEditForm.valid) {
       const body = this.addOrEditForm.value;
+      body.etpId = this.uiHelper.getCurrentEtpId();
       if (dialogType === 2) {
         body.id = this.details.id;
       }

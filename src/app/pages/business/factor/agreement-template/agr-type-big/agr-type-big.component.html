@@ -67,40 +67,42 @@
 <!--新增菜单对话框-->
 <nz-modal [(nzVisible)]="isShowModal"
           nzMaskClosable = false
-          nzWidth="800"
+          nzWidth="640px"
           [nzTitle]="dialogType === 1 ? '新增' : '修改'"
           (nzOnCancel)="handleCancel()"
           (nzOnOk)="handleOk(dialogType)"
           [nzOkLoading]="isOkLoading">
 
-  <form nz-form [formGroup]="addOrEditForm">
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bigName" nzRequired>大类名称</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="必填项">
-        <input nz-input id="bigName" formControlName="bigName" placeholder="请输入合同大类名称"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bigCode" nzRequired>大类编号</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="必填项">
-        <input nz-input id="bigCode" formControlName="bigCode" placeholder="请输入合同大类编号"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bigShow" nzRequired>是否显示</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24">
-        <nz-select id="bigShow" formControlName="bigShow">
-          <nz-option nzLabel="显示" [nzValue]="true"></nz-option>
-          <nz-option nzLabel="不显示" [nzValue]="false"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="bigSort" nzRequired>排序</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="必填项">
-        <nz-input-number id="bigSort" formControlName="bigSort" [nzMin]="1" [nzMax]="1000" [nzStep]="1"
-                         style="width: 150px"></nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="addOrEditForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="bigName" nzRequired>大类名称</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+          <input nz-input id="bigName" formControlName="bigName" placeholder="请输入合同大类名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="bigCode" nzRequired>大类编号</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+          <input nz-input id="bigCode" formControlName="bigCode" placeholder="请输入合同大类编号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="bigShow" nzRequired>是否显示</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan">
+          <nz-select id="bigShow" formControlName="bigShow">
+            <nz-option nzLabel="显示" [nzValue]="true"></nz-option>
+            <nz-option nzLabel="不显示" [nzValue]="false"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="bigSort" nzRequired>排序</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+          <nz-input-number id="bigSort" formControlName="bigSort" [nzMin]="1" [nzMax]="1000" [nzStep]="1"
+                           style="width: 150px"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
 </nz-modal>

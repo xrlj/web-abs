@@ -72,9 +72,9 @@ export const ApiPath = {
     agrTypeBig: {
       get: `/${serviceAbsTemplate}/agrTypeBig/get`,
       getListAll: `/${serviceAbsTemplate}/agrTypeBig/getListAll`,
-      addOrUpdate: `/${serviceAbsTemplate}/agrType/addOrUpdate`,
-      getListPage: `/${serviceAbsTemplate}/agrType/getListPage`,
-      delete: `/${serviceAbsTemplate}/agrType/delete`
+      addOrUpdate: `/${serviceAbsTemplate}/agrTypeBig/addOrUpdate`,
+      getListPage: `/${serviceAbsTemplate}/agrTypeBig/getListPage`,
+      delete: `/${serviceAbsTemplate}/agrTypeBig/delete`
     },
     agrType: {
       addOrUpdate: `/${serviceAbsTemplate}/agrType/addOrUpdate`,
@@ -181,7 +181,9 @@ export const ApiPath = {
   },
   serviceAbsPayment: {
     paymentBillApi: {
-      getPaymentBillFromApiAndImport: `/${serviceAbsPayment}/paymentBill/getPaymentBillFromApiAndImport`
+      getPaymentBillFromApiAndImport: `/${serviceAbsPayment}/paymentBill/getPaymentBillFromApiAndImport`,
+      getListPage: `/${serviceAbsPayment}/paymentBill/getListPage`,
+      saveImportPaymentBillByExcel: `/${serviceAbsPayment}/paymentBill/saveImportPaymentBillByExcel`,
     }
   }
 };

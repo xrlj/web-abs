@@ -2,7 +2,7 @@
   <div class="tab-card-list">
     <!--搜索条件-->
     <div class="tab-card-list-action">
-      <app-payment-bill-search paymentBillMenuType="review"></app-payment-bill-search>
+      <app-payment-bill-search (searchEmitter)="listComponent.search(false, $event)" paymentBillMenuType="review"></app-payment-bill-search>
     </div>
     <!--列表-->
     <div class="tab-card-list-table">

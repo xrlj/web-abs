@@ -84,8 +84,8 @@ export class ProductService {
    * 附件相关
    */
 
-  getAnnexListAll() {
-    return this.api.get(ApiPath.serviceAbsProduct.annexTypeApi.getListAll);
+  getAnnexListAll(_etpId: string) {
+    return this.api.get(ApiPath.serviceAbsProduct.annexTypeApi.getListAll, {etpId: _etpId});
   }
 
   saveProductAnnexList(body: any) {

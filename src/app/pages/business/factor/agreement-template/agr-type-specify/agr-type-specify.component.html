@@ -9,7 +9,7 @@
     >
       <nz-option *ngFor="let agrTypeBig of agrTypeBigListAll!" [nzLabel]="agrTypeBig.bigName" [nzValue]="agrTypeBig.id"></nz-option>
     </nz-select>
-    <nz-select nzShowSearch
+    <nz-select nzShowSearch nzAllowClear
                [nzLoading]="loadingAgrType"
                [(ngModel)]="agrTypeSelected"
                (ngModelChange)="typeChange($event)"
@@ -92,48 +92,50 @@
 <!--新增菜单对话框-->
 <nz-modal [(nzVisible)]="isShowModal"
           nzMaskClosable = false
-          nzWidth="800"
+          nzWidth="640px"
           [nzTitle]="dialogType === 1 ? '新增' : '修改'"
           (nzOnCancel)="handleCancel()"
           (nzOnOk)="handleOk(dialogType)"
           [nzOkLoading]="isOkLoading">
 
-  <form nz-form [formGroup]="addOrEditForm">
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="agrTypeId" nzRequired>合同类型</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="必填项">
-        <nz-select nzShowSearch nzAllowClear [nzLoading]="loadingAgrType" id="agrTypeId" formControlName="agrTypeId" nzPlaceHolder="请选择所属合同类型">
-          <nz-option *ngFor="let agrType of agrTypeListAll!" [nzLabel]="agrType.typeName" [nzValue]="agrType.id"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="specifyName" nzRequired>版别名称</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="必填项">
-        <input nz-input id="specifyName" formControlName="specifyName" placeholder="请输入版别名称"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="specifyCode" nzRequired>版别编号</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="必填项">
-        <input nz-input id="specifyCode" formControlName="specifyCode" placeholder="请输入版别编号"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="specifyShow" nzRequired>是否显示</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24">
-        <nz-select id="specifyShow" formControlName="specifyShow">
-          <nz-option nzLabel="显示" [nzValue]="true"></nz-option>
-          <nz-option nzLabel="不显示" [nzValue]="false"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="specifySort" nzRequired>排序</nz-form-label>
-      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="必填项">
-        <nz-input-number id="specifySort" formControlName="specifySort" [nzMin]="1" [nzMax]="1000" [nzStep]="1"
-                         style="width: 150px"></nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="addOrEditForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="agrTypeId" nzRequired>合同类型</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+          <nz-select nzShowSearch nzAllowClear [nzLoading]="loadingAgrType" id="agrTypeId" formControlName="agrTypeId" nzPlaceHolder="请选择所属合同类型">
+            <nz-option *ngFor="let agrType of agrTypeListAll!" [nzLabel]="agrType.typeName" [nzValue]="agrType.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="specifyName" nzRequired>版别名称</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+          <input nz-input id="specifyName" formControlName="specifyName" placeholder="请输入版别名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="specifyCode" nzRequired>版别编号</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+          <input nz-input id="specifyCode" formControlName="specifyCode" placeholder="请输入版别编号"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="specifyShow" nzRequired>是否显示</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan">
+          <nz-select id="specifyShow" formControlName="specifyShow">
+            <nz-option nzLabel="显示" [nzValue]="true"></nz-option>
+            <nz-option nzLabel="不显示" [nzValue]="false"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="formLabelSpan" nzFor="specifySort" nzRequired>排序</nz-form-label>
+        <nz-form-control [nzSpan]="formControlSpan" nzErrorTip="必填项">
+          <nz-input-number id="specifySort" formControlName="specifySort" [nzMin]="1" [nzMax]="1000" [nzStep]="1"
+                           style="width: 150px"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
 </nz-modal>

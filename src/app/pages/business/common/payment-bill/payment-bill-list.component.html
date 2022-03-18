@@ -3,26 +3,49 @@
   <div [ngSwitch]="fromViewType">
     <div *ngIf="paymentBillMenuType === 'all'">
       <div class="list-btn-action" *ngSwitchCase="0">
-        <button (click)="getPaymentBillFromApi()" class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>接口获取</button>
-        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>导入</button>
-        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export" nzTheme="outline"></i>导出</button>
-        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="delete" nzTheme="outline"></i>批量删除</button>
+        <button (click)="getPaymentBillFromApi()" class="list-btn-action-left" nz-button nzType="default"
+                nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>接口获取
+        </button>
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small" (click)="importPBillData()"><i nz-icon nzType="plus-circle"
+                                                                                          nzTheme="outline"></i>导入
+        </button>
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export"
+                                                                                          nzTheme="outline"></i>导出
+        </button>
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="delete"
+                                                                                          nzTheme="outline"></i>批量删除
+        </button>
         <!--      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="edit" nzTheme="outline"></i>确认付款</button>-->
-        <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="logout" nzTheme="outline"></i>出池</button>
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="logout"
+                                                                                           nzTheme="outline"></i>出池
+        </button>
+        <button class="list-btn-action-right" nz-button nzType="default" nzSize="small" (click)="downloadTemplate()"><i nz-icon nzType="download"
+                                                                                           nzTheme="outline"></i>导入模板下载
+        </button>
       </div>
     </div>
     <div *ngSwitchCase="1">
       <span class="list-info-left">
-        待打包付款单：<a nz-button nzType="link">{{1}}</a>笔 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发票：<a nz-button nzType="link">{{4}}</a>张 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;付款金额：<a nz-button nzType="link">2,709,392.01</a>元
+        待打包付款单：<a nz-button nzType="link">{{1}}</a>笔 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发票：<a nz-button
+                                                                                                           nzType="link">{{4}}</a>张 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;付款金额：<a
+        nz-button nzType="link">2,709,392.01</a>元
       </span>
       <div class="list-btn-action">
-        <button class="list-btn-action-right"  nz-button nzType="default" nzSize="small"><i nz-icon nzType="file-zip" nzTheme="outline"></i>打包处理</button>
+        <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="file-zip"
+                                                                                           nzTheme="outline"></i>打包处理
+        </button>
       </div>
     </div>
     <div class="list-btn-action" *ngSwitchCase="2">
-      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="check" nzTheme="outline"></i>律所审核通过</button>
-      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="rest" nzTheme="outline"></i>调整分期</button>
-      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="carry-out" nzTheme="outline"></i>移出分期</button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="check"
+                                                                                        nzTheme="outline"></i>律所审核通过
+      </button>
+      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="rest"
+                                                                                        nzTheme="outline"></i>调整分期
+      </button>
+      <button class="list-btn-action-right" nz-button nzType="default" nzSize="small"><i nz-icon nzType="carry-out"
+                                                                                         nzTheme="outline"></i>移出分期
+      </button>
     </div>
     <div class="list-btn-action" *ngSwitchDefault></div>
   </div>
@@ -40,7 +63,7 @@
     (nzPageIndexChange)="search()"
     (nzPageSizeChange)="search(true)"
     (nzCurrentPageDataChange)="currentPageDataChange($event)"
-    [nzScroll]="{ x: '2450px', y: '450px' }"
+    [nzScroll]="{ x: '2490px', y: '450px' }"
   >
     <thead>
     <tr>
@@ -61,7 +84,7 @@
       <th nzWidth="100px" nzAlign="center">付款金额</th>
       <th nzWidth="120px" nzAlign="center">供应商申请状态</th>
       <th nzWidth="130px" nzAlign="center">项目公司申请状态</th>
-      <th nzWidth="120px" nzAlign="center"
+      <th nzWidth="140px" nzAlign="center"
           nzShowSort
       >
         创建时间
@@ -77,18 +100,18 @@
           [nzDisabled]="data.disabled"
           (nzCheckedChange)="refreshStatus()"
       ></td>
-      <td nzLeft nzAlign="center">801S200925022631</td>
-      <td nzAlign="center">招商创融—慧链通保理2020年第3期资产支持专项计划</td>
-      <td nzAlign="center">陕西鑫嘉源建筑装饰工程有限公司</td>
-      <td nzAlign="center">佛山市高明区屿洲房地产开发经营有限公司</td>
-      <td nzAlign="center"></td>
-      <td nzAlign="center">待审核</td>
-      <td nzAlign="center">桂东南区域</td>
-      <td nzAlign="center"></td>
-      <td nzAlign="center"></td>
-      <td nzAlign="center"></td>
-      <td nzAlign="center"></td>
-      <td nzAlign="center"></td>
+      <td nzLeft nzAlign="center">{{data.pbillNo}}</td>
+      <td nzAlign="center">{{data.pdtStagingName}}</td>
+      <td nzAlign="center">{{data.supplierFullName}}</td>
+      <td nzAlign="center">{{data.subFullName}}</td>
+      <td nzAlign="center">{{data.coreFullName}}</td>
+      <td nzAlign="center">{{data.pbillStatusName}}</td>
+      <td nzAlign="center">{{data.pbillArea}}</td>
+      <td nzAlign="center">{{data.contractTypeName}}</td>
+      <td nzAlign="center"><span appTextColorTheme>{{data.payAmount | number: '1.2-2'}}</span></td>
+      <td nzAlign="center">{{data.supplierStatusName}}</td>
+      <td nzAlign="center">{{data.subStatusName}}</td>
+      <td nzAlign="center">{{data.dateCreated}}</td>
       <td nzRight nzAlign="center">
         <div *ngIf="paymentBillMenuType === 'all'">
           <a (click)="details(data)">查看</a>
@@ -124,25 +147,77 @@
           <nz-select nzShowSearch nzPlaceHolder="请选择"
                      nzMode="default" (ngModelChange)="productSelect($event)"
                      id="product" formControlName="product">
-            <nz-option *ngFor="let product of productList" [nzValue]="product.id" [nzLabel]="product.pdtName"></nz-option>
+            <nz-option *ngFor="let product of productList" [nzValue]="product.id"
+                       [nzLabel]="product.pdtName"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5" nzFor="productStaging" nzRequired>选择产品分期</nz-form-label>
         <nz-form-control [nzSpan]="16" nzErrorTip="必填项">
-          <nz-select nzShowSearch nzPlaceHolder="请选择" id="productStaging" formControlName="productStaging">
-            <nz-option *ngFor="let pdtStaging of productStagingList" [nzValue]="pdtStaging.id" [nzLabel]="pdtStaging.pdtStagingName"></nz-option>
+          <nz-select nzShowSearch nzPlaceHolder="请选择" id="productStaging" formControlName="productStaging"
+                     (ngModelChange)="productStagingSelect($event)">
+            <nz-option *ngFor="let pdtStaging of productStagingList" [nzValue]="pdtStaging.id"
+                       [nzLabel]="pdtStaging.pdtStagingName"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5" nzFor="pBillDateTime" nzRequired>时间选择</nz-form-label>
         <nz-form-control [nzSpan]="16" nzErrorTip="必填项">
-          <nz-range-picker [nzShowTime]="true" formControlName="pBillDateTime" (ngModelChange)="pBillDateTimeOnChange($event)"></nz-range-picker>
+          <nz-range-picker [nzShowTime]="true" formControlName="pBillDateTime"
+                           (ngModelChange)="pBillDateTimeOnChange($event)"></nz-range-picker>
         </nz-form-control>
       </nz-form-item>
     </form>
+  </div>
+</nz-modal>
+
+<nz-modal *ngIf="isShowExcelPBillModal"
+          [(nzVisible)]="isShowExcelPBillModal"
+          [nzWidth]="600"
+          [nzMaskClosable]="false"
+          nzTitle="Excel导入付款单"
+          (nzOnCancel)="handleExcelPBillModalCancel()"
+          (nzOnOk)="handleExcelPBillModalOk()"
+          [nzOkLoading]="isExcelPBillModalOkLoading">
+  <div *nzModalContent>
+    <form nz-form [formGroup]="excelPBillModalForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzFor="product" nzRequired>选择产品</nz-form-label>
+        <nz-form-control [nzSpan]="16" nzErrorTip="必填项">
+          <nz-select nzShowSearch nzPlaceHolder="请选择"
+                     nzMode="default" (ngModelChange)="productSelect($event)" formControlName="product">
+            <nz-option *ngFor="let product of productList" [nzValue]="product.id"
+                       [nzLabel]="product.pdtName"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzFor="productStaging" nzRequired>选择产品分期</nz-form-label>
+        <nz-form-control [nzSpan]="16" nzErrorTip="必填项">
+          <nz-select nzShowSearch nzPlaceHolder="请选择" formControlName="productStaging"
+                     (ngModelChange)="productStagingSelect($event)">
+            <nz-option *ngFor="let pdtStaging of productStagingList" [nzValue]="pdtStaging.id"
+                       [nzLabel]="pdtStaging.pdtStagingName"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <div  style="margin-left: 20px;margin-top: 20px;">
+      <nz-upload
+                 [nzAction]="uploadFileUrl"
+                 [(nzFileList)]="excelPBillFileList"
+                 [nzShowButton]="excelPBillFileList.length < 2"
+                 [nzBeforeUpload]="beforeUploadExcelFile"
+                 (nzChange)="uploadExcelFileChange($event)"
+      >
+        <button nz-button nzType="default" nzSize="small">
+          <i nz-icon nzType="upload"></i>
+          选择导入Excel文件
+        </button>
+      </nz-upload>
+    </div>
   </div>
 </nz-modal>
 

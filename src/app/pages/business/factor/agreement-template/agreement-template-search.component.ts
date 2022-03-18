@@ -2,6 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AgreementTemplateService} from './agreement-template.service';
 import {CommonService} from '../../../../helpers/service/common.service';
+import {UIHelper} from '../../../../helpers/ui-helper';
 
 @Component({
   selector: 'app-agreement-template-search',
@@ -20,14 +21,14 @@ export class AgreementTemplateSearchComponent implements OnInit, AfterViewInit {
   agrTypeListAll: any[];
   agrSpecifyListAll: any[];
 
-  agrTemplateStatus = []; // 协议模板状态
+  agrTemplateStatus = [];  // 协议模板状态
 
   @Output() searchClick = new EventEmitter<any>();
 
   @Input() searchData: any;
 
   constructor(private fb: FormBuilder, private agreementTemplateService: AgreementTemplateService,
-              private commonService: CommonService) {
+              private commonService: CommonService, private uiHelper: UIHelper) {
     this.searchForm = this.fb.group({
       agrBigType: [null, null],
       agrType: [null, null],
@@ -39,7 +40,7 @@ export class AgreementTemplateSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.agreementTemplateService.getArgTypeBigListAll({})
+    this.agreementTemplateService.getArgTypeBigListAll({etpId: this.uiHelper.getCurrentEtpId()})
       .ok(data => {
         this.agrTypeBigListAll = data;
       });
@@ -70,7 +71,7 @@ export class AgreementTemplateSearchComponent implements OnInit, AfterViewInit {
     this.searchForm.controls.agrSpecify.setValue(null);
     this.agrTypeListAll= null;
     this.agrSpecifyListAll = null;
-    this.agreementTemplateService.getArgTypeListAll($event)
+    this.agreementTemplateService.getArgTypeListAll(this.uiHelper.getCurrentEtpId(), $event)
       .ok(data => {
         this.agrTypeListAll = data;
       });
@@ -88,7 +89,7 @@ export class AgreementTemplateSearchComponent implements OnInit, AfterViewInit {
     if (!$event) return;
     this.searchForm.controls.agrSpecify.setValue(null);
     this.agrSpecifyListAll = null;
-    this.agreementTemplateService.getArgTypeSpecifyListAll($event)
+    this.agreementTemplateService.getArgTypeSpecifyListAll(this.uiHelper.getCurrentEtpId(), $event)
       .ok(data => {
         this.agrSpecifyListAll = data;
       });

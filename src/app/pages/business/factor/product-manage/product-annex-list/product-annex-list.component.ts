@@ -4,6 +4,7 @@ import {ProductService} from '../product.service';
 import {CommonService} from '../../../../../helpers/service/common.service';
 import {DefaultBusService} from '../../../../../helpers/event-bus/default-bus.service';
 import {UIHelper} from '../../../../../helpers/ui-helper';
+import {error} from 'protractor';
 
 @Component({
   selector: 'app-product-annex-list',
@@ -43,11 +44,14 @@ export class ProductAnnexListComponent implements OnInit {
           this.etpList = data;
         }
         this.getAnnexTypeAll();
-      });
+      }).fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+        this.defaultBusService.showLoading(false);
+    });
   }
 
   getAnnexTypeAll() {
-    this.productService.getAnnexListAll()
+    this.productService.getAnnexListAll(this.uiHelper.getCurrentEtpId())
       .ok(data => {
         if (data) {
           const dataNew: any = [];
@@ -70,7 +74,10 @@ export class ProductAnnexListComponent implements OnInit {
           this.getProductAnnexList(dataNew);
           // this.listAnnexTransferData = dataNew;
         }
-      })
+      }).fail(error => {
+      this.uiHelper.msgTipError(error.msg);
+      this.defaultBusService.showLoading(false);
+    });
   }
 
   getProductAnnexList(annexTypeAll: any[]) {

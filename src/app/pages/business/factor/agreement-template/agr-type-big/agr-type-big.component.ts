@@ -12,6 +12,9 @@ import {AgrTypeBigService} from './agr-type-big.service';
 })
 export class AgrTypeBigComponent implements OnInit {
 
+  formLabelSpan = 5;
+  formControlSpan = 16;
+
   bigName: string;
 
   listOfAllData: any[] = []; // 列表数据
@@ -48,6 +51,7 @@ export class AgrTypeBigComponent implements OnInit {
 
     // 参数
     const body: any = {pageIndex: this.pageIndex, pageSize: this.pageSize};
+    body.etpId = this.uiHelper.getCurrentEtpId();
     body.bigName = this.bigName;
 
     this.loading = true ;
@@ -122,6 +126,7 @@ export class AgrTypeBigComponent implements OnInit {
       if (dialogType === 2) {
         body.id = this.details.id;
       }
+      body.etpId = this.uiHelper.getCurrentEtpId();
       this.isOkLoading = true;
       this.agrTypeBigService.addOrUpdate(body)
         .ok(data => {

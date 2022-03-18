@@ -13,6 +13,9 @@ import {AgrTypeService} from './agr-type.service';
 })
 export class AgrTypeComponent implements OnInit {
 
+  formLabelSpan = 5;
+  formControlSpan = 16;
+
   agrTypeBigSelected = '';
   typeName: string;
 
@@ -59,6 +62,7 @@ export class AgrTypeComponent implements OnInit {
     par.pageSize = this.pageSize;
     par.agrTypeBigId = this.agrTypeBigSelected;
     par.typeName = this.typeName;
+    par.etpId = this.uiHelper.getCurrentEtpId();
 
     this.loading = true ;
     this.agrTypeService.getListPage(par)
@@ -78,7 +82,7 @@ export class AgrTypeComponent implements OnInit {
 
   getAgrTypeBigList() {
     this.loadingAgrTypeBig = true;
-    this.agrTypeBigService.getListAll({})
+    this.agrTypeBigService.getListAll({etpId: this.uiHelper.getCurrentEtpId()})
       .ok(data => {
         this.agrTypeBigListAll = data;
         this.agrTypeBigSelected = data[0]?.id;
@@ -145,6 +149,7 @@ export class AgrTypeComponent implements OnInit {
   handleOk(dialogType: number) {
     if (this.addOrEditForm.valid) {
       const body = this.addOrEditForm.value;
+      body.etpId = this.uiHelper.getCurrentEtpId();
       if (dialogType === 2) {
         body.id = this.details.id;
       }

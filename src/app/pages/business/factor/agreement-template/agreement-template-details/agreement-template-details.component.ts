@@ -152,7 +152,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   }
 
   getArgTypes() {
-    this.agreementTemplateService.getArgTypeBigListAll({})
+    this.agreementTemplateService.getArgTypeBigListAll({etpId: this.uiHelper.getCurrentEtpId()})
       .ok(data => {
         this.agrTypeBigListAll = data;
       })
@@ -197,7 +197,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
 
   agrTypeBigSelect($event: any) {
     this.templateForm.controls.agrTypeId.setValue(null);
-    this.agreementTemplateService.getArgTypeListAll($event)
+    this.agreementTemplateService.getArgTypeListAll(this.uiHelper.getCurrentEtpId(), $event)
       .ok(data => {
         this.agrTypeListAll = data;
       })
@@ -209,7 +209,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
 
   agrTypeSelect($event: any) {
     this.templateForm.controls.agrTypeSpecifyId.setValue(null);
-    this.agreementTemplateService.getArgTypeSpecifyListAll($event)
+    this.agreementTemplateService.getArgTypeSpecifyListAll(this.uiHelper.getCurrentEtpId(), $event)
       .ok(data => {
         this.agrSpecifyListAll = data;
       })
@@ -268,6 +268,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
       });
 
       const body = this.templateForm.value;
+      body.etpId = this.uiHelper.getCurrentEtpId();
       body.agrFileId = this.wordTemplateFileInfo.id;
       body.agrTemplateParReqList = agrTemplateParReqList;
       body.agrTemplateSignInfoReqList = agrTemplateSignInfoReqList;

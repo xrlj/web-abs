@@ -52,6 +52,7 @@ export class ProductAnnexTypeComponent implements OnInit {
 
     this.loading = true;
     const body: any = {};
+    body.etpId = this.uiHelper.getCurrentEtpId();
     body.pageIndex = this.pageIndex;
     body.pageSize = this.pageSize;
     body.annexTypeName = this.annexTypeName;
@@ -111,6 +112,7 @@ export class ProductAnnexTypeComponent implements OnInit {
     if (this.addOrEditForm.valid) {
       this.isOkLoading = true;
       const value = this.addOrEditForm.value;
+      value.etpId = this.uiHelper.getCurrentEtpId();
       if (this.dialogType === 2) { // 编辑
         value.id = this.details.id;
       }
@@ -152,4 +154,8 @@ export class ProductAnnexTypeComponent implements OnInit {
       });
   }
 
+  annexTypeNameClearClick() {
+    this.annexTypeName = null;
+    this.search();
+  }
 }

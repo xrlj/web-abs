@@ -50,7 +50,8 @@ export class AgreementTemplateComponent implements OnInit {
     agrTypeSpecifyId: null,
     agrName: null,
     agrStatus: null,
-    agrVersion: null
+    agrVersion: null,
+    etpId: null
   };
   // 回写查询条件
   searchData: any;
@@ -78,6 +79,7 @@ export class AgreementTemplateComponent implements OnInit {
       this.searchParBody.agrStatus = searchData.agrTemplateStatus;
       this.searchParBody.agrVersion = searchData.agrVersion;
     }
+    this.searchParBody.etpId = this.uiHelper.getCurrentEtpId();
     this.searchParBody.pageIndex = this.pageIndex;
     this.searchParBody.pageSize = this.pageSize;
     if (this.selectAgrFlag) {

@@ -19,16 +19,16 @@ export class AgreementTemplateService {
   /**
    * 获取大类下下面所有类型。
    */
-  getArgTypeListAll(argTypeBigId: string) {
-    const  body = {'agrTypeBigId': argTypeBigId};
+  getArgTypeListAll(etpId: string, argTypeBigId: string) {
+    const  body = {'etpId': etpId, 'agrTypeBigId': argTypeBigId};
     return this.api.post(ApiPath.serviceAbsTemplate.agrType.getListAll, body);
   }
 
   /**
    * 获取类型下所有版别。
    */
-  getArgTypeSpecifyListAll(agrTypeId: string) {
-    const  body = {'agrTypeId': agrTypeId};
+  getArgTypeSpecifyListAll(etpId: string, agrTypeId: string) {
+    const  body = {'etpId': etpId, 'agrTypeId': agrTypeId};
     return this.api.post(ApiPath.serviceAbsTemplate.agrTypeSpecify.getListAll, body);
   }
 
