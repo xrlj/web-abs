@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 // 付款单详情-基础信息
 @Component({
@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./payment-bill-details-basic.component.less']
 })
 export class PaymentBillDetailsBasicComponent implements OnInit {
+
+  @Input()
+  pbData: any; // 付款单详情
 
   constructor() { }
 

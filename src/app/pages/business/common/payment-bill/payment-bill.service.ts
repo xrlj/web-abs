@@ -20,4 +20,24 @@ export class PaymentBillService {
   importPaymentBillByExcel(body: any) {
     return this.api.post(ApiPath.serviceAbsPayment.paymentBillApi.saveImportPaymentBillByExcel, body);
   }
+
+  getInvoiceListPage(body: any) {
+    return this.api.post(ApiPath.serviceAbsPayment.paymentBillInvoice.getListPage, body);
+  }
+
+  getInvoiceListAllByPbId(pbId: string) {
+    return this.api.get(`${ApiPath.serviceAbsPayment.paymentBillInvoice.getListAllByPb}/${pbId}`);
+  }
+
+  saveInvoiceIssue(body: any) {
+    return this.api.post(ApiPath.serviceAbsPayment.pytBillInvoiceIssue.save, body);
+  }
+
+  getInvoiceIssueListPage(body: any) {
+    return this.api.post(ApiPath.serviceAbsPayment.pytBillInvoiceIssue.getListPage, body);
+  }
+
+  getInvoiceIssueCount(pbillId: string) {
+    return this.api.get(`${ApiPath.serviceAbsPayment.pytBillInvoiceIssue.getInvoiceIssueCount}/${pbillId}`);
+  }
 }

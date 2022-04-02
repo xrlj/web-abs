@@ -5,13 +5,10 @@ import {AppPath} from '../../app-path';
 import {UIHelper} from '../ui-helper';
 import {Router} from '@angular/router';
 import {DefaultBusService} from '../event-bus/default-bus.service';
-import {UserStatusEnum} from '../enum/user-status-enum';
-import {EnterpriseStatusEnum} from '../enum/enterprise-status-enum';
-import {Constants} from '../constants';
 import {UserTypeEnum} from '../enum/user-type-enum';
 import {Utils} from '../utils';
 import {JwtKvEnum} from '../enum/jwt-kv-enum';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ContentTypeEnum} from '../http/content-type-enum';
 import {environment} from '../../../environments/environment';
 

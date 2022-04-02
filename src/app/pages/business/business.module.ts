@@ -49,6 +49,7 @@ import { FinancingBillPaymentComponent } from './common/financing-bill/common/fi
 import { PaymentBillCheckComponent } from './common/payment-bill/payment-bill-check.component';
 import { PaymentBillReviewComponent } from './common/payment-bill/payment-bill-review.component';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
+import {NzTagModule} from 'ng-zorro-antd/tag';
 
 /**
  * 主业务模块
@@ -112,7 +113,8 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
         NzModalModule,
         NzCheckboxModule,
         NzRadioModule,
-        NzUploadModule
+        NzUploadModule,
+        NzTagModule
     ]
 })
 export class BusinessModule { }

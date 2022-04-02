@@ -4,7 +4,7 @@
     <button *ngIf="titleLink" nz-button nzType="link" (click)="btnClick(titleLink)">{{titleLink}}</button>
     <div class="custom-title-extra" *ngIf="extraTip">
       <span>
-        <i nz-icon nzType="question-circle" nzTheme="outline"></i>&nbsp;&nbsp;{{extraTip}}
+        <i nz-icon nzType="question-circle" nzTheme="outline"></i>&nbsp;&nbsp;<span [innerHTML]='extraTip | html'></span>
         <button *ngIf="extraActionText" nz-button nzType="link" (click)="extraActionClick()">{{extraActionText}}</button>
       </span>
     </div>

@@ -5,6 +5,9 @@ import {Constants} from '../../helpers/constants';
 import {EnterpriseStatusEnum} from '../../helpers/enum/enterprise-status-enum';
 import {UserStatusEnum} from '../../helpers/enum/user-status-enum';
 
+/**
+ * 认证中心
+ */
 @Component({
   selector: 'app-verify',
   templateUrl: './verify.component.html',

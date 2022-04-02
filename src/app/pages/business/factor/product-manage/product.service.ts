@@ -35,6 +35,11 @@ export class ProductService {
     return this.api.get(`${ApiPath.serviceAbsProduct.productApi.getProductListAll}/${factorId}`);
   }
 
+  getStagingListAll(factorId: string) {
+    if (factorId) return this.api.get(ApiPath.serviceAbsProduct.productStagingApi.getStagingListAll, {'factorId': factorId});
+    else return this.api.get(ApiPath.serviceAbsProduct.productStagingApi.getStagingListAll);
+  }
+
   updateProductStatus(id: string, pdtStatus: number) {
     return this.api.post(ApiPath.serviceAbsProduct.productApi.updateProductStatus, null, null,
       {productId: id, status: pdtStatus}, ContentTypeEnum.APPLICATION_FORM_URLENCODED_VALUE);

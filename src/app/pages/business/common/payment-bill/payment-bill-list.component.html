@@ -1,13 +1,14 @@
 <div class="payment-bill-content">
   <!--付款单各种操作，根据不同视图显示其对应操作-->
-  <div [ngSwitch]="fromViewType">
+  <div *ngIf="etpType === userTypeEnum.FACTOR" [ngSwitch]="fromViewType">
     <div *ngIf="paymentBillMenuType === 'all'">
       <div class="list-btn-action" *ngSwitchCase="0">
         <button (click)="getPaymentBillFromApi()" class="list-btn-action-left" nz-button nzType="default"
                 nzSize="small"><i nz-icon nzType="cloud-download" nzTheme="outline"></i>接口获取
         </button>
-        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small" (click)="importPBillData()"><i nz-icon nzType="plus-circle"
-                                                                                          nzTheme="outline"></i>导入
+        <button class="list-btn-action-left" nz-button nzType="default" nzSize="small" (click)="importPBillData()"><i
+          nz-icon nzType="plus-circle"
+          nzTheme="outline"></i>导入
         </button>
         <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="export"
                                                                                           nzTheme="outline"></i>导出
@@ -17,10 +18,11 @@
         </button>
         <!--      <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="edit" nzTheme="outline"></i>确认付款</button>-->
         <button class="list-btn-action-left" nz-button nzType="default" nzSize="small"><i nz-icon nzType="logout"
-                                                                                           nzTheme="outline"></i>出池
+                                                                                          nzTheme="outline"></i>出池
         </button>
-        <button class="list-btn-action-right" nz-button nzType="default" nzSize="small" (click)="downloadTemplate()"><i nz-icon nzType="download"
-                                                                                           nzTheme="outline"></i>导入模板下载
+        <button class="list-btn-action-right" nz-button nzType="default" nzSize="small" (click)="downloadTemplate()"><i
+          nz-icon nzType="download"
+          nzTheme="outline"></i>导入模板下载
         </button>
       </div>
     </div>
@@ -50,84 +52,169 @@
     <div class="list-btn-action" *ngSwitchDefault></div>
   </div>
 
-  <nz-table
-    nzShowPagination
-    nzShowSizeChanger
-    nzBordered
-    [nzFrontPagination]="false"
-    [nzData]="listOfAllData"
-    [nzLoading]="listLoading"
-    [nzTotal]="total"
-    [(nzPageIndex)]="pageIndex"
-    [(nzPageSize)]="pageSize"
-    (nzPageIndexChange)="search()"
-    (nzPageSizeChange)="search(true)"
-    (nzCurrentPageDataChange)="currentPageDataChange($event)"
-    [nzScroll]="{ x: '2490px', y: '450px' }"
-  >
-    <thead>
-    <tr>
-      <th nzLeft nzWidth="30px"
-          nzShowCheckbox
-          [(nzChecked)]="isAllDisplayDataChecked"
-          [nzIndeterminate]="isIndeterminate"
-          (nzCheckedChange)="checkAll($event)"
-      ></th>
-      <th nzLeft nzWidth="150px" nzAlign="center">付款单号</th>
-      <th nzWidth="300px" nzAlign="center">分期名称</th>
-      <th nzWidth="250px" nzAlign="center">供应商</th>
-      <th nzWidth="250px" nzAlign="center">项目公司</th>
-      <th nzWidth="250px" nzAlign="center">核心企业</th>
-      <th nzWidth="120px" nzAlign="center">付款单状态</th>
-      <th nzWidth="100px" nzAlign="center">区域</th>
-      <th nzWidth="100px" nzAlign="center">款项类型</th>
-      <th nzWidth="100px" nzAlign="center">付款金额</th>
-      <th nzWidth="120px" nzAlign="center">供应商申请状态</th>
-      <th nzWidth="130px" nzAlign="center">项目公司申请状态</th>
-      <th nzWidth="140px" nzAlign="center"
-          nzShowSort
-      >
-        创建时间
-      </th>
-      <th nzRight nzWidth="120px" nzAlign="center">操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let data of listOfAllData">
-      <td nzLeft
-          nzShowCheckbox
-          [(nzChecked)]="mapOfCheckedId[data.id]"
-          [nzDisabled]="data.disabled"
-          (nzCheckedChange)="refreshStatus()"
-      ></td>
-      <td nzLeft nzAlign="center">{{data.pbillNo}}</td>
-      <td nzAlign="center">{{data.pdtStagingName}}</td>
-      <td nzAlign="center">{{data.supplierFullName}}</td>
-      <td nzAlign="center">{{data.subFullName}}</td>
-      <td nzAlign="center">{{data.coreFullName}}</td>
-      <td nzAlign="center">{{data.pbillStatusName}}</td>
-      <td nzAlign="center">{{data.pbillArea}}</td>
-      <td nzAlign="center">{{data.contractTypeName}}</td>
-      <td nzAlign="center"><span appTextColorTheme>{{data.payAmount | number: '1.2-2'}}</span></td>
-      <td nzAlign="center">{{data.supplierStatusName}}</td>
-      <td nzAlign="center">{{data.subStatusName}}</td>
-      <td nzAlign="center">{{data.dateCreated}}</td>
-      <td nzRight nzAlign="center">
-        <div *ngIf="paymentBillMenuType === 'all'">
-          <a (click)="details(data)">查看</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a>编辑</a>
-        </div>
-        <div *ngIf="paymentBillMenuType === 'check'">
-          <a (click)="checkPaymentBill(data.id)">审核</a>
-        </div>
-        <div *ngIf="paymentBillMenuType === 'review'">
-          <a (click)="reviewPaymentBill(data.id)">复核</a>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </nz-table>
+  <!--列表-->
+  <div *ngIf="etpType === userTypeEnum.MEMBER || etpType === userTypeEnum.SUPPLIER; then supplier_sub; else normal "></div>
+  <ng-template #normal>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search(false, searchData)"
+      (nzPageSizeChange)="search(true, searchData)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '2490px', y: '450px' }"
+    >
+      <thead>
+      <tr>
+        <th nzLeft nzWidth="30px"
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"></th>
+        <th nzLeft nzWidth="150px" nzAlign="center">付款单号</th>
+        <th nzWidth="300px" nzAlign="center">分期名称</th>
+        <th nzWidth="250px" nzAlign="center">供应商</th>
+        <th nzWidth="250px" nzAlign="center">项目公司</th>
+        <th nzWidth="250px" nzAlign="center">核心企业</th>
+        <th nzWidth="120px" nzAlign="center">付款单状态</th>
+        <th nzWidth="100px" nzAlign="center">区域</th>
+        <th nzWidth="100px" nzAlign="center">款项类型</th>
+        <th nzWidth="100px" nzAlign="center">付款金额</th>
+        <th nzWidth="120px" nzAlign="center">供应商申请状态</th>
+        <th nzWidth="130px" nzAlign="center">项目公司申请状态</th>
+        <th nzWidth="140px" nzAlign="center"
+            nzShowSort
+        >
+          创建时间
+        </th>
+        <th nzRight nzWidth="120px" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData, let index = index">
+        <td nzLeft
+            nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[data.id]"
+            [nzDisabled]="data.disabled"
+            (nzCheckedChange)="refreshStatus()"></td>
+<!--        <td *ngIf="etpType !== userTypeEnum.FACTOR" nzAlign="center">{{(pageIndex - 1) * pageSize + index + 1}}</td>-->
+        <td nzLeft nzAlign="center">{{data.pbillNo}}</td>
+        <td nzAlign="center">{{data.pdtStagingName}}</td>
+        <td nzAlign="center">{{data.supplierFullName}}</td>
+        <td nzAlign="center">{{data.subFullName}}</td>
+        <td nzAlign="center">{{data.coreFullName}}</td>
+        <td nzAlign="center">
+          <nz-tag [nzColor]="themeHelper.setPBillStatusColor(data.pbillStatus)">{{data.pbillStatusName}}</nz-tag>
+        </td>
+        <td nzAlign="center">{{data.pbillArea}}</td>
+        <td nzAlign="center">{{data.contractTypeName}}</td>
+        <td nzAlign="center"><span appTextColorTheme>{{data.payAmount | number: '1.2-2'}}</span></td>
+        <td nzAlign="center">
+          <nz-tag
+            [nzColor]="themeHelper.setPBillSubOrSupplerStatusTagColor(data.supplierStatus)">{{data.supplierStatusName}}</nz-tag>
+        </td>
+        <td nzAlign="center">
+          <nz-tag
+            [nzColor]="themeHelper.setPBillSubOrSupplerStatusTagColor(data.subStatus)">{{data.subStatusName}}</nz-tag>
+        </td>
+        <td nzAlign="center">{{data.dateCreated}}</td>
+        <td nzRight nzAlign="center">
+          <div *ngIf="paymentBillMenuType === 'all'">
+            <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.LOOK)">查看</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>编辑</a>
+          </div>
+          <div *ngIf="paymentBillMenuType === 'check'">
+            <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.CHECK)">审核</a>
+          </div>
+          <div *ngIf="paymentBillMenuType === 'review'">
+            <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.CHECK_AGAIN)">复核</a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </ng-template>
+  <ng-template #supplier_sub>
+    <nz-table
+      nzShowPagination
+      nzShowSizeChanger
+      nzBordered
+      [nzFrontPagination]="false"
+      [nzData]="listOfAllData"
+      [nzLoading]="listLoading"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search(false, searchData)"
+      (nzPageSizeChange)="search(true, searchData)"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '2000px', y: '450px' }"
+    >
+      <thead>
+      <tr>
+        <th nzWidth="60px" nzAlign="center">序号</th>
+        <th nzLeft nzWidth="150px" nzAlign="center">付款单号</th>
+        <th nzWidth="200px" nzAlign="center">分期名称</th>
+        <th *ngIf="etpType !== userTypeEnum.SUPPLIER" nzWidth="200px" nzAlign="center">供应商</th>
+        <th *ngIf="etpType !== userTypeEnum.MEMBER" nzWidth="200px" nzAlign="center">项目公司</th>
+        <th nzWidth="200px" nzAlign="center">核心企业</th>
+        <th nzWidth="200px" nzAlign="center">合同编号</th>
+        <th nzWidth="200px" nzAlign="center">合同名称</th>
+        <th nzWidth="100px" nzAlign="center">付款金额</th>
+        <th nzWidth="120px" nzAlign="center">申请状态</th>
+        <th nzWidth="140px" nzAlign="center">
+          创建时间
+        </th>
+        <th nzRight nzWidth="100px" nzAlign="center">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfAllData, let index = index">
+        <td *ngIf="etpType !== userTypeEnum.FACTOR" nzAlign="center">{{(pageIndex - 1) * pageSize + index + 1}}</td>
+        <td nzLeft nzAlign="center">{{data.pbillNo}}</td>
+        <td nzAlign="center">{{data.pdtStagingName}}</td>
+        <td *ngIf="etpType !== userTypeEnum.SUPPLIER" nzAlign="center">{{data.supplierFullName}}</td>
+        <td *ngIf="etpType !== userTypeEnum.MEMBER" nzAlign="center">{{data.subFullName}}</td>
+        <td nzAlign="center">{{data.coreFullName}}</td>
+        <td nzAlign="center">{{data.contractCode}}</td>
+        <td nzAlign="center">{{data.contractName}}</td>
+        <td nzAlign="center"><span appTextColorTheme>{{data.payAmount | number: '1.2-2'}}</span></td>
+        <td nzAlign="center">
+          <nz-tag *ngIf="etpType === userTypeEnum.SUPPLIER"
+            [nzColor]="themeHelper.setPBillSubOrSupplerStatusTagColor(data.supplierStatus)">{{data.supplierStatusName}}</nz-tag>
+          <nz-tag *ngIf="etpType === userTypeEnum.MEMBER"
+            [nzColor]="themeHelper.setPBillSubOrSupplerStatusTagColor(data.subStatus)">{{data.subStatusName}}</nz-tag>
+        </td>
+        <td nzAlign="center">{{data.dateCreated}}</td>
+        <td nzRight nzAlign="center">
+          <div *ngIf="etpType === userTypeEnum.SUPPLIER">
+            <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.SUBMIT_SRC)" *ngIf="data.supplierStatus === pbillSsbStatusEnum.AIT_SUBMIT
+                                              || data.supplierStatus === pbillSsbStatusEnum.CHECK_FAILURE
+                                              || data.supplierStatus === pbillSsbStatusEnum.CHECK_FAILURE_AGAIN; else _deatails">提交</a>
+            <ng-template #_deatails>
+              <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.LOOK)">查看</a>
+            </ng-template>
+          </div>
+          <div *ngIf="etpType === userTypeEnum.MEMBER">
+            <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.SUBMIT_SRC)" *ngIf="data.subStatus === pbillSsbStatusEnum.AIT_SUBMIT
+                                              || data.subStatus === pbillSsbStatusEnum.CHECK_FAILURE
+                                              || data.subStatus === pbillSsbStatusEnum.CHECK_FAILURE_AGAIN; else _deatails">提交</a>
+            <ng-template #_deatails>
+              <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.LOOK)">查看</a>
+            </ng-template>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </ng-template>
 </div>
 
 <nz-modal *ngIf="isShowApiPBillModal"
@@ -204,13 +291,13 @@
         </nz-form-control>
       </nz-form-item>
     </form>
-    <div  style="margin-left: 20px;margin-top: 20px;">
+    <div style="margin-left: 20px;margin-top: 20px;">
       <nz-upload
-                 [nzAction]="uploadFileUrl"
-                 [(nzFileList)]="excelPBillFileList"
-                 [nzShowButton]="excelPBillFileList.length < 2"
-                 [nzBeforeUpload]="beforeUploadExcelFile"
-                 (nzChange)="uploadExcelFileChange($event)"
+        [nzAction]="uploadFileUrl"
+        [(nzFileList)]="excelPBillFileList"
+        [nzShowButton]="excelPBillFileList.length < 2"
+        [nzBeforeUpload]="beforeUploadExcelFile"
+        (nzChange)="uploadExcelFileChange($event)"
       >
         <button nz-button nzType="default" nzSize="small">
           <i nz-icon nzType="upload"></i>

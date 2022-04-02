@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {PbillDetailsActionTypeEnum} from '../../../../../helpers/enum/pbill-details-action-type-enum';
+import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
+import {UIHelper} from '../../../../../helpers/ui-helper';
 
 // 付款单详情-业务材料（项目公司）
 @Component({
@@ -13,7 +16,15 @@ export class PaymentBillDetailsAnnexSubComponent implements OnInit {
   listLoading = false; // 列表加载等待指示器状态
   pageSize = 50; // 每页条数
 
-  constructor() { }
+  @Input() actionType: PbillDetailsActionTypeEnum;
+  @Input() pBillId: string; // 付款单id
+
+  userTypeEnum: typeof  UserTypeEnum = UserTypeEnum;
+  etpType = this.uiHelper.getCurrentEtpType(); // 企业类型
+
+  pbillDetailsActionTypeEnum: typeof  PbillDetailsActionTypeEnum = PbillDetailsActionTypeEnum;
+
+  constructor(private uiHelper: UIHelper) { }
 
   ngOnInit(): void {
     this.listOfAllData = [

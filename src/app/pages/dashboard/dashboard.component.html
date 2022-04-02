@@ -1,223 +1,274 @@
-<div class="dashboard-content">
-  <div nz-row nzGutter="16">
-    <div nz-col nzSpan="7">
-      <nz-card class="card-simple">
-        <div class="welcome-content">
-          <img src="assets/images/head-small.png">
-          <div>
-            <h3>您好，<a style="text-decoration: underline" routerLink="/pages/user-centre">szxckj</a>，祝你开心每一天！</h3>
-            <p>今天是2021年11月18日 星期四</p>
+<div [ngSwitch]="etpType">
+  <div class="dashboard-content" *ngSwitchCase="userTypeEnum.FACTOR">
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="7">
+        <nz-card class="card-simple">
+          <div class="welcome-content">
+            <img src="assets/images/head-small.png">
+            <div>
+              <h3>您好，<a style="text-decoration: underline" routerLink="/pages/user-centre">szxckj</a>，祝你开心每一天！</h3>
+              <p>今天是2021年11月18日 星期四</p>
+            </div>
           </div>
-        </div>
-      </nz-card>
-    </div>
-    <div nz-col nzSpan="7">
-      <nz-card class="card-simple" nzTitle="公告" style="height: 100%">
-        <div class="announcement-content">
-          <p><a>公告：2021-11-04 加油加油加油，坚持坚持坚持</a></p>
-          <p><a>公告：公告来啦，我是公告</a></p>
-          <p><a>公告：公告来啦，我是公告</a></p>
-          <nz-pagination [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzTotal]="total" [nzSize]="'small'"></nz-pagination>
-        </div>
-      </nz-card>
-    </div>
-    <div nz-col nzSpan="6">
-      <nz-card nzTitle="提醒" class="card-simple">
-        <div class="notify-content">
-          <img src="assets/images/profile.jpg">
-          <div>
-            <span>企业实名认证审核<a nz-button nzType="link">查看</a></span>
+        </nz-card>
+      </div>
+      <div nz-col nzSpan="7">
+        <nz-card class="card-simple" nzTitle="公告" style="height: 100%">
+          <div class="announcement-content">
+            <p><a>公告：2021-11-04 加油加油加油，坚持坚持坚持</a></p>
+            <p><a>公告：公告来啦，我是公告</a></p>
+            <p><a>公告：公告来啦，我是公告</a></p>
+            <nz-pagination [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzTotal]="total" [nzSize]="'small'"></nz-pagination>
           </div>
-        </div>
-        <nz-divider nzType="horizontal"></nz-divider>
-        <div class="notify-content">
-          <img src="assets/images/profile.jpg">
-          <div>
-            <span>最后十天回款到期<a nz-button nzType="link">查看</a></span>
+        </nz-card>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-card nzTitle="提醒" class="card-simple">
+          <div class="notify-content">
+            <img src="assets/images/profile.jpg">
+            <div>
+              <span>企业实名认证审核<a nz-button nzType="link">查看</a></span>
+            </div>
           </div>
-        </div>
-        <nz-divider nzType="horizontal"></nz-divider>
-      </nz-card>
+          <nz-divider nzType="horizontal"></nz-divider>
+          <div class="notify-content">
+            <img src="assets/images/profile.jpg">
+            <div>
+              <span>最后十天回款到期<a nz-button nzType="link">查看</a></span>
+            </div>
+          </div>
+          <nz-divider nzType="horizontal"></nz-divider>
+        </nz-card>
+      </div>
+      <div nz-col nzSpan="4">
+        <nz-card class="card-simple" nzTitle="认证状态">
+          <div class="auth-status">
+            <img src="assets/images/verify-etp-orange.png">
+            <h3>企业认证状态</h3>
+            <a>认证通过</a>
+          </div>
+        </nz-card>
+      </div>
     </div>
-    <div nz-col nzSpan="4">
-      <nz-card class="card-simple" nzTitle="认证状态">
-        <div class="auth-status">
-          <img src="assets/images/verify-etp-orange.png">
-          <h3>企业认证状态</h3>
-          <a>认证通过</a>
-        </div>
-      </nz-card>
+
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="10">
+        <nz-card nzTitle="融资一览" class="card-simple">
+          <div nz-row nzGutter="10" class="core-tip">
+            <div nz-col nzSpan="4">
+              <a nz-button nzType="link">0</a>
+              <p>待审核付款单</p>
+            </div>
+            <div nz-col nzSpan="5">
+              <a nz-button nzType="link">10</a>
+              <p>待复核付款单</p>
+            </div>
+            <div nz-col nzSpan="5">
+              <a nz-button nzType="link">20</a>
+              <p>待审核融资单</p>
+            </div>
+            <div nz-col nzSpan="5">
+              <a nz-button nzType="link">0</a>
+              <p>待复核融资单</p>
+            </div>
+            <div nz-col nzSpan="5">
+              <a nz-button nzType="link">50</a>
+              <p>待签章文件</p>
+            </div>
+          </div>
+        </nz-card>
+      </div>
+      <div nz-col nzSpan="14">
+        <nz-card nzTitle="企业数据趋势" class="card-simple">
+          <div nz-row>
+            <div nz-col nzSpan="4">
+              <div class="statistics-item">
+                <p>保理商</p>
+                <h2>3</h2>
+              </div>
+              <div class="statistics-item">
+                <p>实名认证保理商</p>
+                <h2>2</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="5">
+              <div class="statistics-item">
+                <p>核心企业</p>
+                <h2>2</h2>
+              </div>
+              <div class="statistics-item">
+                <p>实名认证核心企业</p>
+                <h2>2</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="5">
+              <div class="statistics-item">
+                <p>项目公司</p>
+                <h2>360</h2>
+              </div>
+              <div class="statistics-item">
+                <p>实名认证项目公司</p>
+                <h2>348</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="5">
+              <div class="statistics-item">
+                <p>供应商</p>
+                <h2>589</h2>
+              </div>
+              <div class="statistics-item">
+                <p>实名认证供应商</p>
+                <h2>520</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="5">
+              <div class="statistics-item">
+                <p>律师事务所</p>
+                <h2>3</h2>
+              </div>
+              <div class="statistics-item">
+                <p>实名认证供律师事务所</p>
+                <h2>3</h2>
+              </div>
+            </div>
+            <!--<div nz-col nzSpan="4">
+              <div class="statistics-item">
+                <p>计划管理人</p>
+                <h2>0</h2>
+              </div>
+              <div class="statistics-item">
+                <p>实名认证计划管理人</p>
+                <h2>0</h2>
+              </div>
+            </div>-->
+          </div>
+        </nz-card>
+      </div>
+    </div>
+
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="16">
+        <nz-card nzTitle="ABS融资数据趋势" class="card-simple">
+          <div nz-row>
+            <div nz-col nzSpan="6">
+              <div class="statistics-item">
+                <p>合格应收账款笔数</p>
+                <h2>300</h2>
+              </div>
+              <div class="statistics-item">
+                <p>应收账款账面总额</p>
+                <h2>¥ 126,560</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="6">
+              <div class="statistics-item">
+                <p>第一次支付对价总额</p>
+                <h2>¥ 295,000</h2>
+              </div>
+              <div class="statistics-item">
+                <p>第二次支付对价总额</p>
+                <h2>¥ 300,560</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="6">
+              <div class="statistics-item">
+                <p>放款总额</p>
+                <h2>¥ 265,560</h2>
+              </div>
+              <div class="statistics-item">
+                <p>回款总额</p>
+                <h2>¥ 186,666</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="6">
+              <div class="statistics-item">
+                <p>本月合格应收账款笔数</p>
+                <h2>200</h2>
+              </div>
+              <div class="statistics-item">
+                <p>本月合格应收账款账面总额</p>
+                <h2>¥ 395,264</h2>
+              </div>
+            </div>
+          </div>
+        </nz-card>
+      </div>
+
+      <div nz-col nzSpan="8">
+        <nz-card nzTitle="再保理融资数据趋势" class="card-simple">
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div class="statistics-item">
+                <p>合格应收账款笔数</p>
+                <h2>300</h2>
+              </div>
+              <div class="statistics-item">
+                <p>应收账款账面总额</p>
+                <h2>¥ 126,560</h2>
+              </div>
+            </div>
+            <div nz-col nzSpan="12">
+              <div class="statistics-item">
+                <p>今日合格应收账款笔数</p>
+                <h2>200</h2>
+              </div>
+              <div class="statistics-item">
+                <p>今日合格应收账款账面总额</p>
+                <h2>¥ 395,264</h2>
+              </div>
+            </div>
+          </div>
+        </nz-card>
+      </div>
     </div>
   </div>
-
-  <div nz-row nzGutter="16">
-    <div nz-col nzSpan="10">
-      <nz-card nzTitle="融资一览" class="card-simple">
-        <div nz-row nzGutter="10" class="core-tip">
-          <div nz-col nzSpan="4">
-            <a nz-button nzType="link">0</a>
-            <p>待审核付款单</p>
-          </div>
-          <div nz-col nzSpan="5">
-            <a nz-button nzType="link">10</a>
-            <p>待复核付款单</p>
-          </div>
-          <div nz-col nzSpan="5">
-            <a nz-button nzType="link">20</a>
-            <p>待审核融资单</p>
-          </div>
-          <div nz-col nzSpan="5">
-            <a nz-button nzType="link">0</a>
-            <p>待复核融资单</p>
-          </div>
-          <div nz-col nzSpan="5">
-            <a nz-button nzType="link">50</a>
-            <p>待签章文件</p>
-          </div>
-        </div>
-      </nz-card>
-    </div>
-    <div nz-col nzSpan="14">
-      <nz-card nzTitle="企业数据趋势" class="card-simple">
-        <div nz-row>
-          <div nz-col nzSpan="4">
-            <div class="statistics-item">
-              <p>保理商</p>
-              <h2>3</h2>
-            </div>
-            <div class="statistics-item">
-              <p>实名认证保理商</p>
-              <h2>2</h2>
+  <!--<div class="dashboard-content" *ngSwitchCase="userTypeEnum.SUPPLIER">
+  </div>-->
+  <div class="dashboard-content" *ngSwitchDefault>
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="8">
+        <nz-card class="card-simple">
+          <div class="welcome-content">
+            <img src="assets/images/head-small.png">
+            <div>
+              <h3>您好，<a style="text-decoration: underline" routerLink="/pages/user-centre">szxckj</a>，祝你开心每一天！</h3>
+              <p>今天是2021年11月18日 星期四</p>
             </div>
           </div>
-          <div nz-col nzSpan="5">
-            <div class="statistics-item">
-              <p>核心企业</p>
-              <h2>2</h2>
-            </div>
-            <div class="statistics-item">
-              <p>实名认证核心企业</p>
-              <h2>2</h2>
-            </div>
+        </nz-card>
+      </div>
+      <div nz-col nzSpan="10">
+        <nz-card class="card-simple" nzTitle="公告" style="height: 100%">
+          <div class="announcement-content">
+            <p><a>公告：2021-11-04 加油加油加油，坚持坚持坚持</a></p>
+            <p><a>公告：公告来啦，我是公告</a></p>
+            <p><a>公告：公告来啦，我是公告</a></p>
+            <nz-pagination [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzTotal]="total" [nzSize]="'small'"></nz-pagination>
           </div>
-          <div nz-col nzSpan="5">
-            <div class="statistics-item">
-              <p>项目公司</p>
-              <h2>360</h2>
-            </div>
-            <div class="statistics-item">
-              <p>实名认证项目公司</p>
-              <h2>348</h2>
-            </div>
+        </nz-card>
+      </div>
+      <div nz-col nzSpan="6">
+        <nz-card class="card-simple" nzTitle="认证状态">
+          <div class="auth-status">
+            <img src="assets/images/verify-etp-orange.png">
+            <h3>企业认证状态</h3>
+            <a>认证通过</a>
           </div>
-          <div nz-col nzSpan="5">
-            <div class="statistics-item">
-              <p>供应商</p>
-              <h2>589</h2>
-            </div>
-            <div class="statistics-item">
-              <p>实名认证供应商</p>
-              <h2>520</h2>
-            </div>
-          </div>
-          <div nz-col nzSpan="5">
-            <div class="statistics-item">
-              <p>律师事务所</p>
-              <h2>3</h2>
-            </div>
-            <div class="statistics-item">
-              <p>实名认证供律师事务所</p>
-              <h2>3</h2>
-            </div>
-          </div>
-          <!--<div nz-col nzSpan="4">
-            <div class="statistics-item">
-              <p>计划管理人</p>
-              <h2>0</h2>
-            </div>
-            <div class="statistics-item">
-              <p>实名认证计划管理人</p>
-              <h2>0</h2>
-            </div>
-          </div>-->
-        </div>
-      </nz-card>
-    </div>
-  </div>
-
-  <div nz-row nzGutter="16">
-    <div nz-col nzSpan="16">
-      <nz-card nzTitle="ABS融资数据趋势" class="card-simple">
-        <div nz-row>
-          <div nz-col nzSpan="6">
-            <div class="statistics-item">
-              <p>合格应收账款笔数</p>
-              <h2>300</h2>
-            </div>
-            <div class="statistics-item">
-              <p>应收账款账面总额</p>
-              <h2>¥ 126,560</h2>
-            </div>
-          </div>
-          <div nz-col nzSpan="6">
-            <div class="statistics-item">
-              <p>第一次支付对价总额</p>
-              <h2>¥ 295,000</h2>
-            </div>
-            <div class="statistics-item">
-              <p>第二次支付对价总额</p>
-              <h2>¥ 300,560</h2>
-            </div>
-          </div>
-          <div nz-col nzSpan="6">
-            <div class="statistics-item">
-              <p>放款总额</p>
-              <h2>¥ 265,560</h2>
-            </div>
-            <div class="statistics-item">
-              <p>回款总额</p>
-              <h2>¥ 186,666</h2>
-            </div>
-          </div>
-          <div nz-col nzSpan="6">
-            <div class="statistics-item">
-              <p>本月合格应收账款笔数</p>
-              <h2>200</h2>
-            </div>
-            <div class="statistics-item">
-              <p>本月合格应收账款账面总额</p>
-              <h2>¥ 395,264</h2>
-            </div>
-          </div>
-        </div>
-      </nz-card>
+        </nz-card>
+      </div>
     </div>
 
-    <div nz-col nzSpan="8">
-      <nz-card nzTitle="再保理融资数据趋势" class="card-simple">
-        <div nz-row>
-          <div nz-col nzSpan="12">
-            <div class="statistics-item">
-              <p>合格应收账款笔数</p>
-              <h2>300</h2>
-            </div>
-            <div class="statistics-item">
-              <p>应收账款账面总额</p>
-              <h2>¥ 126,560</h2>
-            </div>
-          </div>
-          <div nz-col nzSpan="12">
-            <div class="statistics-item">
-              <p>今日合格应收账款笔数</p>
-              <h2>200</h2>
-            </div>
-            <div class="statistics-item">
-              <p>今日合格应收账款账面总额</p>
-              <h2>¥ 395,264</h2>
-            </div>
-          </div>
+    <nz-card nzTitle="融资一览" class="card-simple">
+      <div nz-row nzGutter="10" class="core-tip">
+        <div nz-col nzSpan="4">
+          <a nz-button nzType="link">0</a>
+          <p>待提交审核</p>
         </div>
-      </nz-card>
-    </div>
+        <div nz-col nzSpan="5">
+          <a nz-button nzType="link">50</a>
+          <p>待签章文件</p>
+        </div>
+      </div>
+    </nz-card>
   </div>
 </div>

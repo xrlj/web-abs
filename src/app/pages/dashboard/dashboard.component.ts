@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {UIHelper} from '../../helpers/ui-helper';
+import {UserTypeEnum} from '../../helpers/enum/user-type-enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,9 +14,13 @@ export class DashboardComponent implements OnInit {
   pageSize = 3;
   total = 10
 
-  constructor() {}
+  userTypeEnum: typeof  UserTypeEnum = UserTypeEnum;
+
+  etpType: number;
+
+  constructor(private uiHelper: UIHelper) {}
 
   ngOnInit() {
-    // alert('aaa')
+    this.etpType = this.uiHelper.getCurrentEtpType();
   }
 }

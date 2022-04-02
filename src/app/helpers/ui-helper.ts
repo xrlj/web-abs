@@ -535,10 +535,10 @@ export class UIHelper {
   /**
    * 设置当前企业空间信息
    */
-  setCurrentEnterpriseInfo(etpId?: string, etpType?: number) {
+  setCurrentEnterpriseInfo(etpId?: string, etpType?: number, etpName?: string) {
     const etpInfo = {id: etpId ? etpId : this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseId),
-      userType: etpType ? etpType : this.utils.getJwtTokenClaim(JwtKvEnum.UserType)};
-    console.log('>>>>>:::>>>', etpInfo);
+      userType: etpType ? etpType : this.utils.getJwtTokenClaim(JwtKvEnum.UserType),
+    etpName: etpName ? etpName : this.utils.getJwtTokenClaim(JwtKvEnum.EnterpriseName)};
     localStorage.setItem(Constants.localStorageKey.currentEtpInfo, JSON.stringify(etpInfo));
   }
 
@@ -556,6 +556,14 @@ export class UIHelper {
   getCurrentEtpType(): number {
     const cEtp = localStorage.getItem(Constants.localStorageKey.currentEtpInfo);
     return  JSON.parse(cEtp).userType;
+  }
+
+  /**
+   * 获取企业空间企业名
+   */
+  getCurrentEtpName(): string {
+    const cEtp = localStorage.getItem(Constants.localStorageKey.currentEtpInfo);
+    return JSON.parse(cEtp).etpName;
   }
 
   /****************** 设置登录用户选定的企业空间信息 start ********************/

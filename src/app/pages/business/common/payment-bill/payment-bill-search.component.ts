@@ -1,6 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MyValidators} from '../../../../helpers/MyValidators';
+import {CommonService} from '../../../../helpers/service/common.service';
+import {ProductService} from '../../factor/product-manage/product.service';
+import {UIHelper} from '../../../../helpers/ui-helper';
+import {UserTypeEnum} from '../../../../helpers/enum/user-type-enum';
 
 @Component({
   selector: 'app-payment-bill-search',
@@ -15,17 +19,30 @@ export class PaymentBillSearchComponent implements OnInit {
 
   @Output() searchEmitter = new EventEmitter<any>();  // 查询
 
-  searchFormGroup!: FormGroup;
-  isCollapse = true
+  userTypeEnum: typeof  UserTypeEnum = UserTypeEnum;
+  etpType = this.uiHelper.getCurrentEtpType(); // 企业类型
 
-  constructor(private fb: FormBuilder) {
+  searchFormGroup!: FormGroup;
+  isCollapse = this.etpType === this.userTypeEnum.MEMBER || this.etpType === this.userTypeEnum.SUPPLIER ? false : true;
+
+  pbStatusDic = [];
+  pbSubStatusDic = [];
+  pbSupplierStatusDic = [];
+
+  productStagingList = []; // 保理商产品列表
+
+  constructor(private fb: FormBuilder,
+              private commonService: CommonService,
+              private productService: ProductService,
+              private uiHelper: UIHelper) {
     this.searchFormGroup = this.fb.group({
       supplierName: [null, null],
       subCompanyName: [null, null],
       paymentBillNo: [null, [MyValidators.notChinese]],
       supplierApplyStatus: [null, null],
       subCompanyApplyStatus: [null, null],
-      stagingName: [null, null],
+      staging: [null, null],
+      contractName: [null, null],
       pytBillArea: [null, null],
       pytStatus: [null, null],
       pytType: [null, null],
@@ -33,6 +50,26 @@ export class PaymentBillSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initDicData();
+    this.productService.getStagingListAll(this.etpType === this.userTypeEnum.FACTOR ? this.uiHelper.getCurrentEtpId() : null)
+      .ok(data => {
+        this.productStagingList = data;
+      });
+  }
+
+  initDicData() {
+    this.commonService.getDictValueListByType('payment_bill_status')
+      .ok(data => {
+        this.pbStatusDic = data;
+      });
+    this.commonService.getDictValueListByType('sub_status')
+      .ok(data => {
+        this.pbSubStatusDic = data;
+      });
+    this.commonService.getDictValueListByType('supplier_status')
+      .ok(data => {
+        this.pbSupplierStatusDic = data;
+      });
   }
 
   toggleCollapse(): void {

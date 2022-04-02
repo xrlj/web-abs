@@ -30,8 +30,8 @@ export class CustomTitleComponent implements OnInit {
   @Output() titleClick = new EventEmitter();
 
   // extra
-  @Input()
-  extraTip: string;
+  @Input() extraTip: string;
+  @Output() extraTipChange = new EventEmitter();
   @Input()
   extraActionText: string;
   @Output() extraAction = new EventEmitter();

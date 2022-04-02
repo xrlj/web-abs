@@ -1,4 +1,4 @@
-<nz-card class="card-list" [nzTitle]="actionType === 1 ? '付款单详情' : '编辑付款单'" [nzExtra]="extraTemplate">
+<nz-card class="card-list" [nzTitle]="setCardTitle()" [nzExtra]="extraTemplate">
   <div class="card-container">
     <nz-tabset
       [nzTabBarGutter]="2"
@@ -8,40 +8,77 @@
       (nzSelectedIndexChange)="tabSwitch()">
       <nz-tab *ngFor="let title of tabTitle" [nzTitle]="title">
         <!--付款单-->
-        <div class="payment-bill" *ngIf="title === tabTitle[0]">
+        <div class="payment-bill" *ngIf="title === '付款单'">
           <app-custom-title title="付款单基础信息" isDLineDashed="true"
                             [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-          <app-payment-bill-details-basic></app-payment-bill-details-basic>
+          <app-payment-bill-details-basic [pbData]="pbData"></app-payment-bill-details-basic>
 
-          <app-custom-title title="发票信息" isDLineDashed="true"
-                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"
-                            extraTip="是否反馈发票有问题" extraActionText="查看" (extraAction)="invoiceFeedbackInfo()">
-          </app-custom-title>
-          <app-payment-bill-details-invoice statisticsShow="true"></app-payment-bill-details-invoice>
-
-          <app-custom-title title="业务材料-项目公司上传" isDLineDashed="true"
-                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-          <app-payment-bill-details-annex-sub></app-payment-bill-details-annex-sub>
-
-          <app-custom-title title="业务材料-供应商上传" isDLineDashed="true"
-                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-          <app-payment-bill-details-annex-supplier></app-payment-bill-details-annex-supplier>
-
-          <app-custom-title title="业务材料-保理商上传" isDLineDashed="true"
-                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-          <app-payment-bill-details-annex-factor></app-payment-bill-details-annex-factor>
-
-          <app-custom-title title="补充文件" isDLineDashed="true" titleLink="上传" (titleClick)="uploadSupplementAnnex()"
-                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-          <app-payment-bill-details-supplement></app-payment-bill-details-supplement>
-
-          <app-custom-title title="中登相关信息" isDLineDashed="true"
-                            [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-          <app-payment-bill-details-zd></app-payment-bill-details-zd>
-
+          <!--发票-->
+          <div>
+            <app-custom-title *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC; else invoice_feed_others"
+                              title="发票信息" isDLineDashed="true"
+                              [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"
+                              extraTip="发票信息有误？" extraActionText="点击反馈" (extraAction)="invoiceComponent.isShowFeedBackModal = true;">
+            </app-custom-title>
+            <ng-template #invoice_feed_others>
+              <app-custom-title title="发票信息" isDLineDashed="true"
+                                [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"
+                                [(extraTip)]="invoiceIssueTipText" extraActionText="查看" (extraAction)="invoiceComponent.isShowIssueListModal = true">
+              </app-custom-title>
+            </ng-template>
+            <app-payment-bill-details-invoice [isShowPageChange]="false"
+                                              [actionType]="actionType"
+                                              [pBillId]="pbData.id"
+                                              [statisticsShow]="true"
+                                              (moreInvoice)="tabIndex = 1"
+            ></app-payment-bill-details-invoice>
+          </div>
+          <!--供应商不能看项目公司资料-->
+          <div *ngIf="etpType !== userTypeEnum.SUPPLIER">
+            <app-custom-title title="业务材料-项目公司上传" isDLineDashed="true"
+                              [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+            <app-payment-bill-details-annex-sub [actionType]="actionType"
+                                                [pBillId]="pbData.id"></app-payment-bill-details-annex-sub>
+          </div>
+          <div>
+            <app-custom-title title="业务材料-供应商上传" isDLineDashed="true"
+                              [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+            <app-payment-bill-details-annex-supplier></app-payment-bill-details-annex-supplier>
+          </div>
+          <div *ngIf="etpType === userTypeEnum.FACTOR">
+            <app-custom-title title="业务材料-保理商上传" isDLineDashed="true"
+                              [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+            <app-payment-bill-details-annex-factor></app-payment-bill-details-annex-factor>
+          </div>
+          <div *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC">
+            <app-custom-title title="补充文件" isDLineDashed="true" titleLink="上传" (titleClick)="uploadSupplementAnnex()"
+                              [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+            <app-payment-bill-details-supplement></app-payment-bill-details-supplement>
+          </div>
+          <div *ngIf="etpType === userTypeEnum.FACTOR">
+            <app-custom-title title="中登相关信息" isDLineDashed="true"
+                              [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
+            <app-payment-bill-details-zd></app-payment-bill-details-zd>
+          </div>
+          <div style="margin-top: 28px;">
+            <textarea rows="4" nz-input placeholder="请输入备注" [(ngModel)]="subRemark"></textarea>
+          </div>
+          <div class="btn-action">
+            <button nz-button nzType="default" (click)="backToList()">返回</button>
+            <button nz-button nzType="primary"
+                    style="margin-left: 20px"
+                    *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC"
+            >提交
+            </button>
+          </div>
+        </div>
+        <!--发票-->
+        <div class="financing-invoice" *ngIf="title === '发票列表'">
+          <app-payment-bill-details-invoice [actionType]="actionType" [pBillId]="pbData.id"
+                                            [statisticsShow]="false" [isShowPageChange]="true"></app-payment-bill-details-invoice>
         </div>
         <!--操作日志-->
-        <div class="financing-log" *ngIf="title === tabTitle[1]">
+        <div class="financing-log" *ngIf="title === '操作日志'">
           <app-core-operate-log></app-core-operate-log>
         </div>
       </nz-tab>

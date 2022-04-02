@@ -4,6 +4,8 @@ export enum UserTypeEnum { // 企业类型
   CORE , // 核心企业
   MEMBER ,  // 项目公司
   SUPPLIER , // 供应商
+  DEBTOR, // 债务加入方
+  LAW, // 律所
   SPV, // 券商，资金提供方
   BUYER // 买方
 }

@@ -1,55 +1,192 @@
 <div class="payment-bill-invoice">
   <nz-table
+    #table
+    [nzShowPagination] = "isShowPageChange"
+    [nzShowSizeChanger] = "isShowPageChange"
     nzBordered
-    [nzShowPagination]="false"
+    [nzFrontPagination]="false"
     [nzData]="listOfAllData"
     [nzLoading]="listLoading"
+    [nzTotal]="total"
     [(nzPageIndex)]="pageIndex"
-    [(nzPageSize)]="pageSize">
+    [(nzPageSize)]="pageSize"
+    (nzPageIndexChange)="search()"
+    (nzPageSizeChange)="search(true)"
+    >
     <thead>
     <tr>
       <th nzLeft nzWidth="5%" nzAlign="center">序号</th>
       <th nzWidth="7%" nzAlign="center">发票代码</th>
       <th nzWidth="7%" nzAlign="center">发票号码</th>
       <th nzWidth="10%" nzAlign="center">发票名称</th>
-      <th nzWidth="10%" nzAlign="center">含税发票金额</th>
-      <th nzWidth="10%" nzAlign="center">未税发票金额</th>
-      <th nzWidth="10%" nzAlign="center">可转让金额</th>
-      <th nzWidth="10%" nzAlign="center">本次转让金额</th>
-      <th nzWidth="8%" nzAlign="center">开票日期</th>
+      <th nzWidth="9%" nzAlign="center">含税发票金额</th>
+      <th nzWidth="9%" nzAlign="center">未税发票金额</th>
+      <th nzWidth="9%" nzAlign="center">可转让金额</th>
+      <th nzWidth="9%" nzAlign="center">本次转让金额</th>
+      <th nzWidth="12%" nzAlign="center">开票日期</th>
       <th nzWidth="6%" nzAlign="center">校验码</th>
-      <th nzWidth="7%" nzAlign="center">查验结果</th>
-      <th nzRight nzWidth="10%" nzAlign="center">操作</th>
+      <th *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC" nzWidth="7%" nzAlign="center">查验结果</th>
+      <th *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC" nzRight nzWidth="10%" nzAlign="center">操作</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let data of listOfAllData; let i = index">
-      <td nzAlign="center">{{i + 1}}</td>
-      <td nzAlign="center">4300194130</td>
-      <td nzAlign="center">04909945</td>
-      <td nzAlign="center">增值税专用发票</td>
-      <td nzAlign="center">975,251.56</td>
-      <td nzAlign="center">894,726.20</td>
-      <td nzAlign="center">0.00</td>
-      <td nzAlign="center">975,251.56</td>
-      <td nzAlign="center">2020-09-23</td>
-      <td nzAlign="center"></td>
-      <td nzAlign="center">验证成功</td>
+    <tr *ngFor="let data of table['data']; let i = index">
+      <td nzAlign="center">{{(pageIndex - 1) * pageSize + i + 1}}</td>
+      <td nzAlign="center">{{data.fpCode}}</td>
+      <td nzAlign="center">{{data.fpNumber}}</td>
+      <td nzAlign="center">{{data.fpName}}</td>
+      <td nzAlign="center">{{data.fpTaxAmount | number: '1.2-2'}}</td>
+      <td nzAlign="center">{{data.fpAmount | number: '1.2-2'}}</td>
+      <td nzAlign="center">{{data.transferableAmount | number: '1.2-2'}}</td>
+      <td nzAlign="center">{{data.transferAmount | number: '1.2-2'}}</td>
+      <td nzAlign="center">{{data.fpDate}}</td>
+      <td nzAlign="center">{{data.fpCheckCode}}</td>
+      <td *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC" nzAlign="center">{{data.fpStatusName}}</td>
       <td nzRight nzAlign="center">
-        <a>查看</a>
+        <div *ngIf="actionType === pbillDetailsActionTypeEnum.EDIT">
+          <a (click)="editInvoice(data)">编辑</a>
+        </div>
+        <a (click)="editInvoice(data)">编辑</a>
       </td>
     </tr>
     </tbody>
   </nz-table>
+  <!--最多显示十条-->
+  <div class="look-more" *ngIf="!isShowPageChange && total > pageSize">
+    <a (click)="lookMoreInvoice()" style="text-decoration: underline">查看更多</a>
+  </div>
   <div *ngIf="statisticsShow">
       <span class="list-extra-bottom-right">
-        总笔数：<span appTextColorTheme>{{listOfAllData.length}}</span>
+        总笔数：<span appTextColorTheme>{{invoiceNum}}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        票面总金额：<span appTextColorTheme>8,535,251.56</span>元
+        票面总金额：<span appTextColorTheme>{{fpTaxAmountTotal | number: '1.2-2'}}</span>元
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        可转让总金额：<span appTextColorTheme>0.00</span>元
+        可转让总金额：<span appTextColorTheme>{{transferableAmountTotal | number: '1.2-2'}}</span>元
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        本次转让总金额：<span appTextColorTheme>8,535,251.56</span>元
+        本次转让总金额：<span appTextColorTheme>{{transferAmountTotal | number: '1.2-2'}}</span>元
       </span>
+
   </div>
 </div>
+
+<nz-modal *ngIf="isShowEditModal"
+          [(nzVisible)]="isShowEditModal"
+          [nzWidth]="600"
+          [nzMaskClosable]="false"
+          nzTitle="编辑发票"
+          (nzOnCancel)="handleEditModalCancel()"
+          (nzOnOk)="handleEditModalOk()"
+          [nzOkLoading]="isEditModalOkLoading">
+  <form *nzModalContent nz-form [formGroup]="editModalFormGroup">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="fpCode" nzRequired>发票代码</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input nz-input id="fpCode" formControlName="fpCode" placeholder="请输入发票代码"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="fpNumber" nzRequired>发票号码</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input nz-input id="fpNumber" formControlName="fpNumber" placeholder="请输入发票号码"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="fpName" nzRequired>发票名称</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input nz-input id="fpName" formControlName="fpName" placeholder="请输入发票名称"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="fpTaxAmount" nzRequired>含税发票金额</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input appTextColorTheme nz-input id="fpTaxAmount" formControlName="fpTaxAmount" placeholder="请输入含税发票金额"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="fpAmount" nzRequired>未税发票金额</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input appTextColorTheme nz-input id="fpAmount" formControlName="fpAmount" placeholder="请输入未税发票金额"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="transferableAmount" nzRequired>可转让发票金额</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input appTextColorTheme nz-input id="transferableAmount" formControlName="transferableAmount" placeholder="请输入可转让发票金额"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="transferAmount" nzRequired>本次转让发票金额</nz-form-label>
+      <nz-form-control appTextColorTheme [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input nz-input id="transferAmount" formControlName="transferAmount" placeholder="请输入本次转让发票金额"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="transferRemainAmount" nzRequired>剩余可转让发票金额</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+        <input appTextColorTheme nz-input id="transferRemainAmount" formControlName="transferRemainAmount" placeholder="请输入剩余可转让发票金额"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="spanLabel" nzFor="fpCheckCode">校验码</nz-form-label>
+      <nz-form-control [nzSpan]="spanFormControl">
+        <input nz-input id="fpCheckCode" formControlName="fpCheckCode" placeholder="请输入校验码"/>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+
+<nz-modal *ngIf="isShowFeedBackModal"
+          [(nzVisible)]="isShowFeedBackModal"
+          [nzWidth]="600"
+          [nzMaskClosable]="false"
+          nzTitle="反馈发票错误信息"
+          (nzOnCancel)="handleFeedBackModalCancel()"
+          (nzOnOk)="handleFeedBackModalOk()"
+          [nzOkLoading]="isFeedBackModalOkLoading">
+  <div *nzModalContent>
+    <textarea nz-input placeholder="请输入发票反馈信息" [(ngModel)]="feedBackContent" [nzAutosize]="{ minRows: 5, maxRows: 5 }"></textarea>
+  </div>
+</nz-modal>
+
+<nz-modal *ngIf="isShowIssueListModal"
+          [(nzVisible)]="isShowIssueListModal"
+          [nzWidth]="1000"
+          [nzMaskClosable]="false"
+          nzTitle="查看发票反馈"
+          [nzOkText]="null"
+          (nzAfterOpen)="searchIssue(false)"
+          (nzOnCancel)="handleIssueListModalCancel()">
+  <nz-table *nzModalContent
+    #table
+    nzShowPagination
+    nzShowSizeChanger
+    nzBordered
+    [nzFrontPagination]="false"
+    [nzData]="listOfIssueAllData"
+    [nzLoading]="listIssueLoading"
+    [nzTotal]="issueListTotal"
+    [(nzPageIndex)]="issueListPageIndex"
+    [(nzPageSize)]="issueListPageSize"
+    (nzPageIndexChange)="searchIssue()"
+    (nzPageSizeChange)="searchIssue(true)"
+  >
+    <thead>
+    <tr>
+      <th nzWidth="20%" nzAlign="center">反馈时间</th>
+      <th nzWidth="15%" nzAlign="center">反馈角色</th>
+      <th nzWidth="30%" nzAlign="center">反馈名称</th>
+      <th nzWidth="10%" nzAlign="center">反馈人</th>
+      <th nzWidth="30%" nzAlign="center">内容</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of table['data']">
+      <td nzAlign="center">{{data.feedBackTime}}</td>
+      <td nzAlign="center">{{data.userTypeName}}</td>
+      <td nzAlign="center">{{data.etpFullName}}</td>
+      <td nzAlign="center">{{data.userName}}</td>
+      <td nzAlign="center">{{data.content}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-modal>

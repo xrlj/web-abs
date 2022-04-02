@@ -12,6 +12,10 @@ import {FileUploadHelper} from '../../../../helpers/file-upload-helper';
 import {environment} from '../../../../../environments/environment';
 import {ApiPath} from '../../../../api-path';
 import {Observable, Observer} from 'rxjs';
+import {ThemeHelper} from '../../../../helpers/theme-helper';
+import {UserTypeEnum} from '../../../../helpers/enum/user-type-enum';
+import {PbillSsbStatusEnum} from '../../../../helpers/enum/pbill-ssb-status-enum';
+import {PbillDetailsActionTypeEnum} from '../../../../helpers/enum/pbill-details-action-type-enum';
 
 @Component({
   selector: 'app-payment-bill-list',
@@ -29,6 +33,14 @@ export class PaymentBillListComponent implements OnInit {
   // all-付款单查询；check-付款单审核；review-付款单复核；
   @Input()
   paymentBillMenuType: string;
+
+  userTypeEnum: typeof  UserTypeEnum = UserTypeEnum;
+  etpType: number; // 企业类型
+
+  pbillSsbStatusEnum: typeof  PbillSsbStatusEnum = PbillSsbStatusEnum;
+  pbillDetailsActionTypeEnum: typeof  PbillDetailsActionTypeEnum = PbillDetailsActionTypeEnum;
+
+  searchData: any; // 查询条件
 
   // 表格
   isAllDisplayDataChecked = false;
@@ -62,8 +74,8 @@ export class PaymentBillListComponent implements OnInit {
   constructor(private paymentBillService: PaymentBillService,
               private utils: Utils, private uiHelper: UIHelper,
               private fb: FormBuilder, private commonService: CommonService,
-              private productService: ProductService,
-              private fileUploadHelper: FileUploadHelper) {
+              private productService: ProductService, public themeHelper: ThemeHelper,
+              private fileUploadHelper: FileUploadHelper,) {
 
     this.apiPBillModalForm = this.fb.group({
       product: [null, [MyValidators.required]],
@@ -78,28 +90,27 @@ export class PaymentBillListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.search();
+    this.etpType = this.uiHelper.getCurrentEtpType();
+    this.search(false, this.searchData);
   }
 
   search(reset: boolean = false, searchData?: any): void {
     if (reset) this.pageIndex = 1;
 
     // 搜索条件
-    const body: any = searchData ? searchData : {};
-    body.pageIndex = this.pageIndex;
-    body.pageSize = this.pageSize;
-    body.etpId = this.uiHelper.getCurrentEtpId();
-    body.etpType = this.uiHelper.getCurrentEtpType();
-    body.listType = this.paymentBillMenuType;
-    if (this.paymentBillMenuType === 'check') {
-      body.pytStatus = 3;
-    }
-    if (this.paymentBillMenuType === 'review') {
-      body.pytStatus = 6;
-    }
+    this.searchData = searchData ? searchData : {};
+    this.searchData.pageIndex = this.pageIndex;
+    this.searchData.pageSize = this.pageSize;
+    this.searchData.etpId = this.uiHelper.getCurrentEtpId();
+    this.searchData.etpType = this.uiHelper.getCurrentEtpType();
+    this.searchData.listType = this.paymentBillMenuType;
+    // if (this.paymentBillMenuType === 'check') {
+    // }
+    // if (this.paymentBillMenuType === 'review') {
+    // }
 
     this.listLoading = true;
-    this.paymentBillService.getPaymentBillListPage(body)
+    this.paymentBillService.getPaymentBillListPage(this.searchData)
       .ok(data => {
         this.listOfAllData = data.list;
         this.pageIndex = data.pageIndex;
@@ -133,22 +144,10 @@ export class PaymentBillListComponent implements OnInit {
     this.refreshStatus();
   }
 
-  details(data: any) {
-    this.detailsLook.emit(data);
-  }
-
-  /**
-   * 审核付款单
-   * @param id 付款单id
-   */
-  checkPaymentBill(id) {
-  }
-
-  /**
-   * 复核付款单
-   * @param id 付款单id
-   */
-  reviewPaymentBill(id) {
+  detailsOperator(itemData: any, actionType: PbillDetailsActionTypeEnum) {
+    // const $event = {'pBillId': pBillId, 'actionType': actionType};
+    itemData.actionType = actionType;
+    this.detailsLook.emit(itemData);
   }
 
   getPaymentBillFromApi() {

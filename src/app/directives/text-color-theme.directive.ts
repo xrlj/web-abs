@@ -10,6 +10,7 @@ import {ThemeHelper} from '../helpers/theme-helper';
 export class TextColorThemeDirective {
 
   constructor(private el: ElementRef, private themeHelper: ThemeHelper) {
+    debugger;
     this.el.nativeElement.style.color = this.themeHelper.getCurrentThemePrimaryColor();
   }
 }

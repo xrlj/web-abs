@@ -5,65 +5,59 @@
       <input id="paymentBillNo" formControlName="paymentBillNo" nz-input placeholder="请输入付款单号" />
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
+  <nz-form-item *ngIf="etpType !== userTypeEnum.MEMBER">
     <nz-form-label nzFor="subCompanyName">项目公司</nz-form-label>
     <nz-form-control [nzSpan]="0">
       <input id="subCompanyName" formControlName="subCompanyName" nz-input placeholder="请输入项目公司名称" />
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
+  <nz-form-item *ngIf="etpType !== userTypeEnum.SUPPLIER">
     <nz-form-label [nzSpan]="0" nzFor="supplierName">供应商</nz-form-label>
     <nz-form-control [nzSpan]="0">
       <input id="supplierName" formControlName="supplierName" nz-input placeholder="请输入供应商名称" />
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item *ngIf="paymentBillMenuType !== 'check' && paymentBillMenuType !== 'review'">
+  <nz-form-item *ngIf="etpType === userTypeEnum.MEMBER || etpType === userTypeEnum.SUPPLIER">
+    <nz-form-label nzFor="contractName">合同名称</nz-form-label>
+    <nz-form-control [nzSpan]="0">
+      <input id="contractName" formControlName="contractName" nz-input placeholder="请输入合同名称" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item *ngIf="paymentBillMenuType === 'all' && (etpType !== userTypeEnum.SUPPLIER && etpType !== userTypeEnum.MEMBER)">
     <nz-form-label nzFor="pytStatus">付款单状态</nz-form-label>
     <nz-form-control [nzSpan]="0">
       <nz-select nzAllowClear nzPlaceHolder="请选择" id="pytStatus" formControlName="pytStatus">
-        <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
-        <nz-option nzValue="'1'" nzLabel="待审核"></nz-option>
+        <nz-option *ngFor="let status of pbStatusDic" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label nzFor="stagingName">分期名称</nz-form-label>
+    <nz-form-label nzFor="staging">分期名称</nz-form-label>
     <nz-form-control [nzSpan]="0">
-      <nz-select nzAllowClear id="stagingName" formControlName="stagingName" nzPlaceHolder="请选择">
-        <nz-option nzValue="'0'" nzLabel="请选择"></nz-option>
-        <nz-option nzValue="'1'" nzLabel="招商融创招商融创-招商融创-招商融创-招商融创--2"></nz-option>
+      <nz-select nzAllowClear nzShowSearch id="staging" formControlName="staging" nzPlaceHolder="请选择">
+        <nz-option *ngFor="let staging of productStagingList" [nzValue]="staging.id" [nzLabel]="staging.pdtStagingName"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item [hidden]="isCollapse">
+  <nz-form-item *ngIf="etpType !== userTypeEnum.MEMBER && etpType !== userTypeEnum.SUPPLIER" [hidden]="isCollapse">
     <nz-form-label nzFor="pytBillArea">区域</nz-form-label>
     <nz-form-control [nzSpan]="0">
-      <input id="pytBillArea" formControlName="pytBillArea" nz-input placeholder="" />
+      <input id="pytBillArea" formControlName="pytBillArea" nz-input placeholder="请输入区域" />
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item [hidden]="isCollapse">
-    <nz-form-label nzFor="supplierApplyStatus">供应商申请状态</nz-form-label>
+  <nz-form-item [hidden]="isCollapse" *ngIf="etpType !== userTypeEnum.MEMBER">
+    <nz-form-label nzFor="supplierApplyStatus">{{etpType === userTypeEnum.SUPPLIER ? '申请状态' : '供应商申请状态'}}</nz-form-label>
     <nz-form-control [nzSpan]="0">
       <nz-select nzAllowClear nzPlaceHolder="请选择" id="supplierApplyStatus" formControlName="supplierApplyStatus">
-        <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
-        <nz-option nzValue="'1'" nzLabel="待提交审核"></nz-option>
-        <nz-option nzValue="'2'" nzLabel="待审核"></nz-option>
-        <nz-option nzValue="'2'" nzLabel="已审核"></nz-option>
-        <nz-option nzValue="'3'" nzLabel="待复核"></nz-option>
-        <nz-option nzValue="'4'" nzLabel="已复核"></nz-option>
+        <nz-option *ngFor="let status of pbSupplierStatusDic" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item [hidden]="isCollapse">
-    <nz-form-label nzFor="subCompanyApplyStatus">项目公司申请状态</nz-form-label>
+  <nz-form-item [hidden]="isCollapse" *ngIf="etpType !== userTypeEnum.SUPPLIER">
+    <nz-form-label nzFor="subCompanyApplyStatus">{{etpType === userTypeEnum.MEMBER ? '申请状态' : '项目公司申请状态'}}</nz-form-label>
     <nz-form-control [nzSpan]="0">
       <nz-select nzAllowClear nzPlaceHolder="请选择" id="subCompanyApplyStatus" formControlName="subCompanyApplyStatus">
-        <nz-option nzValue="'0'" nzLabel="全部"></nz-option>
-        <nz-option nzValue="'1'" nzLabel="待提交审核"></nz-option>
-        <nz-option nzValue="'2'" nzLabel="待审核"></nz-option>
-        <nz-option nzValue="'2'" nzLabel="已审核"></nz-option>
-        <nz-option nzValue="'3'" nzLabel="待复核"></nz-option>
-        <nz-option nzValue="'4'" nzLabel="已复核"></nz-option>
+        <nz-option *ngFor="let status of pbSubStatusDic" [nzValue]="status.dictValue" [nzLabel]="status.dictLabel"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>

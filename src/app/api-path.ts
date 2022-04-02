@@ -161,6 +161,7 @@ export const ApiPath = {
       update: `/${serviceAbsProduct}/productStaging/update`, // 更新
       getListPage: `/${serviceAbsProduct}/productStaging/getListPage`, // 分页获取列表
       getListAll: `/${serviceAbsProduct}/productStaging/getListAll`, // 获取产品下所有分期列表
+      getStagingListAll: `/${serviceAbsProduct}/productStaging/getStagingListAll`,
       getById: `/${serviceAbsProduct}/productStaging/getById`,
       del: `/${serviceAbsProduct}/productStaging/del`,
     },
@@ -184,6 +185,15 @@ export const ApiPath = {
       getPaymentBillFromApiAndImport: `/${serviceAbsPayment}/paymentBill/getPaymentBillFromApiAndImport`,
       getListPage: `/${serviceAbsPayment}/paymentBill/getListPage`,
       saveImportPaymentBillByExcel: `/${serviceAbsPayment}/paymentBill/saveImportPaymentBillByExcel`,
+    },
+    paymentBillInvoice: {
+      getListPage: `/${serviceAbsPayment}/paymentBillInvoice/getListPage`, // 分页获取发票列表
+      getListAllByPb: `/${serviceAbsPayment}/paymentBillInvoice/getListAllByPb`, // 获取付款单下所有发票列表
+    },
+    pytBillInvoiceIssue: {
+      save: `/${serviceAbsPayment}/pytBillInvoiceIssue/save`, // 添加付款单发票的反馈问题
+      getListPage: `/${serviceAbsPayment}/pytBillInvoiceIssue/getListPage`, // 分页获取反馈问题列表
+      getInvoiceIssueCount: `/${serviceAbsPayment}/pytBillInvoiceIssue/getInvoiceIssueCount`, // 获取付款单发票反馈问题总条数
     }
   }
 };

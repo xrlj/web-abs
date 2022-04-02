@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {PaymentBillSearchComponent} from './payment-bill-search.component';
 import {PaymentBillListComponent} from './payment-bill-list.component';
+import {PaymentBillDetailsComponent} from './payment-bill-details/payment-bill-details.component';
 
 /**
  * 付款单管理。
@@ -19,6 +20,11 @@ export class PaymentBillComponent implements OnInit {
   private searchComponent: PaymentBillSearchComponent;
   @ViewChild(PaymentBillListComponent)
   private listComponent: PaymentBillListComponent;
+  @ViewChild(PaymentBillDetailsComponent)
+  private detailsComponent: PaymentBillDetailsComponent;
+
+  searchData: any;
+  listItemData: any;
 
   constructor() {
   }
@@ -27,18 +33,23 @@ export class PaymentBillComponent implements OnInit {
   }
 
   search(searchData: any): void {
-    this.listComponent.search(false, searchData)
+    this.searchData = searchData;
+    this.listComponent.search(true, searchData)
   }
 
   /**
-   * 付款单详情查看
+   * 付款单详情
    * @param $event 所在行数据
    */
   details($event: any) {
+    // this.detailsComponent.listItemData = $event;
+    // this.detailsComponent.actionType = $event.actionType;
+    this.listItemData = $event;
     this.showType = 2;
   }
 
   showList() {
     this.showType = 1;
+    this.listComponent.search(false, this.searchData);
   }
 }

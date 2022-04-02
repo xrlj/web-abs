@@ -35,39 +35,51 @@ import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzPaginationModule} from 'ng-zorro-antd/pagination';
+import {HtmlPipe} from '../helpers/pipe/html-pipe';
 
 @NgModule({
-  declarations: [DashboardComponent, LoginComponent, InitComponent,
-    NotFoundComponent, RegisterComponent, VerifyComponent,
-    VerifyEtpComponent, VerifyPersonalComponent, VerifyHeaderComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PagesRoutingModule,
-        ThemeModule,
-        NgxEchartsModule,
-        NzButtonModule,
-        NzUploadModule,
-        NzStepsModule,
-        NzFormModule,
-        NzResultModule,
-        NzBackTopModule,
-        NzCardModule,
-        NzSpinModule,
-        NzInputModule,
-        NzTableModule,
-        NzDividerModule,
-        NzModalModule,
-        NzIconModule,
-        NzSelectModule,
-        NzAutocompleteModule,
-        NzInputNumberModule,
-        NzCheckboxModule,
-        NzToolTipModule,
-        DirectivesModule,
-        ComponentsModule,
-        NzPaginationModule
-    ]
+  declarations: [
+    DashboardComponent,
+    LoginComponent,
+    InitComponent,
+    NotFoundComponent,
+    RegisterComponent,
+    VerifyComponent,
+    VerifyEtpComponent,
+    VerifyPersonalComponent,
+    VerifyHeaderComponent
+  ],
+  exports: [
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PagesRoutingModule,
+    ThemeModule,
+    NgxEchartsModule,
+    NzButtonModule,
+    NzUploadModule,
+    NzStepsModule,
+    NzFormModule,
+    NzResultModule,
+    NzBackTopModule,
+    NzCardModule,
+    NzSpinModule,
+    NzInputModule,
+    NzTableModule,
+    NzDividerModule,
+    NzModalModule,
+    NzIconModule,
+    NzSelectModule,
+    NzAutocompleteModule,
+    NzInputNumberModule,
+    NzCheckboxModule,
+    NzToolTipModule,
+    DirectivesModule,
+    ComponentsModule,
+    NzPaginationModule
+  ]
 })
-export class PagesModule {}
+export class PagesModule {
+}

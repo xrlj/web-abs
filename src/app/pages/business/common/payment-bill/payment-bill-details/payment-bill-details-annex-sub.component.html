@@ -8,8 +8,9 @@
     <thead>
     <tr>
       <th nzLeft nzWidth="5%" nzAlign="center">序号</th>
-      <th nzWidth="35%" nzAlign="left">文档类型</th>
-      <th nzWidth="60%" nzAlign="left">文档</th>
+      <th nzWidth="30%" nzAlign="left">文档类型</th>
+      <th nzWidth="50%" nzAlign="left">文档</th>
+      <th *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC && etpType === userTypeEnum.MEMBER" nzWidth="15%" nzAlign="center">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,9 @@
         <div *ngFor="let file of data.annexFiles">
           <a href="{{file.fileUrl}}" target="_blank">{{file.fileName}}</a>
         </div>
+      </td>
+      <td *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC && etpType === userTypeEnum.MEMBER" nzAlign="center">
+        <a>上传</a>
       </td>
     </tr>
     </tbody>
