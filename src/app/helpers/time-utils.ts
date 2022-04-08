@@ -4,12 +4,13 @@ export const ONE_HOUR = 60 * 60 * 1000;
 export const ONE_DAY = 24 * ONE_HOUR;
 
 export const DATE_TIME_FORMAT1 = 'yyyy-MM-dd HH:mm:ss';
+export const DATE_TIME_FORMAT2 = 'yyyy-MM-dd';
 
 const datePipe = new DatePipe('en-US');
 
 // tslint:disable-next-line:only-arrow-functions
-export const dateTimeToStr1 = function (dateTime: Date): string {
-  return datePipe.transform(dateTime, DATE_TIME_FORMAT1);
+export const dateTimeToStr1 = function (dateTime: Date, format?: string): string {
+  return datePipe.transform(dateTime, format ? format : DATE_TIME_FORMAT1);
 }
 
 // tslint:disable-next-line:only-arrow-functions

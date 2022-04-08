@@ -11,7 +11,7 @@
       <th nzWidth="20%" nzAlign="left">文档类型</th>
       <th nzWidth="30%" nzAlign="left">文档</th>
       <th nzWidth="30%" nzAlign="left">签章对象</th>
-      <th nzWidth="15%" nzAlign="center">操作</th>
+      <th *ngIf="etpType === userTypeEnum.FACTOR" nzWidth="15%" nzAlign="center">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -23,10 +23,12 @@
           <a href="{{file.fileUrl}}" target="_blank">{{file.fileName}}</a>
         </div>
       </td>
-      <td nzAlign="left">
-        <nz-checkbox-group [nzDisabled]="false" [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
+      <td nzAlign="left" [ngStyle]="etpType !== userTypeEnum.FACTOR ? uiHelper.notEditStyle(true, true) : {}">
+        <nz-checkbox-group [ngStyle]="etpType !== userTypeEnum.FACTOR ? uiHelper.notEditStyle(true, false) : {}"
+                           [nzDisabled]="false"
+                           [(ngModel)]="checkOptionsOne"></nz-checkbox-group>
       </td>
-      <td nzAlign="center">
+      <td nzAlign="center" *ngIf="etpType === userTypeEnum.FACTOR">
         <a nz-button nzType="link">编辑</a>
         <nz-divider nzType="vertical"></nz-divider>
         <a nz-button nzType="link">删除</a>

@@ -1,8 +1,8 @@
 <div class="payment-bill-invoice">
   <nz-table
     #table
-    [nzShowPagination] = "isShowPageChange"
-    [nzShowSizeChanger] = "isShowPageChange"
+    [nzShowPagination]="isShowPageChange"
+    [nzShowSizeChanger]="isShowPageChange"
     nzBordered
     [nzFrontPagination]="false"
     [nzData]="listOfAllData"
@@ -12,21 +12,24 @@
     [(nzPageSize)]="pageSize"
     (nzPageIndexChange)="search()"
     (nzPageSizeChange)="search(true)"
-    >
+  >
     <thead>
     <tr>
       <th nzLeft nzWidth="5%" nzAlign="center">序号</th>
       <th nzWidth="7%" nzAlign="center">发票代码</th>
       <th nzWidth="7%" nzAlign="center">发票号码</th>
       <th nzWidth="10%" nzAlign="center">发票名称</th>
-      <th nzWidth="9%" nzAlign="center">含税发票金额</th>
-      <th nzWidth="9%" nzAlign="center">未税发票金额</th>
-      <th nzWidth="9%" nzAlign="center">可转让金额</th>
-      <th nzWidth="9%" nzAlign="center">本次转让金额</th>
-      <th nzWidth="12%" nzAlign="center">开票日期</th>
+      <th nzWidth="8%" nzAlign="center">含税发票金额</th>
+      <th nzWidth="8%" nzAlign="center">未税发票金额</th>
+      <th nzWidth="8%" nzAlign="center">可转让金额</th>
+      <th nzWidth="8%" nzAlign="center">本次转让金额</th>
+      <th nzWidth="8%" nzAlign="center">开票日期</th>
       <th nzWidth="6%" nzAlign="center">校验码</th>
       <th *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC" nzWidth="7%" nzAlign="center">查验结果</th>
-      <th *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC" nzRight nzWidth="10%" nzAlign="center">操作</th>
+      <th *ngIf="pBillFromType === pbillFromTypeEnum.API_INTERFACE && actionType === pbillDetailsActionTypeEnum.EDIT"
+          nzWidth="8%" nzAlign="center">更换发票
+      </th>
+      <th *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC" nzWidth="8%" nzRight nzAlign="center">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -42,11 +45,21 @@
       <td nzAlign="center">{{data.fpDate}}</td>
       <td nzAlign="center">{{data.fpCheckCode}}</td>
       <td *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC" nzAlign="center">{{data.fpStatusName}}</td>
-      <td nzRight nzAlign="center">
+      <td *ngIf="pBillFromType === pbillFromTypeEnum.API_INTERFACE
+      && actionType === pbillDetailsActionTypeEnum.EDIT" nzRight nzAlign="center">
+        <a (click)="applyNewInvoiceFromCoreApi(data)">申请</a>
+      </td>
+      <td nzRight nzAlign="center" *ngIf="actionType !== pbillDetailsActionTypeEnum.SUBMIT_SRC">
         <div *ngIf="actionType === pbillDetailsActionTypeEnum.EDIT">
+          <a (click)="verify(data)">查验</a>
+          <nz-divider nzType="vertical"></nz-divider>
           <a (click)="editInvoice(data)">编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delInvoice(data.id)">删除</a>
         </div>
-        <a (click)="editInvoice(data)">编辑</a>
+        <div *ngIf="actionType === pbillDetailsActionTypeEnum.LOOK">
+          <a (click)="editInvoice(data)">详情</a>
+        </div>
       </td>
     </tr>
     </tbody>
@@ -73,66 +86,114 @@
           [(nzVisible)]="isShowEditModal"
           [nzWidth]="600"
           [nzMaskClosable]="false"
-          nzTitle="编辑发票"
+          [nzTitle]="editType === 1 ? '新增发票' : '编辑发票'"
+          [nzOkDisabled]="actionType === pbillDetailsActionTypeEnum.LOOK ? true: false"
           (nzOnCancel)="handleEditModalCancel()"
           (nzOnOk)="handleEditModalOk()"
           [nzOkLoading]="isEditModalOkLoading">
-  <form *nzModalContent nz-form [formGroup]="editModalFormGroup">
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="fpCode" nzRequired>发票代码</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input nz-input id="fpCode" formControlName="fpCode" placeholder="请输入发票代码"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="fpNumber" nzRequired>发票号码</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input nz-input id="fpNumber" formControlName="fpNumber" placeholder="请输入发票号码"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="fpName" nzRequired>发票名称</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input nz-input id="fpName" formControlName="fpName" placeholder="请输入发票名称"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="fpTaxAmount" nzRequired>含税发票金额</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input appTextColorTheme nz-input id="fpTaxAmount" formControlName="fpTaxAmount" placeholder="请输入含税发票金额"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="fpAmount" nzRequired>未税发票金额</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input appTextColorTheme nz-input id="fpAmount" formControlName="fpAmount" placeholder="请输入未税发票金额"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="transferableAmount" nzRequired>可转让发票金额</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input appTextColorTheme nz-input id="transferableAmount" formControlName="transferableAmount" placeholder="请输入可转让发票金额"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="transferAmount" nzRequired>本次转让发票金额</nz-form-label>
-      <nz-form-control appTextColorTheme [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input nz-input id="transferAmount" formControlName="transferAmount" placeholder="请输入本次转让发票金额"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="transferRemainAmount" nzRequired>剩余可转让发票金额</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
-        <input appTextColorTheme nz-input id="transferRemainAmount" formControlName="transferRemainAmount" placeholder="请输入剩余可转让发票金额"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="spanLabel" nzFor="fpCheckCode">校验码</nz-form-label>
-      <nz-form-control [nzSpan]="spanFormControl">
-        <input nz-input id="fpCheckCode" formControlName="fpCheckCode" placeholder="请输入校验码"/>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+  <div *nzModalContent [ngStyle]="actionType === pbillDetailsActionTypeEnum.LOOK ? {cursor: 'not-allowed'} : {}">
+    <form nz-form [formGroup]="editModalFormGroup"
+          [ngStyle]="actionType === pbillDetailsActionTypeEnum.LOOK ? {'pointer-events': 'none'} : {}">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="fpCode" nzRequired>发票代码</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="fpCode" formControlName="fpCode" placeholder="请输入发票代码"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="fpNumber" nzRequired>发票号码</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="fpNumber" formControlName="fpNumber" placeholder="请输入发票号码"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="fpName" nzRequired>发票名称</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input nz-input id="fpName" formControlName="fpName" placeholder="请输入发票名称"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="fpTaxAmount" nzRequired>含税发票金额</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input appTextColorTheme nz-input id="fpTaxAmount" formControlName="fpTaxAmount" placeholder="请输入含税发票金额"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="fpAmount" nzRequired>未税发票金额</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input appTextColorTheme nz-input id="fpAmount" formControlName="fpAmount" placeholder="请输入未税发票金额"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="transferableAmount" nzRequired>可转让发票金额</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input (ngModelChange)="transferableAmountChange($event)" appTextColorTheme nz-input id="transferableAmount"
+                 formControlName="transferableAmount" placeholder="请输入可转让发票金额"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="transferAmount" nzRequired>本次转让发票金额</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input (ngModelChange)="transferAmountChange($event)" appTextColorTheme nz-input id="transferAmount"
+                 formControlName="transferAmount" placeholder="请输入本次转让发票金额"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item style="cursor: not-allowed;">
+        <nz-form-label style="pointer-events: none" [nzSpan]="spanLabel" nzFor="transferRemainAmount" nzRequired>
+          剩余可转让发票金额
+        </nz-form-label>
+        <nz-form-control style="pointer-events: none" [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <input appTextColorTheme nz-input id="transferRemainAmount" formControlName="transferRemainAmount"
+                 placeholder="请输入剩余可转让发票金额"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="fpDate" nzRequired>开票日期</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项">
+          <nz-date-picker id="fpDate" formControlName="fpDate"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel" nzFor="fpCheckCode">校验码</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl">
+          <input nz-input id="fpCheckCode" formControlName="fpCheckCode" placeholder="请输入校验码"/>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</nz-modal>
+
+<nz-modal *ngIf="isShowApplyReplaceModal"
+          [(nzVisible)]="isShowApplyReplaceModal"
+          [nzWidth]="600"
+          [nzMaskClosable]="false"
+          nzTitle="申请更换发票"
+          (nzOnCancel)="handleApplyReplaceModalCancel()"
+          (nzOnOk)="handleApplyReplaceModalOk()"
+          [nzOkLoading]="isApplyReplaceModalOkLoading">
+  <div *nzModalContent>
+    <p appTextColorTheme style="margin-bottom: 26px;">所填写信息将会发送给碧桂园系统，进行发票替换申请。</p>
+    <form nz-form [formGroup]="applyReplaceFormGroup">
+      <nz-form-item [ngStyle]="uiHelper.notEditStyle(true, true)">
+        <nz-form-label [nzSpan]="spanLabel - 2" nzFor="fpCode" nzRequired>发票代码</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl - 2" nzErrorTip="必填项" [ngStyle]="uiHelper.notEditStyle(true, false)">
+          <input nz-input nzBorderless formControlName="fpCode" placeholder=""/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item [ngStyle]="uiHelper.notEditStyle(true, true)">
+        <nz-form-label [nzSpan]="spanLabel - 2" nzFor="fpNumber" nzRequired>发票号码</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl - 2" nzErrorTip="必填项" [ngStyle]="uiHelper.notEditStyle(true, false)">
+          <input nz-input nzBorderless formControlName="fpNumber" placeholder=""/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="spanLabel - 2" nzFor="replaceInvoiceReason" nzRequired>退回原因</nz-form-label>
+        <nz-form-control [nzSpan]="spanFormControl" nzErrorTip="必填项" style="margin-left: 5px;">
+          <textarea rows="4" nz-input formControlName="replaceInvoiceReason" placeholder="请输入退回原因"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
 </nz-modal>
 
 <nz-modal *ngIf="isShowFeedBackModal"
@@ -144,7 +205,8 @@
           (nzOnOk)="handleFeedBackModalOk()"
           [nzOkLoading]="isFeedBackModalOkLoading">
   <div *nzModalContent>
-    <textarea nz-input placeholder="请输入发票反馈信息" [(ngModel)]="feedBackContent" [nzAutosize]="{ minRows: 5, maxRows: 5 }"></textarea>
+    <textarea nz-input placeholder="请输入发票反馈信息" [(ngModel)]="feedBackContent"
+              [nzAutosize]="{ minRows: 5, maxRows: 5 }"></textarea>
   </div>
 </nz-modal>
 
@@ -157,18 +219,18 @@
           (nzAfterOpen)="searchIssue(false)"
           (nzOnCancel)="handleIssueListModalCancel()">
   <nz-table *nzModalContent
-    #table
-    nzShowPagination
-    nzShowSizeChanger
-    nzBordered
-    [nzFrontPagination]="false"
-    [nzData]="listOfIssueAllData"
-    [nzLoading]="listIssueLoading"
-    [nzTotal]="issueListTotal"
-    [(nzPageIndex)]="issueListPageIndex"
-    [(nzPageSize)]="issueListPageSize"
-    (nzPageIndexChange)="searchIssue()"
-    (nzPageSizeChange)="searchIssue(true)"
+            #table
+            nzShowPagination
+            nzShowSizeChanger
+            nzBordered
+            [nzFrontPagination]="false"
+            [nzData]="listOfIssueAllData"
+            [nzLoading]="listIssueLoading"
+            [nzTotal]="issueListTotal"
+            [(nzPageIndex)]="issueListPageIndex"
+            [(nzPageSize)]="issueListPageSize"
+            (nzPageIndexChange)="searchIssue()"
+            (nzPageSizeChange)="searchIssue(true)"
   >
     <thead>
     <tr>

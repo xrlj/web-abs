@@ -7,6 +7,9 @@ import {Utils} from '../../../../../helpers/utils';
 import {JwtKvEnum} from '../../../../../helpers/enum/jwt-kv-enum';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MyValidators} from '../../../../../helpers/MyValidators';
+import {error} from 'protractor';
+import {DATE_TIME_FORMAT1, DATE_TIME_FORMAT2, dateTimeToStr1} from '../../../../../helpers/time-utils';
+import {PbillFromTypeEnum} from '../../../../../helpers/enum/pbill-from-type-enum';
 
 @Component({
   selector: 'app-payment-bill-details-invoice',
@@ -27,6 +30,7 @@ export class PaymentBillDetailsInvoiceComponent implements OnInit {
   @Input() statisticsShow = false;
   @Input() actionType: PbillDetailsActionTypeEnum;
   @Input() pBillId: string; // 付款单id
+  @Input() pBillFromType: PbillFromTypeEnum; // 付款单来源类型
 
   @Output() moreInvoice = new EventEmitter();
 
@@ -34,6 +38,7 @@ export class PaymentBillDetailsInvoiceComponent implements OnInit {
   etpType = this.uiHelper.getCurrentEtpType(); // 企业类型
 
   pbillDetailsActionTypeEnum: typeof  PbillDetailsActionTypeEnum = PbillDetailsActionTypeEnum;
+  pbillFromTypeEnum: typeof  PbillFromTypeEnum = PbillFromTypeEnum;
 
   invoiceListAll = [];
   invoiceNum = 0; // 发票总数
@@ -52,7 +57,8 @@ export class PaymentBillDetailsInvoiceComponent implements OnInit {
   issueListPageSize = 10;
   issueListTotal = 0;
 
-  // 编辑发票
+  // 编辑或新增发票
+  editType = 1; // 1-新增；2-编辑
   isShowEditModal = false;
   isEditModalOkLoading = false;
   editModalFormGroup: FormGroup;
@@ -60,7 +66,14 @@ export class PaymentBillDetailsInvoiceComponent implements OnInit {
   spanLabel = 7;
   spanFormControl = 16;
 
-  constructor(private uiHelper: UIHelper,
+  selectedItemData: any; // 选定发票信息
+
+  // 申请更换发票信息
+  isShowApplyReplaceModal = false;
+  isApplyReplaceModalOkLoading = false;
+  applyReplaceFormGroup: FormGroup;
+
+  constructor(public uiHelper: UIHelper,
               private fb: FormBuilder,
               private service: PaymentBillService,
               private utils: Utils) {
@@ -73,7 +86,13 @@ export class PaymentBillDetailsInvoiceComponent implements OnInit {
       transferableAmount: [null, [MyValidators.required]],
       transferAmount: [null, [MyValidators.required]],
       transferRemainAmount: [null, [MyValidators.required]],
+      fpDate: [null, [MyValidators.required]],
       fpCheckCode: [null, null]
+    });
+    this.applyReplaceFormGroup = this.fb.group({
+      fpCode: [null, [MyValidators.required]],
+      fpNumber: [null, [MyValidators.required]],
+      replaceInvoiceReason: [null, [MyValidators.required]],
     });
   }
 
@@ -130,13 +149,14 @@ export class PaymentBillDetailsInvoiceComponent implements OnInit {
    * 编辑发票
    */
   editInvoice(itemData: any) {
+    this.selectedItemData = itemData;
+    this.editType = 2;
     this.isShowEditModal = true;
     this.editModalFormGroup.patchValue(itemData);
   }
 
   currentPageDataChange($event: any[]): void {
     this.listOfAllData = $event;
-    // this.refreshStatus();
   }
 
   lookMoreInvoice() {
@@ -205,12 +225,74 @@ export class PaymentBillDetailsInvoiceComponent implements OnInit {
   }
 
   handleEditModalCancel() {
+    this.editType = 1;
     this.isShowEditModal = false;
     this.isEditModalOkLoading = false;
     this.editModalFormGroup.reset();
   }
 
   handleEditModalOk() {
+    const body = this.editModalFormGroup.value;
+    body.paymentBillId = this.pBillId;
+    body.fpDate = dateTimeToStr1(body.fpDate, DATE_TIME_FORMAT2);
+    this.isEditModalOkLoading = true;
+    if (this.editType === 1) { // 新增发票
+    } else { // 编辑发票
+      this.service.updateInvoice(this.selectedItemData.id, body)
+        .ok(data => {
+          this.handleEditModalCancel();
+          this.search(true);
+        })
+        .fail(error => {
+          this.uiHelper.msgTipError(error.msg);
+        })
+        .final(b => {
+          this.isEditModalOkLoading = false;
+        });
+    }
 
+  }
+
+  transferableAmountChange($event: number) {
+    const fpTaxAmount: number = this.editModalFormGroup.value.fpTaxAmount;
+    const transferAmount: number = this.editModalFormGroup.value.transferAmount;
+    this.editModalFormGroup.controls.transferRemainAmount.patchValue(($event - transferAmount).toFixed(2));
+  }
+
+  transferAmountChange($event: number) {
+    const transferableAmount: number = this.editModalFormGroup.value.transferableAmount;
+    this.editModalFormGroup.controls.transferRemainAmount.patchValue((transferableAmount - $event).toFixed(2));
+  }
+
+  /**
+   * 校验发票真伪
+   */
+  verify(data: any) {
+    this.uiHelper.modalConfirm('将请求付费接口查验发票真伪，确定？', '发票真伪查验')
+      .ok(() => {});
+  }
+
+  /**
+   * 申请核心企业更换发票信息
+   */
+  applyNewInvoiceFromCoreApi(data: any) {
+    this.selectedItemData = data;
+    this.isShowApplyReplaceModal = true;
+    this.applyReplaceFormGroup.patchValue(this.selectedItemData);
+  }
+
+  handleApplyReplaceModalCancel() {
+    this.isShowApplyReplaceModal = false;
+    this.isApplyReplaceModalOkLoading = false;
+    this.applyReplaceFormGroup.reset();
+  }
+
+  handleApplyReplaceModalOk() {
+
+  }
+
+  delInvoice(id: string) {
+    this.uiHelper.modalDel('确定要删除该条发票信息？', '删除发票')
+      .ok(() => {});
   }
 }

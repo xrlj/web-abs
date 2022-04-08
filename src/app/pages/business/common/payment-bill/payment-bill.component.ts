@@ -41,9 +41,7 @@ export class PaymentBillComponent implements OnInit {
    * 付款单详情
    * @param $event 所在行数据
    */
-  details($event: any) {
-    // this.detailsComponent.listItemData = $event;
-    // this.detailsComponent.actionType = $event.actionType;
+  detailsOperate($event: any) {
     this.listItemData = $event;
     this.showType = 2;
   }

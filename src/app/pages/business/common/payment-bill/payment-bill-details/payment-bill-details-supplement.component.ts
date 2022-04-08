@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {PbillDetailsActionTypeEnum} from '../../../../../helpers/enum/pbill-details-action-type-enum';
+import {PbillFromTypeEnum} from '../../../../../helpers/enum/pbill-from-type-enum';
+import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
+import {UIHelper} from '../../../../../helpers/ui-helper';
 
 // 付款单详情-业务材料(补充文件)
 @Component({
@@ -21,7 +25,17 @@ export class PaymentBillDetailsSupplementComponent implements OnInit {
     {label: '项目公司', value: 'subCompany'}
   ];
 
-  constructor() { }
+  @Input() actionType: PbillDetailsActionTypeEnum;
+  @Input() pBillId: string; // 付款单id
+  @Input() pBillFromType: PbillFromTypeEnum; // 付款单来源类型
+
+  pbillDetailsActionTypeEnum: typeof  PbillDetailsActionTypeEnum = PbillDetailsActionTypeEnum;
+  pbillFromTypeEnum: typeof  PbillFromTypeEnum = PbillFromTypeEnum;
+
+  userTypeEnum: typeof  UserTypeEnum = UserTypeEnum;
+  etpType = this.uiHelper.getCurrentEtpType(); // 企业类型
+
+  constructor(public uiHelper: UIHelper) { }
 
   ngOnInit(): void {
     this.listOfAllData = [

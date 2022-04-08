@@ -54,7 +54,7 @@ export class PaymentBillListComponent implements OnInit {
   pageSize = 10; // 每页条数
   total = 0; // 总条数
 
-  @Output() detailsLook = new EventEmitter();
+  @Output() listBtnAction = new EventEmitter();
 
   // 接口获取付款单相关
   isShowApiPBillModal = false;
@@ -147,7 +147,7 @@ export class PaymentBillListComponent implements OnInit {
   detailsOperator(itemData: any, actionType: PbillDetailsActionTypeEnum) {
     // const $event = {'pBillId': pBillId, 'actionType': actionType};
     itemData.actionType = actionType;
-    this.detailsLook.emit(itemData);
+    this.listBtnAction.emit(itemData);
   }
 
   getPaymentBillFromApi() {

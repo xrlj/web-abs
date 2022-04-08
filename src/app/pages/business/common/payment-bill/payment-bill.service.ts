@@ -40,4 +40,8 @@ export class PaymentBillService {
   getInvoiceIssueCount(pbillId: string) {
     return this.api.get(`${ApiPath.serviceAbsPayment.pytBillInvoiceIssue.getInvoiceIssueCount}/${pbillId}`);
   }
+
+  updateInvoice(id: string, body: any) {
+    return this.api.post(`${ApiPath.serviceAbsPayment.paymentBillInvoice.update}/${id}`, body);
+  }
 }

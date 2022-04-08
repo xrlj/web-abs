@@ -126,9 +126,14 @@
         <td nzAlign="center">{{data.dateCreated}}</td>
         <td nzRight nzAlign="center">
           <div *ngIf="paymentBillMenuType === 'all'">
-            <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.LOOK)">查看</a>
-            <nz-divider nzType="vertical"></nz-divider>
-            <a>编辑</a>
+            <div *ngIf="etpType === userTypeEnum.FACTOR; else normal_all">
+              <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.LOOK)">查看</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.EDIT)">编辑</a>
+            </div>
+            <ng-template #normal_all>
+              <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.LOOK)">查看</a>
+            </ng-template>
           </div>
           <div *ngIf="paymentBillMenuType === 'check'">
             <a (click)="detailsOperator(data, pbillDetailsActionTypeEnum.CHECK)">审核</a>

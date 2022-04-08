@@ -5,6 +5,7 @@ import {UIHelper} from '../../../../../helpers/ui-helper';
 import {PbillDetailsActionTypeEnum} from '../../../../../helpers/enum/pbill-details-action-type-enum';
 import {PaymentBillDetailsInvoiceComponent} from './payment-bill-details-invoice.component';
 import {PaymentBillService} from '../payment-bill.service';
+import {PbillFromTypeEnum} from '../../../../../helpers/enum/pbill-from-type-enum';
 
 @Component({
   selector: 'app-payment-bill-details',
@@ -25,6 +26,7 @@ export class PaymentBillDetailsComponent implements OnInit {
   @Input() pbData: any; // 付款单列表项数据
 
   pbillDetailsActionTypeEnum: typeof  PbillDetailsActionTypeEnum = PbillDetailsActionTypeEnum;
+  pbillFromTypeEnum: typeof  PbillFromTypeEnum = PbillFromTypeEnum;
 
   subRemark: string; // 项目公司提交备注
 
@@ -34,6 +36,8 @@ export class PaymentBillDetailsComponent implements OnInit {
   private invoiceComponent: PaymentBillDetailsInvoiceComponent;
 
   invoiceIssueTipText = '是否反馈发票有问题';
+
+  invoiceTitleDesc = `线下与碧桂园确定好已更新好发票，再进行<a id="desc-action-one" (click)="_descActionOne()">发票更新</a>操作`;
 
   constructor(public themeHelper: ThemeHelper,
               private uiHelper: UIHelper,
@@ -96,5 +100,19 @@ export class PaymentBillDetailsComponent implements OnInit {
         break;
     }
     return titleName;
+  }
+
+  /**
+   * 新增发票
+   */
+  invoiceAdd() {
+    this.invoiceComponent.isShowEditModal = true;
+  }
+
+  updatePBInvoiceInfoFromApi() {
+    this.uiHelper.modalConfirm('该操作将会重新从碧桂园获取数据。会覆盖掉以前的发票信息。您确定要继续进行操作吗？', '发票更新')
+      .ok(() => {
+        alert('aa');
+      });
   }
 }

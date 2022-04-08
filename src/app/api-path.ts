@@ -187,6 +187,7 @@ export const ApiPath = {
       saveImportPaymentBillByExcel: `/${serviceAbsPayment}/paymentBill/saveImportPaymentBillByExcel`,
     },
     paymentBillInvoice: {
+      update: `/${serviceAbsPayment}/paymentBillInvoice/update`, // 更新发票
       getListPage: `/${serviceAbsPayment}/paymentBillInvoice/getListPage`, // 分页获取发票列表
       getListAllByPb: `/${serviceAbsPayment}/paymentBillInvoice/getListAllByPb`, // 获取付款单下所有发票列表
     },

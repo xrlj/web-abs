@@ -6,7 +6,7 @@
     </div>
     <!--列表-->
     <div class="tab-card-list-table">
-      <app-payment-bill-list  [fromViewType]="0" [paymentBillMenuType]="'all'" (detailsLook)="details($event)"></app-payment-bill-list>
+      <app-payment-bill-list  [fromViewType]="0" [paymentBillMenuType]="'all'" (listBtnAction)="detailsOperate($event)"></app-payment-bill-list>
     </div>
   </div>
 </nz-card>
