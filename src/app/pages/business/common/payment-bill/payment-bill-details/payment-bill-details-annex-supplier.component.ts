@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {PbillDetailsActionTypeEnum} from '../../../../../helpers/enum/pbill-details-action-type-enum';
+import {PaymentBillService} from '../payment-bill.service';
+import {UserTypeEnum} from '../../../../../helpers/enum/user-type-enum';
+import {UIHelper} from '../../../../../helpers/ui-helper';
 
 // 付款单详情-业务材料（项目公司）
 @Component({
@@ -8,15 +12,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaymentBillDetailsAnnexSupplierComponent implements OnInit {
 
-  // 表格
-  listOfAllData: any[] = [1, 1, 1]; // 列表数据
-  listLoading = false; // 列表加载等待指示器状态
-  pageSize = 50; // 每页条数
+  @Input() actionType: PbillDetailsActionTypeEnum;
+  @Input() pBillId: string; // 付款单id
+  @Input() productId: string; // 付款单关联产品id
 
-  constructor() { }
+  userTypeEnum: typeof  UserTypeEnum = UserTypeEnum;
+  etpType = this.uiHelper.getCurrentEtpType(); // 企业类型
+  pbillDetailsActionTypeEnum: typeof  PbillDetailsActionTypeEnum = PbillDetailsActionTypeEnum;
+
+  // 表格
+  listOfAllData: any[] = []; // 列表数据
+  listLoading = false; // 列表加载等待指示器状态
+  pageSize = 100; // 每页条数
+
+  constructor(private paymentBillService: PaymentBillService,
+              private uiHelper: UIHelper) { }
 
   ngOnInit(): void {
-    this.listOfAllData = [
+    this.getUploadAnnexList();
+
+    /*this.listOfAllData = [
       {
         id: 1,
         annexTypeName: '合同的封面及其签章页（若有补充协议，亦请同样上传）',
@@ -55,7 +70,35 @@ export class PaymentBillDetailsAnnexSupplierComponent implements OnInit {
           }
         ]
       }
-    ];
+    ];*/
+  }
+
+  getUploadAnnexList() {
+    this.paymentBillService.getUploadAnnexList(this.productId, this.userTypeEnum.SUPPLIER)
+      .ok(data => {
+        if (data && data.length > 0) {
+          data.forEach(value => {
+            value.annexFiles = [
+              {
+                fileName: '发票1.pdf',
+                fileUrl:  'https://file2.hlt-factoring.com/data/hlt/2021-05-19/18bf1c8f90d04a45923a1996e81da4fd.pdf'
+              },
+              {
+                fileName: '发票2.pdf',
+                fileUrl:  'https://file2.hlt-factoring.com/data/hlt/2021-05-19/18bf1c8f90d04a45923a1996e81da4fd.pdf'
+              },
+              {
+                fileName: '发票3.pdf',
+                fileUrl:  'https://file2.hlt-factoring.com/data/hlt/2021-05-19/18bf1c8f90d04a45923a1996e81da4fd.pdf'
+              }
+            ];
+          });
+          this.listOfAllData = data;
+        }
+      })
+      .fail(error => {
+        this.uiHelper.msgTipError(error.msg);
+      })
   }
 
 }

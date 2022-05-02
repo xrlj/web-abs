@@ -1,4 +1,4 @@
-export enum ContentTypeEnum {
+export enum MediaType {
   APPLICATION_FORM_URLENCODED_VALUE = 'application/x-www-form-urlencoded',
   APPLICATION_JSON_VALUE = 'application/json',
   APPLICATION_JSON_UTF8_VALUE = 'application/json;charset=UTF-8',
@@ -7,5 +7,9 @@ export enum ContentTypeEnum {
   TEXT_PLAIN_VALUE = 'text/plain',
   DOC = 'application/msword',
   DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  ZIP = 'application/zip'
+  EXCEL = 'application/vnd.ms-excel',
+  EXCELX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  ZIP = 'application/zip',
+  JPG = 'image/jpg',
+  PNG = 'image/png'
 }

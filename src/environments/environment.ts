@@ -10,7 +10,7 @@ export const environment = {
   tag: 'dev',
   themeStyle: ThemeEnum.Orange, // 设置系统默认风格
   asideTheme: 'light',  // 菜单抽屉主题，dark or light
-  apiFileUrl: 'http://172.31.31.31:9020',
+  apiFileUrl: 'http://192.168.0.3:9000',
   // apiUrl: 'http://api-dev.xrlj.com:5555'
   apiUrl: 'http://192.168.0.3:5555'
   // apiUrl: 'http://127.0.0.1:5555'

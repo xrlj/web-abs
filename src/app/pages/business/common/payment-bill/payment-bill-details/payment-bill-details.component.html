@@ -48,12 +48,15 @@
                               [titleDesc]="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC ? '支持PDF、JPG、PNG等格式文件上传，文件不大于60M' : null"
                               [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
             <app-payment-bill-details-annex-sub [actionType]="actionType"
-                                                [pBillId]="pbData.id"></app-payment-bill-details-annex-sub>
+                                                [pBillId]="pbData.id"
+                                                [productId]="pbData.productId"></app-payment-bill-details-annex-sub>
           </div>
           <div>
             <app-custom-title title="业务材料-供应商上传" isDLineDashed="true"
                               [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
-            <app-payment-bill-details-annex-supplier></app-payment-bill-details-annex-supplier>
+            <app-payment-bill-details-annex-supplier [actionType]="actionType"
+                                                     [pBillId]="pbData.id"
+                                                     [productId]="pbData.productId"></app-payment-bill-details-annex-supplier>
           </div>
           <div *ngIf="etpType === userTypeEnum.FACTOR">
             <app-custom-title title="业务材料-保理商上传" isDLineDashed="true"
@@ -110,7 +113,7 @@
     <i nz-icon nzType="rollback" nzTheme="outline"></i>
     <span style="margin-left: 5px;">返回列表</span>
   </span>
-  <span style="cursor: pointer;" (click)="exportAnnexs()">
+  <span *ngIf="tabIndex === 0 && etpType === userTypeEnum.FACTOR" style="cursor: pointer;" (click)="exportAnnexs()">
     <a nz-button nzType="link" style="margin-left: 5px;"><i nz-icon nzType="folder" nzTheme="outline"></i>打包导出附件</a>
   </span>
 </ng-template>

@@ -16,14 +16,22 @@
     <tbody>
     <tr *ngFor="let data of listOfAllData; let i = index">
       <td nzAlign="center">{{i + 1}}</td>
-      <td nzAlign="left">{{data.annexTypeName}}</td>
+      <td nzAlign="left">{{data.annexTypeName}}&nbsp;&nbsp;<span *ngIf="data.uploadStatus" style="color: red">(必传)</span></td>
       <td nzAlign="left">
         <div *ngFor="let file of data.annexFiles">
           <a href="{{file.fileUrl}}" target="_blank">{{file.fileName}}</a>
         </div>
       </td>
       <td *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC && etpType === userTypeEnum.MEMBER" nzAlign="center">
-        <a>上传</a>
+<!--        <a (click)="uploadAnnexFile()">上传</a>-->
+        <nz-upload
+          [nzAction]="uploadFileUrl"
+          [nzShowUploadList]="false"
+          [nzBeforeUpload]="beforeUpload()"
+          (nzChange)="uploadFileChange($event, data.annexId)"
+        >
+          <button nz-button nzType="link" nzSize="small">上传</button>
+        </nz-upload>
       </td>
     </tr>
     </tbody>

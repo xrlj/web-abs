@@ -17,7 +17,7 @@ export class PaymentBillComponent implements OnInit {
   showType = 1;
 
   @ViewChild(PaymentBillSearchComponent)
-  private searchComponent: PaymentBillSearchComponent;
+  public searchComponent: PaymentBillSearchComponent;
   @ViewChild(PaymentBillListComponent)
   private listComponent: PaymentBillListComponent;
   @ViewChild(PaymentBillDetailsComponent)

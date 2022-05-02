@@ -13,7 +13,7 @@ import {NzUploadChangeParam} from 'ng-zorro-antd/upload';
 import {HttpUtils} from '../../../../../helpers/http/HttpUtils';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {ContentTypeEnum} from '../../../../../helpers/http/content-type-enum';
+import {MediaType} from '../../../../../helpers/http/media-type';
 
 export interface RoleSignSetting {
   role: string,
@@ -297,7 +297,7 @@ export class AgreementTemplateDetailsComponent implements OnInit {
   }
 
   beforeUpload(): any {
-    return this.fileUploadHelper.beforeUpload(2, '请上传docx、doc文件', ContentTypeEnum.DOCX, ContentTypeEnum.DOC);
+    return this.fileUploadHelper.beforeUpload(2, '请上传docx、doc文件', MediaType.DOCX, MediaType.DOC);
   }
 
   uploadFileHandleChange({file, fileList}: NzUploadChangeParam, isTip?: boolean | false): void {

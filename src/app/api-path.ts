@@ -4,6 +4,7 @@ const serviceauth = 'serviceauth'; // 鉴权中心服务
 const usercentral = 'usercentral'; // 用户中心服务
 const syscommon = 'syscommon';  // 公共服务
 const sysfilesystem = 'sysfilesystem'; // 文件系统服务
+const serviceSysOffdct = 'sysoffdct'; // 文件处理服务
 const sysnotify = 'sysnotify'; // 通知服务
 const esign = 'esign'; // e签宝服务
 const serviceAbsTemplate = 'serviceAbsTemplate'; // 模板协议服务
@@ -124,6 +125,14 @@ export const ApiPath = {
       getById: `/${sysfilesystem}/sysFiles/getById` // 根据文件id获取文件信息
     }
   },
+  serviceSysOffdct: {
+    docWorker: {
+      docToPdf: `/${serviceSysOffdct}/docWorker/docToPdf`, // doc文件转换成pdf文件
+    },
+    pdfWorker: {
+      imgToPdf: `/${serviceSysOffdct}/pdfWorker/imgToPdf` // jpg,png转成pdf
+    }
+  },
   sysnotify: {
     smsApi: {
       register: `/${sysnotify}/sms/register`, // 注册短信通知
@@ -178,6 +187,7 @@ export const ApiPath = {
       getListByProductId: `/${serviceAbsProduct}/productAnnex/getListByProductId`, // 获取产品所有附件
       delByProductId: `/${serviceAbsProduct}/productAnnex/delByProductId`, // 批量删除产品下附件类型
       delByIds: `/${serviceAbsProduct}/productAnnex/delByIds`, // 批量删除产品附件类型
+      getListUpload: `/${serviceAbsProduct}/productAnnex/getListUpload`, // 获取该产品下各企业需要上传的附件列表
     }
   },
   serviceAbsPayment: {

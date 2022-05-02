@@ -9,7 +9,7 @@ import {UserTypeEnum} from '../enum/user-type-enum';
 import {Utils} from '../utils';
 import {JwtKvEnum} from '../enum/jwt-kv-enum';
 import {HttpClient} from '@angular/common/http';
-import {ContentTypeEnum} from '../http/content-type-enum';
+import {MediaType} from '../http/media-type';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -164,7 +164,7 @@ export class CommonService {
     this.httpClient.get(url, {responseType: 'blob'})
       .subscribe((data: any) => {
         const aLink = document.createElement('a');
-        const blob = new Blob([data], {type: ContentTypeEnum[fileType.toUpperCase()]});
+        const blob = new Blob([data], {type: MediaType[fileType.toUpperCase()]});
         const objectURL = URL.createObjectURL(blob);
         aLink.setAttribute('href', objectURL);
         aLink.setAttribute('target', '_blank');
@@ -184,6 +184,26 @@ export class CommonService {
    */
   getDictValueListByType(dictType: string) {
     return this.api.get(`${ApiPath.syscommon.universalDicValue.getValueListByDicType}/${dictType}`);
+  }
+
+  /**
+   * doc文件转换成pdf
+   * @param netUrl 原img文件网络地址
+   * @param oriName 文件原名称
+   */
+  docToPdf(netUrl: string, oriName: string) {
+    const body = {'oriFilePath': netUrl, 'oriName': oriName};
+    return this.api.post(ApiPath.serviceSysOffdct.docWorker.docToPdf, body);
+  }
+
+  /**
+   * jpg, png转成pdf
+   * @param netUrl 原img文件网络地址
+   * @param oriName 文件原名称
+   */
+  imgToPdf(netUrl: string, oriName: string) {
+    const body = {'oriFilePath': netUrl, 'oriName': oriName};
+    return this.api.post(ApiPath.serviceSysOffdct.pdfWorker.imgToPdf, body);
   }
 
 }

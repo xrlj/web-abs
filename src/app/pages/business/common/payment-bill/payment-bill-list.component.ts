@@ -16,6 +16,7 @@ import {ThemeHelper} from '../../../../helpers/theme-helper';
 import {UserTypeEnum} from '../../../../helpers/enum/user-type-enum';
 import {PbillSsbStatusEnum} from '../../../../helpers/enum/pbill-ssb-status-enum';
 import {PbillDetailsActionTypeEnum} from '../../../../helpers/enum/pbill-details-action-type-enum';
+import {MediaType} from '../../../../helpers/http/media-type';
 
 @Component({
   selector: 'app-payment-bill-list',
@@ -288,7 +289,7 @@ export class PaymentBillListComponent implements OnInit {
 
   beforeUploadExcelFile = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
-      const isExcel = file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const isExcel = file.type === MediaType.EXCEL || file.type === MediaType.EXCELX;
       if (!isExcel) {
         this.uiHelper.msgTipWarning('请上传Excel格式文件');
         observer.complete();

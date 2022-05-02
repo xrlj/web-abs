@@ -2,13 +2,15 @@
   <div class="tab-card-list">
     <!--搜索条件-->
     <div class="tab-card-list-action">
-      <app-payment-bill-search (searchEmitter)="search($event)"  paymentBillMenuType="all"></app-payment-bill-search>
+      <app-payment-bill-search (searchEmitter)="search($event)" paymentBillMenuType="all"></app-payment-bill-search>
     </div>
     <!--列表-->
     <div class="tab-card-list-table">
-      <app-payment-bill-list  [fromViewType]="0" [paymentBillMenuType]="'all'" (listBtnAction)="detailsOperate($event)"></app-payment-bill-list>
+      <app-payment-bill-list [fromViewType]="0" [paymentBillMenuType]="'all'"
+                             (listBtnAction)="detailsOperate($event)"></app-payment-bill-list>
     </div>
   </div>
 </nz-card>
-<app-payment-bill-details *ngIf="showType === 2" [pbData]="listItemData" [actionType]="listItemData.actionType" (showList)="showList()"></app-payment-bill-details>
+<app-payment-bill-details *ngIf="showType === 2" [pbData]="listItemData" [actionType]="listItemData.actionType"
+                          (showList)="showList()"></app-payment-bill-details>
 

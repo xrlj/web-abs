@@ -10,7 +10,7 @@ import {HashLocationStrategy, LocationStrategy, registerLocaleData} from '@angul
 import zh from '@angular/common/locales/zh';
 import {httpInterceptorProviders} from './interceptors';
 import {IconsProviderModule} from './icons-provider.module';
-import {RouteReuseStrategy, RouterModule} from '@angular/router';
+import {RouteReuseStrategy, RouterModule, UrlSerializer} from '@angular/router';
 import {SimpleReuseStrategy} from './helpers/simple-reuse-strategy';
 import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzModalModule} from 'ng-zorro-antd/modal';
@@ -20,6 +20,7 @@ import {ComponentsModule} from './components/components.module';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NZ_I18N, zh_CN} from 'ng-zorro-antd/i18n';
 import {QuillModule} from 'ngx-quill';
+import {CustomUrlSerializer} from './helpers/custom-url-serializer';
 
 registerLocaleData(zh);
 
@@ -48,7 +49,8 @@ registerLocaleData(zh);
     {provide: NZ_I18N, useValue: zh_CN},
     httpInterceptorProviders,
     {provide: RouteReuseStrategy, useClass: SimpleReuseStrategy},
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    // { provide: UrlSerializer, useClass: CustomUrlSerializer }
   ],
   exports: [
   ],

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Api} from '../../../../helpers/http/api';
 import {ApiPath} from '../../../../api-path';
-import {ContentTypeEnum} from '../../../../helpers/http/content-type-enum';
+import {MediaType} from '../../../../helpers/http/media-type';
 import {Utils} from '../../../../helpers/utils';
 
 @Injectable({
@@ -42,7 +42,7 @@ export class ProductService {
 
   updateProductStatus(id: string, pdtStatus: number) {
     return this.api.post(ApiPath.serviceAbsProduct.productApi.updateProductStatus, null, null,
-      {productId: id, status: pdtStatus}, ContentTypeEnum.APPLICATION_FORM_URLENCODED_VALUE);
+      {productId: id, status: pdtStatus}, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
   }
 
   /**************** 产品分期相关 **************/

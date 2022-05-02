@@ -42,7 +42,7 @@ export class Api {
    * @param body 请求体。和params不同时存在。
    * @param version api版本号，默认0
    * @param params 请求参数。
-   * @param contentType 请求内容类型，和params同时存在。参考枚举类:ContentTypeEnum
+   * @param contentType 请求内容类型，和params同时存在。参考枚举类:MediaType
    */
   post(path: string, body?: any, version?: number, params?: HttpParams | {}, contentType?: string, headers?: HttpHeaders, refresh = false) {
     if (path === null || path === undefined) {

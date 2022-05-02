@@ -3,7 +3,7 @@ import {EventBusService} from './helpers/event-bus/event-bus.service';
 import {UIHelper} from './helpers/ui-helper';
 import {environment} from '../environments/environment';
 import {Title} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',

@@ -44,4 +44,8 @@ export class PaymentBillService {
   updateInvoice(id: string, body: any) {
     return this.api.post(`${ApiPath.serviceAbsPayment.paymentBillInvoice.update}/${id}`, body);
   }
+
+  getUploadAnnexList(productId: string, role: number) {
+    return this.api.get(`${ApiPath.serviceAbsProduct.productAnnexApi.getListUpload}/${productId}/${role}`);
+  }
 }

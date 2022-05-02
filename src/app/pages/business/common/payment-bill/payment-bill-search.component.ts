@@ -1,17 +1,19 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MyValidators} from '../../../../helpers/MyValidators';
 import {CommonService} from '../../../../helpers/service/common.service';
 import {ProductService} from '../../factor/product-manage/product.service';
 import {UIHelper} from '../../../../helpers/ui-helper';
 import {UserTypeEnum} from '../../../../helpers/enum/user-type-enum';
+import {Subscription} from 'rxjs';
+import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
 
 @Component({
   selector: 'app-payment-bill-search',
   templateUrl: './payment-bill-search.component.html',
   styleUrls: ['./payment-bill-search.component.less']
 })
-export class PaymentBillSearchComponent implements OnInit {
+export class PaymentBillSearchComponent implements OnInit, OnDestroy {
 
   // all-付款单查询；check-付款单审核；review-付款单复核；
   @Input()
@@ -31,10 +33,14 @@ export class PaymentBillSearchComponent implements OnInit {
 
   productStagingList = []; // 保理商产品列表
 
+  pBillStatusSubscribe: Subscription;
+  pBillSubStatusSubscribe: Subscription;
+  pBillSupplierStatusSubscribe: Subscription;
+
   constructor(private fb: FormBuilder,
               private commonService: CommonService,
               private productService: ProductService,
-              private uiHelper: UIHelper) {
+              private uiHelper: UIHelper, private defaultBusService: DefaultBusService) {
     this.searchFormGroup = this.fb.group({
       supplierName: [null, null],
       subCompanyName: [null, null],
@@ -46,6 +52,22 @@ export class PaymentBillSearchComponent implements OnInit {
       pytBillArea: [null, null],
       pytStatus: [null, null],
       pytType: [null, null],
+    });
+
+    this.pBillStatusSubscribe = this.defaultBusService.pBillStatus$.subscribe(pbStatus => {
+      this.searchFormGroup.reset();
+      this.searchFormGroup.controls.pytStatus.setValue(pbStatus);
+      this.searchClick();
+    });
+    this.pBillSubStatusSubscribe = this.defaultBusService.pBillSubStatus$.subscribe(subStatus => {
+      this.searchFormGroup.reset();
+      this.searchFormGroup.controls.subCompanyApplyStatus.setValue(subStatus);
+      this.searchClick();
+    });
+    this.pBillSupplierStatusSubscribe = this.defaultBusService.pBillSupplierStatus$.subscribe(supplierStatus => {
+      this.searchFormGroup.reset();
+      this.searchFormGroup.controls.supplierApplyStatus.setValue(supplierStatus);
+      this.searchClick();
     });
   }
 
@@ -87,5 +109,17 @@ export class PaymentBillSearchComponent implements OnInit {
 
   searchClick() {
     this.searchEmitter.emit(this.getSearchData());
+  }
+
+  ngOnDestroy(): void {
+    if (this.pBillStatusSubscribe) {
+      this.pBillStatusSubscribe.unsubscribe();
+    }
+    if (this.pBillSubStatusSubscribe) {
+      this.pBillSubStatusSubscribe.unsubscribe();
+    }
+    if (this.pBillSupplierStatusSubscribe) {
+      this.pBillSupplierStatusSubscribe.unsubscribe();
+    }
   }
 }

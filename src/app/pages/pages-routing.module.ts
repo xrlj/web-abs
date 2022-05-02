@@ -8,6 +8,7 @@ import {InitComponent} from './init/init.component';
 import {RegisterComponent} from './register/register.component';
 import {VerifyComponent} from './verify/verify.component';
 import {PdfShowComponent} from '../components/pdf-show/pdf-show.component';
+import {LoginGuardGuard} from '../helpers/router/login-guard.guard';
 
 const routes: Routes = [
   {
@@ -25,7 +26,8 @@ const routes: Routes = [
       { path: 'register/:code', component: RegisterComponent },
       {
         path: 'pdf-show',
-        component: PdfShowComponent
+        component: PdfShowComponent,
+        canActivate: [LoginGuardGuard]
       }
     ]
   },
@@ -55,10 +57,10 @@ const routes: Routes = [
       }
     ]
   },
-  {
+  /*{
     path: '**',
     component: NotFoundComponent
-  }
+  }*/
 ];
 
 @NgModule({

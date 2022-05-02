@@ -4,7 +4,7 @@ import {ApiPath} from '../../../api-path';
 import {VUserReq} from '../../../helpers/vo/req/v-user-req';
 import {Utils} from '../../../helpers/utils';
 import {VUserPwdReq} from '../../../helpers/vo/req/v-user-pwd-req';
-import {ContentTypeEnum} from '../../../helpers/http/content-type-enum';
+import {MediaType} from '../../../helpers/http/media-type';
 import {VUserSearchReq} from '../../../helpers/vo/req/v-user-search-req';
 
 @Injectable({
@@ -125,6 +125,6 @@ export class UserManageService {
    * @param id 用户id
    */
   resetUserPassword(id: string): any {
-    return this.api.post(ApiPath.usercentral.userApi.resetUserPassword, null, 0, {userId: id}, ContentTypeEnum.APPLICATION_FORM_URLENCODED_VALUE);
+    return this.api.post(ApiPath.usercentral.userApi.resetUserPassword, null, 0, {userId: id}, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
   }
 }
