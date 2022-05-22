@@ -9,7 +9,7 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
   public static handlers: { [key: string]: DetachedRouteHandle } = {};
   private static waitDelete: string;
 
-  private static route: ActivatedRouteSnapshot;
+  public static route: ActivatedRouteSnapshot;
 
   private static getKey(url: string): string {
     const key = url.replace(/\//g, '_')
@@ -24,9 +24,7 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
    */
   public static getHandleObject(url: string): DetachedRouteHandle {
     // const key = url.replace(/\//g, '_') + '_' + (this.route.routeConfig.loadChildren || this.route.routeConfig.component.toString().split('(')[0].split(' ')[1]);
-
-    const key = this.getKey(url);
-    return SimpleReuseStrategy.handlers[key];
+    return null
   }
 
   public static deleteRouteSnapshotAll(): void {

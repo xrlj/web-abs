@@ -10,6 +10,6 @@ export enum MediaType {
   EXCEL = 'application/vnd.ms-excel',
   EXCELX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   ZIP = 'application/zip',
-  JPG = 'image/jpg',
+  JPG = 'image/jpeg',
   PNG = 'image/png'
 }

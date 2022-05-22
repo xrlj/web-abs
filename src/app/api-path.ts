@@ -194,7 +194,9 @@ export const ApiPath = {
     paymentBillApi: {
       getPaymentBillFromApiAndImport: `/${serviceAbsPayment}/paymentBill/getPaymentBillFromApiAndImport`,
       getListPage: `/${serviceAbsPayment}/paymentBill/getListPage`,
+      getDetails: `/${serviceAbsPayment}/paymentBill/getDetails`,
       saveImportPaymentBillByExcel: `/${serviceAbsPayment}/paymentBill/saveImportPaymentBillByExcel`,
+      submitMaterial: `/${serviceAbsPayment}/paymentBill/submitMaterial`, // 提交付款单资料
     },
     paymentBillInvoice: {
       update: `/${serviceAbsPayment}/paymentBillInvoice/update`, // 更新发票
@@ -205,6 +207,11 @@ export const ApiPath = {
       save: `/${serviceAbsPayment}/pytBillInvoiceIssue/save`, // 添加付款单发票的反馈问题
       getListPage: `/${serviceAbsPayment}/pytBillInvoiceIssue/getListPage`, // 分页获取反馈问题列表
       getInvoiceIssueCount: `/${serviceAbsPayment}/pytBillInvoiceIssue/getInvoiceIssueCount`, // 获取付款单发票反馈问题总条数
+    },
+    pytBillAnnexFile: {
+      save: `/${serviceAbsPayment}/pytBillAnnexFile/save`, // 添加付款单附件
+      getPytBillAnnexFileList: `/${serviceAbsPayment}/pytBillAnnexFile/getPytBillAnnexFileList`, // 根据付款单下不同企业类型上传的附件列表
+      del: `/${serviceAbsPayment}/pytBillAnnexFile/del`, // 批量删除付款单附件
     }
   }
 };

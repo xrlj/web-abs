@@ -19,16 +19,18 @@
       <td nzAlign="left">{{data.annexTypeName}}&nbsp;&nbsp;<span *ngIf="data.uploadStatus" style="color: red">(必传)</span></td>
       <td nzAlign="left">
         <div *ngFor="let file of data.annexFiles">
-          <a href="{{file.fileUrl}}" target="_blank">{{file.fileName}}</a>
+          <a href="{{file.fileUrl}}" target="_blank">{{file.fileName}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <!--项目公司且是待提交状态下，才显示上传附件按钮-->
+          <a *ngIf="etpType === userTypeEnum.MEMBER && actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC"
+             (click)="delAnnexFile(file.id)" appTextColorTheme nz-icon nzType="close" nzTheme="outline"></a>
         </div>
       </td>
       <td *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC && etpType === userTypeEnum.MEMBER" nzAlign="center">
-<!--        <a (click)="uploadAnnexFile()">上传</a>-->
         <nz-upload
           [nzAction]="uploadFileUrl"
           [nzShowUploadList]="false"
           [nzBeforeUpload]="beforeUpload()"
-          (nzChange)="uploadFileChange($event, data.annexId)"
+          (nzChange)="uploadFileChange($event, data.id)"
         >
           <button nz-button nzType="link" nzSize="small">上传</button>
         </nz-upload>

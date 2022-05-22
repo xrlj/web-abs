@@ -15,12 +15,12 @@ export class FileUploadHelper {
   }
 
   uploadFileHandleChange({file, fileList}: NzUploadChangeParam, isTip?: boolean | false, defaultBusService?: DefaultBusService): any {
-    if (defaultBusService) {
-      defaultBusService.showLoading(true);
-    }
     const status = file.status;
     if (status !== 'uploading') {
       // console.log(file, fileList);
+      if (defaultBusService) {
+        defaultBusService.showLoading(true);
+      }
     }
     if (status === 'done') {
       const response = file.response;
@@ -28,7 +28,7 @@ export class FileUploadHelper {
         if (isTip) {
           this.uiHelper.msgTipError(`${file.name} 文件上传失败`);
         }
-        return;
+        return undefined;
       }
 
       const success = response.success;
@@ -67,6 +67,7 @@ export class FileUploadHelper {
     const beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) =>
       new Observable((observer: Observer<boolean>) => {
         let isFileType = false
+        console.log('fileType:', file.type);
         fileType.every(value => {
           if (file.type === value) {
             isFileType = true;
@@ -91,9 +92,5 @@ export class FileUploadHelper {
       });
 
     return beforeUpload;
-  }
-
-  getUrl(path: string) {
-    return `${environment.apiFileUrl}/${path}`;
   }
 }

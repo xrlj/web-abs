@@ -1,4 +1,4 @@
-<nz-card class="card-list" nzTitle="全部付款单列表" [hidden]="showType !== 1">
+<nz-card class="card-list" nzTitle="全部付款单列表">
   <div class="tab-card-list">
     <!--搜索条件-->
     <div class="tab-card-list-action">
@@ -11,6 +11,4 @@
     </div>
   </div>
 </nz-card>
-<app-payment-bill-details *ngIf="showType === 2" [pbData]="listItemData" [actionType]="listItemData.actionType"
-                          (showList)="showList()"></app-payment-bill-details>
 

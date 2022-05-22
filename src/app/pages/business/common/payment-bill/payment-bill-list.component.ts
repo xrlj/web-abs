@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {PaymentBillService} from './payment-bill.service';
 import {Utils} from '../../../../helpers/utils';
 import {UIHelper} from '../../../../helpers/ui-helper';
@@ -11,21 +11,24 @@ import {NzUploadChangeParam, NzUploadFile} from 'ng-zorro-antd/upload';
 import {FileUploadHelper} from '../../../../helpers/file-upload-helper';
 import {environment} from '../../../../../environments/environment';
 import {ApiPath} from '../../../../api-path';
-import {Observable, Observer} from 'rxjs';
+import {Observable, Observer, Subscription} from 'rxjs';
 import {ThemeHelper} from '../../../../helpers/theme-helper';
 import {UserTypeEnum} from '../../../../helpers/enum/user-type-enum';
 import {PbillSsbStatusEnum} from '../../../../helpers/enum/pbill-ssb-status-enum';
 import {PbillDetailsActionTypeEnum} from '../../../../helpers/enum/pbill-details-action-type-enum';
 import {MediaType} from '../../../../helpers/http/media-type';
+import {DefaultBusService} from '../../../../helpers/event-bus/default-bus.service';
 
 @Component({
   selector: 'app-payment-bill-list',
   templateUrl: './payment-bill-list.component.html',
   styleUrls: ['./payment-bill-list.component.less']
 })
-export class PaymentBillListComponent implements OnInit {
+export class PaymentBillListComponent implements OnInit, OnDestroy {
 
   uploadFileUrl = environment.apiUrl.concat(ApiPath.sysfilesystem.sysFiles.uploadFile);
+
+  refreshListSubscription: Subscription;
 
   // 0-付款单管理; 1-融资打包，待打包；2-融资打包，调整分包
   @Input()
@@ -76,7 +79,11 @@ export class PaymentBillListComponent implements OnInit {
               private utils: Utils, private uiHelper: UIHelper,
               private fb: FormBuilder, private commonService: CommonService,
               private productService: ProductService, public themeHelper: ThemeHelper,
-              private fileUploadHelper: FileUploadHelper,) {
+              private fileUploadHelper: FileUploadHelper, private defaultBusService: DefaultBusService) {
+
+    this.refreshListSubscription = this.defaultBusService.refreshPBillList$.subscribe(() => {
+      this.ngOnInit();
+    });
 
     this.apiPBillModalForm = this.fb.group({
       product: [null, [MyValidators.required]],
@@ -298,4 +305,10 @@ export class PaymentBillListComponent implements OnInit {
       observer.next(isExcel);
       observer.complete();
     });
+
+  ngOnDestroy(): void {
+    if (this.refreshListSubscription) {
+      this.refreshListSubscription.unsubscribe();
+    }
+  }
 }

@@ -17,8 +17,6 @@ import {DefaultBusService} from '../../../helpers/event-bus/default-bus.service'
 })
 export class AppBodyComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
-
   @Input() collapsed: boolean;
 
   @Output() tabMenu = new EventEmitter();
@@ -29,7 +27,8 @@ export class AppBodyComponent implements OnInit, OnDestroy {
 
   currentTabClasses: {};  // tab 样式类
 
-  defaultBusServiceSubscribe: Subscription;
+  closeTabSubscribe: Subscription;
+  updateTabTitleSubscribe: Subscription;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -70,8 +69,11 @@ export class AppBodyComponent implements OnInit, OnDestroy {
     });
 
     // 订阅是否显示加载对话框事件
-    this.defaultBusServiceSubscribe = this.defaultBusService.closeTab$.subscribe(url => {
+    this.closeTabSubscribe = this.defaultBusService.closeTab$.subscribe(url => {
       this.closeUrl(url);
+    });
+    this.updateTabTitleSubscribe = this.defaultBusService.updateTabTitle$.subscribe(title => {
+      this.updateCurrentTabTitle(title);
     });
   }
 
@@ -80,13 +82,17 @@ export class AppBodyComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe(); // 不要忘记处理手动订阅
+    if (this.closeTabSubscribe) {
+      this.closeTabSubscribe.unsubscribe(); // 取消订阅
     }
+    if (this.updateTabTitleSubscribe) {
+      this.updateTabTitleSubscribe.unsubscribe();
+    }
+  }
 
-    if (this.defaultBusServiceSubscribe) {
-      this.defaultBusServiceSubscribe.unsubscribe(); // 取消订阅
-    }
+  updateCurrentTabTitle(title: string) {
+    const currentMenu = this.menuList[this.currentMenuTab];
+    currentMenu.title = title;
   }
 
   /**
@@ -200,9 +206,7 @@ export class AppBodyComponent implements OnInit, OnDestroy {
     this.router.navigate([menu.url]);*/
     // this.router.navigate([url]);
 
-    debugger;
-    const a = SimpleReuseStrategy.handlers[url];
-    console.log(a);
+    console.log(url);
   }
 }
 

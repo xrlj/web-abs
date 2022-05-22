@@ -21,6 +21,9 @@ export class DefaultBusService {
   // 关闭body上的快捷tab
   private closeTab = new Subject<string>();
   closeTab$ = this.closeTab.asObservable();
+  // 更改body上快捷tab的标题
+  private updateTabTitle = new Subject<string>();
+  updateTabTitle$ = this.updateTabTitle.asObservable();
 
   // ===========业务组件之间传参 start
 
@@ -35,6 +38,10 @@ export class DefaultBusService {
   // 付款单项目公司状态
   private pBillSubStatus = new Subject<number>();
   pBillSubStatus$ = this.pBillSubStatus.asObservable();
+
+  // 刷新付款单列表
+  private refreshPBillList = new Subject<number>();
+  refreshPBillList$ = this.refreshPBillList.asObservable();
 
   // ===========业务组件之间传参 end
 
@@ -52,6 +59,10 @@ export class DefaultBusService {
   closeTabUrl(url: string) {
     this.closeTab.next(url);
   }
+  // 更改快捷tab上的tab标题
+  updateTabTile(title: string) {
+    this.updateTabTitle.next(title);
+  }
 
   // 付款单主状态跳转查询
   goSearchPBillByStatus(status: number) {
@@ -66,5 +77,9 @@ export class DefaultBusService {
   // 付款单项目公司状态跳转查询
   goSearchPBillBySubStatus(status: number) {
     this.pBillSubStatus.next(status);
+  }
+
+  refreshPBillListAction() {
+    this.refreshPBillList.next();
   }
 }

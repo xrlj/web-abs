@@ -29,15 +29,15 @@
                                 titleBtnType="primary"
                                 (titleClick)="invoiceAdd()"
                                 [titleDesc]="actionType === pbillDetailsActionTypeEnum.EDIT
-                                 && pbData.paymentBillDbSource === pbillFromTypeEnum.API_INTERFACE ? invoiceTitleDesc : null"
+                                 && pbillFromType === pbillFromTypeEnum.API_INTERFACE ? invoiceTitleDesc : null"
                                 (descActionOne)="updatePBInvoiceInfoFromApi()"
                                 (extraAction)="invoiceComponent.isShowIssueListModal = true">
               </app-custom-title>
             </ng-template>
             <app-payment-bill-details-invoice [isShowPageChange]="false"
                                               [actionType]="actionType"
-                                              [pBillFromType]="pbData.paymentBillDbSource"
-                                              [pBillId]="pbData.id"
+                                              [pBillFromType]="pbillFromType"
+                                              [pBillId]="pbId"
                                               [statisticsShow]="true"
                                               (moreInvoice)="tabIndex = 1"
             ></app-payment-bill-details-invoice>
@@ -48,15 +48,29 @@
                               [titleDesc]="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC ? '支持PDF、JPG、PNG等格式文件上传，文件不大于60M' : null"
                               [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
             <app-payment-bill-details-annex-sub [actionType]="actionType"
-                                                [pBillId]="pbData.id"
+                                                [pBillId]="pbId"
                                                 [productId]="pbData.productId"></app-payment-bill-details-annex-sub>
+            <div class="remark-info">
+              <nz-divider style="margin-top: -12px" nzText="备注" nzPlain nzOrientation="left"></nz-divider>
+              <p>
+                <label>项目公司备注：<span appTextColorTheme>{{'123456'}}</span></label>
+                <label>审核退回备注：<span style="color: red; margin-left: 40px">{{'abc'}}</span></label>
+              </p>
+            </div>
           </div>
           <div>
             <app-custom-title title="业务材料-供应商上传" isDLineDashed="true"
                               [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
             <app-payment-bill-details-annex-supplier [actionType]="actionType"
-                                                     [pBillId]="pbData.id"
+                                                     [pBillId]="pbId"
                                                      [productId]="pbData.productId"></app-payment-bill-details-annex-supplier>
+            <div class="remark-info">
+              <nz-divider style="margin-top: -12px" nzText="备注" nzPlain nzOrientation="left"></nz-divider>
+              <p>
+                <label>供应商备注：<span appTextColorTheme>{{'123456'}}</span></label>
+                <label>审核退回备注：<span style="color: red; margin-left: 40px">{{'abc'}}</span></label>
+              </p>
+            </div>
           </div>
           <div *ngIf="etpType === userTypeEnum.FACTOR">
             <app-custom-title title="业务材料-保理商上传" isDLineDashed="true"
@@ -69,7 +83,7 @@
                               (titleClick)="uploadSupplementAnnex()"
                               [dLineColor]="themeHelper.getCurrentThemePrimaryColor()"></app-custom-title>
             <app-payment-bill-details-supplement [actionType]="actionType"
-                                                 [pBillFromType]="pbData.paymentBillDbSource"></app-payment-bill-details-supplement>
+                                                 [pBillFromType]="pbillFromType"></app-payment-bill-details-supplement>
           </div>
           <div *ngIf="etpType === userTypeEnum.FACTOR">
             <app-custom-title title="中登相关信息" isDLineDashed="true"
@@ -77,13 +91,14 @@
             <app-payment-bill-details-zd></app-payment-bill-details-zd>
           </div>
           <div *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC" style="margin-top: 28px;">
-            <textarea rows="4" nz-input placeholder="请输入备注" [(ngModel)]="subRemark"></textarea>
+            <textarea rows="4" nz-input placeholder="请输入备注" [(ngModel)]="submitRemark"></textarea>
           </div>
           <div class="btn-action">
-            <button nz-button nzType="default" (click)="backToList()">返回</button>
+            <button nz-button nzType="default" (click)="close()">关闭</button>
             <button nz-button nzType="primary"
                     style="margin-left: 20px"
                     *ngIf="actionType === pbillDetailsActionTypeEnum.SUBMIT_SRC"
+                    (click)="submitMaterial()"
             >提交
             </button>
           </div>
@@ -91,9 +106,9 @@
         <!--发票-->
         <div class="financing-invoice" *ngIf="title === '发票列表'">
           <ng-template nz-tab>
-            <app-payment-bill-details-invoice [actionType]="actionType" [pBillId]="pbData.id"
+            <app-payment-bill-details-invoice [actionType]="actionType" [pBillId]="pbId"
                                               [statisticsShow]="false"
-                                              [pBillFromType]="pbData.paymentBillDbSource"
+                                              [pBillFromType]="pbillFromType"
                                               [isShowPageChange]="true"></app-payment-bill-details-invoice>
           </ng-template>
         </div>
@@ -109,10 +124,10 @@
 </nz-card>
 
 <ng-template #extraTemplate>
-  <span style="cursor: pointer;" (click)="backToList()">
+  <!--<span style="cursor: pointer;" (click)="backToList()">
     <i nz-icon nzType="rollback" nzTheme="outline"></i>
     <span style="margin-left: 5px;">返回列表</span>
-  </span>
+  </span>-->
   <span *ngIf="tabIndex === 0 && etpType === userTypeEnum.FACTOR" style="cursor: pointer;" (click)="exportAnnexs()">
     <a nz-button nzType="link" style="margin-left: 5px;"><i nz-icon nzType="folder" nzTheme="outline"></i>打包导出附件</a>
   </span>

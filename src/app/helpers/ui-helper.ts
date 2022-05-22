@@ -13,6 +13,7 @@ import {VSettingInfo} from './vo/v-setting-info';
 import {FinancingModelEnum} from './enum/financing-model-enum';
 import {FormGroup} from '@angular/forms';
 import {JwtKvEnum} from './enum/jwt-kv-enum';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -236,7 +237,9 @@ export class UIHelper {
       this.router.navigate([AppPath.login]);
     }*/
     if (!authToken) { // 未登录或者已失效
-      this.router.navigate([AppPath.login]);
+      this.router.navigate([AppPath.login]).then(() => {
+        this.modalService.closeAll();
+      });
     }
   }
 
@@ -566,5 +569,9 @@ export class UIHelper {
     return JSON.parse(cEtp).etpName;
   }
 
-  /****************** 设置登录用户选定的企业空间信息 start ********************/
+  /****************** 设置登录用户选定的企业空间信息 end ********************/
+
+  getFileUrl(path: string) {
+    return `${environment.apiFileUrl}/${path}`;
+  }
 }

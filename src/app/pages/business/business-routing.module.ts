@@ -7,6 +7,7 @@ import {SignCompleteListComponent} from './common/sign-manage/sign-complete-list
 import {SignAllListComponent} from './common/sign-manage/sign-all-list.component';
 import {PaymentBillCheckComponent} from './common/payment-bill/payment-bill-check.component';
 import {PaymentBillReviewComponent} from './common/payment-bill/payment-bill-review.component';
+import {PaymentBillDetailsComponent} from './common/payment-bill/payment-bill-details/payment-bill-details.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,11 @@ const routes: Routes = [
     path: 'payment-bill',
     component: PaymentBillComponent,
     data: {title: '付款单查询', isRemove: true}
+  },
+  {
+    path: 'payment-bill-details/:id/:actionType',
+    component: PaymentBillDetailsComponent,
+    data: {title: '付款单详情', isRemove: true}
   },
   {
     path: 'payment-bill-check',
@@ -38,7 +44,7 @@ const routes: Routes = [
   {
     path: 'sign-complete-list',
     component: SignCompleteListComponent,
-    data: { title: '已签章文件', isRemove: true}
+    data: {title: '已签章文件', isRemove: true}
   },
   {
     path: 'sign-all-list',
@@ -67,4 +73,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BusinessRoutingModule { }
+export class BusinessRoutingModule {
+}

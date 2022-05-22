@@ -1,3 +1,5 @@
+import {environment} from '../../environments/environment';
+
 export const Constants = {
   apiRequest: {
     retryTime: 2,  // 重试次数
